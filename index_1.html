@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>João Gobira — Head de Growth & Marketing</title>
+<meta name="description" content="Head de Marketing e Growth com 15 anos em saúde, nutrição e dermocosmética. Especialista em branding, creator economy, CRM e mídia paga.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #080C10;
+    --bg2: #0D1117;
+    --bg3: #161B22;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #E6EDF3;
+    --muted: #7D8590;
+    --accent: #58A6FF;
+    --accent2: #1F6FEB;
+    --green: #3FB950;
+    --amber: #D29922;
+    --pink: #F778BA;
+    --purple: #A5A3FF;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── Noise texture overlay ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(8,12,16,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.3px;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    background: var(--accent) !important;
+    color: #080C10 !important;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-weight: 500 !important;
+  }
+
+  .nav-cta:hover { background: #79C0FF !important; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 160px 48px 100px;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: 80px; left: -100px;
+    width: 600px; height: 600px;
+    background: radial-gradient(ellipse, rgba(31,111,235,0.12) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .available-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(63,185,80,0.08);
+    border: 0.5px solid rgba(63,185,80,0.3);
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 28px;
+    letter-spacing: 0.3px;
+  }
+
+  .available-dot {
+    width: 7px; height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 64px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+
+  h1 .accent { color: var(--accent); }
+  h1 .dim { color: var(--muted); }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 540px;
+    line-height: 1.75;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 72px;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #080C10;
+    border: none;
+    padding: 13px 26px;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-primary:hover { background: #79C0FF; transform: translateY(-1px); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--muted);
+    border: 0.5px solid var(--border2);
+    padding: 13px 26px;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: color 0.2s, border-color 0.2s, transform 0.15s;
+  }
+
+  .btn-ghost:hover { color: var(--text); border-color: var(--border2); transform: translateY(-1px); }
+
+  /* ── METRICS BAR ── */
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .metric {
+    padding: 22px 24px;
+    border-right: 0.5px solid var(--border);
+    position: relative;
+  }
+
+  .metric:last-child { border-right: none; }
+
+  .metric-value {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+  }
+
+  .metric-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    font-weight: 400;
+  }
+
+  /* ── SECTION COMMON ── */
+  .section {
+    padding: 88px 48px;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .section-eyebrow {
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3.5vw, 36px);
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.5px;
+    margin-bottom: 10px;
+    line-height: 1.15;
+  }
+
+  .section-sub {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 500px;
+    line-height: 1.7;
+    margin-bottom: 48px;
+    font-weight: 300;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 0.5px solid var(--border);
+    margin: 0 48px;
+  }
+
+  /* ── CASES ── */
+  .cases-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .case-card {
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    cursor: pointer;
+    transition: border-color 0.25s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+  }
+
+  .case-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .case-card:hover { border-color: rgba(88,166,255,0.4); transform: translateY(-2px); }
+  .case-card:hover::before { opacity: 1; }
+
+  .case-card.featured {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .case-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 4px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+  }
+
+  .tag-seo { background: rgba(13,65,157,0.5); color: #79C0FF; border: 0.5px solid rgba(121,192,255,0.2); }
+  .tag-growth { background: rgba(26,71,33,0.5); color: #56D364; border: 0.5px solid rgba(86,211,100,0.2); }
+  .tag-perf { background: rgba(61,37,5,0.5); color: #D29922; border: 0.5px solid rgba(210,153,34,0.2); }
+  .tag-crm { background: rgba(61,28,46,0.5); color: #F778BA; border: 0.5px solid rgba(247,120,186,0.2); }
+  .tag-brand { background: rgba(42,31,107,0.5); color: #A5A3FF; border: 0.5px solid rgba(165,163,255,0.2); }
+
+  .case-title {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1.35;
+    letter-spacing: -0.2px;
+  }
+
+  .case-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+
+  .case-stats {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .case-stat strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.3px;
+  }
+
+  .case-stat span {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .case-arrow {
+    color: var(--muted);
+    font-size: 20px;
+    padding-top: 4px;
+    transition: color 0.2s, transform 0.2s;
+  }
+
+  .case-card:hover .case-arrow { color: var(--accent); transform: translateX(4px); }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .skill-item {
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    transition: border-color 0.2s;
+  }
+
+  .skill-item:hover { border-color: var(--border2); }
+
+  .skill-icon {
+    font-size: 22px;
+    margin-bottom: 12px;
+    display: block;
+    line-height: 1;
+  }
+
+  .skill-name {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+    letter-spacing: -0.1px;
+  }
+
+  .skill-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 5px; top: 8px; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), var(--border) 80%, transparent);
+  }
+
+  .tl-item {
+    position: relative;
+    padding-bottom: 36px;
+  }
+
+  .tl-dot {
+    position: absolute;
+    left: -28px;
+    top: 6px;
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 8px rgba(88,166,255,0.4);
+  }
+
+  .tl-dot.current {
+    background: var(--green);
+    box-shadow: 0 0 8px rgba(63,185,80,0.5);
+  }
+
+  .tl-period {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 4px;
+  }
+
+  .tl-role {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.2px;
+    margin-bottom: 2px;
+  }
+
+  .tl-company {
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 8px;
+    font-weight: 400;
+  }
+
+  .tl-text {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  /* ── CONTACT ── */
+  .contact-box {
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
+    border-radius: 16px;
+    padding: 56px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-box::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%;
+    transform: translateX(-50%);
+    width: 400px; height: 200px;
+    background: radial-gradient(ellipse, rgba(31,111,235,0.15) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .contact-box h3 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+  }
+
+  .contact-box p {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 36px;
+    font-weight: 300;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 400;
+    text-decoration: none;
+    border: 0.5px solid var(--border2);
+    color: var(--muted);
+    transition: color 0.2s, border-color 0.2s, transform 0.15s;
+    font-family: var(--font-body);
+  }
+
+  .contact-link:hover { color: var(--text); border-color: rgba(88,166,255,0.4); transform: translateY(-1px); }
+  .contact-link.primary { background: var(--accent); color: #080C10; border-color: var(--accent); font-weight: 500; }
+  .contact-link.primary:hover { background: #79C0FF; transform: translateY(-1px); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 0.5px solid var(--border);
+    padding: 28px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-text {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 120px 24px 72px; }
+    .section { padding: 64px 24px; }
+    .divider { margin: 0 24px; }
+    h1 { font-size: 36px; letter-spacing: -1px; }
+    .metrics-row { grid-template-columns: repeat(2, 1fr); }
+    .cases-grid { grid-template-columns: 1fr; }
+    .case-card.featured { grid-column: 1; display: block; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .contact-box { padding: 36px 24px; }
+    footer { flex-direction: column; gap: 8px; text-align: center; }
+  }
+
+  @media (max-width: 480px) {
+    .skills-grid { grid-template-columns: 1fr; }
+    .metrics-row { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">João <span>Gobira</span></a>
+  <ul class="nav-links">
+    <li><a href="#cases">Cases</a></li>
+    <li><a href="#expertise">Expertise</a></li>
+    <li><a href="#trajetoria">Trajetória</a></li>
+    <li><a href="#contato" class="nav-cta">Falar comigo</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="available-badge">
+    <span class="available-dot"></span>
+    Disponível para novas oportunidades
+  </div>
+  <h1>
+    Growth Marketing<br>
+    que gera <span class="accent">resultado</span><br>
+    <span class="dim">de verdade.</span>
+  </h1>
+  <p class="hero-sub">
+    15 anos construindo demanda em saúde, nutrição e dermocosmética. Especialista em branding, creator economy, CRM e mídia paga em categorias que exigem credibilidade.
+  </p>
+  <div class="hero-actions">
+    <a href="#cases" class="btn-primary">Ver meus cases →</a>
+    <a href="#contato" class="btn-ghost">Falar comigo</a>
+  </div>
+  <div class="metrics-row fade-in">
+    <div class="metric">
+      <span class="metric-value">+200%</span>
+      <span class="metric-label">Tráfego orgânico</span>
+    </div>
+    <div class="metric">
+      <span class="metric-value">−65%</span>
+      <span class="metric-label">CPL em mídia</span>
+    </div>
+    <div class="metric">
+      <span class="metric-value">R$1M</span>
+      <span class="metric-label">Verba gerida/mês</span>
+    </div>
+    <div class="metric">
+      <span class="metric-value">+100%</span>
+      <span class="metric-label">Demanda gerada</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CASES -->
+<section class="section" id="cases">
+  <p class="section-eyebrow">Cases</p>
+  <h2>Projetos que construí</h2>
+  <p class="section-sub">Resultados reais em categorias que exigem credibilidade — saúde, nutrição, bem-estar e dermocosmética.</p>
+
+  <div class="cases-grid">
+
+    <a href="#" class="case-card featured fade-in">
+      <div>
+        <span class="case-tag tag-seo">SEO · Content</span>
+        <p class="case-title">De 300k para 900k sessões/mês em 11 meses</p>
+        <p class="case-desc">Liderança de migração de portais, reestruturação de clusters de conteúdo e estratégia de autoridade para consolidar a Conexa Saúde como referência em saúde digital no Brasil.</p>
+        <div class="case-stats">
+          <div class="case-stat"><strong>+200%</strong><span>Tráfego orgânico</span></div>
+          <div class="case-stat"><strong>2×</strong><span>Keywords Top 3</span></div>
+          <div class="case-stat"><strong>11 meses</strong><span>Para escalar</span></div>
+        </div>
+      </div>
+      <div class="case-arrow">→</div>
+    </a>
+
+    <a href="#" class="case-card fade-in">
+      <span class="case-tag tag-perf">Performance · Mídia</span>
+      <p class="case-title">R$1M/mês com CPL reduzido em 65%</p>
+      <p class="case-desc">Gestão de mídia paga no G4 Educação com otimização contínua de criativos, segmentação e estrutura de campanhas — de R$20 para R$7 por lead qualificado.</p>
+      <div class="case-stats">
+        <div class="case-stat"><strong>−65%</strong><span>CPL</span></div>
+        <div class="case-stat"><strong>R$1M</strong><span>Verba/mês</span></div>
+      </div>
+    </a>
+
+    <a href="#" class="case-card fade-in">
+      <span class="case-tag tag-growth">Growth · Prescritores</span>
+      <p class="case-title">+100% em consultas via ativação de nutricionistas</p>
+      <p class="case-desc">Estratégia integrada de Meta Ads, conteúdo e ativação ética de prescritores em categoria regulada — criando demanda sustentável por nutrição na Conexa Saúde.</p>
+      <div class="case-stats">
+        <div class="case-stat"><strong>+100%</strong><span>Consultas</span></div>
+        <div class="case-stat"><strong>Compliance</strong><span>Categoria regulada</span></div>
+      </div>
+    </a>
+
+    <a href="#" class="case-card fade-in">
+      <span class="case-tag tag-crm">CRM · Lançamento</span>
+      <p class="case-title">6 dígitos em 24h com CRM e Economia Comportamental</p>
+      <p class="case-desc">Lançamentos de alta conversão no G4 Educação usando segmentação comportamental no HubSpot, gatilhos psicológicos e narrativa de marca para gerar urgência real.</p>
+      <div class="case-stats">
+        <div class="case-stat"><strong>24h</strong><span>Para 6 dígitos</span></div>
+        <div class="case-stat"><strong>HubSpot</strong><span>CRM avançado</span></div>
+      </div>
+    </a>
+
+    <a href="#" class="case-card fade-in" style="grid-column: 1 / -1;">
+      <div style="display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: start;">
+        <div>
+          <span class="case-tag tag-brand">SEO · CRO · Branding</span>
+          <p class="case-title">+44% de tráfego e +30% de receita em dermocosméticos</p>
+          <p class="case-desc">Estratégia de SEO e CRO para a ADCOS com dupla de keywords no Top 3 e projeção de receita via testes A/B em PDPs — categoria com exigência científica alta e interface direta com regulatório.</p>
+          <div class="case-stats">
+            <div class="case-stat"><strong>+44%</strong><span>Tráfego</span></div>
+            <div class="case-stat"><strong>+30%</strong><span>Receita projetada</span></div>
+            <div class="case-stat"><strong>Top 3</strong><span>Keywords dobradas</span></div>
+          </div>
+        </div>
+        <div class="case-arrow">→</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EXPERTISE -->
+<section class="section" id="expertise">
+  <p class="section-eyebrow">Expertise</p>
+  <h2>O que eu faço</h2>
+  <p class="section-sub">Combinação rara de estratégia de marca, execução de performance e domínio técnico em ambientes regulados.</p>
+
+  <div class="skills-grid">
+    <div class="skill-item fade-in">
+      <span class="skill-icon">📈</span>
+      <p class="skill-name">Demand Generation</p>
+      <p class="skill-desc">Ativação de prescritores, Meta Ads, conteúdo educacional e jornadas que geram demanda qualificada em categorias sensíveis.</p>
+    </div>
+    <div class="skill-item fade-in">
+      <span class="skill-icon">🔍</span>
+      <p class="skill-name">SEO & Conteúdo</p>
+      <p class="skill-desc">Clusters de conteúdo, migração de portais, autoridade de marca e tráfego orgânico escalável com dados e experimentação.</p>
+    </div>
+    <div class="skill-item fade-in">
+      <span class="skill-icon">🎙️</span>
+      <p class="skill-name">Creator Economy</p>
+      <p class="skill-desc">Scouting, briefing nativo, whitelisting e coordenação entre creators, mídia paga, CRM e PDPs.</p>
+    </div>
+    <div class="skill-item fade-in">
+      <span class="skill-icon">🔗</span>
+      <p class="skill-name">Social Commerce & MGM</p>
+      <p class="skill-desc">Programas Member-Get-Member, governança por cohort e integração com calendário comercial para ampliar CAC blendado.</p>
+    </div>
+    <div class="skill-item fade-in">
+      <span class="skill-icon">✉️</span>
+      <p class="skill-name">CRM & Retenção</p>
+      <p class="skill-desc">HubSpot, segmentação comportamental, automações de relacionamento e redução de churn com gatilhos psicológicos.</p>
+    </div>
+    <div class="skill-item fade-in">
+      <span class="skill-icon">📊</span>
+      <p class="skill-name">Analytics & Dados</p>
+      <p class="skill-desc">GA4, GTM, SQL, frameworks de experimentação, Agile Sprints e Economia Comportamental aplicada a conversão.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- TRAJETÓRIA -->
+<section class="section" id="trajetoria">
+  <p class="section-eyebrow">Trajetória</p>
+  <h2>Onde estive</h2>
+  <p class="section-sub">15 anos construindo em empresas de saúde, educação, tecnologia e cosméticos.</p>
+
+  <div class="timeline">
+    <div class="tl-item fade-in">
+      <div class="tl-dot current"></div>
+      <p class="tl-period">Out/2025 – Atual</p>
+      <p class="tl-role">Head de Growth & Estratégia</p>
+      <p class="tl-company">TagServer</p>
+      <p class="tl-text">Posicionamento de plataforma SaaS B2B de infraestrutura de dados, narrativa estratégica para C-levels e arquitetura de mensagem multi-canal.</p>
+    </div>
+    <div class="tl-item fade-in">
+      <div class="tl-dot"></div>
+      <p class="tl-period">Set/2024 – Ago/2025</p>
+      <p class="tl-role">Growth Hacker Analyst — Saúde & Nutrição</p>
+      <p class="tl-company">Conexa Saúde</p>
+      <p class="tl-text">+100% em consultas de nutrição, tráfego orgânico de 300k → 900k sessões/mês, programa MGM e orquestração de creators em categoria regulada.</p>
+    </div>
+    <div class="tl-item fade-in">
+      <div class="tl-dot"></div>
+      <p class="tl-period">Set/2022 – Ago/2024</p>
+      <p class="tl-role">Especialista em SEO e CRO</p>
+      <p class="tl-company">ADCOS Cosmética de Tratamento</p>
+      <p class="tl-text">+44% tráfego orgânico, dobrou keywords no Top 3 e projetou +30% em receita via testes A/B e otimização de PDPs com interface direta com regulatório.</p>
+    </div>
+    <div class="tl-item fade-in">
+      <div class="tl-dot"></div>
+      <p class="tl-period">Abr/2021 – Ago/2022</p>
+      <p class="tl-role">Especialista SEO e Instrutor</p>
+      <p class="tl-company">HostGator América Latina</p>
+      <p class="tl-text">Mais de 50% do faturamento da operação via canal orgânico. Playbooks e capacitação de times em múltiplos países da América Latina.</p>
+    </div>
+    <div class="tl-item fade-in">
+      <div class="tl-dot"></div>
+      <p class="tl-period">Jun/2020 – Mai/2021</p>
+      <p class="tl-role">Coordenador de Growth & CRM</p>
+      <p class="tl-company">G4 Educação</p>
+      <p class="tl-text">6 dígitos em 24h em lançamentos. R$1M/mês em mídia com CPL reduzido em 65% (R$20 → R$7). CRM avançado e retenção com HubSpot.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CONTATO -->
+<section class="section" id="contato">
+  <div class="contact-box fade-in">
+    <h3>Vamos conversar?</h3>
+    <p>Aberto para posições de Head de Marketing, Growth ou projetos de consultoria.</p>
+    <div class="contact-links">
+      <a href="mailto:gobira.joao@gmail.com" class="contact-link primary">✉ gobira.joao@gmail.com</a>
+      <a href="https://linkedin.com/in/joaogobira" target="_blank" class="contact-link">💼 LinkedIn</a>
+      <a href="tel:+5511932297788" class="contact-link">📞 (11) 93229-7788</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">João <span>Gobira</span></span>
+  <span class="footer-text">São Paulo, SP · 2025</span>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
