@@ -1,0 +1,669 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .portfolio {
+    background: #0D1117;
+    color: #E6EDF3;
+    font-family: var(--font-sans, 'Inter', sans-serif);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    border-bottom: 0.5px solid #21262D;
+    position: sticky;
+    top: 0;
+    background: #0D1117;
+    z-index: 10;
+  }
+
+  .nav-logo {
+    font-size: 15px;
+    font-weight: 500;
+    color: #E6EDF3;
+    letter-spacing: 0.5px;
+  }
+
+  .nav-logo span { color: #58A6FF; }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: #8B949E;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: #E6EDF3; }
+
+  .nav-cta {
+    background: #58A6FF;
+    color: #0D1117 !important;
+    padding: 7px 16px;
+    border-radius: 6px;
+    font-weight: 500 !important;
+    font-size: 13px !important;
+  }
+
+  .section { padding: 72px 40px; max-width: 900px; margin: 0 auto; }
+
+  .hero {
+    padding: 96px 40px 80px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #161B22;
+    border: 0.5px solid #21262D;
+    color: #58A6FF;
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: #3FB950;
+    border-radius: 50%;
+  }
+
+  h1 {
+    font-size: 44px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #E6EDF3;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+  }
+
+  h1 em {
+    font-style: normal;
+    color: #58A6FF;
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    color: #8B949E;
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 36px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: #58A6FF;
+    color: #0D1117;
+    border: none;
+    padding: 11px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: #8B949E;
+    border: 0.5px solid #30363D;
+    padding: 11px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+  }
+
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: #21262D;
+    border: 0.5px solid #21262D;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 64px;
+  }
+
+  .metric {
+    background: #161B22;
+    padding: 20px 22px;
+    text-align: center;
+  }
+
+  .metric-value {
+    font-size: 26px;
+    font-weight: 500;
+    color: #58A6FF;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .metric-label {
+    font-size: 11px;
+    color: #8B949E;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    color: #58A6FF;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  h2 {
+    font-size: 28px;
+    font-weight: 500;
+    color: #E6EDF3;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+
+  .section-desc {
+    font-size: 15px;
+    color: #8B949E;
+    margin-bottom: 40px;
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  .cases-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .case-card {
+    background: #161B22;
+    border: 0.5px solid #21262D;
+    border-radius: 12px;
+    padding: 24px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .case-card:hover { border-color: #58A6FF; }
+
+  .case-card.featured {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .case-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+
+  .tag-seo { background: #0D419D; color: #79C0FF; }
+  .tag-growth { background: #1A4721; color: #56D364; }
+  .tag-performance { background: #3D2505; color: #D29922; }
+  .tag-crm { background: #3D1C2E; color: #F778BA; }
+  .tag-branding { background: #2A1F6B; color: #A5A3FF; }
+
+  .case-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #E6EDF3;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .case-desc {
+    font-size: 13px;
+    color: #8B949E;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .case-stats {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .case-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .case-stat strong {
+    font-size: 18px;
+    font-weight: 500;
+    color: #58A6FF;
+  }
+
+  .case-stat span {
+    font-size: 10px;
+    color: #8B949E;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .case-arrow {
+    font-size: 18px;
+    color: #30363D;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .skill-item {
+    background: #161B22;
+    border: 0.5px solid #21262D;
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  .skill-icon {
+    font-size: 20px;
+    color: #58A6FF;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .skill-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #E6EDF3;
+    margin-bottom: 4px;
+  }
+
+  .skill-desc {
+    font-size: 11px;
+    color: #8B949E;
+    line-height: 1.5;
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: #21262D;
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 16px;
+    padding-bottom: 28px;
+    position: relative;
+  }
+
+  .timeline-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #58A6FF;
+    border: 2px solid #0D1117;
+    margin-top: 5px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .timeline-content {}
+
+  .timeline-period {
+    font-size: 11px;
+    color: #8B949E;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .timeline-role {
+    font-size: 15px;
+    font-weight: 500;
+    color: #E6EDF3;
+    margin-bottom: 2px;
+  }
+
+  .timeline-company {
+    font-size: 13px;
+    color: #58A6FF;
+    margin-bottom: 8px;
+  }
+
+  .timeline-text {
+    font-size: 13px;
+    color: #8B949E;
+    line-height: 1.6;
+  }
+
+  .contact-box {
+    background: #161B22;
+    border: 0.5px solid #21262D;
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+  }
+
+  .contact-box h3 {
+    font-size: 22px;
+    font-weight: 500;
+    color: #E6EDF3;
+    margin-bottom: 10px;
+  }
+
+  .contact-box p {
+    font-size: 14px;
+    color: #8B949E;
+    margin-bottom: 28px;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 400;
+    text-decoration: none;
+    border: 0.5px solid #30363D;
+    color: #8B949E;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .contact-link:hover { color: #E6EDF3; border-color: #58A6FF; }
+  .contact-link.primary { background: #58A6FF; color: #0D1117; border-color: #58A6FF; }
+  .contact-link.primary:hover { background: #79C0FF; }
+
+  footer {
+    border-top: 0.5px solid #21262D;
+    padding: 24px 40px;
+    text-align: center;
+    font-size: 12px;
+    color: #8B949E;
+  }
+
+  .divider {
+    border: none;
+    border-top: 0.5px solid #21262D;
+    margin: 0;
+  }
+</style>
+
+<div class="portfolio">
+
+  <nav>
+    <div class="nav-logo">João <span>Gobira</span></div>
+    <ul class="nav-links">
+      <li><a href="#cases">Cases</a></li>
+      <li><a href="#skills">Expertise</a></li>
+      <li><a href="#trajetoria">Trajetória</a></li>
+      <li><a href="#contato" class="nav-cta">Falar comigo</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-tag">Disponível para novas oportunidades</div>
+    <h1>Growth Marketing que<br><em>gera resultado real</em></h1>
+    <p class="hero-sub">
+      15 anos construindo demanda em saúde, nutrição e dermocosmética. Especialista em integrar branding, creator economy, CRM e mídia paga em crescimento sustentável.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="sendPrompt('Me conte mais sobre os cases do João Gobira e como ele pode ajudar minha empresa')">Ver meus cases ↗</button>
+      <button class="btn-secondary" onclick="document.getElementById('contato').scrollIntoView({behavior:'smooth'})">Falar comigo</button>
+    </div>
+
+    <div class="metrics-row">
+      <div class="metric">
+        <span class="metric-value">+200%</span>
+        <span class="metric-label">Tráfego orgânico</span>
+      </div>
+      <div class="metric">
+        <span class="metric-value">−65%</span>
+        <span class="metric-label">CPL em mídia paga</span>
+      </div>
+      <div class="metric">
+        <span class="metric-value">R$1M</span>
+        <span class="metric-label">Verba gerida/mês</span>
+      </div>
+      <div class="metric">
+        <span class="metric-value">+100%</span>
+        <span class="metric-label">Demanda gerada</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section" id="cases">
+    <p class="section-label">Cases</p>
+    <h2>Projetos que construí</h2>
+    <p class="section-desc">Resultados reais em categorias que exigem credibilidade — saúde, nutrição, bem-estar e dermocosmética.</p>
+
+    <div class="cases-grid">
+
+      <div class="case-card featured">
+        <div>
+          <span class="case-tag tag-seo">SEO · Content</span>
+          <p class="case-title">De 300k para 900k sessões/mês em 11 meses</p>
+          <p class="case-desc">Liderança de migração de portais, reestruturação de clusters de conteúdo e estratégia de autoridade para consolidar a Conexa Saúde como referência em saúde digital no Brasil.</p>
+          <div class="case-stats">
+            <div class="case-stat"><strong>+200%</strong><span>Tráfego orgânico</span></div>
+            <div class="case-stat"><strong>2x</strong><span>Keywords Top 3</span></div>
+            <div class="case-stat"><strong>11 meses</strong><span>Para escalar</span></div>
+          </div>
+        </div>
+        <div class="case-arrow"><i class="ti ti-arrow-right" aria-hidden="true"></i></div>
+      </div>
+
+      <div class="case-card">
+        <span class="case-tag tag-performance">Performance · Mídia</span>
+        <p class="case-title">R$1M/mês com CPL reduzido em 65%</p>
+        <p class="case-desc">Gestão de mídia paga no G4 Educação com otimização contínua de criativos, segmentação e estrutura de campanhas — de R$20 para R$7 por lead qualificado.</p>
+        <div class="case-stats">
+          <div class="case-stat"><strong>−65%</strong><span>CPL</span></div>
+          <div class="case-stat"><strong>R$1M</strong><span>Verba/mês</span></div>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <span class="case-tag tag-growth">Growth · Prescritores</span>
+        <p class="case-title">+100% em consultas via ativação de nutricionistas</p>
+        <p class="case-desc">Estratégia integrada de Meta Ads, conteúdo e ativação ética de prescritores em categoria regulada — criando demanda sustentável por nutrição na Conexa Saúde.</p>
+        <div class="case-stats">
+          <div class="case-stat"><strong>+100%</strong><span>Consultas</span></div>
+          <div class="case-stat"><strong>Regulado</strong><span>Compliance total</span></div>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <span class="case-tag tag-crm">CRM · Lançamento</span>
+        <p class="case-title">6 dígitos em 24h com CRM e Econ. Comportamental</p>
+        <p class="case-desc">Lançamentos de alta conversão no G4 Educação usando segmentação comportamental no HubSpot, gatilhos psicológicos e narrativa de marca para gerar urgência real.</p>
+        <div class="case-stats">
+          <div class="case-stat"><strong>24h</strong><span>Para 6 dígitos</span></div>
+          <div class="case-stat"><strong>HubSpot</strong><span>CRM avançado</span></div>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <span class="case-tag tag-branding">SEO · CRO · Branding</span>
+        <p class="case-title">+44% de tráfego e +30% de receita em dermocosméticos</p>
+        <p class="case-desc">Estratégia de SEO e CRO para a ADCOS com dupla de keywords no Top 3 e projeção de receita via testes A/B em PDPs — categoria com exigência científica alta.</p>
+        <div class="case-stats">
+          <div class="case-stat"><strong>+44%</strong><span>Tráfego</span></div>
+          <div class="case-stat"><strong>+30%</strong><span>Receita projetada</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section" id="skills">
+    <p class="section-label">Expertise</p>
+    <h2>O que eu faço</h2>
+    <p class="section-desc">Combinação rara de estratégia de marca, execução de performance e domínio técnico em categorias reguladas.</p>
+
+    <div class="skills-grid">
+      <div class="skill-item">
+        <i class="ti ti-trending-up skill-icon" aria-hidden="true"></i>
+        <p class="skill-name">Demand Generation</p>
+        <p class="skill-desc">Ativação de prescritores, Meta Ads, conteúdo educacional e jornadas que geram demanda qualificada.</p>
+      </div>
+      <div class="skill-item">
+        <i class="ti ti-search skill-icon" aria-hidden="true"></i>
+        <p class="skill-name">SEO & Conteúdo</p>
+        <p class="skill-desc">Clusters, migração de portais, autoridade de marca e tráfego orgânico escalável.</p>
+      </div>
+      <div class="skill-item">
+        <i class="ti ti-speakerphone skill-icon" aria-hidden="true"></i>
+        <p class="skill-name">Creator Economy</p>
+        <p class="skill-desc">Scouting, briefing nativo, whitelisting e coordenação entre creators, mídia paga e CRM.</p>
+      </div>
+      <div class="skill-item">
+        <i class="ti ti-users skill-icon" aria-hidden="true"></i>
+        <p class="skill-name">Social Commerce & MGM</p>
+        <p class="skill-desc">Programas Member-Get-Member, governança por cohort e integração com calendário comercial.</p>
+      </div>
+      <div class="skill-item">
+        <i class="ti ti-mail skill-icon" aria-hidden="true"></i>
+        <p class="skill-name">CRM & Retenção</p>
+        <p class="skill-desc">HubSpot, segmentação comportamental, automações e redução de churn com gatilhos psicológicos.</p>
+      </div>
+      <div class="skill-item">
+        <i class="ti ti-chart-bar skill-icon" aria-hidden="true"></i>
+        <p class="skill-name">Analytics & Dados</p>
+        <p class="skill-desc">GA4, GTM, SQL, frameworks de experimentação e decisões orientadas por dados.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section" id="trajetoria">
+    <p class="section-label">Trajetória</p>
+    <h2>Onde estive</h2>
+    <p class="section-desc">15 anos construindo em empresas de saúde, educação, tecnologia e cosméticos.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <p class="timeline-period">Out/2025 – Atual</p>
+          <p class="timeline-role">Head de Growth & Estratégia</p>
+          <p class="timeline-company">TagServer</p>
+          <p class="timeline-text">Posicionamento de plataforma SaaS B2B de infraestrutura de dados, narrativa para C-levels e arquitetura de mensagem multi-canal.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <p class="timeline-period">Set/2024 – Ago/2025</p>
+          <p class="timeline-role">Growth Hacker Analyst</p>
+          <p class="timeline-company">Conexa Saúde</p>
+          <p class="timeline-text">+100% em consultas de nutrição, tráfego orgânico de 300k → 900k sessões/mês, programa MGM e orquestração de creators.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <p class="timeline-period">Set/2022 – Ago/2024</p>
+          <p class="timeline-role">Especialista em SEO e CRO</p>
+          <p class="timeline-company">ADCOS Cosmética de Tratamento</p>
+          <p class="timeline-text">+44% tráfego orgânico, dobrou keywords no Top 3, projetou +30% em receita via testes A/B e otimização de PDPs.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <p class="timeline-period">Abr/2021 – Ago/2022</p>
+          <p class="timeline-role">Especialista SEO e Instrutor</p>
+          <p class="timeline-company">HostGator América Latina</p>
+          <p class="timeline-text">+50% do faturamento da operação via canal orgânico. Playbooks e capacitação de times em múltiplos países da América Latina.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:#3FB950"></div>
+        <div class="timeline-content">
+          <p class="timeline-period">Jun/2020 – Mai/2021</p>
+          <p class="timeline-role">Coordenador de Growth & CRM</p>
+          <p class="timeline-company">G4 Educação</p>
+          <p class="timeline-text">6 dígitos em 24h em lançamentos. R$1M/mês em mídia com CPL reduzido em 65%. CRM e retenção com HubSpot.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section" id="contato">
+    <div class="contact-box">
+      <h3>Vamos conversar?</h3>
+      <p>Aberto para posições de Head de Marketing, Growth ou projetos de consultoria.</p>
+      <div class="contact-links">
+        <a class="contact-link primary" onclick="sendPrompt('Quero entrar em contato com o João Gobira para uma oportunidade')"><i class="ti ti-mail" aria-hidden="true"></i> gobira.joao@gmail.com</a>
+        <a class="contact-link"><i class="ti ti-brand-linkedin" aria-hidden="true"></i> LinkedIn</a>
+        <a class="contact-link"><i class="ti ti-phone" aria-hidden="true"></i> (11) 93229-7788</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    João Gobira · São Paulo, SP · 2025 — Todos os direitos reservados
+  </footer>
+
+</div>
