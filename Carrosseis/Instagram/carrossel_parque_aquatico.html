@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Carrossel Instagram - TagServer</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap');
+
+:root {
+  --bg-void: #050505;
+  --bg-panel: #0f0f0f;
+  --bg-card: #161616;
+  --acid-lime: #c8ff00;
+  --neon-crimson: #ff4a4a;
+  --text-main: #ffffff;
+  --text-muted: #8a8a8a;
+  --font-disp: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+
+body {
+  font-family: var(--font-disp);
+  background: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  gap: 30px;
+}
+
+.slide {
+  width: 1080px;
+  height: 1350px; /* INSTAGRAM PORTRAIT FORMAT */
+  background: var(--bg-void);
+  position: relative;
+  flex-shrink: 0;
+  transform: scale(0.4);
+  transform-origin: top center;
+  margin-bottom: -810px;
+  overflow: hidden;
+  color: var(--text-main);
+  border: 1px solid #222;
+}
+
+/* GRIDS & DECORATIONS */
+.grid-lines {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, #1a1a1a 1px, transparent 1px),
+    linear-gradient(to bottom, #1a1a1a 1px, transparent 1px);
+  background-size: 120px 120px;
+  opacity: 0.5;
+  z-index: 0;
+}
+.accent-bar {
+  position: absolute;
+  top: 0;
+  left: 64px;
+  width: 8px;
+  height: 120px;
+  background: var(--acid-lime);
+  z-index: 10;
+}
+
+/* TYPOGRAPHY */
+.tag-mono {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--acid-lime);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+.tag-mono::before {
+  content: ''; display: inline-block; width: 12px; height: 12px; background: var(--acid-lime);
+}
+.headline-massive {
+  font-size: 100px; font-weight: 700; line-height: 1.05; letter-spacing: -2px; margin-bottom: 40px;
+}
+.headline-large {
+  font-size: 84px; font-weight: 700; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 40px;
+}
+.text-body {
+  font-size: 40px; line-height: 1.5; color: var(--text-muted); max-width: 850px;
+}
+.text-body strong { color: var(--text-main); font-weight: 600; }
+.highlight-lime { color: var(--acid-lime); }
+.highlight-red { color: var(--neon-crimson); }
+
+/* SLIDE STRUCTURE */
+.content-wrapper {
+  position: relative; z-index: 5; padding: 120px 80px; height: 100%; display: flex; flex-direction: column;
+}
+.slide-number {
+  position: absolute; bottom: 80px; right: 64px; font-family: var(--font-mono); font-size: 160px;
+  font-weight: 800; color: rgba(255,255,255,0.03); line-height: 0.8; z-index: 1;
+}
+
+/* LAYOUT VARIATIONS */
+.layout-capa .headline-massive { font-size: 110px; margin-top: 40px; }
+.layout-capa .split-img {
+  position: absolute; right: 0; top: 0; width: 45%; height: 100%; object-fit: cover;
+  filter: grayscale(100%) contrast(1.2); opacity: 0.8; mix-blend-mode: luminosity;
+}
+.layout-capa .img-overlay {
+  position: absolute; right: 0; top: 0; width: 45%; height: 100%;
+  background: linear-gradient(90deg, var(--bg-void) 0%, transparent 100%); z-index: 2;
+}
+
+.layout-data .data-number {
+  font-size: 300px; font-weight: 700; color: var(--acid-lime); line-height: 1; letter-spacing: -10px; margin: auto 0;
+}
+.layout-data .data-label {
+  font-family: var(--font-mono); font-size: 40px; color: var(--text-main); text-transform: uppercase; margin-bottom: 40px;
+}
+
+.layout-cta { text-align: center; justify-content: center; align-items: center; }
+.layout-cta .content-wrapper { padding-top: 300px; align-items: center; }
+.layout-cta .accent-bar { display: none; }
+.btn-cta {
+  display: inline-block; margin-top: 80px; background: var(--acid-lime); color: #000;
+  font-family: var(--font-mono); font-size: 40px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 2px; padding: 40px 80px; text-decoration: none; border-radius: 8px;
+}
+
+@media print {
+  @page { size: 1080px 1350px; margin: 0; }
+  body { background: var(--bg-void) !important; padding: 0 !important; gap: 0 !important; display: block !important; }
+  .slide { transform: none !important; margin: 0 !important; page-break-after: always; break-after: page; border: none !important; }
+  .slide:last-of-type { page-break-after: auto; break-after: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: CAPA -->
+<div class="slide layout-capa">
+  <div class="grid-lines"></div>
+  <div class="accent-bar"></div>
+  <div class="content-wrapper" style="width: 80%;">
+    <div class="tag-mono">Você está perdendo vendas</div>
+    <div class="headline-massive">Você pode estar <span class="highlight-red">perdendo até 35%</span> das suas vendas.</div>
+    <div class="text-body" style="margin-top: 40px;">(E o problema não é o seu anúncio, nem a sua oferta).</div>
+    
+    <div class="tag-mono" style="margin-top: auto; color: var(--text-muted);">👉 Arraste para entender o vazamento</div>
+  </div>
+</div>
+
+<!-- SLIDE 2 -->
+<div class="slide layout-capa">
+  <div class="grid-lines"></div>
+  <div class="slide-number">02</div>
+  <div class="content-wrapper">
+    <div class="tag-mono">Caso Real</div>
+    <div class="headline-large">O caso do Maior Parque Aquático de SP.</div>
+    <div class="text-body" style="margin-top: 40px;">
+      Eles investiam pesado em tráfego pago, tinham ofertas ótimas, mas algo estava errado:
+      <br><br>
+      As vendas aconteciam no site, mas <strong>não apareciam</strong> no Gerenciador de Anúncios.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="slide layout-capa">
+  <div class="grid-lines"></div>
+  <div class="slide-number">03</div>
+  <div class="content-wrapper">
+    <div class="tag-mono">O Vilão</div>
+    <div class="headline-large">O seu Pixel está <span class="highlight-red">cego.</span></div>
+    <div class="text-body" style="margin-top: 40px;">
+      Atualizações do iOS da Apple, Safari e bloqueadores de anúncios estão cortando a comunicação do seu site.
+      <br><br>
+      Se você usa apenas o pixel tradicional, seu algoritmo não sabe quem compra de você.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4 -->
+<div class="slide layout-capa">
+  <div class="grid-lines"></div>
+  <div class="slide-number">04</div>
+  <div class="content-wrapper">
+    <div class="tag-mono">A Virada</div>
+    <div class="headline-large">Instalamos a tecnologia <span class="highlight-lime">TagServer.</span></div>
+    <div class="text-body" style="margin-top: 40px;">
+      Ao invés de depender do navegador do usuário, passamos a enviar as informações de compra <strong>diretamente do servidor.</strong>
+      <br><br>
+      Blindado. Invisível aos bloqueadores. 100% preciso.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5 -->
+<div class="slide layout-data">
+  <div class="grid-lines"></div>
+  <div class="slide-number">05</div>
+  <div class="content-wrapper">
+    <div class="tag-mono">O Impacto</div>
+    <div class="data-number">+47%</div>
+    <div class="data-label">Vendas Atribuídas</div>
+    <div class="text-body">
+      O algoritmo passou a receber os dados completos e começou a otimizar de verdade. Mais vendas rastreadas da noite para o dia.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6 -->
+<div class="slide layout-data">
+  <div class="grid-lines"></div>
+  <div class="slide-number">06</div>
+  <div class="content-wrapper">
+    <div class="tag-mono">O Custo</div>
+    <div class="data-number" style="color: var(--neon-crimson);">-29%</div>
+    <div class="data-label" style="color: var(--text-main);">No Custo por Venda (CPA)</div>
+    <div class="text-body">
+      Mesmo orçamento.<br>Muito mais resultado e dinheiro no bolso, simplesmente por medir direito.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7: CTA -->
+<div class="slide layout-cta">
+  <div class="grid-lines"></div>
+  <div class="content-wrapper">
+    <div class="tag-mono" style="margin: 0 auto 40px;">Pare de Perder Dinheiro</div>
+    <div class="headline-massive">Quer parar de anunciar no escuro?</div>
+    <div class="text-body" style="text-align: center; margin: 0 auto;">Proteja o lucro das suas campanhas.</div>
+    
+    <a href="https://tgsr.br" class="btn-cta">Link na Bio</a>
+  </div>
+</div>
+
+</body>
+</html>
