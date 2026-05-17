@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Carrossel - Métricas de Growth</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap');
+
+:root {
+  --bg-void: #050505;
+  --bg-panel: #0f0f0f;
+  --bg-card: #161616;
+  --acid-lime: #c8ff00;
+  --neon-crimson: #ff4a4a;
+  --text-main: #ffffff;
+  --text-muted: #8a8a8a;
+  --font-disp: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+
+body {
+  font-family: var(--font-disp);
+  background: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  gap: 30px;
+}
+
+.slide {
+  width: 1080px;
+  height: 1080px;
+  background: var(--bg-void);
+  position: relative;
+  flex-shrink: 0;
+  transform: scale(0.5);
+  transform-origin: top center;
+  margin-bottom: -540px;
+  overflow: hidden;
+  color: var(--text-main);
+  border: 1px solid #222;
+}
+
+/* GRIDS & DECORATIONS */
+.grid-lines {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, #1a1a1a 1px, transparent 1px),
+    linear-gradient(to bottom, #1a1a1a 1px, transparent 1px);
+  background-size: 120px 120px;
+  opacity: 0.5;
+  z-index: 0;
+}
+.accent-bar {
+  position: absolute;
+  top: 0;
+  left: 64px;
+  width: 8px;
+  height: 120px;
+  background: var(--acid-lime);
+  z-index: 10;
+}
+
+/* TYPOGRAPHY */
+.tag-mono {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--acid-lime);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.tag-mono::before {
+  content: ''; display: inline-block; width: 12px; height: 12px; background: var(--acid-lime);
+}
+.headline-massive {
+  font-size: 84px; font-weight: 700; line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px;
+}
+.headline-large {
+  font-size: 64px; font-weight: 700; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 32px;
+}
+.text-body {
+  font-size: 32px; line-height: 1.5; color: var(--text-muted); max-width: 800px;
+}
+.text-body strong { color: var(--text-main); font-weight: 600; }
+.highlight-lime { color: var(--acid-lime); }
+.highlight-red { color: var(--neon-crimson); }
+.highlight-muted { color: #555; }
+
+/* SLIDE STRUCTURE */
+.content-wrapper {
+  position: relative; z-index: 5; padding: 80px 64px; height: 100%; display: flex; flex-direction: column;
+}
+.slide-number {
+  position: absolute; bottom: 80px; right: 64px; font-family: var(--font-mono); font-size: 120px;
+  font-weight: 800; color: rgba(255,255,255,0.03); line-height: 0.8; z-index: 1;
+}
+
+/* LAYOUT VARIATIONS */
+
+.layout-capa .split-img {
+  position: absolute; right: 0; top: 0; width: 45%; height: 100%; object-fit: cover;
+  filter: grayscale(100%) contrast(1.2); opacity: 0.8; mix-blend-mode: luminosity;
+  background: #222;
+}
+.layout-capa .img-overlay {
+  position: absolute; right: 0; top: 0; width: 45%; height: 100%;
+  background: linear-gradient(90deg, var(--bg-void) 0%, transparent 100%); z-index: 2;
+}
+.layout-capa .author-badge {
+  margin-top: auto; display: inline-flex; align-items: center; gap: 20px;
+  background: var(--bg-panel); padding: 16px 32px 16px 16px; border-radius: 100px; border: 1px solid #333;
+}
+.author-badge img {
+  width: 64px; height: 64px; border-radius: 50%; border: 2px solid var(--acid-lime); object-fit: cover;
+}
+.author-info { display: flex; flex-direction: column; }
+.author-name { font-size: 20px; font-weight: 700; }
+.author-role { font-family: var(--font-mono); font-size: 14px; color: var(--acid-lime); }
+
+.layout-data .data-number {
+  font-size: 240px; font-weight: 700; color: var(--acid-lime); line-height: 1; letter-spacing: -8px; margin: auto 0;
+}
+.layout-data .data-label {
+  font-family: var(--font-mono); font-size: 32px; color: var(--text-main); text-transform: uppercase;
+}
+
+.layout-vs .vs-container {
+  display: flex; gap: 40px; margin-top: 40px; flex: 1;
+}
+.vs-col {
+  flex: 1; background: var(--bg-card); padding: 48px 40px; border-radius: 24px;
+  border-top: 4px solid #333; display: flex; flex-direction: column; gap: 24px;
+}
+.vs-col.winner { border-top-color: var(--acid-lime); background: #0f1400; }
+.vs-col.loser { border-top-color: var(--neon-crimson); background: #1a0505; }
+.vs-title { font-size: 32px; font-weight: 700; }
+.vs-col.winner .vs-title { color: var(--acid-lime); }
+.vs-col.loser .vs-title { color: var(--neon-crimson); }
+.vs-item { font-size: 24px; color: var(--text-muted); display: flex; gap: 16px; align-items: flex-start;}
+.vs-item::before { content: '✕'; color: var(--neon-crimson); font-family: var(--font-mono); font-weight: 800; font-size: 28px; line-height: 1;}
+.vs-col.winner .vs-item::before { content: '✓'; color: var(--acid-lime); }
+.vs-col.winner .vs-item { color: var(--text-main); }
+.vs-col.loser .vs-item { color: var(--text-main); }
+
+.layout-steps .step-list {
+  margin-top: 40px; display: flex; flex-direction: column; gap: 32px;
+}
+.step-item {
+  display: flex; align-items: flex-start; gap: 32px; background: var(--bg-card);
+  padding: 32px; border-radius: 16px; border-left: 4px solid var(--acid-lime);
+}
+.step-num {
+  font-family: var(--font-mono); font-size: 48px; color: var(--acid-lime); font-weight: 800; line-height: 1;
+}
+.step-text { font-size: 28px; line-height: 1.4; color: var(--text-main); }
+
+.layout-quote .quote-mark {
+  font-size: 160px; font-family: var(--font-mono); color: var(--acid-lime); line-height: 0; margin-top: 80px;
+}
+.layout-quote .quote-text {
+  font-size: 56px; font-weight: 600; line-height: 1.2; color: var(--text-main); margin-top: 40px;
+}
+
+.layout-cta { text-align: center; justify-content: center; align-items: center; }
+.layout-cta .content-wrapper { padding-top: 160px; align-items: center; }
+.layout-cta .accent-bar { display: none; }
+
+@media print {
+  @page { size: 1080px 1080px; margin: 0; }
+  body { background: var(--bg-void) !important; padding: 0 !important; gap: 0 !important; display: block !important; }
+  .slide { transform: none !important; margin: 0 !important; page-break-after: always; break-after: page; border: none !important; }
+  .slide:last-of-type { page-break-after: auto; break-after: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: CAPA -->
+<div class="slide layout-capa">
+  <div class="grid-lines"></div>
+  <div class="accent-bar"></div>
+  
+  <img src="../DSC08278.png" class="split-img" alt="João Gobira">
+  <div class="img-overlay"></div>
+  
+  <div class="content-wrapper" style="width: 65%;">
+    <div class="tag-mono">Growth na Prática</div>
+    <div class="headline-massive">O Fim da <span class="highlight-lime">Vaidade.</span></div>
+    <div class="text-body"><strong>5 métricas</strong> que todo profissional de Growth olha todo dia (e 3 que são só para o ego).</div>
+    
+    <div class="author-badge" style="margin-top: auto; margin-bottom: 20px;">
+      <img src="../joao-gobira.JPG" alt="João Gobira">
+      <div class="author-info">
+        <div class="author-name">João Gobira</div>
+        <div class="author-role">/// Liderança e Growth</div>
+      </div>
+    </div>
+    
+    <div class="tag-mono">👉 Arraste para o choque de realidade</div>
+  </div>
+</div>
+
+<!-- SLIDE 2: O PROBLEMA -->
+<div class="slide layout-quote">
+  <div class="grid-lines"></div>
+  <div class="slide-number">02</div>
+  <div class="content-wrapper">
+    <div class="tag-mono">A Ilusão do Dashboard</div>
+    <div class="quote-mark">"</div>
+    <div class="quote-text" style="font-size: 52px;">Se a métrica não muda a sua decisão, ela é <span class="highlight-red">inútil</span>.</div>
+    <div class="text-body" style="margin-top: 40px; font-size: 28px;">
+      Muitos profissionais se escondem atrás de números que sobem sempre para apresentar em reuniões. Mas no final do dia, a pergunta que o CEO vai fazer é:
+      <br><br>
+      <span class="highlight-lime">"Isso trouxe dinheiro para a mesa?"</span>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3: DIAGNÓSTICO -->
+<div class="slide layout-vs">
+  <div class="grid-lines"></div>
+  <div class="slide-number">03</div>
+  <div class="content-wrapper">
+    <div class="tag-mono">O Que Importa vs O Que Infla o Ego</div>
+    <div class="headline-large">A diferença entre <span class="highlight-red">vaidade</span> e <span class="highlight-lime">lucro.</span></div>
+    
+    <div class="vs-container">
+      <div class="vs-col loser">
+        <div class="vs-title">Métricas de Vaidade</div>
+        <div class="vs-item">Seguidores e Likes</div>
+        <div class="vs-item">Pageviews (sem contexto)</div>
+        <div class="vs-item">Taxa de Abertura (Emails)</div>
+      </div>
+      <div class="vs-col winner">
+        <div class="vs-title">Métricas de Execução</div>
+        <div class="vs-item">Custo de Aquisição (CAC)</div>
+        <div class="vs-item">Retorno sobre Anúncio (ROAS)</div>
+        <div class="vs-item">Lifetime Value (LTV)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: A SOLUÇÃO -->
+<div class="slide layout-steps">
+  <div class="grid-lines"></div>
+  <div class="slide-number">04</div>
+  <div class="content-wrapper">
+    <div class="tag-mono">As Métricas que Pagam Boletos</div>
+    <div class="headline-large">Os Fundamentos do <span class="highlight-lime">Growth.</span></div>
+    
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>CAC (Custo de Aquisição de Cliente):</strong><br>Quanto custa colocar um cliente novo para dentro de casa? Se o seu CAC é maior que a primeira compra, você tem um problema de caixa imediato.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-text"><strong>LTV (Lifetime Value):</strong><br>Quanto dinheiro esse cliente deixa com você ao longo do tempo? O LTV é o que permite escalar o CAC com segurança.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: A SOLUÇÃO 2 -->
+<div class="slide layout-steps">
+  <div class="grid-lines"></div>
+  <div class="slide-number">05</div>
+  <div class="content-wrapper">
+    <div class="tag-mono">As Métricas que Pagam Boletos</div>
+    <div class="headline-large">Caixa, Escala e <span class="highlight-lime">Velocidade.</span></div>
+    
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-text"><strong>Payback Period:</strong><br>Em quantos meses o cliente se paga? Empresas morrem não por falta de vendas, mas por falta de caixa enquanto esperam o LTV se realizar.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-text"><strong>ROAS Real (Return on Ad Spend):</strong><br>Para cada R$1 investido em mídia, quantos voltam? Um ROAS verdadeiro não olha só para a atribuição da plataforma, mas para o cofre da empresa.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: RESULTADO EM DADOS -->
+<div class="slide layout-data">
+  <div class="grid-lines"></div>
+  <div class="slide-number">06</div>
+  <div class="content-wrapper">
+    <div class="tag-mono">A 5ª Métrica (O Santo Graal)</div>
+    <div class="data-number" style="font-size: 160px;">Retenção</div>
+    <div class="data-label">O verdadeiro Growth.</div>
+    <div class="text-body" style="margin-top: 32px;">
+      Growth não é sobre colocar água em um balde furado. É sobre fechar os buracos.<br><br>
+      <span class="highlight-lime">✔ Retenção alta</span> = Produto forte, marketing eficiente.<br>
+      <span class="highlight-red">✖ Retenção baixa</span> = Você está só alugando usuários caros.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7: CTA -->
+<div class="slide layout-cta">
+  <div class="grid-lines"></div>
+  <div class="content-wrapper">
+    <div class="tag-mono" style="margin: 0 auto 32px;">O Jogo é a Longo Prazo</div>
+    <div class="headline-massive">Não seja o cara dos <span class="highlight-red">likes.</span></div>
+    <div class="text-body" style="text-align: center; margin: 0 auto;">Seja o profissional que constrói operações sólidas, baseadas em números que sustentam o crescimento da empresa.</div>
+    
+    <div class="author-badge" style="margin-top: 60px; display: inline-flex; align-items: center; gap: 20px; background: var(--bg-panel); padding: 16px 40px 16px 16px; border-radius: 100px; border: 1px solid #333;">
+      <img src="../IMG_7392.JPG" alt="João Gobira" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--acid-lime); object-fit: cover;">
+      <div class="author-info" style="display: flex; flex-direction: column; text-align: left;">
+        <div class="author-name" style="font-size: 24px; font-weight: 700; color: white;">João Gobira</div>
+        <div class="author-role" style="font-family: var(--font-mono); font-size: 16px; color: var(--acid-lime);">Siga para mais estratégias reais de execução.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

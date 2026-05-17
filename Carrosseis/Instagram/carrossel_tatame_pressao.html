@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Carrossel Instagram - Escola do Tatame</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap');
+
+:root {
+  --bg-void: #050505;
+  --bg-panel: #0f0f0f;
+  --bg-card: #161616;
+  --acid-lime: #c8ff00;
+  --neon-crimson: #ff4a4a;
+  --text-main: #ffffff;
+  --text-muted: #8a8a8a;
+  --font-disp: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+
+body {
+  font-family: var(--font-disp);
+  background: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  gap: 30px;
+}
+
+/* Instagram Portrait Dimension: 1080x1350 */
+.slide {
+  width: 1080px;
+  height: 1350px;
+  background: var(--bg-void);
+  position: relative;
+  flex-shrink: 0;
+  transform: scale(0.4);
+  transform-origin: top center;
+  margin-bottom: -810px; 
+  overflow: hidden;
+  color: var(--text-main);
+  border: 1px solid #222;
+}
+
+/* GRIDS & DECORATIONS */
+.grid-lines {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, #1a1a1a 1px, transparent 1px),
+    linear-gradient(to bottom, #1a1a1a 1px, transparent 1px);
+  background-size: 120px 120px;
+  opacity: 0.5;
+  z-index: 0;
+}
+.accent-bar {
+  position: absolute;
+  top: 0;
+  left: 64px;
+  width: 8px;
+  height: 120px;
+  background: var(--acid-lime);
+  z-index: 10;
+}
+
+/* TYPOGRAPHY */
+.tag-mono {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--acid-lime);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.tag-mono::before {
+  content: ''; display: inline-block; width: 12px; height: 12px; background: var(--acid-lime);
+}
+.headline-massive {
+  font-size: 96px; font-weight: 700; line-height: 1.05; letter-spacing: -2px; margin-bottom: 32px;
+}
+.headline-large {
+  font-size: 72px; font-weight: 700; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 40px;
+}
+.text-body {
+  font-size: 36px; line-height: 1.5; color: var(--text-muted); max-width: 850px;
+}
+.text-body strong { color: var(--text-main); font-weight: 600; }
+.highlight-lime { color: var(--acid-lime); }
+.highlight-red { color: var(--neon-crimson); }
+.highlight-muted { color: #555; }
+
+/* SLIDE STRUCTURE */
+.content-wrapper {
+  position: relative; z-index: 5; padding: 100px 80px; height: 100%; display: flex; flex-direction: column; justify-content: center;
+}
+.content-wrapper.top-aligned { justify-content: flex-start; }
+
+.slide-number {
+  position: absolute; bottom: 80px; right: 64px; font-family: var(--font-mono); font-size: 140px;
+  font-weight: 800; color: rgba(255,255,255,0.03); line-height: 0.8; z-index: 1;
+}
+
+/* LAYOUT VARIATIONS */
+
+/* CAPA BACKGROUND COM IMAGEM DE LUTA */
+.layout-capa .bg-image {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(100%) contrast(1.3) brightness(0.4); z-index: 1;
+}
+.layout-capa .img-overlay {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  background: linear-gradient(0deg, var(--bg-void) 10%, rgba(5,5,5,0.6) 100%); z-index: 2;
+}
+
+.layout-capa .content-wrapper { justify-content: flex-end; padding-bottom: 120px; z-index: 5; }
+
+.layout-capa .author-badge {
+  margin-top: 40px; display: inline-flex; align-items: center; gap: 20px;
+  background: rgba(15, 15, 15, 0.8); padding: 16px 32px 16px 16px; border-radius: 100px; border: 1px solid #333; backdrop-filter: blur(10px);
+}
+.author-badge img {
+  width: 64px; height: 64px; border-radius: 50%; border: 2px solid var(--acid-lime); object-fit: cover;
+}
+.author-info { display: flex; flex-direction: column; }
+.author-name { font-size: 20px; font-weight: 700; }
+.author-role { font-family: var(--font-mono); font-size: 14px; color: var(--acid-lime); }
+
+.layout-quote .quote-mark {
+  font-size: 200px; font-family: var(--font-mono); color: var(--acid-lime); line-height: 0; margin-top: 80px;
+}
+.layout-quote .quote-text {
+  font-size: 64px; font-weight: 600; line-height: 1.2; color: var(--text-main); margin-top: 60px;
+}
+
+.layout-vs .vs-container {
+  display: flex; flex-direction: column; gap: 40px; margin-top: 40px; flex: 1;
+}
+.vs-col {
+  flex: 1; background: var(--bg-card); padding: 48px 40px; border-radius: 24px;
+  border-left: 8px solid #333; display: flex; flex-direction: column; gap: 24px; justify-content: center;
+}
+.vs-col.winner { border-left-color: var(--acid-lime); background: #0f1400; }
+.vs-col.loser { border-left-color: var(--neon-crimson); background: #1a0505; }
+.vs-title { font-size: 32px; font-weight: 700; margin-bottom: 16px;}
+.vs-col.winner .vs-title { color: var(--acid-lime); }
+.vs-col.loser .vs-title { color: var(--neon-crimson); }
+.vs-item { font-size: 32px; color: var(--text-main); line-height: 1.4; }
+
+.layout-steps .step-list {
+  margin-top: 60px; display: flex; flex-direction: column; gap: 40px;
+}
+.step-item {
+  display: flex; align-items: flex-start; gap: 40px; background: var(--bg-card);
+  padding: 40px; border-radius: 16px; border-left: 8px solid var(--acid-lime);
+}
+.step-num {
+  font-family: var(--font-mono); font-size: 64px; color: var(--acid-lime); font-weight: 800; line-height: 1;
+}
+.step-text { font-size: 36px; line-height: 1.4; color: var(--text-main); font-weight: 600; }
+
+.layout-image-split { padding: 0; display: flex; flex-direction: column; }
+.layout-image-split .image-half { height: 50%; width: 100%; position: relative; }
+.layout-image-split .image-half img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); }
+.layout-image-split .text-half { height: 50%; padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+
+.layout-cta { text-align: center; justify-content: center; align-items: center; }
+.layout-cta .content-wrapper { padding-top: 160px; align-items: center; justify-content: center; }
+.layout-cta .accent-bar { display: none; }
+
+@media print {
+  @page { size: 1080px 1350px; margin: 0; }
+  body { background: var(--bg-void) !important; padding: 0 !important; gap: 0 !important; display: block !important; }
+  .slide { transform: none !important; margin: 0 !important; page-break-after: always; break-after: page; border: none !important; }
+  .slide:last-of-type { page-break-after: auto; break-after: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: CAPA -->
+<div class="slide layout-capa">
+  <!-- Imagem de luta de fundo, com forte contraste e vignette -->
+  <img src="../WhatsApp Image 2026-02-18 at 08.29.48.jpeg" class="bg-image" alt="Jiu Jitsu Tatame">
+  <div class="img-overlay"></div>
+  <div class="accent-bar" style="top: 80px; left: 80px;"></div>
+  
+  <div class="content-wrapper">
+    <div class="tag-mono">A Escola do Tatame</div>
+    <div class="headline-massive" style="color: white; text-shadow: 0 4px 20px rgba(0,0,0,0.8);">
+      O que o Jiu-Jitsu<br>me ensinou sobre<br><span class="highlight-lime">Liderança.</span>
+    </div>
+    
+    <div class="author-badge">
+      <img src="../joao-gobira.JPG" alt="João Gobira">
+      <div class="author-info">
+        <div class="author-name">João Gobira</div>
+        <div class="author-role">/// Growth & Gestão</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 2: O ENSINAMENTO -->
+<div class="slide layout-quote">
+  <div class="grid-lines"></div>
+  <div class="slide-number">02</div>
+  <div class="content-wrapper">
+    <div class="tag-mono">Mentalidade</div>
+    <div class="quote-mark">"</div>
+    <div class="quote-text">O tatame não me ensinou a ganhar. <span class="highlight-lime">Me ensinou a não me desesperar quando estou perdendo.</span></div>
+  </div>
+</div>
+
+<!-- SLIDE 3: O SUFOCO (IMAGEM SPLIT) -->
+<div class="slide layout-image-split">
+  <div class="image-half">
+    <img src="../WhatsApp Image 2026-02-18 at 08.29.51.jpeg" alt="Pressão no tatame">
+    <div style="position: absolute; inset: 0; background: linear-gradient(180deg, transparent 50%, var(--bg-void) 100%);"></div>
+  </div>
+  <div class="text-half">
+    <div class="slide-number" style="bottom: 40px;">03</div>
+    <div class="tag-mono">O Instinto</div>
+    <div class="text-body" style="font-size: 40px; font-weight: 600;">
+      Quando tem um cara de 90kg no seu peito, o instinto é gastar toda a sua energia tentando sair de qualquer jeito.
+      <br><br>
+      <span class="highlight-red">E é aí que você bate.</span>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: NA CARREIRA -->
+<div class="slide layout-vs">
+  <div class="grid-lines"></div>
+  <div class="slide-number">04</div>
+  <div class="content-wrapper top-aligned">
+    <div class="tag-mono">Realidade Corporativa</div>
+    <div class="headline-large">Na carreira,<br>é a mesma coisa.</div>
+    
+    <div class="vs-container">
+      <div class="vs-col loser">
+        <div class="vs-title">A Pressão (O cara de 90kg)</div>
+        <div class="vs-item">• O projeto crítico deu errado</div>
+        <div class="vs-item">• O feedback foi pesado e injusto</div>
+        <div class="vs-item">• A pressão por entrega explodiu</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: O VERDADEIRO ERRO -->
+<div class="slide layout-quote">
+  <div class="grid-lines"></div>
+  <div class="slide-number">05</div>
+  <div class="content-wrapper">
+    <div class="tag-mono">A Origem da Falha</div>
+    <div class="quote-text" style="font-size: 56px;">
+      Se você se desespera, o erro não acontece por falta de técnica.<br><br>
+      Acontece por falta de <span class="highlight-red">controle emocional.</span>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: A SOLUÇÃO (STEPS) -->
+<div class="slide layout-steps">
+  <div class="grid-lines"></div>
+  <div class="slide-number">06</div>
+  <div class="content-wrapper top-aligned">
+    <div class="tag-mono">A Saída</div>
+    <div class="headline-large">Sob pressão,<br>faça o básico.</div>
+    
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-text">Respire e avalie o cenário real.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-text">Aceite o desconforto temporário.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-text">Use a técnica. Ache a saída.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7: CTA / CONCLUSÃO -->
+<div class="slide layout-cta">
+  <div class="grid-lines"></div>
+  <div class="content-wrapper">
+    <div class="tag-mono" style="margin: 0 auto 32px;">Líder Executor</div>
+    <div class="headline-massive" style="font-size: 72px;">Não adianta a melhor estratégia se a mente <span class="highlight-red">quebra.</span></div>
+    
+    <div class="author-badge" style="margin-top: 80px; display: inline-flex; align-items: center; gap: 32px; background: var(--bg-card); padding: 24px 56px 24px 24px; border-radius: 100px; border: 1px solid #333;">
+      <img src="../IMG_7392.JPG" alt="João Gobira" style="width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--acid-lime); object-fit: cover;">
+      <div class="author-info" style="display: flex; flex-direction: column; text-align: left;">
+        <div class="author-name" style="font-size: 32px; font-weight: 700; color: white;">João Gobira</div>
+        <div class="author-role" style="font-family: var(--font-mono); font-size: 20px; color: var(--acid-lime);">Siga para mais reflexões de liderança.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

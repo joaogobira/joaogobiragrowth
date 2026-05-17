@@ -1,0 +1,31 @@
+{
+  "name": "joaogobiragrowth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "download_fotos.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "exportar": "node exportar_slides.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joaogobira/joaogobiragrowth.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/joaogobira/joaogobiragrowth/issues"
+  },
+  "homepage": "https://github.com/joaogobira/joaogobiragrowth#readme",
+  "dependencies": {
+    "axios": "^1.16.1",
+    "dotenv": "^17.4.2",
+    "googleapis": "^171.4.0",
+    "pdf-lib": "^1.17.1"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^25.0.2"
+  }
+}
