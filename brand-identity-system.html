@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Identity System v2 — João Gobira</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --void:    #080808;
+  --carbon:  #101010;
+  --iron:    #1A1A1A;
+  --steel:   #272727;
+  --ash:     #404040;
+  --fire:    #C8391A;
+  --ember:   #E04B27;
+  --gold:    #B8922A;
+  --gold-lt: #D4AA42;
+  --bone:    #F0EBE0;
+  --muted:   #7A746C;
+  --text:    #EDE8E0;
+  --text-sub:#9A9490;
+
+  /* BRUTALIST SYSTEM */
+  --font-disp:   'Bebas Neue', sans-serif;       /* headlines, huge type */
+  --font-cond:   'Barlow Condensed', sans-serif; /* subheads, labels */
+  --font-body:   'Barlow', sans-serif;           /* corpo de texto */
+  --font-mono:   'Space Mono', monospace;        /* dados, tags, código */
+
+  --border-heavy: 2px solid var(--iron);
+  --border-fire:  2px solid var(--fire);
+  --border-gold:  2px solid var(--gold);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ── NOISE GRAIN ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.5;
+}
+
+/* ── LAYOUT ── */
+.page-wrap { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+section { padding: 80px 0; border-bottom: var(--border-heavy); }
+
+/* ── HEADER ── */
+.brand-header {
+  padding: 60px 0 48px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  border-bottom: var(--border-heavy);
+}
+
+.brand-wordmark {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.wordmark-main {
+  font-family: var(--font-disp);
+  font-size: 72px;
+  line-height: 0.9;
+  color: var(--bone);
+  letter-spacing: 2px;
+}
+.wordmark-main span { color: var(--fire); }
+.wordmark-sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+.doc-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ash);
+  text-align: right;
+  line-height: 1.8;
+  border: var(--border-heavy);
+  padding: 12px 16px;
+}
+
+/* ── SECTION LABELS ── */
+.section-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--fire);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-tag::before { content: '//'; color: var(--ash); }
+
+.section-title {
+  font-family: var(--font-disp);
+  font-size: 64px;
+  line-height: 0.95;
+  color: var(--bone);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.section-desc {
+  font-family: var(--font-body);
+  color: var(--muted);
+  font-size: 15px;
+  max-width: 600px;
+  line-height: 1.7;
+  margin-bottom: 48px;
+  font-weight: 300;
+}
+
+/* ── GRIDS ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+
+/* ── BRUTALIST CARDS ── */
+.card {
+  background: var(--carbon);
+  border: var(--border-heavy);
+  padding: 28px;
+}
+.card-highlight {
+  background: var(--carbon);
+  border: var(--border-fire);
+  padding: 28px;
+}
+
+/* ── BRAND STORY ── */
+.story-hero {
+  border: var(--border-heavy);
+  background: var(--carbon);
+  position: relative;
+  overflow: hidden;
+}
+.story-hero-tape {
+  position: absolute;
+  top: 0; left: 0;
+  width: 6px;
+  height: 100%;
+  background: var(--fire);
+}
+.story-hero-inner {
+  padding: 48px 48px 48px 60px;
+}
+.story-big {
+  font-family: var(--font-disp);
+  font-size: 72px;
+  line-height: 0.95;
+  letter-spacing: 1px;
+  color: var(--bone);
+  margin-bottom: 24px;
+}
+.story-big em { color: var(--fire); font-style: normal; }
+.story-body {
+  font-family: var(--font-body);
+  color: var(--text-sub);
+  font-size: 16px;
+  line-height: 1.75;
+  max-width: 700px;
+  font-weight: 300;
+}
+.story-body strong { color: var(--text); font-weight: 500; }
+
+/* ── ARCHETYPE CARDS ── */
+.arch-card {
+  background: var(--carbon);
+  border: var(--border-heavy);
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+.arch-card:hover { border-color: var(--fire); }
+.arch-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0;
+  background: var(--fire);
+  transition: width 0.3s;
+}
+.arch-card:hover::before { width: 100%; }
+.arch-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ash);
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+.arch-name {
+  font-family: var(--font-disp);
+  font-size: 40px;
+  letter-spacing: 1px;
+  color: var(--bone);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.arch-desc {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.65;
+  font-weight: 300;
+  margin-bottom: 16px;
+}
+.arch-ref {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--fire);
+}
+
+/* ── COLORS ── */
+.swatch {
+  border: var(--border-heavy);
+  overflow: hidden;
+}
+.swatch-color { height: 72px; }
+.swatch-info { background: var(--carbon); padding: 16px; }
+.swatch-name {
+  font-family: var(--font-cond);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--bone);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.swatch-hex {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+.swatch-use {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--ash);
+  margin-top: 6px;
+  line-height: 1.4;
+  font-weight: 300;
+}
+
+/* ── TYPOGRAPHY ── */
+.type-sample {
+  background: var(--carbon);
+  border: var(--border-heavy);
+  padding: 40px;
+  margin-bottom: 2px;
+}
+.type-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ash);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--iron);
+}
+.type-meta {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--iron);
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.type-meta span {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ash);
+}
+
+/* ── LOGO SECTION ── */
+.logo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2px;
+}
+.logo-card {
+  border: var(--border-heavy);
+  padding: 48px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.logo-card-dark  { background: var(--void); }
+.logo-card-carbon{ background: var(--carbon); }
+.logo-card-bone  { background: var(--bone); }
+.logo-card-fire  { background: var(--fire); }
+.logo-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ash);
+  text-align: center;
+}
+.logo-card-bone .logo-label { color: #888; }
+.logo-card-fire .logo-label { color: rgba(240,235,224,0.5); }
+
+/* ── VOICE ── */
+.voice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-bottom: 2px;
+}
+.voice-item {
+  background: var(--carbon);
+  border: var(--border-heavy);
+  padding: 24px;
+  display: flex;
+  gap: 16px;
+}
+.voice-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 4px 8px;
+  flex-shrink: 0;
+  height: fit-content;
+  margin-top: 2px;
+}
+.badge-sim { background: rgba(184,146,42,0.15); color: var(--gold); border: 1px solid var(--gold); }
+.badge-nao { background: rgba(64,64,64,0.3); color: var(--ash); border: 1px solid var(--steel); }
+.voice-title {
+  font-family: var(--font-cond);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--bone);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.voice-desc { font-size: 13px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+
+.example-pair {
+  background: var(--carbon);
+  border: var(--border-heavy);
+  overflow: hidden;
+  margin-bottom: 2px;
+}
+.example-row { display: grid; grid-template-columns: 72px 1fr; }
+.example-badge {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+.badge-example-sim { background: rgba(184,146,42,0.1); color: var(--gold); }
+.badge-example-nao { background: rgba(64,64,64,0.1); color: var(--ash); }
+.example-text {
+  padding: 16px 20px;
+  font-size: 14px;
+  color: var(--text-sub);
+  line-height: 1.6;
+  border-left: 2px solid var(--iron);
+  font-weight: 300;
+}
+
+/* ── TAGLINES ── */
+.tagline-block {
+  background: var(--carbon);
+  border: var(--border-heavy);
+  padding: 32px 40px;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  transition: border-color 0.15s;
+}
+.tagline-block:hover { border-color: var(--fire); }
+.tagline-block.primary { border-color: var(--fire); background: rgba(200,57,26,0.05); }
+.tagline-text {
+  font-family: var(--font-disp);
+  font-size: 48px;
+  letter-spacing: 1px;
+  color: var(--bone);
+  line-height: 1;
+}
+.tagline-text em { color: var(--fire); font-style: normal; }
+.tagline-note {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ash);
+  white-space: nowrap;
+  text-align: right;
+}
+.tagline-note strong { color: var(--fire); display: block; }
+
+/* ── PRODUCT SYSTEM ── */
+.product-row {
+  background: var(--carbon);
+  border: var(--border-heavy);
+  padding: 28px 32px;
+  display: grid;
+  grid-template-columns: 260px 1fr auto;
+  gap: 32px;
+  align-items: center;
+  margin-bottom: 2px;
+  transition: border-color 0.15s;
+}
+.product-row:hover { border-color: var(--fire); }
+.product-tier {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ash);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.product-name {
+  font-family: var(--font-disp);
+  font-size: 36px;
+  letter-spacing: 1px;
+  color: var(--bone);
+  line-height: 1;
+}
+.product-desc { font-size: 13px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+.product-palette { display: flex; gap: 6px; align-items: center; }
+.product-dot {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 1px solid var(--iron);
+}
+
+/* ── RULES ── */
+.rule-row {
+  background: var(--carbon);
+  border: var(--border-heavy);
+  border-top: none;
+  padding: 20px 28px;
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 20px;
+  align-items: flex-start;
+}
+.rule-row:first-child { border-top: var(--border-heavy); }
+.rule-num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--fire);
+  padding-top: 1px;
+}
+.rule-title {
+  font-family: var(--font-cond);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--bone);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+.rule-desc { font-size: 13px; color: var(--muted); line-height: 1.5; font-weight: 300; }
+
+/* ── COPY SECTION ── */
+.copy-block {
+  background: var(--carbon);
+  border: var(--border-heavy);
+  padding: 40px;
+  margin-bottom: 2px;
+}
+.copy-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--fire);
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--iron);
+}
+.copy-headline {
+  font-family: var(--font-disp);
+  font-size: 80px;
+  line-height: 0.95;
+  letter-spacing: 1px;
+  color: var(--bone);
+  margin-bottom: 16px;
+}
+.copy-headline em { color: var(--fire); font-style: normal; }
+.copy-sub {
+  font-family: var(--font-body);
+  font-size: 17px;
+  color: var(--text-sub);
+  line-height: 1.7;
+  max-width: 640px;
+  font-weight: 300;
+}
+.copy-sub strong { color: var(--text); }
+
+/* ── CHANNELS TABLE ── */
+.ch-table { width: 100%; border-collapse: collapse; border: var(--border-heavy); }
+.ch-table th {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ash);
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: var(--border-heavy);
+  background: var(--carbon);
+}
+.ch-table td {
+  padding: 16px;
+  font-size: 13px;
+  color: var(--text-sub);
+  border-bottom: 1px solid var(--iron);
+  vertical-align: top;
+  line-height: 1.55;
+  font-weight: 300;
+}
+.ch-table tr:last-child td { border-bottom: none; }
+.ch-table tr:hover td { background: rgba(255,255,255,0.02); }
+.ch-name {
+  font-family: var(--font-cond);
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--bone);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.tag-fire { display: inline-block; padding: 2px 8px; background: rgba(200,57,26,0.15); color: var(--fire); font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; }
+.tag-gold { display: inline-block; padding: 2px 8px; background: rgba(184,146,42,0.15); color: var(--gold); font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; }
+.tag-bone { display: inline-block; padding: 2px 8px; background: rgba(240,235,224,0.08); color: var(--text-sub); font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; }
+
+/* ── FOOTER ── */
+.brand-footer {
+  padding: 40px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: var(--border-heavy);
+}
+.footer-copy { font-family: var(--font-mono); font-size: 11px; color: var(--ash); letter-spacing: 1px; }
+.footer-v { font-family: var(--font-mono); font-size: 10px; color: var(--steel); }
+
+/* DIVIDER */
+.sep { border: none; border-top: var(--border-heavy); margin: 32px 0; }
+
+/* ALERT BOX */
+.alert {
+  border: var(--border-fire);
+  background: rgba(200,57,26,0.05);
+  padding: 20px 24px;
+  margin-top: 20px;
+}
+.alert p { font-size: 14px; color: var(--text-sub); line-height: 1.65; font-weight: 300; }
+.alert strong { color: var(--fire); }
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <header class="brand-header">
+    <div class="brand-wordmark">
+      <div class="wordmark-main">JOÃO <span>GOBIRA</span></div>
+      <div class="wordmark-sub">// BRAND IDENTITY SYSTEM — V2.0</div>
+    </div>
+    <div class="doc-meta">
+      VERSÃO 2.0<br>
+      MAIO 2026<br>
+      USO EXCLUSIVO
+    </div>
+  </header>
+
+  <!-- 01. BRAND STORY -->
+  <section id="story">
+    <div class="section-tag">01 — FUNDAÇÃO</div>
+    <div class="section-title">A HISTÓRIA<br>DA MARCA</div>
+    <p class="section-desc">O que define um brand não são os hexadecimais. É a história que ele carrega. Esta vem primeiro.</p>
+
+    <div class="story-hero">
+      <div class="story-hero-tape"></div>
+      <div class="story-hero-inner">
+        <div class="story-big">
+          "Tem um tipo de profissional<br>que ninguém para<br>para <em>aplaudir</em>.<br>Esse sempre fui eu."
+        </div>
+        <p class="story-body">
+          João Gobira é o Head de Growth que opera como atleta. Não veio de família rica, não estudou na escola certa, luta com TDAH até hoje — e em 12 anos construiu resultado onde outros chegaram primeiro com mais recurso e mais crédito.<br><br>
+          Como goleiro na infância, foi Rogério Ceni quem abriu a cabeça: <strong>a função não define o que você pode fazer.</strong> O goleiro que cruza o campo para cobrar falta. O profissional de Growth que gerencia R$1M/mês em mídia e ainda entende de CRM, SEO, produto e liderança de time.<br><br>
+          Esta marca não é sobre ser famoso. É sobre ser <strong>inegavelmente competente e reconhecidamente honesto.</strong> O carregador de piano que também bate pênalti.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid-3" style="margin-top: 2px;">
+      <div class="arch-card">
+        <div class="arch-num">// 01</div>
+        <div class="arch-name">O EXECUTOR</div>
+        <div class="arch-desc">Não perde tempo com discurso. Entra em campo, faz o trabalho sujo, entrega resultado. Missão dada é missão cumprida — aprendido com o Seu Adilson.</div>
+        <div class="arch-ref">// REF: Seu Adilson Gobira</div>
+      </div>
+      <div class="arch-card">
+        <div class="arch-num">// 02</div>
+        <div class="arch-name">O ATLETA</div>
+        <div class="arch-desc">Disciplina não é motivação — é processo. O tatame ensina o que nenhum MBA consegue: pensar claro sob pressão e respeitar a hierarquia do aprendizado.</div>
+        <div class="arch-ref">// REF: Jiu-Jitsu BJJ</div>
+      </div>
+      <div class="arch-card">
+        <div class="arch-num">// 03</div>
+        <div class="arch-name">O AUDACIOSO</div>
+        <div class="arch-desc">Sagacidade, coragem e amor pelo risco. O goleiro que cobre falta. Sempre disposto a ir além do que se espera da posição — e provar que dá.</div>
+        <div class="arch-ref">// REF: Rogério Ceni</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02. TAGLINES -->
+  <section id="taglines">
+    <div class="section-tag">02 — COPY CENTRAL</div>
+    <div class="section-title">TAGLINES &amp;<br>HEADLINES</div>
+    <p class="section-desc">Frases fixas da marca. Usadas consistentemente em site, bio, carrosseis e ads.</p>
+
+    <div class="tagline-block primary">
+      <div class="tagline-text">MISSÃO DADA.<br><em>MISSÃO CUMPRIDA.</em></div>
+      <div class="tagline-note"><strong>// TAGLINE PRINCIPAL</strong>Uso universal — bio, assinatura,<br>capa de carrossel, site</div>
+    </div>
+
+    <div class="tagline-block">
+      <div class="tagline-text" style="font-size: 40px;">O GOLEIRO QUE<br>TAMBÉM COBRA FALTA.</div>
+      <div class="tagline-note">// HEADLINE HERO (SITE)<br>Versão A — mais narrativa</div>
+    </div>
+
+    <div class="tagline-block">
+      <div class="tagline-text" style="font-size: 40px;">NÃO SOU O MAIS<br>TALENTOSO. SOU O QUE FICA.</div>
+      <div class="tagline-note">// HEADLINE HERO (SITE)<br>Versão B — mais vulnerável</div>
+    </div>
+
+    <div class="tagline-block">
+      <div class="tagline-text" style="font-size: 40px;">FAZ O SUJO.<br>ENTREGA O RESULTADO.</div>
+      <div class="tagline-note">// ADS / REEL HOOK<br>Para criativos de performance</div>
+    </div>
+
+    <div class="copy-block" style="margin-top: 24px;">
+      <div class="copy-label">// BIO INSTAGRAM — 150 CARACTERES</div>
+      <div style="font-family: var(--font-body); font-size: 17px; color: var(--text); line-height: 1.7; font-weight: 400;">
+        Growth Marketing + Jiu-Jitsu + Pai da Helena. Faço o trabalho sujo para o time ganhar — há 12 anos. Missão dada, missão cumprida.
+      </div>
+    </div>
+  </section>
+
+  <!-- 03. CORES -->
+  <section id="cores">
+    <div class="section-tag">03 — SISTEMA DE CORES</div>
+    <div class="section-title">A PALETA</div>
+    <p class="section-desc">Brutalismo quente. Void como palco, Fire como grito, Gold como hierarquia silenciosa, Bone como respiro.</p>
+
+    <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--ash); margin-bottom: 8px;">// FUNDAÇÃO</div>
+    <div class="grid-4" style="margin-bottom: 2px;">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#080808; border-bottom: 2px solid #1A1A1A;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">VOID</div>
+          <div class="swatch-hex">#080808</div>
+          <div class="swatch-use">Fundo principal. O silêncio antes do movimento.</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#101010;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">CARBON</div>
+          <div class="swatch-hex">#101010</div>
+          <div class="swatch-use">Cards, painéis. Um tom acima do void.</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F0EBE0;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">BONE</div>
+          <div class="swatch-hex">#F0EBE0</div>
+          <div class="swatch-use">Texto principal, títulos. A cor do kimono, da hierarquia.</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#7A746C;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">MUTED</div>
+          <div class="swatch-hex">#7A746C</div>
+          <div class="swatch-use">Texto secundário aquecido. Legendas, labels.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--ash); margin-bottom: 8px; margin-top: 24px;">// ACENTOS</div>
+    <div class="grid-4">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#C8391A;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">FIRE</div>
+          <div class="swatch-hex">#C8391A</div>
+          <div class="swatch-use">Acento principal. Audácia, risco, São Paulo garra. CTAs.</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#E04B27;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">EMBER</div>
+          <div class="swatch-hex">#E04B27</div>
+          <div class="swatch-use">Hover do Fire. Links ativos.</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#B8922A;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">GOLD</div>
+          <div class="swatch-hex">#B8922A</div>
+          <div class="swatch-use">Hierarquia, excelência, faixa preta. Conquistas, badges.</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#D4AA42;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">GOLD LT</div>
+          <div class="swatch-hex">#D4AA42</div>
+          <div class="swatch-use">Hover do Gold. Texto leve sobre escuro.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert" style="margin-top: 20px;">
+      <p><strong>Regra dos dois acentos:</strong> Fire é o grito. Gold é o sussurro. Nunca os dois em destaque simultâneo na mesma peça. Escolha um dominante. Void e Carbon são o palco — nunca os atores.</p>
+    </div>
+  </section>
+
+  <!-- 04. TIPOGRAFIA -->
+  <section id="tipo">
+    <div class="section-tag">04 — TIPOGRAFIA</div>
+    <div class="section-title">SISTEMA<br>TIPOGRÁFICO</div>
+    <p class="section-desc">Quatro famílias com papéis cirúrgicos. Nunca improvise. A tipografia é o primeiro sinal visual de brutalismo.</p>
+
+    <!-- BEBAS -->
+    <div class="type-sample">
+      <div class="type-label">// FONT 01 — BEBAS NEUE · DISPLAY / HEADLINES BRUTALISTAS</div>
+      <div style="font-family: 'Bebas Neue', sans-serif; font-size: 96px; color: var(--bone); line-height: 0.9; letter-spacing: 2px;">
+        MISSÃO DADA<br>MISSÃO<br><span style="color: var(--fire);">CUMPRIDA</span>
+      </div>
+      <div class="type-meta">
+        <span>// FAMÍLIA: Bebas Neue</span>
+        <span>// PESO: 400 (único)</span>
+        <span>// SEMPRE ALL CAPS</span>
+        <span>// USO: Capas, heroes, slides gigantes, posters</span>
+      </div>
+    </div>
+
+    <!-- BARLOW CONDENSED -->
+    <div class="type-sample">
+      <div class="type-label">// FONT 02 — BARLOW CONDENSED · SUBHEADINGS / LABELS</div>
+      <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 48px; font-weight: 800; color: var(--bone); line-height: 1.1; text-transform: uppercase; letter-spacing: 1px;">
+        ESCOLA DO TATAME<br>
+        <span style="color: var(--fire);">O profissional que vai além da função.</span>
+      </div>
+      <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 600; color: var(--text-sub); text-transform: uppercase; letter-spacing: 2px; margin-top: 16px;">
+        PILAR 01 · GROWTH NA PRÁTICA · 12 ANOS DE MERCADO
+      </div>
+      <div class="type-meta">
+        <span>// FAMÍLIA: Barlow Condensed</span>
+        <span>// PESOS: 600, 700, 800, 900</span>
+        <span>// PODE SER MIXED CASE ou ALL CAPS</span>
+        <span>// USO: Subheadings, seções, labels de seção, CTAs secundários</span>
+      </div>
+    </div>
+
+    <!-- BARLOW BODY -->
+    <div class="type-sample">
+      <div class="type-label">// FONT 03 — BARLOW · CORPO DE TEXTO</div>
+      <div style="font-family: 'Barlow', sans-serif; font-size: 17px; font-weight: 300; color: var(--text-sub); line-height: 1.75; max-width: 640px;">
+        No tatame, quando tem um cara de 90kg no seu peito, o instinto é gastar toda a energia tentando sair de qualquer jeito. E é aí que você bate. Nos negócios, é a mesma coisa. O orçamento estourou. O tracking quebrou. A meta do trimestre parece impossível. <strong style="color: var(--text); font-weight: 500;">Se você se desespera, o erro não é falta de técnica. É falta de controle emocional.</strong>
+      </div>
+      <div class="type-meta">
+        <span>// FAMÍLIA: Barlow</span>
+        <span>// PESOS: 300 (corpo), 400 (padrão), 500 (ênfase)</span>
+        <span>// LINE-HEIGHT: 1.65 a 1.8</span>
+        <span>// USO: Parágrafos, posts, descrições, corpo de site</span>
+      </div>
+    </div>
+
+    <!-- SPACE MONO -->
+    <div class="type-sample">
+      <div class="type-label">// FONT 04 — SPACE MONO · DADOS, TAGS, CÓDIGO</div>
+      <div style="font-family: 'Space Mono', monospace; font-size: 13px; color: var(--fire); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px;">
+        // GROWTH NA PRÁTICA · SLIDE 01/05 · @JOAOGOBIRA
+      </div>
+      <div style="display: flex; gap: 48px; align-items: baseline;">
+        <div>
+          <div style="font-family: 'Space Mono', monospace; font-size: 48px; font-weight: 700; color: var(--bone); letter-spacing: -1px;">12+</div>
+          <div style="font-family: 'Space Mono', monospace; font-size: 10px; color: var(--ash); letter-spacing: 2px; text-transform: uppercase;">ANOS DE MERCADO</div>
+        </div>
+        <div>
+          <div style="font-family: 'Space Mono', monospace; font-size: 48px; font-weight: 700; color: var(--fire); letter-spacing: -1px;">10+</div>
+          <div style="font-family: 'Space Mono', monospace; font-size: 10px; color: var(--ash); letter-spacing: 2px; text-transform: uppercase;">CIDADES VIVIDAS</div>
+        </div>
+        <div>
+          <div style="font-family: 'Space Mono', monospace; font-size: 48px; font-weight: 700; color: var(--gold); letter-spacing: -1px;">R$1M</div>
+          <div style="font-family: 'Space Mono', monospace; font-size: 10px; color: var(--ash); letter-spacing: 2px; text-transform: uppercase;">VERBA/MÊS GERENCIADA</div>
+        </div>
+      </div>
+      <div class="type-meta">
+        <span>// FAMÍLIA: Space Mono</span>
+        <span>// PESOS: 400, 700</span>
+        <span>// SEMPRE UPPERCASE</span>
+        <span>// USO: Tags, números, métricas, labels de seção, numeração de slides</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05. LOGO -->
+  <section id="logo">
+    <div class="section-tag">05 — LOGO</div>
+    <div class="section-title">MARCA &amp;<br>MONOGRAMA</div>
+    <p class="section-desc">O monograma JG com a linha dourada diagonal. O goleiro que cruza o campo. A audácia inscrita no símbolo.</p>
+
+    <div class="logo-grid">
+      <div class="logo-card logo-card-dark">
+        <svg width="180" height="58" viewBox="0 0 200 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="56" height="56" x="4" y="4" rx="6" fill="#1A1A1A" stroke="#272727" stroke-width="1.5"/>
+          <path d="M14 18h9v23c0 3.7-2.2 5.8-5.5 5.8s-5.5-2-5.5-5.8h4.5c0 1 .4 1.4 1 1.4s1-.4 1-1.4V18z" fill="#F0EBE0"/>
+          <path d="M28 32c0-8.3 5.7-14 13.5-14 4 0 7.5 1.6 9.8 4.2l-3.2 3C46.4 23.2 44.2 22 42 22c-5 0-8.7 4-8.7 10s3.7 10 8.7 10c2.8 0 5.1-1.2 6.5-3.1V36H42v-4.5h11v9.8C50 45.2 46.2 47 42 47c-8 0-14-5.6-14-15z" fill="#C8391A"/>
+          <path d="M6 58 L58 6" stroke="#B8922A" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+          <text x="74" y="30" font-family="Bebas Neue, sans-serif" font-size="26" fill="#F0EBE0" letter-spacing="3">JOÃO GOBIRA</text>
+          <text x="74" y="50" font-family="Space Mono, monospace" font-size="11" fill="#7A746C" letter-spacing="2">GROWTH · EXECUÇÃO</text>
+        </svg>
+        <div class="logo-label">// PRINCIPAL — FUNDO ESCURO</div>
+      </div>
+
+      <div class="logo-card logo-card-carbon" style="align-items: center; justify-content: center;">
+        <svg width="72" height="72" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="80" height="80" rx="8" fill="#1A1A1A" stroke="#272727" stroke-width="1.5"/>
+          <path d="M18 24h12v30c0 5-3 7.5-7.5 7.5S15 59 15 54h6c0 1.3.6 2 1.5 2s1.5-.7 1.5-2V24z" fill="#F0EBE0"/>
+          <path d="M34 40c0-10.5 7.5-18 17.5-18 5 0 9.5 2 12.5 5.2l-4 3.8c-1.8-2-4.2-3.2-7-3.2-6.5 0-11.2 4.8-11.2 12.2s4.7 12.2 11.2 12.2c3.5 0 6.5-1.5 8.3-4V44H53V37.5h14v12.8C64 55.5 58.5 58 52 58c-10.3 0-18-7.5-18-18z" fill="#C8391A"/>
+          <path d="M10 70 L70 10" stroke="#B8922A" stroke-width="2.5" stroke-linecap="round" opacity="0.45"/>
+        </svg>
+        <div class="logo-label">// ÍCONE / AVATAR</div>
+      </div>
+
+      <div class="logo-card logo-card-bone">
+        <svg width="180" height="58" viewBox="0 0 200 64" fill="none">
+          <rect width="56" height="56" x="4" y="4" rx="6" fill="#1A1A1A"/>
+          <path d="M14 18h9v23c0 3.7-2.2 5.8-5.5 5.8s-5.5-2-5.5-5.8h4.5c0 1 .4 1.4 1 1.4s1-.4 1-1.4V18z" fill="#F0EBE0"/>
+          <path d="M28 32c0-8.3 5.7-14 13.5-14 4 0 7.5 1.6 9.8 4.2l-3.2 3C46.4 23.2 44.2 22 42 22c-5 0-8.7 4-8.7 10s3.7 10 8.7 10c2.8 0 5.1-1.2 6.5-3.1V36H42v-4.5h11v9.8C50 45.2 46.2 47 42 47c-8 0-14-5.6-14-15z" fill="#C8391A"/>
+          <path d="M6 58 L58 6" stroke="#B8922A" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+          <text x="74" y="30" font-family="Bebas Neue, sans-serif" font-size="26" fill="#101010" letter-spacing="3">JOÃO GOBIRA</text>
+          <text x="74" y="50" font-family="Space Mono, monospace" font-size="11" fill="#888" letter-spacing="2">GROWTH · EXECUÇÃO</text>
+        </svg>
+        <div class="logo-label" style="color: #888;">// SOBRE FUNDO CLARO</div>
+      </div>
+    </div>
+
+    <div class="alert" style="margin-top: 20px;">
+      <p><strong>A diagonal dourada:</strong> representa Rogério Ceni cruzando o campo. É o detalhe que conta a história da marca para quem sabe olhar. Nunca remova, nunca mova, nunca mude a opacidade abaixo de 40%.</p>
+    </div>
+  </section>
+
+  <!-- 06. VOZ -->
+  <section id="voz">
+    <div class="section-tag">06 — VOZ &amp; TOM</div>
+    <div class="section-title">A VOZ<br>DA MARCA</div>
+    <p class="section-desc">Emocional. Dramático. Honesto. Nunca genérico, nunca coach de Instagram. Fala como um cara real que foi a fundo e está se levantando.</p>
+
+    <div class="voice-grid">
+      <div class="voice-item">
+        <div class="voice-badge badge-sim">SIM</div>
+        <div>
+          <div class="voice-title">DRAMÁTICO E REAL</div>
+          <div class="voice-desc">Usa a própria história — o TDAH, as 10 cidades, o pior momento, a família que apareceu. Isso é ouro. Não esconde.</div>
+        </div>
+      </div>
+      <div class="voice-item">
+        <div class="voice-badge badge-sim">SIM</div>
+        <div>
+          <div class="voice-title">JORNADA DO HERÓI</div>
+          <div class="voice-desc">Tensão → luta → aprendizado → virada. Cada post tem um arco. Não é um conselho — é uma história com começo, conflito e resolução.</div>
+        </div>
+      </div>
+      <div class="voice-item">
+        <div class="voice-badge badge-sim">SIM</div>
+        <div>
+          <div class="voice-title">VULNERABILIDADE CALCULADA</div>
+          <div class="voice-desc">Fala de erros e momentos ruins como quem tem distância suficiente para transformar em aprendizado — nunca como vítima.</div>
+        </div>
+      </div>
+      <div class="voice-item">
+        <div class="voice-badge badge-sim">SIM</div>
+        <div>
+          <div class="voice-title">AUTORIDADE PELO SUOR</div>
+          <div class="voice-desc">Não declara autoridade — a demonstra através do resultado concreto e da vivência. O tatame, as 10 cidades, o R$1M gerenciado.</div>
+        </div>
+      </div>
+      <div class="voice-item">
+        <div class="voice-badge badge-nao">NÃO</div>
+        <div>
+          <div class="voice-title">COACH DE INSTAGRAM</div>
+          <div class="voice-desc">Sem "você pode tudo", "acredite nos sonhos", "mindset vence". Qualquer frase que couber em qualquer perfil não cabe aqui.</div>
+        </div>
+      </div>
+      <div class="voice-item">
+        <div class="voice-badge badge-nao">NÃO</div>
+        <div>
+          <div class="voice-title">TECNICISMO HERMÉTICO</div>
+          <div class="voice-desc">Sem lista de siglas sem contexto. Simplifica sem condescender. O cara que entende de Growth escreve para o que não entende — e ambos aprendem.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 2px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--ash); padding: 12px 0; border-top: 1px solid var(--iron);">// EXEMPLOS NA PRÁTICA</div>
+
+    <div class="example-pair">
+      <div class="example-row">
+        <div class="example-badge badge-example-nao">NÃO</div>
+        <div class="example-text">"Growth Marketing é a ciência de aplicar metodologias ágeis ao funil de aquisição para otimizar o CAC/LTV ratio..."</div>
+      </div>
+      <div class="example-row" style="border-top: 2px solid var(--iron);">
+        <div class="example-badge badge-example-sim">SIM</div>
+        <div class="example-text">"Growth é a obsessão por fazer mais com o mesmo dinheiro. É descobrir onde o funil está vazando antes de abrir mais torneira."</div>
+      </div>
+    </div>
+
+    <div class="example-pair">
+      <div class="example-row">
+        <div class="example-badge badge-example-nao">NÃO</div>
+        <div class="example-text">"Tô passando por um momento difícil mas sei que vou superar porque a vida é linda e o universo conspira a favor 🙏"</div>
+      </div>
+      <div class="example-row" style="border-top: 2px solid var(--iron);">
+        <div class="example-badge badge-example-sim">SIM</div>
+        <div class="example-text">"Estou no pior momento profissional da minha vida. Nunca estive tão ferrado. Nunca me senti tão apoiado. Isso me ensinou mais sobre liderança do que qualquer MBA."</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07. CANAIS -->
+  <section id="canais">
+    <div class="section-tag">07 — CANAIS</div>
+    <div class="section-title">IDENTIDADE<br>POR CANAL</div>
+    <p class="section-desc">Mesma marca, linguagens diferentes. A paleta e a tipografia são constantes — o tom e o formato se adaptam.</p>
+
+    <table class="ch-table">
+      <thead>
+        <tr>
+          <th>CANAL</th><th>AUDIÊNCIA</th><th>TOM</th><th>ACENTO</th><th>FORMATO</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="ch-name">LINKEDIN</div></td>
+          <td>Recrutadores, gestores, founders, profissionais de marketing</td>
+          <td>Profissional + jornada do herói. Denso, com dados, com emoção estratégica.</td>
+          <td><span class="tag-gold">// GOLD</span></td>
+          <td>Carrossel técnico, texto longo com gancho, case com resultado</td>
+        </tr>
+        <tr>
+          <td><div class="ch-name">INSTAGRAM</div></td>
+          <td>Profissionais em transição, atletas amadores, pais, pessoas buscando equilíbrio</td>
+          <td>Humano, forte, dramático. Visual brutal com foto real. Texto curto e pesado.</td>
+          <td><span class="tag-fire">// FIRE</span></td>
+          <td>Reel 30-60s, carrossel com foto, Stories diários</td>
+        </tr>
+        <tr>
+          <td><div class="ch-name">SITE</div></td>
+          <td>Potenciais clientes, contratantes, parceiros</td>
+          <td>Autoridade seca. Minimal. Deixa o resultado falar primeiro.</td>
+          <td><span class="tag-bone">// BONE</span></td>
+          <td>Cases com números, skills, contato direto</td>
+        </tr>
+        <tr>
+          <td><div class="ch-name">META ADS</div></td>
+          <td>Profissionais 25-40 em crescimento de carreira ou negócio</td>
+          <td>Gancho brutal na primeira linha. Promessa em 3 segundos. CTA imediato.</td>
+          <td><span class="tag-fire">// FIRE</span></td>
+          <td>Estático 1:1 e 4:5, Reel 9:16, carrossel pago</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 08. REGRAS -->
+  <section id="regras">
+    <div class="section-tag">08 — REGRAS</div>
+    <div class="section-title">O QUE<br>NUNCA FAZER</div>
+    <p class="section-desc">Cada regra protege o que foi construído. Quebrá-las é diluir a marca.</p>
+
+    <div class="rule-row">
+      <div class="rule-num">01</div>
+      <div>
+        <div class="rule-title">NUNCA USE BEBAS NEUE EM MINÚSCULAS</div>
+        <div class="rule-desc">Bebas é all caps por design. Qualquer tentativa de mixed case quebra o caráter industrial. Se precisar de mixed case, use Barlow Condensed.</div>
+      </div>
+    </div>
+    <div class="rule-row">
+      <div class="rule-num">02</div>
+      <div>
+        <div class="rule-title">NUNCA USE MAIS DE 2 ACENTOS SIMULTÂNEOS EM DESTAQUE</div>
+        <div class="rule-desc">Fire + Gold juntos em destaque criam ruído. Escolha um dominante por peça. O segundo pode aparecer em elementos secundários, nunca como protagonista simultâneo.</div>
+      </div>
+    </div>
+    <div class="rule-row">
+      <div class="rule-num">03</div>
+      <div>
+        <div class="rule-title">NUNCA USE FOTOS DE BANCO</div>
+        <div class="rule-desc">A autenticidade da marca é o ativo. Fotos de stock destroem em 1 segundo o que a copy levou 30 slides para construir. Use fotos reais do João — tatame, rotina, família, cidade.</div>
+      </div>
+    </div>
+    <div class="rule-row">
+      <div class="rule-num">04</div>
+      <div>
+        <div class="rule-title">NUNCA ADICIONE BORDAS ARREDONDADAS ACIMA DE 8PX</div>
+        <div class="rule-desc">O brutalismo é quadrado, angular, duro. Border-radius acima de 8px começa a parecer "startup amigável" e quebra o caráter industrial. Elementos de UI: 0px ou 4px. Cards: 6px máximo.</div>
+      </div>
+    </div>
+    <div class="rule-row">
+      <div class="rule-num">05</div>
+      <div>
+        <div class="rule-title">NUNCA TROQUE FIRE POR AZUL, VERDE OU ROXO</div>
+        <div class="rule-desc">A paleta foi construída para ser inconfundível. Desviar para azul LinkedIn ou verde WhatsApp dilui a identidade. O sistema de cores é inegociável.</div>
+      </div>
+    </div>
+    <div class="rule-row">
+      <div class="rule-num">06</div>
+      <div>
+        <div class="rule-title">NUNCA ESCREVA COPY GENÉRICA</div>
+        <div class="rule-desc">Qualquer headline que couber em qualquer outro profissional de Growth não cabe aqui. Use a história real: o TDAH, as 10 cidades, o goleiro que marcou gol, o pior momento, a família que apareceu. Isso é o que ninguém mais tem.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="brand-footer">
+    <div class="footer-copy">// JOÃO GOBIRA · BRAND IDENTITY SYSTEM V2.0 · MAIO 2026</div>
+    <div class="footer-v">CONFIDENCIAL · USO EXCLUSIVO</div>
+  </footer>
+
+</div>
+</body>
+</html>

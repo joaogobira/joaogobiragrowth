@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Carrossel Origem — Jornada do Herói · João Gobira</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+:root {
+  --void:   #080808;
+  --carbon: #101010;
+  --iron:   #1A1A1A;
+  --steel:  #272727;
+  --fire:   #C8391A;
+  --gold:   #B8922A;
+  --bone:   #F0EBE0;
+  --muted:  #7A746C;
+  --text:   #EDE8E0;
+  --sub:    #9A9490;
+  --fd:   'Bebas Neue', sans-serif;
+  --fc:   'Barlow Condensed', sans-serif;
+  --fb:   'Barlow', sans-serif;
+  --fm:   'Space Mono', monospace;
+}
+
+body {
+  background: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 24px;
+}
+
+.preview-info {
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #444;
+  text-align: center;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+}
+
+/* 1080×1350 scaled 0.38 */
+.slide {
+  width: 1080px;
+  height: 1350px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  transform: scale(0.38);
+  transform-origin: top center;
+  margin-bottom: -838px;
+  border: 1px solid #222;
+  background: var(--void);
+}
+
+.sep { width: 411px; height: 2px; background: #222; margin: 0 auto; position: relative; z-index: 99; }
+
+/* ── GRAIN ── */
+.grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+}
+
+/* ── SPLIT BACKGROUND (CAPA) ── */
+.split-bg {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 50%;
+  background-size: cover;
+  background-position: center top;
+  z-index: 1;
+  border-left: 2px solid var(--steel);
+}
+.split-gradient {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 50%;
+  background: linear-gradient(to right, var(--void) 0%, rgba(8,8,8,0) 25%);
+  z-index: 2;
+}
+.split-gradient-bottom {
+  position: absolute;
+  bottom: 0; right: 0; width: 50%; height: 50%;
+  background: linear-gradient(to bottom, rgba(8,8,8,0) 0%, var(--void) 100%);
+  z-index: 3;
+}
+
+/* ── HALF IMAGE (TOP/BOTTOM) ── */
+.image-half { height: 50%; position: relative; overflow: hidden; }
+.image-half img { width: 100%; height: 100%; object-fit: cover; object-position: center top; filter: grayscale(40%) contrast(1.1); }
+.image-half-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, var(--void) 100%); }
+.text-half { height: 50%; padding: 64px 88px 80px 92px; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 30; }
+
+/* ── TAPE ── */
+.tape-v { position: absolute; left: 0; top: 0; bottom: 0; width: 6px; z-index: 10; }
+.tape-v-fire { background: var(--fire); }
+.tape-v-gold { background: var(--gold); }
+.tape-v-bone { background: rgba(240,235,224,0.4); }
+
+.tape-h { position: absolute; left: 0; right: 0; height: 4px; z-index: 10; }
+.tape-h-top { top: 0; }
+.tape-h-bottom { bottom: 0; }
+.tape-h-fire { background: var(--fire); }
+
+/* ── CONTENT WRAPPER ── */
+.cw {
+  position: relative;
+  z-index: 30;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 88px 88px 80px 92px;
+}
+
+/* ── SLIDE NUMBER ── */
+.slide-no {
+  position: absolute;
+  top: 64px; right: 72px;
+  font-family: var(--fm);
+  font-size: 18px;
+  color: var(--steel);
+  letter-spacing: 2px;
+  z-index: 40;
+}
+
+/* ── TYPE HELPERS ── */
+.mono-tag {
+  font-family: var(--fm);
+  font-size: 18px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--fire);
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.mono-tag::before { content: '//'; color: var(--steel); }
+.mono-tag.gold { color: var(--gold); }
+.mono-tag.bone { color: var(--bone); }
+
+.h-line { width: 64px; height: 4px; margin-bottom: 40px; }
+.h-line-fire { background: var(--fire); }
+.h-line-gold { background: var(--gold); }
+.h-line-bone { background: rgba(240,235,224,0.4); }
+
+/* MASSIVE DISPLAY */
+.disp-large {
+  font-family: var(--fd);
+  font-size: 120px;
+  line-height: 0.92;
+  letter-spacing: 2px;
+  color: var(--bone);
+  margin-bottom: 40px;
+}
+.disp-large em { color: var(--fire); font-style: normal; }
+
+.disp-medium {
+  font-family: var(--fd);
+  font-size: 96px;
+  line-height: 0.95;
+  letter-spacing: 2px;
+  color: var(--bone);
+  margin-bottom: 32px;
+}
+.disp-medium em { color: var(--fire); font-style: normal; }
+.disp-medium .gold { color: var(--gold); }
+
+/* BODY */
+.body-copy {
+  font-family: var(--fb);
+  font-size: 38px;
+  font-weight: 300;
+  color: var(--sub);
+  line-height: 1.5;
+  max-width: 860px;
+}
+.body-copy strong { color: var(--text); font-weight: 500; }
+.body-copy em { color: var(--fire); font-style: normal; }
+
+.author-badge { display: flex; align-items: center; gap: 24px; margin-top: 48px; padding: 20px 40px 20px 20px; background: rgba(26,26,26,0.85); border: 2px solid var(--steel); width: fit-content; }
+.author-avatar { width: 88px; height: 88px; border-radius: 50%; border: 3px solid var(--fire); object-fit: cover; }
+.author-name-text { font-family: var(--fd); font-size: 36px; color: var(--bone); letter-spacing: 1px; }
+.author-role-text { font-family: var(--fm); font-size: 14px; color: var(--fire); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+.body-copy strong { color: var(--text); font-weight: 500; }
+.body-copy em { color: var(--fire); font-style: normal; }
+
+/* QUOTE BLOCK */
+.quote-mark {
+  font-family: var(--fd);
+  font-size: 160px;
+  color: var(--fire);
+  line-height: 0.7;
+  opacity: 0.25;
+  margin-left: -16px;
+}
+.quote-text {
+  font-family: var(--fd);
+  font-size: 96px;
+  line-height: 0.92;
+  letter-spacing: 1px;
+  color: var(--bone);
+}
+.quote-text em { color: var(--gold); font-style: normal; }
+
+/* STAT ROW */
+.stat-row {
+  display: flex;
+  gap: 64px;
+  align-items: flex-end;
+  margin: 40px 0;
+  padding: 40px 0;
+  border-top: 2px solid var(--iron);
+  border-bottom: 2px solid var(--iron);
+}
+.stat-num { font-family: var(--fd); font-size: 72px; color: var(--fire); line-height: 0.9; }
+.stat-num.gold { color: var(--gold); }
+.stat-label { font-family: var(--fm); font-size: 16px; color: var(--muted); letter-spacing: 2px; margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<div class="preview-info">Carrossel Instagram 1080×1350 — "Jornada do Herói" · 5 Slides</div>
+
+<!-- SLIDE 1: CAPA -->
+<div class="slide">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="tape-h tape-h-top tape-h-fire"></div>
+
+  <div class="split-bg" style="background-image: url('../joao-gobira.JPG'); filter: grayscale(30%) contrast(1.1) brightness(0.9);"></div>
+  <div class="split-gradient"></div>
+  <div class="split-gradient-bottom"></div>
+
+  <div class="slide-no">01/05</div>
+
+  <div class="cw" style="width: 55%; padding-right: 0; justify-content: flex-end; padding-bottom: 120px; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 40px;">ORIGEM</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-large" style="margin-bottom: 48px; font-size: 110px;">
+      O LÍDER QUE<br>NINGUÉM<br>PARA PARA<br><em>APLAUDIR.</em>
+    </div>
+
+    <div class="body-copy" style="border-top: 2px solid var(--iron); padding-top: 40px;">
+      Esse <strong>sempre fui eu.</strong>
+    </div>
+
+    <div class="author-badge">
+      <img src="../joao-gobira.JPG" alt="João Gobira" class="author-avatar">
+      <div>
+        <div class="author-name-text">JOÃO GOBIRA</div>
+        <div class="author-role-text">// Growth · Gestão</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- SLIDE 2: TEXTO SÓLIDO (Sem foto para não repetir) -->
+<div class="slide" style="background: var(--carbon);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">02/05</div>
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 40px;">O PONTO DE PARTIDA</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-medium" style="margin-bottom: 40px; font-size: 104px;">
+      A VANTAGEM DE<br>LARGAR <em>ATRÁS.</em>
+    </div>
+
+    <div class="body-copy">
+      Escola pública e diagnóstico de TDAH. No futebol, eu era o goleiro só porque a vaga estava vazia. Acostumei a jogar na desvantagem.<br><br>
+      Foi ali que aprendi a principal lição de Growth: <strong>quando não há dom natural, você compensa com repetição obsessiva e visão de jogo.</strong>
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 3: FOTO TEMA (Rogério Ceni) COM SPLIT TOP/BOTTOM -->
+<div class="slide" style="background: var(--void); display: flex; flex-direction: column;">
+  <div class="grain" style="z-index: 60;"></div>
+  <div class="tape-v tape-v-gold" style="z-index: 70;"></div>
+
+  <div class="image-half">
+    <img src="../Rogério Ceni levantando taça do mundial.jpg" alt="Rogério Ceni">
+    <div class="image-half-overlay"></div>
+    <div style="position:absolute;top:56px;right:72px;font-family:'Space Mono',monospace;font-size:18px;color:#444;letter-spacing:2px;z-index:10;">03/05</div>
+  </div>
+
+  <div class="text-half">
+    <div class="tape-h tape-h-top tape-h-fire" style="top: 0; background: var(--gold);"></div>
+    <div class="mono-tag gold" style="margin-bottom: 28px;">A VIRADA</div>
+
+    <div class="disp-medium" style="font-size: 84px; line-height: 0.95; margin-bottom: 24px;">
+      A FUNÇÃO <span class="gold">NÃO DEFINE</span><br>O LIMITE.
+    </div>
+
+    <div class="body-copy">
+      O dia que vi um goleiro atravessar o campo para fazer gol, tudo mudou.<br>
+      <strong>A regra do jogo não importa quando você decide resolver o problema.</strong>
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 4: TEXTO SÓLIDO -->
+<div class="slide" style="background: var(--carbon);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="tape-h tape-h-bottom tape-h-fire" style="height: 3px;"></div>
+  <div class="slide-no">04/05</div>
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 40px;">A QUEDA LIVRE</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-medium" style="font-size: 100px; margin-bottom: 40px;">
+      O PIOR ANO<br>DA MINHA <em>CARREIRA.</em>
+    </div>
+
+    <div class="body-copy">
+      Quase um ano desempregado. O mercado fechado e a pressão de não prover corroía minha confiança.<br><br>
+      O que me tirou do buraco não foi um MBA. Foi minha família segurando a corda para eu não cair no precipício.<br><br>
+      <strong>Liderança real não se aprende em planilhas. Ela nasce no caos e no cuidado com quem está na trincheira com você.</strong>
+    </div>
+
+    <!-- STATS -->
+    <div class="stat-row">
+      <div class="stat-item">
+        <div class="stat-num">12</div>
+        <div class="stat-label">ANOS DE GROWTH</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num gold">∞</div>
+        <div class="stat-label">RAZÕES PARA SEGUIR</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 5: CTA -->
+<div class="slide" style="background: var(--fire);">
+  <div class="grain" style="opacity: 0.4;"></div>
+  <div class="tape-v tape-v-bone"></div>
+  <div class="tape-h tape-h-top" style="background: rgba(240,235,224,0.2);"></div>
+
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 100%, rgba(0,0,0,0.4) 0%, transparent 60%);z-index:3; pointer-events:none;"></div>
+
+  <div class="slide-no" style="color: rgba(240,235,224,0.3);">05/05</div>
+
+  <div class="cw" style="justify-content: center; gap: 0; position: relative; z-index: 20;">
+    <div class="mono-tag bone" style="margin-bottom: 48px;">MISSÃO</div>
+    <div class="h-line h-line-bone"></div>
+
+    <div class="disp-large" style="font-size: 140px; margin-bottom: 48px;">
+      O RECOMEÇO.
+    </div>
+
+    <div class="body-copy" style="color: rgba(240,235,224,0.85); margin-bottom: 40px; border-top: 2px solid rgba(240,235,224,0.3); padding-top: 40px;">
+      33 anos. Pai. Lutador.<br>
+      12 anos construindo máquinas de Growth.<br><br>
+      Tudo começa de novo, e <strong style="color: var(--bone);">todo o processo será 100% público.</strong>
+    </div>
+
+    <div style="display: flex; gap: 24px; flex-wrap: wrap; align-items: center; margin-bottom: 40px;">
+      <div style="font-family: var(--fc); font-size: 28px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--bone); background: rgba(0,0,0,0.3); padding: 20px 36px;">
+        SALVE A JORNADA ↗
+      </div>
+    </div>
+    
+    <div class="author-badge" style="background: rgba(26,26,26,0.3); border-color: rgba(240,235,224,0.3); margin-top: 0;">
+      <img src="../joao-gobira.JPG" alt="João Gobira" class="author-avatar" style="border-color: var(--bone);">
+      <div>
+        <div class="author-name-text">JOÃO GOBIRA</div>
+        <div class="author-role-text" style="color: var(--bone);">// Growth · Gestão</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

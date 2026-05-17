@@ -2,219 +2,248 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Carrossel LinkedIn - TagServer</title>
+<title>Carrossel LinkedIn Parque Aquático</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap');
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
 
 :root {
-  --bg-void: #050505;
-  --bg-panel: #0f0f0f;
-  --bg-card: #161616;
-  --acid-lime: #c8ff00;
-  --neon-crimson: #ff4a4a;
-  --text-main: #ffffff;
-  --text-muted: #8a8a8a;
-  --font-disp: 'Space Grotesk', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --void:   #080808;
+  --carbon: #101010;
+  --iron:   #1A1A1A;
+  --steel:  #272727;
+  --fire:   #C8391A;
+  --gold:   #B8922A;
+  --bone:   #F0EBE0;
+  --muted:  #7A746C;
+  --text:   #EDE8E0;
+  --sub:    #9A9490;
+  --fd: 'Bebas Neue', sans-serif;
+  --fc: 'Barlow Condensed', sans-serif;
+  --fb: 'Barlow', sans-serif;
+  --fm: 'Space Mono', monospace;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
-
 body {
-  font-family: var(--font-disp);
   background: #111;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 20px;
-  gap: 30px;
+  padding: 48px 24px;
+}
+
+.preview-info {
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #444;
+  text-align: center;
+  margin-bottom: 32px;
+  text-transform: uppercase;
 }
 
 .slide {
   width: 1080px;
   height: 1080px;
-  background: var(--bg-void);
+  background: var(--void);
   position: relative;
   flex-shrink: 0;
   transform: scale(0.5);
   transform-origin: top center;
   margin-bottom: -540px;
   overflow: hidden;
-  color: var(--text-main);
   border: 1px solid #222;
 }
 
-/* GRIDS & DECORATIONS */
-.grid-lines {
+.sep { width: 411px; height: 2px; background: #222; margin: 0 auto; position: relative; z-index: 99; }
+
+.grain {
   position: absolute;
   inset: 0;
-  background-image: 
-    linear-gradient(to right, #1a1a1a 1px, transparent 1px),
-    linear-gradient(to bottom, #1a1a1a 1px, transparent 1px);
-  background-size: 120px 120px;
-  opacity: 0.5;
-  z-index: 0;
-}
-.accent-bar {
-  position: absolute;
-  top: 0;
-  left: 64px;
-  width: 8px;
-  height: 120px;
-  background: var(--acid-lime);
-  z-index: 10;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.7;
+  mix-blend-mode: overlay;
 }
 
-/* TYPOGRAPHY */
-.tag-mono {
-  font-family: var(--font-mono);
-  font-size: 16px;
-  text-transform: uppercase;
+.photo-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-size: cover;
+  background-position: center top;
+}
+
+.photo-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    to bottom,
+    rgba(8,8,8,0.2) 0%,
+    rgba(8,8,8,0.45) 35%,
+    rgba(8,8,8,0.88) 65%,
+    rgba(8,8,8,0.98) 100%
+  );
+}
+
+.photo-overlay-mid {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    to bottom,
+    rgba(8,8,8,0.5) 0%,
+    rgba(8,8,8,0.3) 50%,
+    rgba(8,8,8,0.95) 80%,
+    rgba(8,8,8,1) 100%
+  );
+}
+
+.tape-v { position: absolute; left: 0; top: 0; bottom: 0; width: 5px; z-index: 10; }
+.tape-v-fire { background: var(--fire); }
+.tape-v-gold { background: var(--gold); }
+
+.tape-h { position: absolute; left: 0; right: 0; height: 4px; z-index: 10; }
+.tape-h-top { top: 0; }
+.tape-h-bottom { bottom: 0; }
+.tape-h-fire { background: var(--fire); }
+
+.cw {
+  position: relative;
+  z-index: 30;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 88px 88px 80px 92px;
+}
+
+.slide-no {
+  position: absolute;
+  top: 64px; right: 72px;
+  font-family: var(--fm);
+  font-size: 18px;
+  color: var(--steel);
   letter-spacing: 2px;
-  color: var(--acid-lime);
-  display: inline-flex;
+  z-index: 40;
+}
+
+.mono-tag {
+  font-family: var(--fm);
+  font-size: 18px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--fire);
+  margin-bottom: 40px;
+  display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 32px;
 }
-.tag-mono::before {
-  content: ''; display: inline-block; width: 12px; height: 12px; background: var(--acid-lime);
-}
-.headline-massive {
-  font-size: 84px; font-weight: 700; line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px;
-}
-.headline-large {
-  font-size: 64px; font-weight: 700; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 32px;
-}
-.text-body {
-  font-size: 32px; line-height: 1.5; color: var(--text-muted); max-width: 800px;
-}
-.text-body strong { color: var(--text-main); font-weight: 600; }
-.highlight-lime { color: var(--acid-lime); }
-.highlight-red { color: var(--neon-crimson); }
-.highlight-muted { color: #555; }
+.mono-tag::before { content: '//'; color: var(--steel); }
+.mono-tag.gold { color: var(--gold); }
+.mono-tag.gold::before { color: var(--steel); }
 
-/* SLIDE STRUCTURE */
-.content-wrapper {
-  position: relative; z-index: 5; padding: 80px 64px; height: 100%; display: flex; flex-direction: column;
-}
-.slide-number {
-  position: absolute; bottom: 80px; right: 64px; font-family: var(--font-mono); font-size: 120px;
-  font-weight: 800; color: rgba(255,255,255,0.03); line-height: 0.8; z-index: 1;
-}
+.h-line { width: 64px; height: 4px; margin-bottom: 40px; }
+.h-line-fire { background: var(--fire); }
+.h-line-gold { background: var(--gold); }
 
-/* LAYOUT VARIATIONS */
+.disp-large {
+  font-family: var(--fd);
+  font-size: 108px;
+  line-height: 0.92;
+  letter-spacing: 2px;
+  color: var(--bone);
+  margin-bottom: 40px;
+}
+.disp-large em { color: var(--fire); font-style: normal; }
 
-.layout-capa .split-img {
-  position: absolute; right: 0; top: 0; width: 45%; height: 100%; object-fit: cover;
-  filter: grayscale(100%) contrast(1.2); opacity: 0.8; mix-blend-mode: luminosity;
-  background: #222;
+.disp-medium {
+  font-family: var(--fd);
+  font-size: 88px;
+  line-height: 0.93;
+  letter-spacing: 2px;
+  color: var(--bone);
+  margin-bottom: 36px;
 }
-.layout-capa .img-overlay {
-  position: absolute; right: 0; top: 0; width: 45%; height: 100%;
-  background: linear-gradient(90deg, var(--bg-void) 0%, transparent 100%); z-index: 2;
-}
-.layout-capa .author-badge {
-  margin-top: auto; display: inline-flex; align-items: center; gap: 20px;
-  background: var(--bg-panel); padding: 16px 32px 16px 16px; border-radius: 100px; border: 1px solid #333;
-}
-.author-badge img {
-  width: 64px; height: 64px; border-radius: 50%; border: 2px solid var(--acid-lime); object-fit: cover;
-}
-.author-info { display: flex; flex-direction: column; }
-.author-name { font-size: 20px; font-weight: 700; }
-.author-role { font-family: var(--font-mono); font-size: 14px; color: var(--acid-lime); }
+.disp-medium em { color: var(--fire); font-style: normal; }
+.disp-medium .gold { color: var(--gold); }
 
-.layout-data .data-number {
-  font-size: 240px; font-weight: 700; color: var(--acid-lime); line-height: 1; letter-spacing: -8px; margin: auto 0;
+.body-copy {
+  font-family: var(--fb);
+  font-size: 38px;
+  font-weight: 300;
+  color: var(--sub);
+  line-height: 1.6;
+  max-width: 880px;
 }
-.layout-data .data-label {
-  font-family: var(--font-mono); font-size: 32px; color: var(--text-main); text-transform: uppercase;
-}
+.body-copy strong { color: var(--text); font-weight: 500; }
+.body-copy em { color: var(--fire); font-style: normal; }
 
-.layout-vs .vs-container {
-  display: flex; gap: 40px; margin-top: 40px; flex: 1;
+.body-large {
+  font-family: var(--fb);
+  font-size: 44px;
+  font-weight: 300;
+  color: var(--sub);
+  line-height: 1.55;
+  max-width: 860px;
 }
-.vs-col {
-  flex: 1; background: var(--bg-card); padding: 48px 40px; border-radius: 24px;
-  border-top: 4px solid #333; display: flex; flex-direction: column; gap: 24px;
-}
-.vs-col.winner { border-top-color: var(--acid-lime); background: #0f1400; }
-.vs-title { font-size: 32px; font-weight: 700; }
-.vs-col.winner .vs-title { color: var(--acid-lime); }
-.vs-item { font-size: 24px; color: var(--text-muted); display: flex; gap: 16px; align-items: flex-start;}
-.vs-item::before { content: '✕'; color: var(--neon-crimson); font-family: var(--font-mono); font-weight: 800; font-size: 28px; line-height: 1;}
-.vs-col.winner .vs-item::before { content: '✓'; color: var(--acid-lime); }
-.vs-col.winner .vs-item { color: var(--text-main); }
+.body-large strong { color: var(--text); font-weight: 500; }
 
-.layout-steps .step-list {
-  margin-top: 40px; display: flex; flex-direction: column; gap: 32px;
-}
-.step-item {
-  display: flex; align-items: flex-start; gap: 32px; background: var(--bg-card);
-  padding: 32px; border-radius: 16px; border-left: 4px solid var(--acid-lime);
-}
-.step-num {
-  font-family: var(--font-mono); font-size: 48px; color: var(--acid-lime); font-weight: 800; line-height: 1;
-}
-.step-text { font-size: 28px; line-height: 1.4; color: var(--text-main); }
-
-.layout-quote .quote-mark {
-  font-size: 160px; font-family: var(--font-mono); color: var(--acid-lime); line-height: 0; margin-top: 80px;
-}
-.layout-quote .quote-text {
-  font-size: 56px; font-weight: 600; line-height: 1.2; color: var(--text-main); margin-top: 40px;
+.quote-mark {
+  font-family: var(--fd);
+  font-size: 160px;
+  color: var(--fire);
+  line-height: 0.7;
+  opacity: 0.22;
+  margin-left: -16px;
 }
 
-.layout-cta { text-align: center; justify-content: center; align-items: center; }
-.layout-cta .content-wrapper { padding-top: 160px; align-items: center; }
-.layout-cta .accent-bar { display: none; }
+.quote-text {
+  font-family: var(--fd);
+  font-size: 80px;
+  line-height: 0.96;
+  letter-spacing: 1px;
+  color: var(--bone);
+}
+.quote-text em { color: var(--fire); font-style: normal; }
+
+.step-list { display: flex; flex-direction: column; gap: 0; margin-top: 40px; }
+.step-item { display: flex; align-items: flex-start; gap: 32px; padding: 36px 0; border-bottom: 2px solid var(--iron); }
+.step-item:first-child { border-top: 2px solid var(--iron); }
+.step-num { font-family: var(--fd); font-size: 72px; color: var(--fire); line-height: 1; min-width: 56px; }
+.step-text { font-family: var(--fc); font-size: 44px; font-weight: 700; color: var(--text); line-height: 1.2; padding-top: 8px; }
+
+.vs-col { padding: 40px 44px; border-left: 5px solid var(--iron); display: flex; flex-direction: column; gap: 20px; }
+.vs-col.bad { border-left-color: var(--fire); background: rgba(200,57,26,0.06); }
+.vs-col.good { border-left-color: var(--gold); background: rgba(184,146,42,0.06); }
+.vs-col-title { font-family: var(--fd); font-size: 48px; letter-spacing: 1px; }
+.vs-col.bad .vs-col-title { color: var(--fire); }
+.vs-col.good .vs-col-title { color: var(--gold); }
+.vs-item { font-family: var(--fb); font-size: 36px; font-weight: 300; color: var(--sub); line-height: 1.5; }
+.vs-col.bad .vs-item::before { content: '✕ '; color: var(--fire); font-weight: 500; font-family: var(--fm); }
+.vs-col.good .vs-item::before { content: '✓ '; color: var(--gold); font-weight: 500; font-family: var(--fm); }
+
+.author-badge { display: flex; align-items: center; gap: 24px; margin-top: 48px; padding: 20px 40px 20px 20px; background: rgba(26,26,26,0.85); border: 2px solid var(--steel); width: fit-content; }
+.author-avatar { width: 88px; height: 88px; border-radius: 50%; border: 3px solid var(--fire); object-fit: cover; }
+.author-name-text { font-family: var(--fd); font-size: 36px; color: var(--bone); letter-spacing: 1px; }
+.author-role-text { font-family: var(--fm); font-size: 14px; color: var(--fire); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+
+.stat-block { display: flex; align-items: flex-end; gap: 24px; margin: 40px 0; }
+.stat-num { font-family: var(--fd); font-size: 160px; color: var(--fire); letter-spacing: 2px; line-height: 0.9; }
+.stat-num.gold { color: var(--gold); }
+.stat-label { font-family: var(--fm); font-size: 24px; color: var(--sub); letter-spacing: 2px; text-transform: uppercase; padding-bottom: 24px; }
+
 .btn-cta {
-  display: inline-block; margin-top: 60px; background: var(--acid-lime); color: #000;
-  font-family: var(--font-mono); font-size: 32px; font-weight: 800; text-transform: uppercase;
-  letter-spacing: 2px; padding: 32px 64px; text-decoration: none; border-radius: 4px;
+  display: inline-block; margin-top: 80px; background: var(--fire); color: var(--bone);
+  font-family: var(--fd); font-size: 48px; text-transform: uppercase; letter-spacing: 2px;
+  padding: 32px 80px; text-decoration: none; border: 2px solid transparent;
 }
-
-.custom-chart {
-  background: var(--bg-card); border-radius: 16px; padding: 32px 40px;
-  border: 1px solid #333; width: 100%; margin-top: 40px; font-family: var(--font-disp);
-}
-.chart-header {
-  display: flex; justify-content: space-between; border-bottom: 1px solid #222;
-  padding-bottom: 16px; margin-bottom: 24px;
-}
-.chart-title {
-  font-family: var(--font-mono); color: var(--text-muted); font-size: 16px;
-  letter-spacing: 2px; text-transform: uppercase;
-}
-.chart-legend {
-  display: flex; justify-content: flex-end; gap: 24px; margin-bottom: 32px; font-size: 18px;
-}
-.legend-item { display: flex; align-items: center; gap: 8px; }
-.legend-color { width: 16px; height: 16px; border-radius: 4px; }
-.legend-color.off { background: #333; }
-.legend-color.on { background: var(--acid-lime); }
-.chart-row { display: flex; align-items: center; margin-bottom: 24px; }
-.chart-row:last-child { margin-bottom: 0; }
-.chart-label {
-  width: 200px; font-size: 18px; color: var(--text-muted); text-align: right; padding-right: 24px;
-}
-.chart-bars {
-  flex: 1; border-left: 1px dashed #333; padding-left: 24px;
-  display: flex; flex-direction: column; gap: 12px; position: relative;
-}
-.chart-bars::before {
-  content: ''; position: absolute; inset: 0;
-  background-image: linear-gradient(to right, transparent 99%, #222 100%);
-  background-size: 20% 100%; z-index: 0; pointer-events: none;
-}
-.bar { height: 32px; border-radius: 4px; z-index: 1; }
-.bar.off { background: #333; }
-.bar.on { background: var(--acid-lime); box-shadow: 0 0 20px rgba(200, 255, 0, 0.1); }
 
 @media print {
   @page { size: 1080px 1080px; margin: 0; }
-  body { background: var(--bg-void) !important; padding: 0 !important; gap: 0 !important; display: block !important; }
+  body { background: var(--void) !important; padding: 0 !important; display: block !important; }
   .slide { transform: none !important; margin: 0 !important; page-break-after: always; break-after: page; border: none !important; }
   .slide:last-of-type { page-break-after: auto; break-after: auto; }
 }
@@ -222,189 +251,252 @@ body {
 </head>
 <body>
 
+<div class="preview-info">Carrossel LinkedIn 1080x1080 Parque Aquático (V2) 9 Slides</div>
+
 <!-- SLIDE 1: CAPA -->
-<div class="slide layout-capa">
-  <div class="grid-lines"></div>
-  <div class="accent-bar"></div>
-  
-  <img src="../../joao-gobira.JPG" class="split-img" alt="João Gobira">
-  <div class="img-overlay"></div>
-  
-  <div class="content-wrapper" style="width: 65%;">
-    <div class="tag-mono">Case de Sucesso</div>
-    <div class="headline-massive">O Fim do <span class="highlight-lime">Achismo.</span></div>
-    <div class="text-body">Como aumentamos em <strong>47% as vendas atribuídas</strong> de um Parque Aquático.</div>
-    
-    <div class="author-badge" style="margin-top: auto; margin-bottom: 20px;">
-      <img src="../../joao-gobira.JPG" alt="João Gobira">
-      <div class="author-info">
-        <div class="author-name">João Gobira</div>
-        <div class="author-role">/// TagServer</div>
+<div class="slide">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="tape-h tape-h-top tape-h-fire"></div>
+
+  <div class="photo-bg" style="background-image: url('../DSC08278.png'); background-position: center 20%; filter: grayscale(30%) contrast(1.1) brightness(0.9);"></div>
+  <div class="photo-overlay"></div>
+
+  <div class="slide-no">01/09</div>
+
+  <div class="cw" style="justify-content: flex-end; padding-bottom: 120px; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 32px;">CASE DE SUCESSO</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-large" style="font-size: 104px; line-height: 0.9; margin-bottom: 32px;">
+      O FIM DO<br><em>ACHISMO.</em>
+    </div>
+
+    <div class="body-copy" style="font-size: 34px;">
+      Como aumentamos em <strong>47% as vendas atribuídas</strong> do Maior Parque Aquático de SP.
+    </div>
+
+    <div class="author-badge">
+      <img src="../joao-gobira.JPG" alt="João Gobira" class="author-avatar">
+      <div>
+        <div class="author-name-text">JOÃO GOBIRA</div>
+        <div class="author-role-text">// Growth · Gestão</div>
       </div>
     </div>
-    
-    <div class="tag-mono">👉 Arraste para ver o caso completo</div>
+
   </div>
 </div>
+<div class="sep"></div>
 
 <!-- SLIDE 2: O PROBLEMA -->
-<div class="slide layout-quote">
-  <div class="grid-lines"></div>
-  <div class="slide-number">02</div>
-  <div class="content-wrapper">
-    <div class="tag-mono">A Dor</div>
-    <div class="headline-large">O vazamento de <span class="highlight-red">dados.</span></div>
-    <div class="text-body" style="font-size: 28px;">
-      O Parque usava rastreamento convencional (Pixel). Com as restrições:
-      <br><br>
-      • <span class="highlight-red">~35% das vendas</span> descartadas pelo algoritmo<br>
-      • Apenas uma fração dos dados chegava à mídia<br>
-      • Decisões tomadas completamente no escuro
+<div class="slide" style="background: var(--carbon);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">02/09</div>
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 48px;">O VAZAMENTO</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-medium" style="font-size: 96px; line-height: 0.94; margin-bottom: 48px;">
+      O SEU PIXEL<br>ESTÁ <em>CEGO.</em>
     </div>
-    
-    <div class="custom-chart">
-      <div class="chart-header">
-        <div class="chart-title">Pixel Convencional vs TagServer</div>
-        <div style="color: var(--acid-lime); font-size: 20px;">↗</div>
+
+    <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
+      O Parque usava o rastreamento convencional.<br><br>
+      As vendas aconteciam, mas cerca de <strong>35% delas eram perdidas pelo algoritmo</strong> devido a bloqueadores e atualizações da Apple. O orçamento estava sendo queimado no escuro.
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 3: DIAGNÓSTICO -->
+<div class="slide" style="background: var(--void);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-gold"></div>
+  <div class="slide-no" style="color: var(--steel);">03/09</div>
+
+  <div class="cw" style="justify-content: flex-start; padding-top: 100px; gap: 0;">
+    <div class="mono-tag gold" style="margin-bottom: 32px;">DIAGNÓSTICO</div>
+
+    <div class="disp-medium" style="margin-bottom: 48px;">
+      O PROBLEMA NÃO ERA A<br>VERBA. <span class="gold">ERA A LEITURA.</span>
+    </div>
+
+    <div style="display: flex; gap: 40px; margin-top: 16px;">
+      <div class="vs-col bad" style="flex: 1;">
+        <div class="vs-col-title">PIXEL TRADICIONAL</div>
+        <div class="vs-item">Bloqueado pelo iOS</div>
+        <div class="vs-item">Restrições de cookies</div>
+        <div class="vs-item">Mídia cega para vendas reais</div>
       </div>
-      <div class="chart-legend">
-        <div class="legend-item"><div class="legend-color off"></div><span style="color: #666;">Apenas Pixel</span></div>
-        <div class="legend-item"><div class="legend-color on"></div><span style="color: var(--acid-lime); font-weight: 600;">Com TagServer</span></div>
+      <div class="vs-col good" style="flex: 1;">
+        <div class="vs-col-title" style="color: var(--gold);">SERVER-SIDE</div>
+        <div class="vs-item">Eventos diretos do servidor</div>
+        <div class="vs-item">Imune a bloqueadores</div>
+        <div class="vs-item">Dados precisos e seguros</div>
       </div>
-      
-      <div class="chart-row">
-        <div class="chart-label">Eventos Totais</div>
-        <div class="chart-bars">
-          <div class="bar off" style="width: 25%;"></div>
-          <div class="bar on" style="width: 95%;"></div>
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 4: A SOLUÇÃO -->
+<div class="slide" style="background: var(--carbon);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">04/09</div>
+
+  <div class="cw" style="justify-content: flex-start; padding-top: 100px; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 32px;">INFRAESTRUTURA</div>
+
+    <div class="disp-medium" style="margin-bottom: 0px;">
+      A TECNOLOGIA<br><em>TAGSERVER.</em>
+    </div>
+
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-text" style="font-family: var(--fb); font-weight: 400; font-size: 36px; color: var(--sub);">
+          <strong style="color: var(--text); display: block; font-family: var(--fc); font-size: 48px; margin-bottom: 8px;">Rastreamento Direto</strong>
+          Eventos enviados diretamente da nuvem, eliminando a fragilidade do navegador do cliente.
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-text" style="font-family: var(--fb); font-weight: 400; font-size: 36px; color: var(--sub);">
+          <strong style="color: var(--text); display: block; font-family: var(--fc); font-size: 48px; margin-bottom: 8px;">Blindagem Absoluta</strong>
+          Imunidade às regras do iOS 14 e AdBlockers, garantindo a captura do dado real da venda.
         </div>
       </div>
     </div>
   </div>
 </div>
+<div class="sep"></div>
 
-<!-- SLIDE 3: DIAGNÓSTICO -->
-<div class="slide layout-vs">
-  <div class="grid-lines"></div>
-  <div class="slide-number">03</div>
-  <div class="content-wrapper">
-    <div class="tag-mono">Diagnóstico</div>
-    <div class="headline-large">O problema não era investimento. <span class="highlight-lime">Era leitura.</span></div>
-    
-    <div class="vs-container">
-      <div class="vs-col">
-        <div class="vs-title">Pixel Tradicional</div>
-        <div class="vs-item">Bloqueado por iOS e AdBlockers</div>
-        <div class="vs-item">Restrições de cookies</div>
-        <div class="vs-item">Mídia cega para conversões reais</div>
-      </div>
-      <div class="vs-col winner">
-        <div class="vs-title">Tracking Server-Side</div>
-        <div class="vs-item">Eventos enviados direto do servidor</div>
-        <div class="vs-item">Imune a bloqueios</div>
-        <div class="vs-item">Dados completos e confiáveis</div>
-      </div>
+<!-- SLIDE 5: DADOS RECUPERADOS -->
+<div class="slide" style="background: var(--void);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-gold"></div>
+  <div class="slide-no" style="color: var(--steel);">05/09</div>
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag gold" style="margin-bottom: 40px;">O IMPACTO</div>
+    <div class="h-line h-line-gold"></div>
+
+    <div class="stat-block" style="margin: 40px 0;">
+      <div class="stat-num gold">165.5K</div>
+      <div class="stat-label">Eventos Recuperados.</div>
+    </div>
+
+    <div class="body-copy" style="font-size: 36px; margin-bottom: 48px; max-width: 800px;">
+      Ao blindar a estrutura com o TagServer, recuperamos 165.5K eventos reais que eram descartados.<br><br>
+      Na prática, <strong>o algoritmo do Meta finalmente saiu do escuro.</strong>
     </div>
   </div>
 </div>
+<div class="sep"></div>
 
-<!-- SLIDE 4: A SOLUÇÃO -->
-<div class="slide layout-steps">
-  <div class="grid-lines"></div>
-  <div class="slide-number">04</div>
-  <div class="content-wrapper">
-    <div class="tag-mono">A Solução</div>
-    <div class="headline-large">A infraestrutura <span class="highlight-lime">TagServer.</span></div>
-    <div class="text-body">Substituímos o pixel frágil por infraestrutura server-side de alto nível:</div>
-    
-    <div class="step-list">
-      <div class="step-item">
-        <div class="step-num">1</div>
-        <div class="step-text"><strong>Rastreamento Direto:</strong> Dados enviados do servidor, sem intermediários.</div>
-      </div>
-      <div class="step-item">
-        <div class="step-num">2</div>
-        <div class="step-text"><strong>Enriquecimento:</strong> Inteligência First-Party para qualificar o envio.</div>
-      </div>
-      <div class="step-item">
-        <div class="step-num">3</div>
-        <div class="step-text"><strong>Blindagem:</strong> Imunidade contra atualizações da Apple e bloqueadores de anúncios.</div>
-      </div>
+<!-- SLIDE 6: VENDAS REAIS -->
+<div class="slide" style="background: var(--carbon);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">06/09</div>
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 40px;">A MÁGICA DOS DADOS</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="stat-block" style="margin: 40px 0;">
+      <div class="stat-num">+47%</div>
+      <div class="stat-label">VENDAS REAIS.</div>
+    </div>
+
+    <div class="body-copy" style="font-size: 36px; margin-bottom: 48px; max-width: 800px;">
+      Inteligência artificial precisa de volume de dados.<br><br>
+      Ao injetar a carga completa no sistema, não apenas medimos melhor: nós <strong>ensinamos o algoritmo a caçar compradores qualificados</strong>.
     </div>
   </div>
 </div>
+<div class="sep"></div>
 
-<!-- SLIDE 5: RESULTADO EM DADOS -->
-<div class="slide layout-data">
-  <div class="grid-lines"></div>
-  <div class="slide-number">05</div>
-  <div class="content-wrapper">
-    <div class="tag-mono">A Mágica dos Dados</div>
-    <div class="data-number" style="font-size: 200px;">165.5k</div>
-    <div class="data-label">Eventos recuperados.</div>
-    <div class="text-body" style="margin-top: 32px;">
-      O que antes era invisível para o Meta Ads, voltou a aparecer.<br><br>
-      <span class="highlight-lime">✔ 165.5k eventos capturados com TagServer</span><br>
-      <span class="highlight-red">✖ 45.9k eventos com Pixel convencional</span>
+<!-- SLIDE 7: CUSTO -->
+<div class="slide" style="background: var(--void);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-gold"></div>
+  <div class="slide-no" style="color: var(--steel);">07/09</div>
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag gold" style="margin-bottom: 40px;">A OTIMIZAÇÃO</div>
+    <div class="h-line h-line-gold"></div>
+
+    <div class="stat-block" style="margin: 40px 0;">
+      <div class="stat-num gold">-29%</div>
+      <div class="stat-label">CUSTO POR AQUISIÇÃO.</div>
+    </div>
+
+    <div class="body-copy" style="font-size: 40px; margin-bottom: 48px; max-width: 800px;">
+      Além do aumento nas vendas brutas, vimos o custo desabar e a margem de lucro saltar absurdamente.
     </div>
   </div>
 </div>
+<div class="sep"></div>
 
-<!-- SLIDE 6: RESULTADO EM VENDAS -->
-<div class="slide layout-data">
-  <div class="grid-lines"></div>
-  <div class="slide-number">06</div>
-  <div class="content-wrapper">
-    <div class="tag-mono">O Resultado</div>
-    <div class="data-number" style="font-size: 200px;">+47%</div>
-    <div class="data-label">Vendas reais.</div>
-    <div class="text-body" style="margin-top: 32px;">
-      O algoritmo passou a enxergar muito mais e otimizou melhor. Mais vendas com o mesmo investimento.<br><br>
-      <strong><span class="highlight-lime">-29% de redução no Custo por Aquisição (CPA)</span></strong>
+<!-- SLIDE 8: LIÇÃO -->
+<div class="slide" style="background: var(--carbon);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">08/09</div>
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 48px;">A CONSEQUÊNCIA</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div style="margin-bottom: 32px;"><div class="quote-mark">"</div></div>
+
+    <div class="quote-text" style="font-size: 80px; line-height: 0.94; margin-bottom: 48px;">
+      DADOS COMPLETOS =<br><em>NOVOS CLIENTES.</em>
+    </div>
+
+    <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
+      Se você ainda usa apenas o pixel convencional, você está pagando mais caro por cada venda e tomando decisões cegas.<br>
+      <strong style="color: var(--fire);">Pare de competir de olhos fechados.</strong>
     </div>
   </div>
 </div>
-
-<!-- SLIDE 7: BÔNUS -->
-<div class="slide layout-quote">
-  <div class="grid-lines"></div>
-  <div class="slide-number">07</div>
-  <div class="content-wrapper">
-    <div class="tag-mono">A Lição de Ouro</div>
-    <div class="headline-large">Dados completos = <span class="highlight-lime">novos clientes.</span></div>
-    <div class="text-body">
-      O algoritmo com dados completos encontra <strong>novos públicos</strong> mais propensos a comprar, não só quem já te conhece.<br><br>
-      • <span class="highlight-lime">+29%</span> no volume total de vendas<br>
-      • <span class="highlight-lime">+22%</span> em aquisição de clientes novos
-    </div>
-  </div>
-</div>
-
-<!-- SLIDE 8: A LIÇÃO -->
-<div class="slide layout-quote">
-  <div class="grid-lines"></div>
-  <div class="slide-number">08</div>
-  <div class="content-wrapper">
-    <div class="tag-mono">O Novo Normal</div>
-    <div class="quote-mark">"</div>
-    <div class="quote-text" style="font-size: 48px;">O rastreamento de hoje sustenta o lucro de amanhã.</div>
-    <div class="text-body" style="margin-top: 40px; font-size: 26px;">
-      Se você ainda usa apenas o pixel convencional, você está:<br><br>
-      1. Pagando muito mais caro por cada venda<br>
-      2. Tomando decisões comerciais no escuro<br><br>
-      <span class="highlight-red">Pare de competir de olhos fechados.</span>
-    </div>
-  </div>
-</div>
+<div class="sep"></div>
 
 <!-- SLIDE 9: CTA -->
-<div class="slide layout-cta">
-  <div class="grid-lines"></div>
-  <div class="content-wrapper">
-    <div class="tag-mono" style="margin: 0 auto 32px;">Próximo Passo</div>
-    <div class="headline-massive">Pare de queimar verba com <span class="highlight-red">dados cegos.</span></div>
-    <div class="text-body" style="text-align: center; margin: 0 auto;">Quer o mesmo resultado na sua operação?</div>
+<div class="slide" style="background: var(--void);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="tape-h tape-h-bottom tape-h-fire"></div>
+
+  <div class="split-bg" style="background-image: url('../WhatsApp Image 2026-02-18 at 08.30.57.jpeg'); filter: grayscale(30%) brightness(0.8);"></div>
+  <div class="split-gradient"></div>
+  <div class="split-gradient-bottom"></div>
+  <div class="slide-no">09/09</div>
+
+  <div class="cw" style="width: 55%; padding-right: 0; justify-content: flex-end; padding-bottom: 140px; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 40px;">O PRÓXIMO PASSO</div>
+    <div class="h-line h-line-fire"></div>
     
+    <div class="disp-medium" style="font-size: 88px; margin-bottom: 44px; line-height: 0.92;">
+      PARE DE QUEIMAR<br>VERBA COM <em>DADOS CEGOS.</em>
+    </div>
+
+    <div class="body-large" style="max-width: 800px; margin-bottom: 24px;">
+      Quer essa mesma performance brutal na sua operação?
+    </div>
+
+    <div class="author-badge" style="background: rgba(26,26,26,0.5); border-color: rgba(240,235,224,0.3); margin-top: 0; margin-bottom: 24px;">
+      <img src="../joao-gobira.JPG" alt="João Gobira" class="author-avatar" style="border-color: var(--bone);">
+      <div>
+        <div class="author-name-text">JOÃO GOBIRA</div>
+        <div class="author-role-text" style="color: var(--bone);">// Growth · Gestão</div>
+      </div>
+    </div>
+
     <a href="https://tgsr.br" class="btn-cta">Ative o TagServer Hoje</a>
   </div>
 </div>
