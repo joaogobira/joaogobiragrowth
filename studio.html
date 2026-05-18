@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio de Criativos — João Gobira</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --void:#080808;--carbon:#101010;--iron:#1A1A1A;--steel:#272727;
+  --fire:#C8391A;--ember:#E04B27;--gold:#B8922A;--bone:#F0EBE0;
+  --muted:#7A746C;--text:#EDE8E0;--sub:#9A9490;
+  --ig:#E1306C;--li:#0077B5;--meta:#1877F2;--yt:#FF0000;--brand:#B8922A;
+  --fd:'Bebas Neue',sans-serif;--fc:'Barlow Condensed',sans-serif;
+  --fb:'Barlow',sans-serif;--fm:'Space Mono',monospace;
+}
+html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(--fb);}
+
+/* ── TABS ── */
+.tab-nav{display:flex;gap:2px;margin-left:16px;}
+.tab-btn{background:none;border:1px solid var(--iron);color:var(--muted);font-family:var(--fm);font-size:10px;padding:6px 14px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all .15s;}
+.tab-btn:hover{color:var(--bone);border-color:var(--steel);}
+.tab-btn.active{background:var(--fire);color:var(--bone);border-color:var(--fire);}
+/* ── VIEWS ── */
+.view-panel{display:none;height:100%;overflow:hidden;}
+.view-panel.active{display:flex;flex-direction:column;}
+#view-studio{display:none;}
+#view-studio.active{display:grid;grid-template-columns:1fr 420px;overflow:hidden;}
+/* ── PUBLISH VIEW ── */
+.pub-wrap{display:grid;grid-template-columns:1fr 360px;height:100%;overflow:hidden;}
+.pub-left{overflow-y:auto;padding:24px;background:var(--void);}
+.pub-sec-title{font-family:var(--fm);font-size:10px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;}
+.pub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-bottom:20px;}
+.pub-slide{position:relative;cursor:pointer;border:2px solid transparent;transition:all .15s;}
+.pub-slide:hover{border-color:var(--steel);}
+.pub-slide.sel{border-color:var(--fire);}
+.pub-slide img{width:100%;aspect-ratio:1;object-fit:cover;display:block;background:#111;}
+.pub-slide-n{position:absolute;bottom:3px;right:5px;font-family:var(--fm);font-size:8px;color:var(--bone);background:rgba(0,0,0,.75);padding:1px 4px;}
+.pub-creative-list{display:flex;flex-direction:column;gap:6px;margin-bottom:20px;}
+.pub-creative-item{padding:10px 12px;background:var(--iron);border:1px solid var(--steel);cursor:pointer;font-family:var(--fb);font-size:13px;color:var(--sub);transition:all .15s;display:flex;align-items:center;gap:10px;}
+.pub-creative-item:hover{border-color:var(--fire);color:var(--bone);}
+.pub-creative-item.sel{border-color:var(--fire);background:rgba(200,57,26,.1);color:var(--bone);}
+.pub-right{background:var(--carbon);border-left:1px solid var(--iron);padding:20px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;}
+.pub-label{font-family:var(--fm);font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;}
+.pub-textarea{width:100%;background:var(--iron);border:1px solid var(--steel);color:var(--bone);font-family:var(--fb);font-size:13px;padding:10px 12px;outline:none;resize:vertical;min-height:100px;}
+.pub-textarea:focus{border-color:var(--fire);}
+.pub-input{width:100%;background:var(--iron);border:1px solid var(--steel);color:var(--bone);font-family:var(--fb);font-size:13px;padding:10px 12px;outline:none;}
+.pub-input:focus{border-color:var(--fire);}
+.pub-char{font-family:var(--fm);font-size:9px;color:var(--muted);text-align:right;}
+.btn-pub{width:100%;padding:13px;background:var(--fire);color:var(--bone);font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:background .15s;}
+.btn-pub:hover:not(:disabled){background:var(--ember);}
+.btn-pub:disabled{background:var(--steel);color:var(--muted);cursor:not-allowed;}
+.btn-queue-add{width:100%;padding:10px;background:none;border:1px solid var(--steel);color:var(--sub);font-family:var(--fm);font-size:10px;letter-spacing:1px;cursor:pointer;transition:all .15s;}
+.btn-queue-add:hover:not(:disabled){border-color:var(--gold);color:var(--gold);}
+.btn-queue-add:disabled{opacity:.3;cursor:not-allowed;}
+.pub-status{font-family:var(--fm);font-size:10px;padding:10px;border:1px solid var(--steel);color:var(--sub);line-height:1.7;display:none;white-space:pre-wrap;}
+.pub-status.show{display:block;}
+.pub-status.ok{border-color:var(--gold);color:var(--gold);}
+.pub-status.err{border-color:var(--fire);color:var(--fire);}
+.pub-sep{height:1px;background:var(--iron);}
+/* ── QUEUE VIEW ── */
+.queue-wrap{padding:32px;overflow-y:auto;height:100%;background:var(--void);}
+.queue-h{font-family:var(--fd);font-size:28px;letter-spacing:1px;color:var(--bone);margin-bottom:4px;}
+.queue-sub{font-family:var(--fm);font-size:10px;color:var(--muted);letter-spacing:1px;margin-bottom:24px;}
+.queue-list{display:flex;flex-direction:column;gap:10px;}
+.queue-card{background:var(--carbon);border:1px solid var(--iron);padding:14px 18px;display:flex;align-items:center;gap:14px;transition:border-color .15s;}
+.queue-card:hover{border-color:var(--steel);}
+.queue-thumb{width:56px;height:56px;object-fit:cover;background:var(--iron);flex-shrink:0;}
+.queue-info{flex:1;min-width:0;}
+.queue-name{font-family:var(--fc);font-size:15px;font-weight:600;color:var(--bone);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.queue-cap{font-family:var(--fb);font-size:11px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px;}
+.queue-date{font-family:var(--fm);font-size:9px;color:var(--muted);margin-top:4px;}
+.queue-actions{display:flex;gap:6px;flex-shrink:0;}
+.btn-q-pub{padding:7px 14px;background:var(--fire);color:var(--bone);font-family:var(--fm);font-size:9px;font-weight:700;letter-spacing:1px;border:none;cursor:pointer;}
+.btn-q-del{padding:7px 12px;background:none;border:1px solid var(--steel);color:var(--muted);font-family:var(--fm);font-size:9px;cursor:pointer;}
+.btn-q-del:hover{border-color:var(--fire);color:var(--fire);}
+.queue-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;gap:10px;opacity:.35;}
+.queue-empty .em{font-size:36px;}
+.queue-empty p{font-family:var(--fm);font-size:10px;letter-spacing:2px;text-transform:uppercase;}
+.app{display:grid;grid-template-columns:280px 1fr;grid-template-rows:56px 1fr;height:100vh;overflow:hidden;}
+.topbar{grid-column:1/-1;background:var(--carbon);border-bottom:1px solid var(--iron);display:flex;align-items:center;gap:16px;padding:0 24px;}
+.sidebar{background:var(--carbon);border-right:1px solid var(--iron);display:flex;flex-direction:column;overflow:hidden;}
+.main{display:grid;grid-template-columns:1fr 420px;overflow:hidden;}
+.gallery{overflow-y:auto;padding:24px;}
+.detail-panel{background:var(--carbon);border-left:1px solid var(--iron);display:flex;flex-direction:column;overflow:hidden;}
+
+/* ── TOPBAR ── */
+.logo-text{font-family:var(--fd);font-size:22px;letter-spacing:2px;color:var(--bone);}
+.logo-text span{color:var(--fire);}
+.topbar-sep{flex:1;}
+.badge-count{font-family:var(--fm);font-size:11px;color:var(--muted);letter-spacing:1px;}
+
+/* ── SIDEBAR FILTERS ── */
+.sidebar-title{font-family:var(--fm);font-size:10px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;padding:20px 20px 8px;}
+.filter-btn{display:flex;align-items:center;gap:12px;padding:10px 20px;cursor:pointer;border:none;background:none;color:var(--sub);font-family:var(--fb);font-size:14px;width:100%;text-align:left;transition:all .15s;}
+.filter-btn:hover{background:var(--iron);color:var(--bone);}
+.filter-btn.active{background:rgba(200,57,26,.15);color:var(--bone);border-left:3px solid var(--fire);}
+.filter-btn .fi{font-size:16px;width:22px;text-align:center;}
+.filter-btn .fc{font-size:11px;font-family:var(--fm);color:var(--muted);margin-left:auto;}
+.sidebar-sep{height:1px;background:var(--iron);margin:12px 16px;}
+
+/* ── SEARCH ── */
+.search-wrap{padding:16px 16px 8px;}
+.search-input{width:100%;background:var(--iron);border:1px solid var(--steel);color:var(--bone);font-family:var(--fm);font-size:12px;padding:8px 12px;outline:none;letter-spacing:.5px;}
+.search-input::placeholder{color:var(--muted);}
+.search-input:focus{border-color:var(--fire);}
+
+/* ── GALLERY CARDS ── */
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;}
+.gallery-title{font-family:var(--fm);font-size:10px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:16px;}
+.card{background:var(--carbon);border:1px solid var(--iron);cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.card:hover{border-color:var(--steel);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.5);}
+.card.active{border-color:var(--fire);box-shadow:0 0 0 1px var(--fire);}
+.card-preview{width:100%;height:160px;background:var(--iron);overflow:hidden;position:relative;}
+.card-preview iframe{width:200%;height:200%;transform:scale(.5);transform-origin:top left;pointer-events:none;border:none;background:#000;}
+.card-preview-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:40px;opacity:.3;}
+.card-body{padding:12px 14px;}
+.card-name{font-family:var(--fc);font-size:15px;font-weight:600;color:var(--bone);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.card-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.tag{font-family:var(--fm);font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:2px 6px;border-radius:2px;}
+.tag-ig{background:rgba(225,48,108,.15);color:var(--ig);}
+.tag-li{background:rgba(0,119,181,.15);color:var(--li);}
+.tag-meta{background:rgba(24,119,242,.15);color:var(--meta);}
+.tag-yt{background:rgba(255,0,0,.15);color:var(--yt);}
+.tag-brand{background:rgba(184,146,42,.15);color:var(--brand);}
+.tag-carousel{background:rgba(200,57,26,.15);color:var(--fire);}
+.card-exported{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.7);border:1px solid var(--steel);font-family:var(--fm);font-size:9px;color:var(--gold);padding:2px 6px;letter-spacing:1px;}
+
+/* ── DETAIL PANEL ── */
+.detail-header{padding:20px 20px 12px;border-bottom:1px solid var(--iron);}
+.detail-name{font-family:var(--fd);font-size:24px;letter-spacing:1px;color:var(--bone);margin-bottom:4px;}
+.detail-sub{font-family:var(--fm);font-size:10px;color:var(--muted);letter-spacing:1px;}
+.detail-preview{flex:1;overflow:hidden;position:relative;background:#000;}
+.detail-preview iframe{width:100%;height:100%;border:none;}
+.detail-preview-empty{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;opacity:.3;}
+.detail-preview-empty .em{font-size:48px;}
+.detail-preview-empty p{font-family:var(--fm);font-size:11px;letter-spacing:2px;text-transform:uppercase;}
+.detail-footer{padding:16px 20px;border-top:1px solid var(--iron);display:flex;flex-direction:column;gap:12px;}
+.formats-list{display:flex;flex-wrap:wrap;gap:6px;}
+.format-tag{font-family:var(--fm);font-size:9px;padding:3px 8px;border:1px solid var(--steel);color:var(--sub);letter-spacing:.5px;}
+.btn-export{width:100%;padding:14px;background:var(--fire);color:var(--bone);font-family:var(--fm);font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:background .15s;}
+.btn-export:hover{background:var(--ember);}
+.btn-export:disabled{background:var(--steel);color:var(--muted);cursor:not-allowed;}
+.btn-folder{width:100%;padding:10px;background:none;border:1px solid var(--steel);color:var(--sub);font-family:var(--fm);font-size:11px;letter-spacing:1px;cursor:pointer;transition:all .15s;}
+.btn-folder:hover{border-color:var(--gold);color:var(--gold);}
+.btn-folder:disabled{opacity:.3;cursor:not-allowed;}
+
+/* ── PROGRESS / LOG ── */
+.progress-wrap{display:none;flex-direction:column;gap:8px;}
+.progress-wrap.show{display:flex;}
+.progress-bar-bg{width:100%;height:4px;background:var(--iron);}
+.progress-bar-fill{height:100%;background:var(--fire);width:0%;transition:width .3s;}
+.progress-log{font-family:var(--fm);font-size:10px;color:var(--muted);letter-spacing:.5px;max-height:80px;overflow-y:auto;}
+.progress-log .log-line{padding:2px 0;border-bottom:1px solid var(--iron);}
+.progress-log .log-ok{color:var(--gold);}
+.progress-log .log-err{color:var(--fire);}
+
+/* ── EMPTY STATE ── */
+.empty-gallery{display:flex;flex-direction:column;align-items:center;justify-content:center;height:300px;gap:12px;opacity:.4;}
+.empty-gallery .em{font-size:48px;}
+.empty-gallery p{font-family:var(--fm);font-size:11px;letter-spacing:2px;text-transform:uppercase;}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:var(--carbon);}
+::-webkit-scrollbar-thumb{background:var(--steel);}
+
+/* ── SLIDE NAV ── */
+.slide-nav{display:flex;align-items:center;gap:8px;padding:8px 20px;background:var(--void);border-bottom:1px solid var(--iron);}
+.slide-nav-btn{background:none;border:1px solid var(--steel);color:var(--sub);font-family:var(--fm);font-size:11px;padding:4px 10px;cursor:pointer;transition:all .15s;}
+.slide-nav-btn:hover:not(:disabled){border-color:var(--fire);color:var(--fire);}
+.slide-nav-btn:disabled{opacity:.3;cursor:not-allowed;}
+.slide-nav-info{font-family:var(--fm);font-size:10px;color:var(--muted);letter-spacing:1px;flex:1;text-align:center;}
+
+/* ── IA CO-CREATOR VIEW ── */
+.ia-wrap {
+  display: grid;
+  grid-template-columns: 1fr 440px;
+  height: 100%;
+  overflow: hidden;
+  background: var(--void);
+}
+.ia-left {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  border-right: 1px solid var(--iron);
+  background: var(--void);
+}
+.ia-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--iron);
+  background: var(--carbon);
+}
+.ia-title {
+  font-family: var(--fd);
+  font-size: 26px;
+  letter-spacing: 1px;
+  color: var(--bone);
+  margin-bottom: 6px;
+}
+.ia-subtitle {
+  font-family: var(--fm);
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.ia-chat-container {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--iron);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--void);
+}
+.ia-chat-messages {
+  max-height: 220px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid var(--iron);
+  background: var(--carbon);
+  padding: 14px;
+}
+.ia-message {
+  font-family: var(--fb);
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 8px 12px;
+  border-left: 3px solid var(--steel);
+}
+.ia-message.user {
+  border-color: var(--gold);
+  background: rgba(184,146,42,0.05);
+  color: var(--text);
+  align-self: flex-end;
+  width: 90%;
+}
+.ia-message.assistant {
+  border-color: var(--fire);
+  background: rgba(200,57,26,0.05);
+  color: var(--bone);
+  align-self: flex-start;
+  width: 95%;
+}
+.ia-chat-input-wrap {
+  display: flex;
+  gap: 8px;
+}
+#ia-chat-input {
+  flex: 1;
+  background: var(--iron);
+  border: 1px solid var(--steel);
+  color: var(--bone);
+  font-family: var(--fb);
+  font-size: 13px;
+  padding: 12px 14px;
+  outline: none;
+}
+#ia-chat-input:focus {
+  border-color: var(--fire);
+}
+.btn-ia-send {
+  background: var(--fire);
+  color: var(--bone);
+  border: none;
+  font-family: var(--fm);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 0 20px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background .15s;
+}
+.btn-ia-send:hover {
+  background: var(--ember);
+}
+
+/* Editor */
+.ia-editor-section {
+  padding: 24px;
+  background: var(--void);
+}
+.ia-slides-editor-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+.ia-slide-card {
+  background: var(--carbon);
+  border: 1px solid var(--iron);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ia-slide-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--iron);
+  padding-bottom: 8px;
+}
+.ia-slide-card-title {
+  font-family: var(--fm);
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.ia-slide-type-badge {
+  font-family: var(--fm);
+  font-size: 8px;
+  padding: 2px 6px;
+  background: var(--iron);
+  color: var(--muted);
+  border: 1px solid var(--steel);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.ia-slide-field-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.ia-slide-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ia-slide-field.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Coluna Direita (Live Preview) */
+.ia-right {
+  background: var(--carbon);
+  border-left: 1px solid var(--iron);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+.ia-preview-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--iron);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ia-preview-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.btn-ia-action {
+  background: none;
+  border: 1px solid var(--steel);
+  color: var(--sub);
+  padding: 4px 10px;
+  cursor: pointer;
+  font-family: var(--fm);
+  font-size: 11px;
+}
+.btn-ia-action:hover:not(:disabled) {
+  border-color: var(--fire);
+  color: var(--fire);
+}
+.btn-ia-action:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.ia-preview-info {
+  font-family: var(--fm);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+.ia-preview-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #080808;
+  overflow: hidden;
+  position: relative;
+  min-height: 200px;
+}
+
+/* O wrapper que a gente calcula a escala via JavaScript */
+.ia-live-slide-render {
+  width: 1080px;
+  height: 1350px;
+  transform-origin: center center;
+  flex-shrink: 0;
+  position: relative;
+  background: var(--void);
+}
+
+.ia-preview-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--iron);
+  background: var(--carbon);
+}
+
+/* ── ESTILOS GRÁFICOS DO TEMPLATE BRUTALISTA V2 ── */
+.slide {
+  width: 1080px;
+  height: 1350px;
+  background: var(--void);
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.sep { width: 411px; height: 2px; background: #222; margin: 0 auto; position: relative; z-index: 99; }
+.grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.7;
+  mix-blend-mode: overlay;
+}
+.photo-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-size: cover;
+  background-position: center top;
+}
+.photo-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    to bottom,
+    rgba(8,8,8,0.2) 0%,
+    rgba(8,8,8,0.45) 35%,
+    rgba(8,8,8,0.88) 65%,
+    rgba(8,8,8,0.98) 100%
+  );
+}
+.photo-overlay-mid {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    to bottom,
+    rgba(8,8,8,0.5) 0%,
+    rgba(8,8,8,0.3) 50%,
+    rgba(8,8,8,0.95) 80%,
+    rgba(8,8,8,1) 100%
+  );
+}
+.split-bg {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 50%;
+  background-size: cover;
+  background-position: center top;
+  z-index: 1;
+  border-left: 2px solid var(--steel);
+}
+.split-gradient {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 50%;
+  background: linear-gradient(to right, var(--void) 0%, rgba(8,8,8,0) 25%);
+  z-index: 2;
+}
+.split-gradient-bottom {
+  position: absolute;
+  bottom: 0; right: 0; width: 50%; height: 50%;
+  background: linear-gradient(to bottom, rgba(8,8,8,0) 0%, var(--void) 100%);
+  z-index: 3;
+}
+.tape-v { position: absolute; left: 0; top: 0; bottom: 0; width: 5px; z-index: 10; }
+.tape-v-fire { background: var(--fire); }
+.tape-v-gold { background: var(--gold); }
+.tape-h { position: absolute; left: 0; right: 0; height: 4px; z-index: 10; }
+.tape-h-top { top: 0; }
+.tape-h-bottom { bottom: 0; }
+.tape-h-fire { background: var(--fire); }
+.cw {
+  position: relative;
+  z-index: 30;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 88px 88px 80px 92px;
+}
+.slide-no {
+  position: absolute;
+  top: 64px; right: 72px;
+  font-family: var(--fm);
+  font-size: 18px;
+  color: var(--steel);
+  letter-spacing: 2px;
+  z-index: 40;
+}
+.mono-tag {
+  font-family: var(--fm);
+  font-size: 18px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--fire);
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.mono-tag::before { content: '//'; color: var(--steel); }
+.mono-tag.gold { color: var(--gold); }
+.mono-tag.gold::before { color: var(--steel); }
+.h-line { width: 64px; height: 4px; margin-bottom: 40px; }
+.h-line-fire { background: var(--fire); }
+.h-line-gold { background: var(--gold); }
+.disp-large {
+  font-family: var(--fd);
+  font-size: 108px;
+  line-height: 0.92;
+  letter-spacing: 2px;
+  color: var(--bone);
+  margin-bottom: 40px;
+}
+.disp-large em { color: var(--fire); font-style: normal; }
+.disp-large .gold { color: var(--gold); }
+.disp-medium {
+  font-family: var(--fd);
+  font-size: 88px;
+  line-height: 0.93;
+  letter-spacing: 2px;
+  color: var(--bone);
+  margin-bottom: 36px;
+}
+.disp-medium em { color: var(--fire); font-style: normal; }
+.body-copy {
+  font-family: var(--fb);
+  font-size: 38px;
+  font-weight: 300;
+  color: var(--sub);
+  line-height: 1.6;
+  max-width: 880px;
+}
+.body-copy strong { color: var(--text); font-weight: 500; }
+.body-copy em { color: var(--fire); font-style: normal; }
+.quote-mark {
+  font-family: var(--fd);
+  font-size: 160px;
+  color: var(--fire);
+  line-height: 0.7;
+  opacity: 0.22;
+  margin-left: -16px;
+}
+.quote-text {
+  font-family: var(--fd);
+  font-size: 80px;
+  line-height: 0.96;
+  letter-spacing: 1px;
+  color: var(--bone);
+}
+.quote-text em { color: var(--fire); font-style: normal; }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="logo-text">STUDIO <span>///</span> JG</div>
+    <div style="font-family:var(--fm);font-size:10px;color:var(--muted);letter-spacing:2px;margin-left:8px;">CRIATIVOS</div>
+    <div class="tab-nav">
+      <button class="tab-btn active" id="tab-studio" onclick="switchTab('studio')">🗂 Studio</button>
+      <button class="tab-btn" id="tab-iacreator" onclick="switchTab('iacreator')">🤖 Co-Criador IA</button>
+      <button class="tab-btn" id="tab-publicar" onclick="switchTab('publicar')">📤 Publicar</button>
+      <button class="tab-btn" id="tab-fila" onclick="switchTab('fila')">📋 Fila</button>
+    </div>
+    <div class="topbar-sep"></div>
+    <div class="badge-count" id="total-count">carregando...</div>
+  </header>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar-el">
+    <div class="search-wrap">
+      <input class="search-input" type="text" id="search" placeholder="BUSCAR CRIATIVO...">
+    </div>
+    <div class="sidebar-title">Plataforma</div>
+    <button class="filter-btn active" data-filter="all" onclick="setFilter('all',this)">
+      <span class="fi">🗂️</span> Todos <span class="fc" id="cnt-all">0</span>
+    </button>
+    <button class="filter-btn" data-filter="instagram" onclick="setFilter('instagram',this)">
+      <span class="fi">📸</span> Instagram <span class="fc" id="cnt-instagram">0</span>
+    </button>
+    <button class="filter-btn" data-filter="linkedin" onclick="setFilter('linkedin',this)">
+      <span class="fi">💼</span> LinkedIn <span class="fc" id="cnt-linkedin">0</span>
+    </button>
+    <button class="filter-btn" data-filter="meta" onclick="setFilter('meta',this)">
+      <span class="fi">📢</span> Meta Ads <span class="fc" id="cnt-meta">0</span>
+    </button>
+    <button class="filter-btn" data-filter="youtube" onclick="setFilter('youtube',this)">
+      <span class="fi">▶</span> YouTube <span class="fc" id="cnt-youtube">0</span>
+    </button>
+    <button class="filter-btn" data-filter="brand" onclick="setFilter('brand',this)">
+      <span class="fi">🎨</span> Logo / Marca <span class="fc" id="cnt-brand">0</span>
+    </button>
+    <div class="sidebar-sep"></div>
+    <div class="sidebar-title">Ações Rápidas</div>
+    <button class="filter-btn" onclick="exportarTodos()">
+      <span class="fi">⚡</span> Exportar Todos
+    </button>
+  </aside>
+
+  <!-- MAIN: Studio View -->
+  <main class="main" id="view-studio" class="view-panel active">
+
+    <!-- GALLERY -->
+    <section class="gallery">
+      <div class="gallery-title" id="gallery-title">TODOS OS CRIATIVOS</div>
+      <div class="gallery-grid" id="gallery"></div>
+    </section>
+
+    <!-- DETAIL -->
+    <aside class="detail-panel">
+      <div class="detail-header">
+        <div class="detail-name" id="detail-name">Selecione um criativo</div>
+        <div class="detail-sub" id="detail-sub">Clique em qualquer card para visualizar e exportar</div>
+      </div>
+
+      <!-- Slide navigation -->
+      <div class="slide-nav" id="slide-nav" style="display:none;">
+        <button class="slide-nav-btn" id="prev-slide" onclick="navSlide(-1)">◀ Anterior</button>
+        <div class="slide-nav-info" id="slide-info">Slide 1 / ?</div>
+        <button class="slide-nav-btn" id="next-slide" onclick="navSlide(1)">Próximo ▶</button>
+      </div>
+
+      <div class="detail-preview" id="detail-preview">
+        <div class="detail-preview-empty">
+          <div class="em">🎨</div>
+          <p>Preview aqui</p>
+        </div>
+      </div>
+
+      <div class="detail-footer">
+        <div class="formats-list" id="formats-list"></div>
+
+        <div class="progress-wrap" id="progress-wrap">
+          <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
+          <div class="progress-log" id="progress-log"></div>
+        </div>
+
+        <button class="btn-export" id="btn-export" onclick="exportarAtual()" disabled>
+          ⬇ EXPORTAR SLIDES
+        </button>
+        <button class="btn-folder" id="btn-folder" onclick="abrirPasta()" disabled>
+          📁 ABRIR PASTA DE SAÍDA
+        </button>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- VIEW: Publicar -->
+  <div id="view-publicar" class="view-panel" style="grid-column:2;grid-row:2;">
+    <div class="pub-wrap">
+      <div class="pub-left">
+        <div class="pub-sec-title">1. Selecione o Criativo</div>
+        <div class="pub-creative-list" id="pub-creative-list"></div>
+        <div class="pub-sec-title" id="pub-slides-title" style="display:none">2. Slides a publicar</div>
+        <div class="pub-grid" id="pub-slide-grid"></div>
+      </div>
+      <div class="pub-right">
+        <div>
+          <div class="pub-label">Legenda</div>
+          <textarea class="pub-textarea" id="pub-caption" placeholder="Escreva a legenda do post..." oninput="updatePubChar()"></textarea>
+          <div class="pub-char" id="pub-char">0 / 2200</div>
+        </div>
+        <div>
+          <div class="pub-label">Hashtags</div>
+          <input class="pub-input" id="pub-hashtags" placeholder="#growth #marketing #liderança">
+        </div>
+        <div class="pub-sep"></div>
+        <div id="pub-status" class="pub-status"></div>
+        <button class="btn-pub" id="btn-pub-now" onclick="publicarAgora()" disabled>📤 PUBLICAR AGORA NO INSTAGRAM</button>
+        <button class="btn-queue-add" id="btn-add-queue" onclick="adicionarFila()" disabled>📋 ADICIONAR À FILA</button>
+        <div style="font-family:var(--fm);font-size:9px;color:var(--muted);line-height:1.6;">
+          ⚠ Configure CLOUDINARY_* e IG_ACCESS_TOKEN no arquivo .env antes de publicar.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW: Fila -->
+  <div id="view-fila" class="view-panel" style="grid-column:2;grid-row:2;">
+    <div class="queue-wrap">
+      <div class="queue-h">FILA DE PUBLICAÇÃO</div>
+      <div class="queue-sub">Posts salvos aguardando publicação no Instagram</div>
+      <div class="queue-list" id="queue-list"></div>
+    </div>
+  </div>
+
+  <!-- VIEW: Co-Criador IA -->
+  <div id="view-iacreator" class="view-panel" style="grid-column:2;grid-row:2;height:100%;overflow:hidden;">
+    <div class="ia-wrap">
+      <!-- Coluna Esquerda: Chat & Editor -->
+      <div class="ia-left">
+        <!-- Top header do Co-Criador -->
+        <div class="ia-header">
+          <div class="ia-title">Co-Criador de Carrosséis IA</div>
+          <div class="ia-subtitle">Converse com a IA de João Gobira e co-crie sua copy brutalista em tempo real</div>
+        </div>
+        
+        <!-- Seção do Chat Brutalista -->
+        <div class="ia-chat-container">
+          <div class="ia-chat-messages" id="ia-chat-messages">
+            <div class="ia-message assistant">
+              <strong>🤖 CO-CRIADOR:</strong> E aí, executor. Qual é a trincheira de hoje? Digite o tema ou a dor principal do seu público (ex: "3 lições do Jiu-Jitsu para fechar mais negócios" ou "Por que seu tráfego pago não converte") e eu criarei a estrutura brutalista e a copy completa de alta conversão.
+            </div>
+          </div>
+          <div class="ia-chat-input-wrap">
+            <input type="text" id="ia-chat-input" placeholder="DIGITE SUA IDEIA OU TEMA DE CRIATIVO..." onkeydown="if(event.key === 'Enter') enviarMensagemIA()">
+            <button class="btn-ia-send" onclick="enviarMensagemIA()">ENVIAR</button>
+          </div>
+        </div>
+
+        <!-- Editor de Slides (Gerado dinamicamente após a resposta da IA) -->
+        <div class="ia-editor-section" id="ia-editor-section" style="display:none;">
+          <div class="pub-sec-title" style="margin-bottom:16px;">Refinamento Manual dos Slides</div>
+          
+          <!-- Campo para o Nome do Criativo -->
+          <div style="margin-bottom: 20px;">
+            <div class="pub-label">Nome do Criativo (para salvar o arquivo)</div>
+            <input class="pub-input" id="ia-creative-name" placeholder="Ex: licoes_jiujitsu_growth" value="carrossel_ia">
+          </div>
+
+          <div class="ia-slides-editor-list" id="ia-slides-editor-list">
+            <!-- Lista de slides com inputs para editar texto/imagem -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Coluna Direita: Live Preview dos Slides -->
+      <div class="ia-right">
+        <div class="ia-preview-header">
+          <div class="pub-label">PREVISÃO GRÁFICA DOS SLIDES</div>
+          <div class="ia-preview-actions">
+            <button class="btn-ia-action" id="btn-ia-prev" onclick="navIASlide(-1)" disabled>◀ Anterior</button>
+            <span class="ia-preview-info" id="ia-preview-info">SLIDE 1 / 1</span>
+            <button class="btn-ia-action" id="btn-ia-next" onclick="navIASlide(1)" disabled>Próximo ▶</button>
+          </div>
+        </div>
+        
+        <div class="ia-preview-container">
+          <!-- Renderização ao vivo do slide selecionado -->
+          <div id="ia-live-slide-render" class="ia-live-slide-render">
+            <div class="detail-preview-empty" style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:.3; color:var(--bone);">
+              <div class="em" style="font-size:48px;">🤖</div>
+              <p style="font-family:var(--fm); font-size:11px; letter-spacing:2px; text-transform:uppercase;">AGUARDANDO IA...</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ia-preview-footer">
+          <button class="btn-pub" id="btn-ia-salvar" onclick="salvarCriativoIA()" disabled>💾 SALVAR E EXPORTAR CRIATIVO</button>
+          <div id="ia-status-log" class="pub-status" style="margin-top: 10px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────────────────
+let allCreatives = [];
+let filtered = [];
+let currentFilter = 'all';
+let selected = null;
+let exporting = false;
+let currentSlide = 0;
+let totalSlides = 0;
+let currentSlidesDir = null;
+
+const PLATFORM_LABELS = {
+  instagram: { label: 'Instagram', tag: 'tag-ig', icon: '📸' },
+  linkedin:  { label: 'LinkedIn',  tag: 'tag-li', icon: '💼' },
+  meta:      { label: 'Meta Ads',  tag: 'tag-meta', icon: '📢' },
+  youtube:   { label: 'YouTube',   tag: 'tag-yt', icon: '▶' },
+  brand:     { label: 'Marca',     tag: 'tag-brand', icon: '🎨' },
+  carousel:  { label: 'Carrossel', tag: 'tag-carousel', icon: '🗂' },
+};
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+async function init() {
+  try {
+    const resp = await fetch('/api/criativos');
+    allCreatives = await resp.json();
+    updateCounts();
+    renderGallery();
+  } catch(e) {
+    document.getElementById('gallery').innerHTML = `
+      <div class="empty-gallery" style="grid-column:1/-1">
+        <div class="em">⚠️</div>
+        <p>Servidor não encontrado</p>
+        <p style="font-size:9px;margin-top:4px;color:var(--fire)">Rode: npm run studio</p>
+      </div>`;
+    document.getElementById('total-count').textContent = 'servidor offline';
+  }
+}
+
+function updateCounts() {
+  const counts = { all: allCreatives.length, instagram:0, linkedin:0, meta:0, youtube:0, brand:0 };
+  allCreatives.forEach(c => { if(counts[c.platform]!==undefined) counts[c.platform]++; });
+  Object.entries(counts).forEach(([k,v]) => {
+    const el = document.getElementById('cnt-'+k);
+    if(el) el.textContent = v;
+  });
+  document.getElementById('total-count').textContent = `${counts.all} criativos`;
+}
+
+// ── FILTER ─────────────────────────────────────────────────────────────────
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const labels = { all:'TODOS OS CRIATIVOS', instagram:'INSTAGRAM', linkedin:'LINKEDIN', meta:'META ADS', youtube:'YOUTUBE', brand:'LOGO / MARCA' };
+  document.getElementById('gallery-title').textContent = labels[f] || f.toUpperCase();
+  renderGallery();
+}
+
+function renderGallery() {
+  const search = document.getElementById('search').value.toLowerCase();
+  filtered = allCreatives.filter(c => {
+    const matchPlatform = currentFilter === 'all' || c.platform === currentFilter;
+    const matchSearch = !search || c.name.toLowerCase().includes(search) || c.filename.toLowerCase().includes(search);
+    return matchPlatform && matchSearch;
+  });
+
+  const grid = document.getElementById('gallery');
+  if(filtered.length === 0) {
+    grid.innerHTML = `<div class="empty-gallery" style="grid-column:1/-1"><div class="em">🔍</div><p>Nenhum criativo encontrado</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(c => {
+    const pl = PLATFORM_LABELS[c.platform] || PLATFORM_LABELS.carousel;
+    const fmts = c.formats.map(f => `<span class="tag tag-${c.platform}">${f.label || f.class}</span>`).join('');
+    const exportedBadge = c.exportedSlides > 0 ? `<div class="card-exported">${c.exportedSlides} slides</div>` : '';
+    return `
+    <div class="card" id="card-${c.id}" onclick="selectCreative('${c.id}')">
+      <div class="card-preview">
+        <div class="card-preview-placeholder">${pl.icon}</div>
+      </div>
+      ${exportedBadge}
+      <div class="card-body">
+        <div class="card-name">${c.name}</div>
+        <div class="card-meta">
+          <span class="tag tag-${c.platform}">${pl.label}</span>
+          ${fmts}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── SELECT CREATIVE ────────────────────────────────────────────────────────
+async function selectCreative(id) {
+  selected = allCreatives.find(c => c.id === id);
+  if(!selected) return;
+
+  // Highlight card
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+  const cardEl = document.getElementById('card-'+id);
+  if(cardEl) cardEl.classList.add('active');
+
+  // Detail header
+  document.getElementById('detail-name').textContent = selected.name;
+  document.getElementById('detail-sub').textContent = selected.folder + '/' + selected.filename;
+
+  // Formats
+  const fmts = selected.formats.map(f => `<span class="format-tag">${f.label || f.class}${f.w ? ' · '+f.w+'×'+f.h : ''}</span>`).join('');
+  document.getElementById('formats-list').innerHTML = fmts;
+
+  // Load slides info
+  currentSlidesDir = selected.slidesDir;
+  await loadSlides();
+
+  // Enable buttons
+  document.getElementById('btn-export').disabled = false;
+  document.getElementById('btn-export').textContent = '⬇ EXPORTAR SLIDES';
+  document.getElementById('btn-folder').disabled = selected.exportedSlides === 0;
+
+  // Reset progress
+  document.getElementById('progress-wrap').classList.remove('show');
+  document.getElementById('progress-fill').style.width = '0%';
+  document.getElementById('progress-log').innerHTML = '';
+
+  // Load preview
+  loadPreview();
+}
+
+async function loadSlides() {
+  if(!currentSlidesDir) { setPreviewMode('iframe'); return; }
+  try {
+    const resp = await fetch('/api/slides-exportados?dir=' + encodeURIComponent(currentSlidesDir));
+    const data = await resp.json();
+    if(data.slides && data.slides.length > 0) {
+      totalSlides = data.slides.length;
+      currentSlide = 0;
+      window._slides = data.slides;
+      setPreviewMode('slides');
+      return;
+    }
+  } catch(e){}
+  setPreviewMode('iframe');
+}
+
+function setPreviewMode(mode) {
+  const nav = document.getElementById('slide-nav');
+  if(mode === 'slides' && window._slides && window._slides.length > 0) {
+    nav.style.display = 'flex';
+    updateSlideNav();
+    showSlide(0);
+  } else {
+    nav.style.display = 'none';
+    loadIframe();
+  }
+}
+
+function loadIframe() {
+  document.getElementById('detail-preview').innerHTML =
+    `<iframe src="/${selected.relativePath}" sandbox="allow-scripts allow-same-origin"></iframe>`;
+}
+
+function showSlide(idx) {
+  if(!window._slides || !window._slides[idx]) return;
+  currentSlide = idx;
+  const slide = window._slides[idx];
+  document.getElementById('detail-preview').innerHTML =
+    `<img src="/${slide.relativePath}" style="width:100%;height:100%;object-fit:contain;background:#000;" alt="Slide ${idx+1}">`;
+  updateSlideNav();
+}
+
+function navSlide(dir) {
+  const newIdx = currentSlide + dir;
+  if(!window._slides) return;
+  if(newIdx >= 0 && newIdx < window._slides.length) showSlide(newIdx);
+}
+
+function updateSlideNav() {
+  if(!window._slides) return;
+  document.getElementById('slide-info').textContent = `Slide ${currentSlide+1} / ${window._slides.length}`;
+  document.getElementById('prev-slide').disabled = currentSlide === 0;
+  document.getElementById('next-slide').disabled = currentSlide >= window._slides.length - 1;
+}
+
+function loadPreview() {
+  if(!selected) return;
+  if(window._slides && window._slides.length > 0) {
+    showSlide(0);
+  } else {
+    loadIframe();
+  }
+}
+
+// ── EXPORT ─────────────────────────────────────────────────────────────────
+async function exportarAtual() {
+  if(!selected || exporting) return;
+  exporting = true;
+
+  const btn = document.getElementById('btn-export');
+  btn.disabled = true;
+  btn.textContent = '⏳ EXPORTANDO...';
+
+  const pw = document.getElementById('progress-wrap');
+  pw.classList.add('show');
+  const fill = document.getElementById('progress-fill');
+  const log = document.getElementById('progress-log');
+  log.innerHTML = '';
+  fill.style.width = '0%';
+
+  const addLog = (msg, cls='') =>
+    log.innerHTML = `<div class="log-line ${cls}">${msg}</div>` + log.innerHTML;
+
+  try {
+    const resp = await fetch('/api/exportar', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ file: selected.fullPath })
+    });
+
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    while(true) {
+      const { done, value } = await reader.read();
+      if(done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n\n');
+      buffer = lines.pop();
+      for(const line of lines) {
+        if(!line.startsWith('data: ')) continue;
+        try {
+          const ev = JSON.parse(line.slice(6));
+          if(ev.type === 'start') { addLog('Iniciando...'); }
+          else if(ev.type === 'progress') { addLog(`${ev.total} slides detectados`); }
+          else if(ev.type === 'slide') {
+            const pct = Math.round((ev.index / ev.total) * 100);
+            fill.style.width = pct + '%';
+            addLog(`✓ slide_${String(ev.index).padStart(2,'0')}.png`, 'log-ok');
+          }
+          else if(ev.type === 'done') {
+            fill.style.width = '100%';
+            addLog(`✅ ${ev.total} slides exportados!`, 'log-ok');
+            btn.textContent = `✓ ${ev.total} SLIDES EXPORTADOS`;
+            btn.disabled = false;
+            document.getElementById('btn-folder').disabled = false;
+            currentSlidesDir = selected.slidesDir;
+            selected.exportedSlides = ev.total;
+            // Reload slides preview
+            const slideResp = await fetch('/api/slides-exportados?dir=' + encodeURIComponent(currentSlidesDir));
+            const slideData = await slideResp.json();
+            if(slideData.slides && slideData.slides.length > 0) {
+              window._slides = slideData.slides;
+              totalSlides = slideData.slides.length;
+              document.getElementById('slide-nav').style.display = 'flex';
+              showSlide(0);
+            }
+          }
+          else if(ev.type === 'error') {
+            addLog('❌ ' + ev.message, 'log-err');
+            btn.textContent = '⬇ EXPORTAR SLIDES';
+            btn.disabled = false;
+          }
+        } catch(e) {}
+      }
+    }
+  } catch(err) {
+    addLog('❌ Erro: ' + err.message, 'log-err');
+    btn.textContent = '⬇ EXPORTAR SLIDES';
+    btn.disabled = false;
+  }
+
+  exporting = false;
+}
+
+async function exportarTodos() {
+  if(!confirm(`Exportar todos os ${allCreatives.length} criativos? Isso pode demorar alguns minutos.`)) return;
+  for(const c of allCreatives) {
+    await selectCreative(c.id);
+    await exportarAtual();
+  }
+}
+
+async function abrirPasta() {
+  if(!currentSlidesDir) return;
+  await fetch('/api/abrir-pasta', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ dir: currentSlidesDir })
+  });
+}
+
+// ── TABS ──────────────────────────────────────────────────────────────────
+function switchTab(tab) {
+  const tabs = ['studio','publicar','fila','iacreator'];
+  tabs.forEach(t => {
+    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
+    document.getElementById('view-'+t).classList.toggle('active', t===tab);
+  });
+  const sidebar = document.getElementById('sidebar-el');
+  sidebar.style.display = tab==='studio' ? '' : 'none';
+  if(tab==='publicar') renderPubCreatives();
+  if(tab==='fila') renderFila();
+  if(tab==='iacreator') {
+    setTimeout(resizeIAPreview, 100);
+  }
+}
+
+// ── CO-CRIADOR IA STATE & LOGIC ────────────────────────────────────────────
+let iaHistory = [];
+let iaSlides = [];
+let iaCurrentSlideIdx = 0;
+
+const IA_BG_OPTIONS = [
+  { value: '', label: 'Fundo Sólido' },
+  { value: 'joao-gobira.JPG', label: 'João Gobira Oficial' },
+  { value: 'IMG_7386.JPG', label: 'Apoio - Luta/Tatame (IMG_7386.JPG)' },
+  { value: 'IMG_7392.JPG', label: 'Apoio - Palco/Palestra (IMG_7392.JPG)' },
+  { value: 'IMG_7397.JPG', label: 'Apoio - Retrato Executivo (IMG_7397.JPG)' },
+  { value: 'DSC08278.png', label: 'Apoio - Action/Trabalho (DSC08278.png)' },
+  { value: 'WhatsApp Image 2026-02-18 at 08.30.57.jpeg', label: 'CTA - WhatsApp' }
+];
+
+async function enviarMensagemIA() {
+  const input = document.getElementById('ia-chat-input');
+  const message = input.value.trim();
+  if (!message) return;
+
+  // Adiciona a mensagem do usuário no chat
+  const chatMessages = document.getElementById('ia-chat-messages');
+  chatMessages.innerHTML += `
+    <div class="ia-message user">
+      <strong>VOCÊ:</strong> ${message}
+    </div>
+  `;
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  input.value = '';
+
+  // Cria um elemento temporário de carregamento
+  const loadingEl = document.createElement('div');
+  loadingEl.className = 'ia-message assistant';
+  loadingEl.innerHTML = `<strong>🤖 CO-CRIADOR:</strong> Analisando estratégia brutalista e desenhando slides...`;
+  chatMessages.appendChild(loadingEl);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  try {
+    const resp = await fetch('/api/ia/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message, history: iaHistory })
+    });
+
+    const data = await resp.json();
+    loadingEl.remove();
+
+    if (!resp.ok || !data.ok) {
+      chatMessages.innerHTML += `
+        <div class="ia-message assistant" style="border-color:var(--fire);">
+          <strong>🤖 CO-CRIADOR (ERRO):</strong> ${data.error || 'Erro na requisição. Verifique o console.'}
+          <br><br>
+          <span style="font-size:11px;color:var(--muted)">💡 Certifique-se de que a sua <strong>GEMINI_API_KEY</strong> foi cadastrada no arquivo <code>studio.config</code> na raiz do projeto!</span>
+        </div>
+      `;
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      return;
+    }
+
+    // Adiciona resposta no chat e no histórico
+    chatMessages.innerHTML += `
+      <div class="ia-message assistant">
+        <strong>🤖 CO-CRIADOR:</strong> ${data.assistantMessage}
+      </div>
+    `;
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    iaHistory.push({ role: 'user', text: message });
+    iaHistory.push({ role: 'assistant', text: data.assistantMessage });
+
+    // Salva e renderiza os slides sugeridos
+    iaSlides = data.slides || [];
+    iaCurrentSlideIdx = 0;
+
+    // Habilita a seção de refinamento e botões
+    document.getElementById('ia-editor-section').style.display = 'block';
+    document.getElementById('btn-ia-salvar').disabled = false;
+    document.getElementById('btn-ia-salvar').textContent = '💾 SALVAR E EXPORTAR CRIATIVO';
+
+    // Cria sugestão de nome de criativo
+    const cleanTopic = message.toLowerCase()
+      .replace(/[^a-z0-9\s]/g, '')
+      .split(/\s+/)
+      .slice(0, 3)
+      .join('_');
+    document.getElementById('ia-creative-name').value = cleanTopic || 'carrossel_ia';
+
+    renderIASlidesEditor();
+    renderIASlidePreview();
+
+  } catch (err) {
+    loadingEl.remove();
+    chatMessages.innerHTML += `
+      <div class="ia-message assistant" style="border-color:var(--fire);">
+        <strong>🤖 CO-CRIADOR (ERRO):</strong> Falha ao conectar ao servidor local. Erro: ${err.message}
+      </div>
+    `;
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+}
+
+function renderIASlidesEditor() {
+  const container = document.getElementById('ia-slides-editor-list');
+  container.innerHTML = iaSlides.map((s, idx) => {
+    const bgSelect = IA_BG_OPTIONS.map(opt => `
+      <option value="${opt.value}" ${s.bg === opt.value ? 'selected' : ''}>${opt.label}</option>
+    `).join('');
+
+    return `
+      <div class="ia-slide-card" id="ia-slide-card-${idx}">
+        <div class="ia-slide-card-header">
+          <div class="ia-slide-card-title">Slide ${idx + 1}</div>
+          <span class="ia-slide-type-badge">${s.type}</span>
+        </div>
+        <div class="ia-slide-field-group">
+          <div class="ia-slide-field">
+            <label class="pub-label">Tag do Slide</label>
+            <input class="pub-input" type="text" value="${s.tag || ''}" oninput="updateIASlideData(${idx}, 'tag', this.value)">
+          </div>
+          <div class="ia-slide-field">
+            <label class="pub-label">Imagem de Fundo</label>
+            <select class="pub-input" onchange="updateIASlideData(${idx}, 'bg', this.value)">
+              ${bgSelect}
+            </select>
+          </div>
+          <div class="ia-slide-field full-width">
+            <label class="pub-label">Título (use &lt;br&gt; para quebrar linha)</label>
+            <input class="pub-input" type="text" value="${s.title || ''}" oninput="updateIASlideData(${idx}, 'title', this.value)">
+          </div>
+          <div class="ia-slide-field full-width">
+            <label class="pub-label">Texto de Apoio (Corpo)</label>
+            <textarea class="pub-textarea" style="min-height: 60px;" oninput="updateIASlideData(${idx}, 'body', this.value)">${s.body || ''}</textarea>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function updateIASlideData(idx, field, value) {
+  if (iaSlides[idx]) {
+    iaSlides[idx][field] = value;
+    if (idx === iaCurrentSlideIdx) {
+      renderIASlidePreview();
+    }
+  }
+}
+
+function renderIASlidePreview() {
+  if (iaSlides.length === 0) return;
+  const s = iaSlides[iaCurrentSlideIdx];
+  const renderEl = document.getElementById('ia-live-slide-render');
+  const slideNo = `${String(iaCurrentSlideIdx + 1).padStart(2, '0')}/${String(iaSlides.length).padStart(2, '0')}`;
+  const bgUrl = s.bg ? `./Carrosseis/${s.bg}` : '';
+
+  let isCapa = s.type === 'capa';
+  let isCta = s.type === 'cta';
+  let isQuote = s.type === 'quote';
+  
+  let html = '';
+
+  if (isCapa) {
+    html = `
+      <div class="slide">
+        <div class="grain"></div>
+        <div class="tape-v tape-v-fire"></div>
+        <div class="tape-h tape-h-top tape-h-fire"></div>
+
+        ${s.bg ? `<div class="split-bg" style="background-image: url('${bgUrl}'); filter: grayscale(30%) contrast(1.1) brightness(0.9);"></div><div class="split-gradient"></div><div class="split-gradient-bottom"></div>` : ''}
+
+        <div class="slide-no">${slideNo}</div>
+
+        <div class="cw" style="width: 55%; padding-right: 0; justify-content: flex-end; padding-bottom: 140px; gap: 0;">
+          <div class="mono-tag" style="margin-bottom: 40px;">${s.tag || 'GROWTH EXECUÇÃO'}</div>
+          <div class="h-line h-line-fire"></div>
+
+          <div class="disp-large" style="font-size: 116px; line-height: 0.88; margin-bottom: 44px;">
+            ${s.title}
+          </div>
+
+          <div class="body-copy" style="font-size: 34px;">
+            ${s.body}
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (isCta) {
+    html = `
+      <div class="slide" style="background: var(--void);">
+        <div class="grain"></div>
+        <div class="tape-v tape-v-fire"></div>
+        <div class="tape-h tape-h-bottom tape-h-fire"></div>
+
+        <div class="photo-bg" style="background-image: url('${bgUrl || './Carrosseis/joao-gobira.JPG'}'); background-position: center 10%; filter: grayscale(20%) brightness(0.35);"></div>
+        <div class="photo-overlay"></div>
+
+        <div class="slide-no">${slideNo}</div>
+
+        <div class="cw" style="justify-content: center; text-align: center; align-items: center; padding-top: 160px; gap: 0;">
+          <div class="mono-tag" style="margin-bottom: 40px;">${s.tag || 'O JOGO DA EXECUÇÃO'}</div>
+          
+          <div class="disp-medium" style="font-size: 96px; margin-bottom: 44px; line-height: 0.92;">
+            ${s.title}
+          </div>
+
+          <div class="body-copy" style="text-align: center; max-width: 800px; color: var(--bone);">
+            ${s.body}
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (isQuote) {
+    html = `
+      <div class="slide" style="background: var(--carbon);">
+        <div class="grain"></div>
+        <div class="tape-v tape-v-fire"></div>
+        <div class="slide-no">${slideNo}</div>
+
+        <div class="cw" style="justify-content: center; gap: 0;">
+          <div class="mono-tag" style="margin-bottom: 48px;">${s.tag || 'CITAÇÃO'}</div>
+          <div class="h-line h-line-fire"></div>
+
+          <div style="margin-bottom: 32px;"><div class="quote-mark">"</div></div>
+
+          <div class="quote-text" style="font-size: 80px; line-height: 0.94; margin-bottom: 48px;">
+            ${s.title}
+          </div>
+
+          <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
+            ${s.body}
+          </div>
+        </div>
+      </div>
+    `;
+  } else {
+    const isGold = s.type === 'metrica' || s.type === 'solucao';
+    const tapeClass = isGold ? 'tape-v-gold' : 'tape-v-fire';
+    const lineClass = isGold ? 'h-line-gold' : 'h-line-fire';
+    const tagClass = isGold ? 'mono-tag gold' : 'mono-tag';
+
+    html = `
+      <div class="slide" style="background: ${s.bg ? 'transparent' : 'var(--void)'};">
+        <div class="grain"></div>
+        <div class="tape-v ${tapeClass}"></div>
+        <div class="slide-no">${slideNo}</div>
+
+        ${s.bg ? `<div class="photo-bg" style="background-image: url('${bgUrl}'); filter: grayscale(40%) contrast(1.1) brightness(0.45);"></div><div class="photo-overlay-mid"></div>` : ''}
+
+        <div class="cw" style="justify-content: center; gap: 0;">
+          <div class="${tagClass}" style="margin-bottom: 32px;">${s.tag || s.type.toUpperCase()}</div>
+          <div class="h-line ${lineClass}"></div>
+
+          <div class="disp-medium" style="margin-bottom: 48px;">
+            ${s.title}
+          </div>
+
+          <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
+            ${s.body}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  renderEl.innerHTML = html;
+  
+  // Atualiza controles de navegação
+  document.getElementById('ia-preview-info').textContent = `SLIDE ${iaCurrentSlideIdx + 1} / ${iaSlides.length}`;
+  document.getElementById('btn-ia-prev').disabled = iaCurrentSlideIdx === 0;
+  document.getElementById('btn-ia-next').disabled = iaCurrentSlideIdx === iaSlides.length - 1;
+
+  // Ajusta escala
+  resizeIAPreview();
+}
+
+function navIASlide(dir) {
+  const newIdx = iaCurrentSlideIdx + dir;
+  if (newIdx >= 0 && newIdx < iaSlides.length) {
+    iaCurrentSlideIdx = newIdx;
+    renderIASlidePreview();
+  }
+}
+
+function resizeIAPreview() {
+  const container = document.querySelector('.ia-preview-container');
+  const wrapper = document.getElementById('ia-live-slide-render');
+  if (!container || !wrapper) return;
+  const containerWidth = container.clientWidth - 40;
+  const containerHeight = container.clientHeight - 40;
+  const scaleX = containerWidth / 1080;
+  const scaleY = containerHeight / 1350;
+  const scale = Math.min(scaleX, scaleY, 1);
+  wrapper.style.transform = `scale(${scale})`;
+}
+
+async function salvarCriativoIA() {
+  if (iaSlides.length === 0) return;
+  const name = document.getElementById('ia-creative-name').value.trim() || 'carrossel_ia';
+  const statusLog = document.getElementById('ia-status-log');
+  const btn = document.getElementById('btn-ia-salvar');
+
+  btn.disabled = true;
+  btn.textContent = '⏳ SALVANDO ARTE...';
+  statusLog.className = 'pub-status show';
+  statusLog.textContent = 'Gerando arquivo de código HTML brutalista...';
+
+  try {
+    // 1. Salvar HTML
+    const saveResp = await fetch('/api/ia/salvar-criativo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, slides: iaSlides })
+    });
+    const saveData = await saveResp.json();
+    if (!saveResp.ok || !saveData.ok) throw new Error(saveData.error || 'Erro ao gerar HTML');
+    
+    statusLog.textContent += `\n✓ HTML brutalista gravado em ${saveData.relativePath}\nExportando imagens com o Puppeteer em segundo plano...`;
+
+    // 2. Exportar PNGs via Puppeteer
+    const expResp = await fetch('/api/exportar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ file: saveData.fullPath })
+    });
+
+    const reader = expResp.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n\n');
+      buffer = lines.pop();
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        try {
+          const ev = JSON.parse(line.slice(6));
+          if (ev.type === 'slide') {
+            statusLog.textContent += `\n✓ Exportado: slide_${String(ev.index).padStart(2, '0')}.png`;
+          } else if (ev.type === 'done') {
+            statusLog.className = 'pub-status show ok';
+            statusLog.textContent = `✅ SUCESSO!\nCarrossel exportado com sucesso na galeria do Studio!\nTotal: ${ev.total} slides PNG gravados.`;
+            btn.textContent = '✓ SALVO E EXPORTADO!';
+            btn.disabled = false;
+            
+            // Recarrega lista principal
+            init();
+          } else if (ev.type === 'error') {
+            throw new Error(ev.message);
+          }
+        } catch (e) {}
+      }
+    }
+  } catch (err) {
+    statusLog.className = 'pub-status show err';
+    statusLog.textContent = '❌ Erro: ' + err.message;
+    btn.textContent = '💾 SALVAR E EXPORTAR CRIATIVO';
+    btn.disabled = false;
+  }
+}
+
+window.addEventListener('resize', resizeIAPreview);
+
+// ── PUBLISH ────────────────────────────────────────────────────────────────
+let pubSelected = null; // creative selecionado na aba publicar
+let pubSlides = [];     // slides do criativo selecionado
+
+function renderPubCreatives() {
+  const list = document.getElementById('pub-creative-list');
+  const ig = allCreatives.filter(c => c.platform === 'instagram' || c.platform === 'meta' || c.platform === 'carousel');
+  if(ig.length === 0) {
+    list.innerHTML = `<div style="font-family:var(--fm);font-size:10px;color:var(--muted);">Nenhum criativo Instagram/Meta encontrado. Exporte primeiro na aba Studio.</div>`;
+    return;
+  }
+  list.innerHTML = ig.map(c => `
+    <div class="pub-creative-item ${pubSelected?.id===c.id?'sel':''}" onclick="selectPubCreative('${c.id}')">
+      <span style="font-size:16px;">📸</span>
+      <span>${c.name}</span>
+      <span style="margin-left:auto;font-family:var(--fm);font-size:9px;color:var(--muted);">${c.exportedSlides} slides</span>
+    </div>`).join('');
+}
+
+async function selectPubCreative(id) {
+  pubSelected = allCreatives.find(c => c.id === id);
+  if(!pubSelected) return;
+  renderPubCreatives();
+  const grid = document.getElementById('pub-slide-grid');
+  const title = document.getElementById('pub-slides-title');
+  grid.innerHTML = '<div style="font-family:var(--fm);font-size:10px;color:var(--muted);">Carregando slides...</div>';
+  title.style.display = 'block';
+
+  try {
+    const resp = await fetch('/api/slides-exportados?dir='+encodeURIComponent(pubSelected.slidesDir));
+    const data = await resp.json();
+    pubSlides = data.slides || [];
+    if(pubSlides.length === 0) {
+      grid.innerHTML = `<div style="font-family:var(--fm);font-size:10px;color:var(--fire);">Nenhum slide exportado. Exporte na aba Studio primeiro.</div>`;
+      return;
+    }
+    if(pubSlides.length > 10) {
+      grid.innerHTML += `<div style="font-family:var(--fm);font-size:9px;color:var(--gold);margin-bottom:8px;">⚠ Instagram aceita máximo 10 slides. Apenas os 10 primeiros serão publicados.</div>`;
+      pubSlides = pubSlides.slice(0,10);
+    }
+    grid.innerHTML = pubSlides.map((s,i) => `
+      <div class="pub-slide sel" id="ps-${i}">
+        <img src="/${s.relativePath}" alt="Slide ${i+1}">
+        <div class="pub-slide-n">${i+1}</div>
+      </div>`).join('');
+    document.getElementById('btn-pub-now').disabled = false;
+    document.getElementById('btn-add-queue').disabled = false;
+  } catch(e) {
+    grid.innerHTML = `<div style="color:var(--fire);font-size:10px;">${e.message}</div>`;
+  }
+}
+
+function updatePubChar() {
+  const len = document.getElementById('pub-caption').value.length;
+  const el = document.getElementById('pub-char');
+  el.textContent = `${len} / 2200`;
+  el.style.color = len > 2000 ? 'var(--fire)' : 'var(--muted)';
+}
+
+async function publicarAgora() {
+  if(!pubSelected || pubSlides.length === 0) return;
+  const caption = document.getElementById('pub-caption').value;
+  const hashtags = document.getElementById('pub-hashtags').value;
+  const fullCaption = hashtags ? `${caption}\n\n${hashtags}` : caption;
+  const status = document.getElementById('pub-status');
+  const btn = document.getElementById('btn-pub-now');
+
+  btn.disabled = true;
+  btn.textContent = '⏳ ENVIANDO...';
+  status.className = 'pub-status show';
+  status.textContent = 'Fazendo upload para Cloudinary...';
+
+  try {
+    // 1. Upload Cloudinary
+    const filePaths = pubSlides.map(s => pubSelected.slidesDir.replace(/\\/g,'/') + '/' + s.filename);
+    const upResp = await fetch('/api/publicar/upload', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ files: filePaths })
+    });
+    const upData = await upResp.json();
+    if(!upData.ok) throw new Error(upData.error || 'Erro no upload');
+    const urls = upData.urls.map(u => u.url);
+    status.textContent += `\n✓ ${urls.length} imagens no Cloudinary.\nPublicando no Instagram...`;
+
+    // 2. Publicar Instagram (streaming)
+    const igResp = await fetch('/api/publicar/instagram', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ urls, caption: fullCaption })
+    });
+    const reader = igResp.body.getReader();
+    const dec = new TextDecoder();
+    let buf = '';
+    while(true) {
+      const {done,value} = await reader.read();
+      if(done) break;
+      buf += dec.decode(value,{stream:true});
+      const parts = buf.split('\n\n'); buf = parts.pop();
+      for(const p of parts) {
+        if(!p.startsWith('data: ')) continue;
+        const ev = JSON.parse(p.slice(6));
+        if(ev.type==='step') status.textContent += '\n' + ev.msg;
+        if(ev.type==='done') {
+          status.className='pub-status show ok';
+          status.textContent = `✅ Publicado com sucesso!\nPost ID: ${ev.postId}`;
+          btn.textContent = '✓ PUBLICADO!';
+        }
+        if(ev.type==='error') throw new Error(ev.msg);
+      }
+    }
+  } catch(e) {
+    status.className = 'pub-status show err';
+    status.textContent = '❌ Erro: ' + e.message;
+    btn.textContent = '📤 PUBLICAR AGORA NO INSTAGRAM';
+    btn.disabled = false;
+  }
+}
+
+async function adicionarFila() {
+  if(!pubSelected || pubSlides.length === 0) return;
+  const caption = document.getElementById('pub-caption').value;
+  const hashtags = document.getElementById('pub-hashtags').value;
+  const thumbnail = pubSlides[0]?.relativePath || '';
+  await fetch('/api/publicar/fila', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ name: pubSelected.name, slidesDir: pubSelected.slidesDir,
+      slides: pubSlides, caption, hashtags, thumbnail })
+  });
+  const status = document.getElementById('pub-status');
+  status.className = 'pub-status show ok';
+  status.textContent = '✅ Adicionado à fila! Acesse a aba Fila para publicar.';
+}
+
+// ── QUEUE ──────────────────────────────────────────────────────────────────
+async function renderFila() {
+  const resp = await fetch('/api/publicar/fila');
+  const queue = await resp.json();
+  const list = document.getElementById('queue-list');
+  if(queue.length === 0) {
+    list.innerHTML = `<div class="queue-empty"><div class="em">📭</div><p>Fila vazia</p></div>`;
+    return;
+  }
+  list.innerHTML = queue.map(item => `
+    <div class="queue-card" id="qc-${item.id}">
+      <img class="queue-thumb" src="/${item.thumbnail || ''}" onerror="this.style.display='none'">
+      <div class="queue-info">
+        <div class="queue-name">${item.name}</div>
+        <div class="queue-cap">${item.caption || '(sem legenda)'}</div>
+        <div class="queue-date">${new Date(item.createdAt).toLocaleString('pt-BR')}</div>
+      </div>
+      <div class="queue-actions">
+        <button class="btn-q-pub" onclick="publicarDaFila('${item.id}')">📤 Publicar</button>
+        <button class="btn-q-del" onclick="removerDaFila('${item.id}')">✕</button>
+      </div>
+    </div>`).join('');
+}
+
+async function publicarDaFila(id) {
+  const resp = await fetch('/api/publicar/fila');
+  const queue = await resp.json();
+  const item = queue.find(i => i.id === id);
+  if(!item) return;
+  // Pre-preenche e vai para aba publicar
+  switchTab('publicar');
+  // Aguarda render e seleciona o criativo
+  setTimeout(async () => {
+    await selectPubCreative(allCreatives.find(c => c.name === item.name)?.id);
+    document.getElementById('pub-caption').value = item.caption || '';
+    document.getElementById('pub-hashtags').value = item.hashtags || '';
+    updatePubChar();
+  }, 200);
+}
+
+async function removerDaFila(id) {
+  await fetch('/api/publicar/fila/'+id, { method:'DELETE' });
+  renderFila();
+}
+
+// ── SEARCH ─────────────────────────────────────────────────────────────────
+document.getElementById('search').addEventListener('input', renderGallery);
+
+// ── START ──────────────────────────────────────────────────────────────────
+// Inicializa view-studio como ativa manualmente (id+class conflict workaround)
+document.getElementById('view-studio').classList.add('active');
+init();
+</script>
+</body>
+</html>

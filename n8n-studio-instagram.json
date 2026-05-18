@@ -1,0 +1,52 @@
+{
+  "name": "Studio — Publicar no Instagram",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "publicar-instagram",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "a1b2c3d4-1111",
+      "name": "Receber do Studio",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "studio-publicar-ig"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ══════════════════════════════════════════\n// CONFIG — cole seus dados aqui\nconst IG_USER_ID = 'SEU_IG_USER_ID_AQUI';   // ex: 17841401915115561\nconst IG_TOKEN   = 'SEU_TOKEN_AQUI';         // token do Graph API Explorer\n// ══════════════════════════════════════════\n\nconst body    = $input.first().json.body || $input.first().json;\nconst urls    = body.urls    || [];\nconst caption = body.caption || '';\nconst BASE    = 'https://graph.facebook.com/v19.0';\n\nif (!urls.length) throw new Error('Nenhuma URL de imagem recebida');\nif (urls.length > 10) throw new Error('Instagram aceita máximo 10 imagens por carrossel');\n\n// Helper: POST com query params\nconst igPost = async (path, params) => {\n  const url = new URL(BASE + path);\n  Object.entries({ ...params, access_token: IG_TOKEN })\n    .forEach(([k, v]) => url.searchParams.set(k, String(v)));\n  const r = await fetch(url.toString(), { method: 'POST' });\n  const data = await r.json();\n  if (data.error) throw new Error(`[Meta] ${data.error.message} (code ${data.error.code})`);\n  return data;\n};\n\n// 1. Criar item de mídia para cada imagem\nconst itemIds = [];\nfor (const imageUrl of urls) {\n  const item = await igPost(`/${IG_USER_ID}/media`, {\n    image_url: imageUrl,\n    is_carousel_item: 'true'\n  });\n  itemIds.push(item.id);\n}\n\n// 2. Criar container do carrossel\nconst carousel = await igPost(`/${IG_USER_ID}/media`, {\n  media_type: 'CAROUSEL',\n  children:   itemIds.join(','),\n  caption\n});\n\n// 3. Publicar\nconst pub = await igPost(`/${IG_USER_ID}/media_publish`, {\n  creation_id: carousel.id\n});\n\nreturn [{ json: { ok: true, postId: pub.id, slides: urls.length } }];"
+      },
+      "id": "a1b2c3d4-2222",
+      "name": "Publicar Carrossel IG",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "a1b2c3d4-3333",
+      "name": "Resposta",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [720, 300]
+    }
+  ],
+  "connections": {
+    "Receber do Studio": {
+      "main": [[{ "node": "Publicar Carrossel IG", "type": "main", "index": 0 }]]
+    },
+    "Publicar Carrossel IG": {
+      "main": [[{ "node": "Resposta", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "pinData": {}
+}
