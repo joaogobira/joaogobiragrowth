@@ -373,17 +373,51 @@ const readConfig = () => {
   return cfg;
 };
 
+// Retorna as imagens válidas no diretório Carrosseis
+const getBibliotecaImagens = () => {
+  try {
+    const dirPath = path.join(BASE_DIR, 'Carrosseis');
+    if (!fs.existsSync(dirPath)) return [];
+    const files = fs.readdirSync(dirPath);
+    const validExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
+    return files.filter(f => {
+      const ext = path.extname(f).toLowerCase();
+      const stats = fs.statSync(path.join(dirPath, f));
+      return stats.isFile() && validExtensions.includes(ext);
+    });
+  } catch (e) {
+    return [];
+  }
+};
+
+// Endpoint da Biblioteca de Imagens
+app.get('/api/ia/biblioteca', (req, res) => {
+  res.json({ ok: true, imagens: getBibliotecaImagens() });
+});
+
 app.post('/api/ia/chat', async (req, res) => {
-  const { message, history } = req.body;
+  const { message, history, format = 'carousel' } = req.body;
   const cfg = readConfig();
   const apiKey = cfg.GEMINI_API_KEY;
-
+ 
   if (!apiKey) {
     return res.status(400).json({ error: 'GEMINI_API_KEY não configurada no studio.config' });
   }
 
-  const systemInstruction = `Você é o co-criador de carrosséis oficiais de João Gobira, especialista em Growth, Gestão e Marketing de Performance.
-Seu objetivo é gerar a copy e estrutura de slides de um carrossel brutalista de alta conversão.
+  const listaImagens = getBibliotecaImagens();
+  const imagensStr = listaImagens.length > 0 
+    ? `Lista de arquivos de imagens físicas disponíveis na sua pasta Carrosseis/:\n${listaImagens.map(i => `- "${i}"`).join('\n')}`
+    : 'Nenhuma imagem física cadastrada. Use fundo sólido.';
+
+  const systemInstruction = `Você é o co-criador oficial de criativos de João Gobira, especialista em Growth, Gestão e Marketing de Performance.
+Seu objetivo é gerar a copy e estrutura de slides de um criativo brutalista de alta conversão.
+
+FORMATO DO CRIATIVO SOLICITADO: "${format}"
+Considere as diretrizes do formato solicitado para compor títulos e copys:
+- "carousel": Carrossel do Instagram (1080x1350px). Média de 5 a 10 slides. Texto fluido, bem sequenciado.
+- "square": Feed quadrado/Meta Ads (1080x1080px). Criativo único ou carrossel quadrado. Foco em copy extremamente visual e direta.
+- "vertical": Stories / Reels (1080x1920px). Proporção vertical. Máximo 1 slide de roteiro ultra impactante ou sequência rápida de 3-4 slides para Stories.
+- "horizontal": Banner / Linkedin JG (1920x1080px). Proporção horizontal. Títulos bem amplos em uma linha e parágrafos distribuídos horizontalmente.
 
 DIRETRIZES DE MARCA (João Gobira):
 - Tom de Voz: Direto, firme, com peso emocional e autoridade. Tom nascido da trincheira, do campo de batalha real de growth, e não de teorias corporativas vazias.
@@ -392,20 +426,31 @@ DIRETRIZES DE MARCA (João Gobira):
 - Use números e dados específicos (ex: "47% de aumento em vendas" ao invés de "resultado expressivo").
 - Fale para fundadores e gestores que precisam de método e dados.
 
+REGRAS DE IMAGENS & FOTOGRAFIAS:
+${imagensStr}
+
+A sua escolha de imagem para o campo "bg" deve ser altamente estratégica e lógica com base no teor do slide:
+- Use preferencialmente "joao-gobira.JPG" para Capa e CTA.
+- Use "IMG_7386.JPG" (tatame/luta) se o slide falar sobre disciplina, Jiu-Jitsu, resiliência, luta diária ou sob pressão.
+- Use "IMG_7392.JPG" (palco/palestra) se o slide falar sobre autoridade, ensinar equipes, palestras, mentorias, liderança e escala.
+- Use "IMG_7397.JPG" (executivo/negócios) se o slide falar sobre reuniões, fechamentos de contrato, finanças corporativas e o lado corporativo de growth.
+- Use "DSC08278.png" (action/trabalho) se o slide falar sobre execução operacional, "colocar a mão na massa", tráfego, código ou análises em tempo real.
+- Use "WhatsApp Image 2026-02-18 at 08.30.57.jpeg" especificamente para fundos de CTA convidando para falar no WhatsApp ou agendamentos.
+- Se o slide requerer foco puramente textual (como uma tabela ou citação direta), deixe o campo "bg" vazio "" para fundo sólido.
+
 REGRAS DE LAYOUT DOS SLIDES:
-1. Capa (Slide 1): Título impactante (Bebas Neue, use <em> para destacar em vermelho, ex: "3 LIÇÕES DO<br><em>JIU-JITSU</em>") + Subtítulo de apoio curto. A foto de fundo (bg) deve ser "joao-gobira.JPG". A tag deve ser o tema central (maiúsculas, ex: "GROWTH NÚMEROS").
+1. Capa (Slide 1): Título impactante (Bebas Neue, use <em> para destacar em vermelho, ex: "3 LIÇÕES DO<br><em>JIU-JITSU</em>") + Subtítulo de apoio curto. A tag deve ser o tema central (maiúsculas, ex: "GROWTH NÚMEROS").
 2. Slides Internos: Uma ideia central por slide.
    - Devem conter uma "tag" curta (maiúsculas), um "title" forte (Bebas Neue) e um "body" (Barlow Light).
    - O corpo do texto pode ter até 2 parágrafos curtos.
-   - Opcionalmente podem conter uma foto de fundo (bg) da lista: "IMG_7386.JPG", "IMG_7392.JPG", "IMG_7397.JPG", "DSC08278.png" ou vazia "" para fundo sólido.
 3. Slide de Métrica/Destaque: Deve conter um número ou estatística bem destacada no título e explicada.
 4. Slide de Frase/Quote: Deve conter uma frase curta e impactante estilo citação (Bebas Neue).
-5. Slide CTA Final (Último Slide): Um convite à ação urgente. A foto de fundo (bg) deve ser "joao-gobira.JPG" ou "WhatsApp Image 2026-02-18 at 08.30.57.jpeg".
+5. Slide CTA Final (Último Slide): Um convite à ação urgente.
 
 FORMATO DE RESPOSTA (OBRIGATÓRIO):
 Você DEVE responder UNICAMENTE com um objeto JSON estruturado contendo a lista de slides gerada, seguindo exatamente o formato abaixo:
 {
-  "assistantMessage": "Uma mensagem de introdução curta e inspiradora sobre o carrossel gerado no estilo João Gobira.",
+  "assistantMessage": "Uma mensagem de introdução curta e inspiradora sobre o criativo gerado no estilo João Gobira.",
   "slides": [
     {
       "type": "capa",
@@ -462,7 +507,7 @@ Importante: Retorne APENAS o JSON puro. Não inclua blocos de código markdown o
 
   for (const model of models) {
     try {
-      console.log(`[Gemini] Tentando modelo ${model}...`);
+      console.log(`[Gemini] Tentando modelo ${model} (formato: ${format})...`);
       const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
       const response = await axios.post(url, payload, { timeout: 30000 });
       const text = response.data.candidates[0].content.parts[0].text;
@@ -478,13 +523,31 @@ Importante: Retorne APENAS o JSON puro. Não inclua blocos de código markdown o
 });
 
 app.post('/api/ia/salvar-criativo', (req, res) => {
-  const { name, slides } = req.body;
+  const { name, slides, format = 'carousel' } = req.body;
   if (!name || !slides || slides.length === 0) {
     return res.status(400).json({ error: 'Dados insuficientes' });
   }
 
+  let width = 1080;
+  let height = 1350;
+  let scale = 0.38;
+
+  if (format === 'square') {
+    width = 1080;
+    height = 1080;
+  } else if (format === 'vertical') {
+    width = 1080;
+    height = 1920;
+  } else if (format === 'horizontal') {
+    width = 1920;
+    height = 1080;
+    scale = 0.25;
+  }
+
+  const marginBottom = Math.round(-height * (1 - scale)) + 12;
+
   const sanitized = name.toLowerCase().replace(/[^a-z0-9]/g, '_');
-  const filename = `carrossel_ia_${sanitized}_${Date.now()}.html`;
+  const filename = `criativo_ia_${sanitized}_${Date.now()}.html`;
   const targetPath = path.join(BASE_DIR, 'Carrosseis', 'Instagram', filename);
 
   let slidesHtml = '';
@@ -642,14 +705,14 @@ body {
 }
 
 .slide {
-  width: 1080px;
-  height: 1350px;
+  width: ${width}px;
+  height: ${height}px;
   background: var(--void);
   position: relative;
   flex-shrink: 0;
-  transform: scale(0.38);
+  transform: scale(${scale});
   transform-origin: top center;
-  margin-bottom: -838px;
+  margin-bottom: ${marginBottom}px;
   overflow: hidden;
   border: 1px solid #222;
 }
@@ -826,7 +889,7 @@ body {
 .quote-text em { color: var(--fire); font-style: normal; }
 
 @media print {
-  @page { size: 1080px 1350px; margin: 0; }
+  @page { size: ${width}px ${height}px; margin: 0; }
   body { background: var(--void) !important; padding: 0 !important; display: block !important; }
   .slide { transform: none !important; margin: 0 !important; page-break-after: always; break-after: page; border: none !important; }
   .slide:last-of-type { page-break-after: auto; break-after: auto; }

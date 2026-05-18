@@ -248,6 +248,39 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   align-self: flex-start;
   width: 95%;
 }
+.ia-format-selector {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  background: var(--carbon);
+  padding: 8px;
+  border: 1px solid var(--iron);
+}
+.ia-format-btn {
+  flex: 1;
+  background: var(--iron);
+  color: var(--sub);
+  border: 1px solid var(--steel);
+  font-family: var(--fm);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 8px 4px;
+  cursor: pointer;
+  text-transform: uppercase;
+  text-align: center;
+  transition: all .15s;
+}
+.ia-format-btn:hover {
+  border-color: var(--fire);
+  color: var(--bone);
+}
+.ia-format-btn.active {
+  background: var(--fire);
+  color: var(--bone);
+  border-color: var(--fire);
+  box-shadow: 2px 2px 0px var(--bone);
+}
+
 .ia-chat-input-wrap {
   display: flex;
   gap: 8px;
@@ -714,8 +747,22 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
       <div class="ia-left">
         <!-- Top header do Co-Criador -->
         <div class="ia-header">
-          <div class="ia-title">Co-Criador de Carrosséis IA</div>
+          <div class="ia-title">Co-Criador de Criativos IA</div>
           <div class="ia-subtitle">Converse com a IA de João Gobira e co-crie sua copy brutalista em tempo real</div>
+        </div>
+        
+        <!-- Seletor de Formatos Brutalista -->
+        <div style="padding: 0 24px; margin-bottom: 8px;">
+          <div class="pub-label" style="margin-bottom: 6px;">Selecione o Formato do Criativo</div>
+          <div class="ia-format-selector" style="margin-bottom: 12px;">
+            <button class="ia-format-btn active" data-fmt="carousel" onclick="setIAFormat('carousel')">📸 Carrossel Feed (4:5)</button>
+            <button class="ia-format-btn" data-fmt="square" onclick="setIAFormat('square')">📢 Feed Quadrado (1:1)</button>
+            <button class="ia-format-btn" data-fmt="vertical" onclick="setIAFormat('vertical')">📱 Stories / Reels (9:16)</button>
+            <button class="ia-format-btn" data-fmt="horizontal" onclick="setIAFormat('horizontal')">🖥️ Banner JG (16:9)</button>
+          </div>
+          <div style="font-family:var(--fm); font-size:10px; color:var(--muted); line-height:1.4;">
+            💡 <strong>BIBLIOTECA JG:</strong> Cole fotos suas (.jpg, .png) na pasta <code>Carrosseis/</code> para a IA usar ou para selecionar manualmente.
+          </div>
         </div>
         
         <!-- Seção do Chat Brutalista -->
@@ -801,6 +848,7 @@ const PLATFORM_LABELS = {
 // ── INIT ───────────────────────────────────────────────────────────────────
 async function init() {
   try {
+    await carregarBibliotecaImagens();
     const resp = await fetch('/api/criativos');
     allCreatives = await resp.json();
     updateCounts();
@@ -1091,16 +1139,58 @@ function switchTab(tab) {
 let iaHistory = [];
 let iaSlides = [];
 let iaCurrentSlideIdx = 0;
+let iaActiveFormat = 'carousel';
+let dynamicBgs = [];
 
-const IA_BG_OPTIONS = [
-  { value: '', label: 'Fundo Sólido' },
-  { value: 'joao-gobira.JPG', label: 'João Gobira Oficial' },
-  { value: 'IMG_7386.JPG', label: 'Apoio - Luta/Tatame (IMG_7386.JPG)' },
-  { value: 'IMG_7392.JPG', label: 'Apoio - Palco/Palestra (IMG_7392.JPG)' },
-  { value: 'IMG_7397.JPG', label: 'Apoio - Retrato Executivo (IMG_7397.JPG)' },
-  { value: 'DSC08278.png', label: 'Apoio - Action/Trabalho (DSC08278.png)' },
-  { value: 'WhatsApp Image 2026-02-18 at 08.30.57.jpeg', label: 'CTA - WhatsApp' }
-];
+function setIAFormat(fmt) {
+  iaActiveFormat = fmt;
+  document.querySelectorAll('.ia-format-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-fmt') === fmt);
+  });
+  // Atualiza o preview e a escala do live preview
+  renderIASlidePreview();
+}
+
+async function carregarBibliotecaImagens() {
+  try {
+    const resp = await fetch('/api/ia/biblioteca');
+    const data = await resp.json();
+    if (data.ok && data.imagens) {
+      dynamicBgs = data.imagens;
+      console.log('[Biblioteca] Imagens carregadas dinamicamente:', dynamicBgs);
+    }
+  } catch (e) {
+    console.error('[Biblioteca] Erro ao carregar imagens:', e);
+  }
+}
+
+function getBgOptionsHtml(selectedValue) {
+  let options = `<option value="" ${selectedValue === '' ? 'selected' : ''}>Fundo Sólido</option>`;
+  if (dynamicBgs && dynamicBgs.length > 0) {
+    dynamicBgs.forEach(img => {
+      let label = img;
+      if (img === 'joao-gobira.JPG') label = 'João Gobira Oficial (joao-gobira.JPG)';
+      else if (img === 'IMG_7386.JPG') label = 'Apoio - Tatame/Jiu-Jitsu (IMG_7386.JPG)';
+      else if (img === 'IMG_7392.JPG') label = 'Apoio - Palco/Palestra (IMG_7392.JPG)';
+      else if (img === 'IMG_7397.JPG') label = 'Apoio - Retrato Executivo (IMG_7397.JPG)';
+      else if (img === 'DSC08278.png') label = 'Apoio - Trabalho/Action (DSC08278.png)';
+      else if (img.toLowerCase().includes('whatsapp')) label = 'CTA - WhatsApp';
+      options += `<option value="${img}" ${selectedValue === img ? 'selected' : ''}>${label}</option>`;
+    });
+  } else {
+    const fallbacks = [
+      { value: 'joao-gobira.JPG', label: 'João Gobira Oficial' },
+      { value: 'IMG_7386.JPG', label: 'Apoio - Luta/Tatame' },
+      { value: 'IMG_7392.JPG', label: 'Apoio - Palco/Palestra' },
+      { value: 'IMG_7397.JPG', label: 'Apoio - Retrato Executivo' },
+      { value: 'DSC08278.png', label: 'Apoio - Action/Trabalho' }
+    ];
+    fallbacks.forEach(opt => {
+      options += `<option value="${opt.value}" ${selectedValue === opt.value ? 'selected' : ''}>${opt.label}</option>`;
+    });
+  }
+  return options;
+}
 
 async function enviarMensagemIA() {
   const input = document.getElementById('ia-chat-input');
@@ -1128,7 +1218,7 @@ async function enviarMensagemIA() {
     const resp = await fetch('/api/ia/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message, history: iaHistory })
+      body: JSON.stringify({ message, history: iaHistory, format: iaActiveFormat })
     });
 
     const data = await resp.json();
@@ -1191,9 +1281,7 @@ async function enviarMensagemIA() {
 function renderIASlidesEditor() {
   const container = document.getElementById('ia-slides-editor-list');
   container.innerHTML = iaSlides.map((s, idx) => {
-    const bgSelect = IA_BG_OPTIONS.map(opt => `
-      <option value="${opt.value}" ${s.bg === opt.value ? 'selected' : ''}>${opt.label}</option>
-    `).join('');
+    const bgSelect = getBgOptionsHtml(s.bg);
 
     return `
       <div class="ia-slide-card" id="ia-slide-card-${idx}">
@@ -1351,6 +1439,18 @@ function renderIASlidePreview() {
     `;
   }
 
+  // Ajusta dimensões físicas dinamicamente na div .slide para o Live Preview
+  let width = 1080;
+  let height = 1350;
+  if (iaActiveFormat === 'square') { width = 1080; height = 1080; }
+  else if (iaActiveFormat === 'vertical') { width = 1080; height = 1920; }
+  else if (iaActiveFormat === 'horizontal') { width = 1920; height = 1080; }
+
+  html = html.replace('class="slide"', `class="slide" style="width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
+  html = html.replace('class="slide" style="background: var(--void);"', `class="slide" style="background: var(--void); width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
+  html = html.replace('class="slide" style="background: var(--carbon);"', `class="slide" style="background: var(--carbon); width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
+  html = html.replace('class="slide" style="background: transparent;"', `class="slide" style="background: transparent; width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
+
   renderEl.innerHTML = html;
   
   // Atualiza controles de navegação
@@ -1374,10 +1474,17 @@ function resizeIAPreview() {
   const container = document.querySelector('.ia-preview-container');
   const wrapper = document.getElementById('ia-live-slide-render');
   if (!container || !wrapper) return;
+
+  let width = 1080;
+  let height = 1350;
+  if (iaActiveFormat === 'square') { width = 1080; height = 1080; }
+  else if (iaActiveFormat === 'vertical') { width = 1080; height = 1920; }
+  else if (iaActiveFormat === 'horizontal') { width = 1920; height = 1080; }
+
   const containerWidth = container.clientWidth - 40;
   const containerHeight = container.clientHeight - 40;
-  const scaleX = containerWidth / 1080;
-  const scaleY = containerHeight / 1350;
+  const scaleX = containerWidth / width;
+  const scaleY = containerHeight / height;
   const scale = Math.min(scaleX, scaleY, 1);
   wrapper.style.transform = `scale(${scale})`;
 }
@@ -1398,7 +1505,7 @@ async function salvarCriativoIA() {
     const saveResp = await fetch('/api/ia/salvar-criativo', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, slides: iaSlides })
+      body: JSON.stringify({ name, slides: iaSlides, format: iaActiveFormat })
     });
     const saveData = await saveResp.json();
     if (!saveResp.ok || !saveData.ok) throw new Error(saveData.error || 'Erro ao gerar HTML');
