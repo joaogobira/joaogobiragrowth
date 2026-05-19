@@ -63,11 +63,101 @@ const CREATIVE_DIRS = [
   { folder: path.join(BASE_DIR, 'Criativos', 'MetaAds'),   platform: 'meta'      },
   { folder: path.join(BASE_DIR, 'Criativos', 'YouTube'),   platform: 'youtube'   },
   { folder: path.join(BASE_DIR, 'Criativos', 'Logo'),      platform: 'brand'     },
+  { folder: path.join(BASE_DIR, 'Criativos', 'Logo', 'Assets'), platform: 'brand' },
   { folder: path.join(BASE_DIR, 'Criativos', 'Banners'),   platform: 'brand'     },
 ];
 
 // NOTA: express.static registrado DEPOIS das rotas para não sobrescrever a raiz
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
+// ── Funções de Apoio de Configuração ───────────────────────────────────────
+const readConfig = () => {
+  const cfgPath = path.join(BASE_DIR, 'studio.config');
+  if (!fs.existsSync(cfgPath)) return {};
+  const cfgLines = fs.readFileSync(cfgPath, 'utf8').split(/\r?\n/);
+  const cfg = {};
+  cfgLines.forEach(l => {
+    const t = l.trim();
+    if (!t || t[0] === '#') return;
+    const eq = t.indexOf('=');
+    if (eq < 0) return;
+    cfg[t.slice(0, eq).trim()] = t.slice(eq + 1).trim();
+  });
+  return cfg;
+};
+
+const parseCookies = (cookieHeader) => {
+  const list = {};
+  if (!cookieHeader) return list;
+  cookieHeader.split(';').forEach(cookie => {
+    let parts = cookie.split('=');
+    list[parts.shift().trim()] = decodeURIComponent(parts.join('='));
+  });
+  return list;
+};
+
+// Middleware de Segurança Brutalista
+const checkAuth = (req, res, next) => {
+  const cfg = readConfig();
+  const password = cfg.STUDIO_PASSWORD || 'gobira';
+
+  // Exceções de rotas livres (login)
+  if (req.path === '/api/login' || req.path === '/login.html') {
+    return next();
+  }
+
+  const cookies = parseCookies(req.headers.cookie);
+  const session = cookies['studio_session'];
+
+  if (session === password) {
+    return next();
+  }
+
+  // Se for uma requisição de API
+  if (req.path.startsWith('/api/')) {
+    return res.status(401).json({ error: 'Acesso negado: não autenticado.' });
+  }
+
+  // Caso contrário, redireciona para a tela de login
+  res.redirect('/login.html');
+};
+
+app.use(checkAuth);
+
+// ── Endpoint de Login ──────────────────────────────────────────────────────
+app.post('/api/login', (req, res) => {
+  const { password } = req.body;
+  const cfg = readConfig();
+  const correctPassword = cfg.STUDIO_PASSWORD || 'gobira';
+  if (password === correctPassword) {
+    return res.json({ ok: true });
+  }
+  res.status(401).json({ error: 'Senha incorreta' });
+});
+
+// ── Endpoint de Upload de Imagens ──────────────────────────────────────────
+app.post('/api/upload-imagem', (req, res) => {
+  const { name, base64 } = req.body;
+  if (!name || !base64) {
+    return res.status(400).json({ error: 'Dados insuficientes para upload.' });
+  }
+  try {
+    const cleanBase64 = base64.replace(/^data:image\/\w+;base64,/, '');
+    const buffer = Buffer.from(cleanBase64, 'base64');
+    
+    const sanitizedName = name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+    const targetPath = path.join(BASE_DIR, 'Carrosseis', sanitizedName);
+    
+    fs.writeFileSync(targetPath, buffer);
+    console.log(`[Upload] Imagem salva na biblioteca: ${sanitizedName}`);
+    res.json({ ok: true, filename: sanitizedName });
+  } catch (err) {
+    console.error('[Upload] Falha ao salvar imagem:', err.message);
+    res.status(500).json({ error: 'Erro interno ao salvar arquivo.' });
+  }
+});
+
 
 // ── API: lista todos os criativos ──────────────────────────────────────────
 app.get('/api/criativos', (req, res) => {
@@ -238,7 +328,44 @@ app.post('/api/exportar', async (req, res) => {
     }
 
     await browser.close();
-    send({ type: 'done', total: allSlides.length, outputDir: path.relative(BASE_DIR, outputDir).replace(/\\/g, '/') });
+
+    // Se for LinkedIn, compila os slides em um arquivo PDF consolidado
+    const isLinkedIn = file.toLowerCase().includes('linkedin');
+    let pdfRelativePath = null;
+
+    if (isLinkedIn) {
+      send({ type: 'progress', message: 'Compilando slides em um único documento PDF para o LinkedIn...', total: allSlides.length, current: allSlides.length });
+      try {
+        const { PDFDocument } = require('pdf-lib');
+        const pdfDoc = await PDFDocument.create();
+
+        for (let i = 0; i < allSlides.length; i++) {
+          const outputPath = path.join(outputDir, `slide_${String(i + 1).padStart(2, '0')}.png`);
+          if (fs.existsSync(outputPath)) {
+            const pngBytes = fs.readFileSync(outputPath);
+            const pngImage = await pdfDoc.embedPng(pngBytes);
+            const { width, height } = pngImage.scale(1);
+            const page = pdfDoc.addPage([width, height]);
+            page.drawImage(pngImage, { x: 0, y: 0, width: width, height: height });
+          }
+        }
+
+        const pdfBytes = await pdfDoc.save();
+        const pdfPath = path.join(dir, `${baseName}.pdf`);
+        fs.writeFileSync(pdfPath, pdfBytes);
+        pdfRelativePath = path.relative(BASE_DIR, pdfPath).replace(/\\/g, '/');
+      } catch (pdfErr) {
+        console.error('Erro ao gerar PDF:', pdfErr);
+        send({ type: 'error', message: 'Erro ao compilar PDF: ' + pdfErr.message });
+      }
+    }
+
+    send({
+      type: 'done',
+      total: allSlides.length,
+      outputDir: path.relative(BASE_DIR, outputDir).replace(/\\/g, '/'),
+      pdfPath: pdfRelativePath
+    });
   } catch (err) {
     send({ type: 'error', message: err.message });
   }
@@ -513,39 +640,6 @@ Você DEVE responder UNICAMENTE com um objeto JSON estruturado contendo a lista 
   ]
 }
 
-Importante: Retorne APENAS o JSON puro. Não inclua blocos de código markdown ou texto explicativo fora do JSON.`;tulo e explicada.
-4. Slide de Frase/Quote: Deve conter uma frase curta e impactante estilo citação (Bebas Neue).
-5. Slide CTA Final (Último Slide): Um convite à ação urgente.
-
-FORMATO DE RESPOSTA (OBRIGATÓRIO):
-Você DEVE responder UNICAMENTE com um objeto JSON estruturado contendo a lista de slides gerada, seguindo exatamente o formato abaixo:
-{
-  "assistantMessage": "Uma mensagem de introdução curta e inspiradora sobre o criativo gerado no estilo João Gobira.",
-  "slides": [
-    {
-      "type": "capa",
-      "tag": "CATEGORIA DO CONTEÚDO",
-      "title": "TÍTULO DA CAPA<br>COM <em>DESTAQUE</em>",
-      "body": "Subtítulo de apoio complementar.",
-      "bg": "joao-gobira.JPG"
-    },
-    {
-      "type": "dor",
-      "tag": "O PROBLEMA",
-      "title": "TÍTULO DA DOR",
-      "body": "Texto descrevendo a dor do leitor...",
-      "bg": ""
-    },
-    {
-      "type": "cta",
-      "tag": "AÇÃO",
-      "title": "CHAMADA FINAL",
-      "body": "Texto do botão ou convite...",
-      "bg": "joao-gobira.JPG"
-    }
-  ]
-}
-
 Importante: Retorne APENAS o JSON puro. Não inclua blocos de código markdown ou texto explicativo fora do JSON.`;
 
   const contents = [];
@@ -598,27 +692,60 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
     return res.status(400).json({ error: 'Dados insuficientes' });
   }
 
+  let folder = 'Carrosseis/Instagram';
+  let slideClass = 'slide';
   let width = 1080;
   let height = 1350;
   let scale = 0.38;
 
-  if (format === 'square') {
-    width = 1080;
-    height = 1080;
-  } else if (format === 'vertical') {
-    width = 1080;
-    height = 1920;
-  } else if (format === 'horizontal') {
+  if (format === 'linkedin-carousel') {
+    folder = 'Carrosseis/LinkedIn';
+    slideClass = 'slide';
+  } else if (format === 'youtube-thumb') {
+    folder = 'Criativos/YouTube';
+    slideClass = 'yt-thumb';
+    width = 1280;
+    height = 720;
+    scale = 0.3;
+  } else if (format === 'brand-logo') {
+    folder = 'Criativos/Logo';
+    slideClass = 'logo-asset';
+    width = 800;
+    height = 800;
+    scale = 0.5;
+  } else if (format === 'banner-horizontal') {
+    folder = 'Criativos/Banners';
+    slideClass = 'banner';
     width = 1920;
     height = 1080;
     scale = 0.25;
+  } else if (format === 'square') {
+    folder = 'Criativos/MetaAds';
+    width = 1080;
+    height = 1080;
+    slideClass = 'ad-square';
+  } else if (format === 'vertical') {
+    folder = 'Criativos/MetaAds';
+    width = 1080;
+    height = 1920;
+    slideClass = 'ad-story';
+  } else if (format === 'horizontal') {
+    folder = 'Criativos/Banners';
+    width = 1920;
+    height = 1080;
+    scale = 0.25;
+    slideClass = 'banner';
   }
 
   const marginBottom = Math.round(-height * (1 - scale)) + 12;
 
   const sanitized = name.toLowerCase().replace(/[^a-z0-9]/g, '_');
   const filename = `criativo_ia_${sanitized}_${Date.now()}.html`;
-  const targetPath = path.join(BASE_DIR, 'Carrosseis', 'Instagram', filename);
+  const targetPath = path.join(BASE_DIR, folder, filename);
+
+  // Garante que a pasta destino exista
+  fs.mkdirSync(path.join(BASE_DIR, folder), { recursive: true });
+
 
   let slidesHtml = '';
   slides.forEach((s, idx) => {
@@ -633,7 +760,7 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
     slidesHtml += `\n<!-- SLIDE ${idx + 1}: ${s.type.toUpperCase()} -->\n`;
     
     if (isCapa) {
-      slidesHtml += `<div class="slide ${layoutClass}" id="slide-${idx + 1}">
+      slidesHtml += `<div class="slide ${slideClass} ${layoutClass}" id="slide-${idx + 1}">
   <div class="grain"></div>
   <div class="tape-v tape-v-fire"></div>
   <div class="tape-h tape-h-top tape-h-fire"></div>
@@ -658,7 +785,7 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
   </div>
 </div>\n<div class="sep"></div>\n`;
     } else if (isCta) {
-      slidesHtml += `<div class="slide ${layoutClass}" id="slide-${idx + 1}" style="background: var(--void);">
+      slidesHtml += `<div class="slide ${slideClass} ${layoutClass}" id="slide-${idx + 1}" style="background: var(--void);">
   <div class="grain"></div>
   <div class="tape-v tape-v-fire"></div>
   <div class="tape-h tape-h-bottom tape-h-fire"></div>
@@ -681,7 +808,7 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
   </div>
 </div>\n`;
     } else if (isQuote) {
-      slidesHtml += `<div class="slide ${layoutClass}" id="slide-${idx + 1}" style="background: var(--carbon);">
+      slidesHtml += `<div class="slide ${slideClass} ${layoutClass}" id="slide-${idx + 1}" style="background: var(--carbon);">
   <div class="grain"></div>
   <div class="tape-v tape-v-fire"></div>
   <div class="slide-no">${slideNo}</div>
@@ -707,7 +834,7 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
       const lineClass = isGold ? 'h-line-gold' : 'h-line-fire';
       const tagClass = isGold ? 'mono-tag gold' : 'mono-tag';
 
-      slidesHtml += `<div class="slide ${layoutClass}" id="slide-${idx + 1}" style="background: ${bgUrl ? 'transparent' : 'var(--void)'};">
+      slidesHtml += `<div class="slide ${slideClass} ${layoutClass}" id="slide-${idx + 1}" style="background: ${bgUrl ? 'transparent' : 'var(--void)'};">
   <div class="grain"></div>
   <div class="tape-v ${tapeClass}"></div>
   <div class="slide-no">${slideNo}</div>
@@ -1093,7 +1220,7 @@ ${slidesHtml}
 </html>`;
 
   fs.writeFileSync(targetPath, fullHtml, 'utf8');
-  res.json({ ok: true, filename, fullPath: targetPath, relativePath: `Carrosseis/Instagram/${filename}` });
+  res.json({ ok: true, filename, fullPath: targetPath, relativePath: `${folder}/${filename}` });
 });
 
 // ── Serve o Studio HTML na raiz ───────────────────────────────────────────

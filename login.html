@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acesso Restrito — Studio JG</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600;700&family=Bebas+Neue&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #080808;
+      --card-bg: #121212;
+      --text-color: #f5f5f5;
+      --accent-color: #ff3333;
+      --accent-glow: rgba(255, 51, 51, 0.4);
+      --border-color: #262626;
+      --thick-border: 3px solid #ff3333;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Fundo com efeito Grain & Glow */
+    .bg-glow {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      pointer-events: none;
+      filter: blur(50px);
+    }
+
+    .grain {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Card Brutalista */
+    .login-container {
+      background-color: var(--card-bg);
+      border: 3px solid var(--border-color);
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 420px;
+      z-index: 10;
+      position: relative;
+      box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .login-container::before {
+      content: '';
+      position: absolute;
+      top: -3px; left: -3px; right: -3px; bottom: -3px;
+      border: 3px solid transparent;
+      z-index: -1;
+      transition: all 0.3s ease;
+    }
+
+    .login-container:focus-within {
+      border-color: var(--accent-color);
+      box-shadow: 12px 12px 0px var(--accent-color);
+      transform: translate(-2px, -2px);
+    }
+
+    /* Cabeçalho */
+    .header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--accent-color);
+      color: #000;
+      font-weight: 800;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      letter-spacing: 2px;
+      margin-bottom: 0.75rem;
+      transform: skewX(-10deg);
+    }
+
+    .title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      line-height: 1;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .title em {
+      font-style: normal;
+      color: var(--accent-color);
+    }
+
+    .subtitle {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 0.5rem;
+      letter-spacing: 1px;
+    }
+
+    /* Formulário */
+    .form-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #aaa;
+      margin-bottom: 0.5rem;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-field {
+      width: 100%;
+      background: #181818;
+      border: 2px solid #2d2d2d;
+      color: #fff;
+      padding: 0.85rem 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .input-field:focus {
+      border-color: var(--accent-color);
+      background: #1c1c1c;
+      box-shadow: 4px 4px 0px rgba(255, 51, 51, 0.15);
+    }
+
+    /* Botão */
+    .btn-submit {
+      width: 100%;
+      background: #fff;
+      color: #000;
+      border: none;
+      padding: 1rem;
+      font-size: 1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+      border: 2px solid #fff;
+    }
+
+    .btn-submit:hover {
+      background: var(--accent-color);
+      color: #fff;
+      border-color: var(--accent-color);
+      box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.8);
+      transform: translate(-2px, -2px);
+    }
+
+    .btn-submit:active {
+      transform: translate(0, 0);
+      box-shadow: none;
+    }
+
+    /* Notificação de Erro */
+    .error-box {
+      background: rgba(255, 51, 51, 0.1);
+      border-left: 4px solid var(--accent-color);
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #ff8888;
+      display: none;
+      animation: shake 0.4s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    .footer-text {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.7rem;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow"></div>
+  <div class="grain"></div>
+
+  <div class="login-container" id="loginCard">
+    <div class="header">
+      <span class="badge">Acesso Exclusivo</span>
+      <h1 class="title">Studio <em>JG</em></h1>
+      <p class="subtitle">Growth, Performance & Brand Assets</p>
+    </div>
+
+    <div class="error-box" id="errorBox">
+      ⚠️ Senha incorreta. Acesso negado.
+    </div>
+
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label class="form-label" for="password">Chave de Acesso</label>
+        <div class="input-wrapper">
+          <input type="password" id="password" class="input-field" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" id="submitBtn">
+        Entrar no Painel
+      </button>
+    </form>
+
+    <div class="footer-text">
+      João Gobira Growth &copy; 2026
+    </div>
+  </div>
+
+  <script>
+    // Se o usuário já tiver o cookie de autenticação, podemos tentar ir direto
+    if (document.cookie.split(';').some((item) => item.trim().startsWith('studio_session='))) {
+      window.location.href = '/studio.html';
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const password = document.getElementById('password').value;
+      const errorBox = document.getElementById('errorBox');
+      const card = document.getElementById('loginCard');
+      const submitBtn = document.getElementById('submitBtn');
+
+      submitBtn.innerText = "Verificando...";
+      submitBtn.disabled = true;
+
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.ok) {
+          // Salva cookie de sessão válido por 30 dias
+          const d = new Date();
+          d.setTime(d.getTime() + (30*24*60*60*1000));
+          document.cookie = `studio_session=${encodeURIComponent(password)};expires=${d.toUTCString()};path=/`;
+          
+          window.location.href = '/studio.html';
+        } else {
+          showError();
+        }
+      } catch (err) {
+        showError("Falha na conexão com o servidor.");
+      } finally {
+        submitBtn.innerText = "Entrar no Painel";
+        submitBtn.disabled = false;
+      }
+    }
+
+    function showError(msg) {
+      const errorBox = document.getElementById('errorBox');
+      const card = document.getElementById('loginCard');
+      
+      if (msg) errorBox.innerText = `⚠️ ${msg}`;
+      errorBox.style.display = 'block';
+      
+      // Animação de shake brutalista no card
+      card.style.animation = 'none';
+      card.offsetHeight; /* trigger reflow */
+      card.style.animation = 'shake 0.4s ease-in-out';
+      
+      document.getElementById('password').value = '';
+      document.getElementById('password').focus();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>LinkedIn Post Cover — João Gobira (1200×627)</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #2a2a2a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  gap: 16px;
+  font-family: 'Barlow', sans-serif;
+}
+.instructions {
+  font-size: 13px;
+  color: #aaa;
+  text-align: center;
+  max-width: 1200px;
+  line-height: 1.6;
+}
+.instructions strong { color: #C8391A; }
+
+.banner {
+  width: 1200px;
+  height: 627px;
+  background: #080808;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.6;
+  z-index: 10;
+}
+
+/* Fire top bar */
+.fire-bar {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 4px;
+  background: #C8391A;
+}
+
+/* Corner tag */
+.corner-tag {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: #404040;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  z-index: 5;
+}
+
+/* Diagonal decoration */
+.diagonal {
+  position: absolute;
+  right: -50px;
+  top: -50px;
+  width: 3px;
+  height: 900px;
+  background: linear-gradient(to bottom, transparent, #B8922A 40%, transparent);
+  opacity: 0.1;
+  transform: rotate(25deg);
+  transform-origin: top center;
+}
+
+.content {
+  position: relative;
+  z-index: 5;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 56px 72px 48px;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.section-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #C8391A;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-tag::before { content: '//'; color: #404040; }
+
+.headline {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 112px;
+  line-height: 0.92;
+  color: #F0EBE0;
+  letter-spacing: 2px;
+  max-width: 900px;
+}
+.headline em {
+  color: #C8391A;
+  font-style: normal;
+}
+
+.subhead {
+  margin-top: 24px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #7A746C;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  max-width: 700px;
+}
+
+.bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.author-mono {
+  width: 48px;
+  height: 48px;
+  background: #1A1A1A;
+  border: 1px solid #272727;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.author-mono svg { width: 100%; height: 100%; }
+
+.author-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: #F0EBE0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 1.2;
+}
+.author-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: #7A746C;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.tagline-badge {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 2px;
+  color: #C8391A;
+  border: 1px solid #C8391A;
+  padding: 8px 20px;
+  opacity: 0.7;
+}
+</style>
+</head>
+<body>
+
+<p class="instructions">
+  LinkedIn Post Cover — <strong>1200 × 627px</strong> ·
+  Edite o texto dentro do .headline e .subhead para cada post ·
+  Capture via F12 → Capture screenshot (Ctrl+Shift+P no Chrome DevTools)
+</p>
+
+<div class="banner">
+  <div class="fire-bar"></div>
+  <div class="diagonal"></div>
+  <div class="corner-tag">@joaogobira · Growth</div>
+
+  <div class="content">
+    <div class="top">
+      <div class="section-tag">Growth na Prática</div>
+      <div class="headline">FAZ O SUJO.<br><em>ENTREGA</em><br>O RESULTADO.</div>
+      <div class="subhead">12 anos de Growth — o que nenhum curso vai te contar</div>
+    </div>
+
+    <div class="bottom">
+      <div class="author">
+        <div class="author-mono">
+          <svg viewBox="0 0 80 80" fill="none">
+            <rect width="80" height="80" rx="8" fill="#1A1A1A"/>
+            <path d="M18 24h12v30c0 5-3 7.5-7.5 7.5S15 59 15 54h6c0 1.3.6 2 1.5 2s1.5-.7 1.5-2V24z" fill="#F0EBE0"/>
+            <path d="M34 40c0-10.5 7.5-18 17.5-18 5 0 9.5 2 12.5 5.2l-4 3.8c-1.8-2-4.2-3.2-7-3.2-6.5 0-11.2 4.8-11.2 12.2s4.7 12.2 11.2 12.2c3.5 0 6.5-1.5 8.3-4V44H53V37.5h14v12.8C64 55.5 58.5 58 52 58c-10.3 0-18-7.5-18-18z" fill="#C8391A"/>
+            <path d="M10 70 L70 10" stroke="#B8922A" stroke-width="2.5" stroke-linecap="round" opacity="0.45"/>
+          </svg>
+        </div>
+        <div>
+          <div class="author-name">João Gobira</div>
+          <div class="author-title">// Head of Growth</div>
+        </div>
+      </div>
+      <div class="tagline-badge">MISSÃO DADA. MISSÃO CUMPRIDA.</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

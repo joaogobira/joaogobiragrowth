@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Brand Assets — João Gobira</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --void: #080808; --carbon: #101010; --iron: #1A1A1A; --steel: #272727;
+  --ash: #404040; --fire: #C8391A; --gold: #B8922A;
+  --bone: #F0EBE0; --muted: #7A746C; --text: #EDE8E0;
+  --font-disp: 'Bebas Neue', sans-serif;
+  --font-cond: 'Barlow Condensed', sans-serif;
+  --font-body: 'Barlow', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.5;
+}
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+header {
+  padding: 48px 0 40px;
+  border-bottom: 2px solid var(--iron);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.wordmark { font-family: var(--font-disp); font-size: 60px; color: var(--bone); letter-spacing: 2px; line-height: 0.9; }
+.wordmark span { color: var(--fire); }
+.doc-label { font-family: var(--font-mono); font-size: 11px; color: var(--ash); text-align: right; line-height: 1.8; border: 2px solid var(--iron); padding: 10px 14px; }
+
+section { padding: 64px 0; border-bottom: 2px solid var(--iron); }
+
+.section-tag {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--fire); margin-bottom: 8px;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-tag::before { content: '//'; color: var(--ash); }
+.section-title { font-family: var(--font-disp); font-size: 56px; color: var(--bone); line-height: 0.95; margin-bottom: 8px; }
+.section-desc { font-family: var(--font-body); color: var(--muted); font-size: 14px; max-width: 600px; margin-bottom: 40px; font-weight: 300; line-height: 1.7; }
+
+/* ASSET GRID */
+.asset-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.asset-card {
+  background: var(--carbon);
+  border: 2px solid var(--iron);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transition: border-color 0.15s;
+}
+.asset-card:hover { border-color: var(--fire); }
+.asset-card a {
+  display: block;
+  font-family: var(--font-cond);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--bone);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: auto;
+}
+.asset-card a:hover { color: var(--fire); }
+.asset-desc { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.6; }
+.asset-dim {
+  font-family: var(--font-mono); font-size: 10px; color: var(--ash);
+  letter-spacing: 2px; text-transform: uppercase;
+  border: 1px solid var(--steel); padding: 4px 10px; display: inline-block;
+}
+.asset-preview {
+  background: var(--iron);
+  border: 1px solid var(--steel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.asset-preview svg, .asset-preview img { max-width: 100%; max-height: 100%; }
+
+/* INSTRUCTIONS */
+.how-to {
+  background: var(--carbon);
+  border: 2px solid var(--iron);
+  padding: 32px;
+  margin-top: 40px;
+}
+.how-title {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--fire); margin-bottom: 20px;
+  padding-bottom: 16px; border-bottom: 1px solid var(--iron);
+  display: flex; align-items: center; gap: 8px;
+}
+.how-title::before { content: '//'; color: var(--ash); }
+.step {
+  display: grid; grid-template-columns: 28px 1fr; gap: 16px;
+  padding: 12px 0; border-bottom: 1px solid var(--iron);
+  align-items: flex-start;
+}
+.step:last-child { border-bottom: none; }
+.step-num { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--fire); }
+.step-text { font-size: 14px; color: var(--muted); font-weight: 300; line-height: 1.6; }
+.step-text strong { color: var(--text); font-weight: 500; }
+code {
+  font-family: var(--font-mono); font-size: 12px;
+  background: rgba(200,57,26,0.1); color: var(--fire);
+  padding: 2px 6px; border: 1px solid rgba(200,57,26,0.2);
+}
+
+footer {
+  padding: 32px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-copy { font-family: var(--font-mono); font-size: 11px; color: var(--ash); letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div>
+      <div class="wordmark">JOÃO <span>GOBIRA</span></div>
+      <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-top: 8px; letter-spacing: 2px;">// BRAND ASSETS</div>
+    </div>
+    <div class="doc-label">ASSETS V1.0<br>MAIO 2026<br>USO EXCLUSIVO</div>
+  </header>
+
+  <!-- LOGOS -->
+  <section>
+    <div class="section-tag">01 — LOGOS</div>
+    <div class="section-title">MARCA &amp;<br>VARIAÇÕES</div>
+    <p class="section-desc">Três variantes do logo. Use o arquivo SVG diretamente — escala sem perda de qualidade.</p>
+
+    <div class="asset-grid">
+
+      <div class="asset-card">
+        <div class="asset-preview logo-asset" style="height: 100px; padding: 12px; background: #080808;">
+          <svg viewBox="0 0 480 120" height="76" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="8" width="104" height="104" rx="8" fill="#1A1A1A" stroke="#272727" stroke-width="1.5"/>
+            <path d="M22 30h14v37c0 6.5-3.8 9.8-9.5 9.8S17 73.5 17 67h7.5c0 1.7.5 2.3 2 2.3s2-.6 2-2.3V30z" fill="#F0EBE0"/>
+            <path d="M43 60c0-13.5 9.5-23 22.5-23 6.5 0 12 2.6 15.5 6.7l-5 4.8c-2.5-2.7-5.5-4.2-9.5-4.2c-8 0-14 6-14 15.7s6 15.7 14 15.7c4.5 0 8.5-2 10.5-5.1V66H66V58.5h19v16.2C81 81 73.5 85 65 85c-13.5 0-22-9.5-22-25z" fill="#C8391A"/>
+            <path d="M12 108 L108 12" stroke="#B8922A" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+            <text x="128" y="58" font-family="'Bebas Neue', sans-serif" font-size="52" fill="#F0EBE0" letter-spacing="3">JOÃO GOBIRA</text>
+            <text x="130" y="86" font-family="'Space Mono', monospace" font-size="13" fill="#7A746C" letter-spacing="3">GROWTH · EXECUÇÃO</text>
+          </svg>
+        </div>
+        <div class="asset-dim">480 × 120 · SVG</div>
+        <div class="asset-desc">Logo horizontal principal. Use em fundo escuro — sites, apresentações, banners.</div>
+        <a href="logo-principal.svg" target="_blank">↗ Abrir logo-principal.svg</a>
+      </div>
+
+      <div class="asset-card">
+        <div class="asset-preview logo-asset" style="height: 100px; background: #1A1A1A; padding: 8px; display: flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 80 80" width="84" fill="none">
+            <rect width="80" height="80" rx="8" fill="#1A1A1A" stroke="#272727" stroke-width="1.5"/>
+            <path d="M18 24h12v30c0 5-3 7.5-7.5 7.5S15 59 15 54h6c0 1.3.6 2 1.5 2s1.5-.7 1.5-2V24z" fill="#F0EBE0"/>
+            <path d="M34 40c0-10.5 7.5-18 17.5-18 5 0 9.5 2 12.5 5.2l-4 3.8c-1.8-2-4.2-3.2-7-3.2-6.5 0-11.2 4.8-11.2 12.2s4.7 12.2 11.2 12.2c3.5 0 6.5-1.5 8.3-4V44H53V37.5h14v12.8C64 55.5 58.5 58 52 58c-10.3 0-18-7.5-18-18z" fill="#C8391A"/>
+            <path d="M10 70 L70 10" stroke="#B8922A" stroke-width="2.5" stroke-linecap="round" opacity="0.45"/>
+          </svg>
+        </div>
+        <div class="asset-dim">400 × 400 · SVG</div>
+        <div class="asset-desc">Monograma JG. Use como avatar de perfil, favicon, ícone de app.</div>
+        <a href="logo-icon.svg" target="_blank">↗ Abrir logo-icon.svg</a>
+      </div>
+
+      <div class="asset-card">
+        <div class="asset-preview logo-asset" style="height: 100px; background: #F0EBE0; padding: 12px;">
+          <svg viewBox="0 0 480 120" height="76" xmlns="http://www.w3.org/2000/svg">
+            <rect width="480" height="120" fill="#F0EBE0"/>
+            <rect x="8" y="8" width="104" height="104" rx="8" fill="#1A1A1A"/>
+            <path d="M22 30h14v37c0 6.5-3.8 9.8-9.5 9.8S17 73.5 17 67h7.5c0 1.7.5 2.3 2 2.3s2-.6 2-2.3V30z" fill="#F0EBE0"/>
+            <path d="M43 60c0-13.5 9.5-23 22.5-23 6.5 0 12 2.6 15.5 6.7l-5 4.8c-2.5-2.7-5.5-4.2-9.5-4.2c-8 0-14 6-14 15.7s6 15.7 14 15.7c4.5 0 8.5-2 10.5-5.1V66H66V58.5h19v16.2C81 81 73.5 85 65 85c-13.5 0-22-9.5-22-25z" fill="#C8391A"/>
+            <path d="M12 108 L108 12" stroke="#B8922A" stroke-width="2.5" stroke-linecap="round" opacity="0.4"/>
+            <text x="128" y="58" font-family="'Bebas Neue', sans-serif" font-size="52" fill="#101010" letter-spacing="3">JOÃO GOBIRA</text>
+            <text x="130" y="86" font-family="'Space Mono', monospace" font-size="13" fill="#888" letter-spacing="3">GROWTH · EXECUÇÃO</text>
+          </svg>
+        </div>
+        <div class="asset-dim">480 × 120 · SVG</div>
+        <div class="asset-desc">Logo para fundo claro. Impressão, documentos, apresentações em fundo branco.</div>
+        <a href="logo-light.svg" target="_blank">↗ Abrir logo-light.svg</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BANNERS -->
+  <section>
+    <div class="section-tag">02 — BANNERS</div>
+    <div class="section-title">BANNERS<br>POR CANAL</div>
+    <p class="section-desc">Cada arquivo abre em browser no tamanho exato para screenshot. Edite o texto diretamente no HTML para personalizar cada peça.</p>
+
+    <div class="asset-grid">
+
+      <div class="asset-card">
+        <div class="asset-preview" style="height: 80px; background: #080808; position: relative; overflow: hidden; padding: 8px 12px;">
+          <div style="position: absolute; left:0; top:0; height:100%; width:4px; background:#C8391A;"></div>
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: #F0EBE0; letter-spacing: 2px; margin-left: 12px; margin-top: 8px; line-height: 1;">JOÃO <span style="color:#C8391A;">GOBIRA</span></div>
+          <div style="font-family: 'Space Mono', monospace; font-size: 7px; color: #7A746C; letter-spacing: 2px; margin-left: 12px; margin-top: 4px;">MISSÃO DADA. MISSÃO CUMPRIDA.</div>
+        </div>
+        <div class="asset-dim">1584 × 396 · LinkedIn</div>
+        <div class="asset-desc">Capa do perfil LinkedIn. Inclui nome, tagline e 3 métricas-chave.</div>
+        <a href="banner-linkedin-capa.html" target="_blank">↗ Abrir banner-linkedin-capa.html</a>
+      </div>
+
+      <div class="asset-card">
+        <div class="asset-preview" style="height: 80px; background: #080808; position: relative; overflow: hidden; padding: 10px 14px;">
+          <div style="position: absolute; top:0; left:0; right:0; height:3px; background:#C8391A;"></div>
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: #F0EBE0; letter-spacing: 2px; line-height: 0.9; margin-top: 8px;">FAZ O SUJO.<br><span style="color:#C8391A;">ENTREGA</span></div>
+        </div>
+        <div class="asset-dim">1200 × 627 · LinkedIn Post</div>
+        <div class="asset-desc">Cover de artigo/post LinkedIn. Edite headline e subtítulo para cada conteúdo.</div>
+        <a href="banner-linkedin-post.html" target="_blank">↗ Abrir banner-linkedin-post.html</a>
+      </div>
+
+      <div class="asset-card">
+        <div class="asset-preview" style="height: 80px; background: #080808; position: relative; overflow: hidden; padding: 8px 12px;">
+          <div style="position: absolute; left:0; top:0; height:100%; width:5px; background:#C8391A;"></div>
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 30px; color: #F0EBE0; letter-spacing: 2px; margin-left: 14px; line-height: 0.9;">MISSÃO<br><span style="color:#C8391A;">DADA.</span></div>
+        </div>
+        <div class="asset-dim">1080 × 1080 · Instagram Post</div>
+        <div class="asset-desc">Post quadrado Instagram. Estrutura com número de slide, headline, corpo e assinatura.</div>
+        <a href="banner-instagram-post.html" target="_blank">↗ Abrir banner-instagram-post.html</a>
+      </div>
+
+      <div class="asset-card">
+        <div class="asset-preview" style="height: 80px; background: #080808; position: relative; overflow: hidden; padding: 8px 12px; display: flex; align-items: center; gap: 10px;">
+          <div style="position: absolute; top:0; left:0; right:0; height:4px; background:#C8391A;"></div>
+          <div style="width: 32px; height: 32px; background: #1A1A1A; border: 1px solid #272727; border-radius: 4px; flex-shrink: 0; display:flex; align-items:center; justify-content:center; margin-top:8px;">
+            <svg viewBox="0 0 80 80" width="28" fill="none">
+              <path d="M18 24h12v30c0 5-3 7.5-7.5 7.5S15 59 15 54h6c0 1.3.6 2 1.5 2s1.5-.7 1.5-2V24z" fill="#F0EBE0"/>
+              <path d="M34 40c0-10.5 7.5-18 17.5-18 5 0 9.5 2 12.5 5.2l-4 3.8c-1.8-2-4.2-3.2-7-3.2-6.5 0-11.2 4.8-11.2 12.2s4.7 12.2 11.2 12.2c3.5 0 6.5-1.5 8.3-4V44H53V37.5h14v12.8C64 55.5 58.5 58 52 58c-10.3 0-18-7.5-18-18z" fill="#C8391A"/>
+            </svg>
+          </div>
+          <div style="margin-top:8px;">
+            <div style="font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: #F0EBE0; letter-spacing: 2px; line-height: 0.9;">JOÃO<br><span style="color:#C8391A;">GOBIRA</span></div>
+          </div>
+        </div>
+        <div class="asset-dim">1080 × 1920 · Story / Cover</div>
+        <div class="asset-desc">Story e capa de destaque Instagram. Tem logo, stats e tagline no formato vertical.</div>
+        <a href="banner-instagram-story.html" target="_blank">↗ Abrir banner-instagram-story.html</a>
+      </div>
+
+    </div>
+
+    <!-- HOW TO EXPORT -->
+    <div class="how-to">
+      <div class="how-title">Como exportar como imagem</div>
+
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-text">Abra o arquivo HTML no <strong>Google Chrome</strong> (funciona melhor que outros navegadores)</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-text">Pressione <code>F12</code> para abrir o DevTools</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-text">Pressione <code>Ctrl+Shift+P</code> (ou <code>Cmd+Shift+P</code> no Mac) para abrir o painel de comandos</div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-text">Digite <strong>"capture"</strong> e selecione <code>Capture screenshot</code> — captura exatamente o que está visível</div>
+      </div>
+      <div class="step">
+        <div class="step-num">05</div>
+        <div class="step-text"><strong>Alternativa para banners grandes:</strong> No DevTools, clique no ícone de dispositivo (<code>Ctrl+Shift+M</code>), defina a dimensão manualmente e capture a tela cheia com <code>Capture full size screenshot</code></div>
+      </div>
+      <div class="step">
+        <div class="step-num">06</div>
+        <div class="step-text">Para <strong>editar o texto</strong> de qualquer banner: abra o arquivo .html no VS Code ou Bloco de Notas, localize as classes <code>.big-headline</code>, <code>.tagline</code> ou <code>.subhead</code> e altere o texto diretamente</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-copy">// JOÃO GOBIRA · BRAND ASSETS V1.0 · MAIO 2026</div>
+    <div style="font-family: var(--font-mono); font-size: 10px; color: var(--steel);">CONFIDENCIAL · USO EXCLUSIVO</div>
+  </footer>
+
+</div>
+</body>
+</html>

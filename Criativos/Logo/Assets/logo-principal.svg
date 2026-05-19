@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 120" width="480" height="120">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Space+Mono:wght@400;700&amp;display=swap');
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="480" height="120" fill="#080808"/>
+
+  <!-- Monogram container -->
+  <rect x="8" y="8" width="104" height="104" rx="8" fill="#1A1A1A" stroke="#272727" stroke-width="1.5"/>
+
+  <!-- J letter -->
+  <path d="M22 30h14v37c0 6.5-3.8 9.8-9.5 9.8S17 73.5 17 67h7.5c0 1.7.5 2.3 2 2.3s2-.6 2-2.3V30z" fill="#F0EBE0"/>
+
+  <!-- G letter -->
+  <path d="M43 60c0-13.5 9.5-23 22.5-23 6.5 0 12 2.6 15.5 6.7l-5 4.8c-2.5-2.7-5.5-4.2-9.5-4.2c-8 0-14 6-14 15.7s6 15.7 14 15.7c4.5 0 8.5-2 10.5-5.1V66H66V58.5h19v16.2C81 81 73.5 85 65 85c-13.5 0-22-9.5-22-25z" fill="#C8391A"/>
+
+  <!-- Diagonal gold line (Rogério Ceni crossing the field) -->
+  <path d="M12 108 L108 12" stroke="#B8922A" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- Name -->
+  <text x="128" y="58" font-family="'Bebas Neue', sans-serif" font-size="52" fill="#F0EBE0" letter-spacing="3">JOÃO GOBIRA</text>
+
+  <!-- Tagline -->
+  <text x="130" y="86" font-family="'Space Mono', monospace" font-size="13" fill="#7A746C" letter-spacing="3">GROWTH · EXECUÇÃO</text>
+</svg>

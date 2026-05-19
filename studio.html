@@ -872,14 +872,24 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
         <!-- Seletor de Formatos Brutalista -->
         <div style="padding: 0 24px; margin-bottom: 8px;">
           <div class="pub-label" style="margin-bottom: 6px;">Selecione o Formato do Criativo</div>
-          <div class="ia-format-selector" style="margin-bottom: 12px;">
-            <button class="ia-format-btn active" data-fmt="carousel" onclick="setIAFormat('carousel')">📸 Carrossel Feed (4:5)</button>
-            <button class="ia-format-btn" data-fmt="square" onclick="setIAFormat('square')">📢 Feed Quadrado (1:1)</button>
-            <button class="ia-format-btn" data-fmt="vertical" onclick="setIAFormat('vertical')">📱 Stories / Reels (9:16)</button>
-            <button class="ia-format-btn" data-fmt="horizontal" onclick="setIAFormat('horizontal')">🖥️ Banner JG (16:9)</button>
+          <div class="ia-format-selector" style="margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 4px;">
+            <button class="ia-format-btn active" style="flex: auto; min-width: 120px;" data-fmt="carousel" onclick="setIAFormat('carousel')">📸 Instagram Carrossel</button>
+            <button class="ia-format-btn" style="flex: auto; min-width: 120px;" data-fmt="linkedin-carousel" onclick="setIAFormat('linkedin-carousel')">💼 LinkedIn Carrossel</button>
+            <button class="ia-format-btn" style="flex: auto; min-width: 120px;" data-fmt="youtube-thumb" onclick="setIAFormat('youtube-thumb')">▶ YouTube Thumbnail</button>
+            <button class="ia-format-btn" style="flex: auto; min-width: 120px;" data-fmt="brand-logo" onclick="setIAFormat('brand-logo')">🎨 Logo / Marca</button>
+            <button class="ia-format-btn" style="flex: auto; min-width: 120px;" data-fmt="banner-horizontal" onclick="setIAFormat('banner-horizontal')">🖥️ Banner JG (16:9)</button>
           </div>
-          <div style="font-family:var(--fm); font-size:10px; color:var(--muted); line-height:1.4;">
-            💡 <strong>BIBLIOTECA JG:</strong> Cole fotos suas (.jpg, .png) na pasta <code>Carrosseis/</code> para a IA usar ou para selecionar manualmente.
+          <div style="font-family:var(--fm); font-size:10px; color:var(--muted); line-height:1.4; margin-bottom: 10px;">
+            💡 <strong>BIBLIOTECA JG:</strong> Cole fotos suas (.jpg, .png) na pasta <code>Carrosseis/</code> ou use o botão abaixo para importar agora.
+          </div>
+          <!-- Upload de Imagens do Usuário -->
+          <div style="background: var(--carbon); border: 1px solid var(--iron); padding: 12px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 8px;">
+            <div class="pub-label" style="margin-bottom: 0;">📤 IMPORTAR IMAGEM PERSONALIZADA</div>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <input type="file" id="user-image-upload" accept="image/*" style="display: none;" onchange="handleImageUpload(this)">
+              <button class="btn-ia-action" style="flex: 1; padding: 8px;" onclick="document.getElementById('user-image-upload').click()">📁 ESCOLHER FOTO DO SEU PC</button>
+              <div id="upload-status-text" style="font-family:var(--fm); font-size:9px; color:var(--muted);">Nenhum arquivo...</div>
+            </div>
           </div>
         </div>
         
@@ -1187,8 +1197,14 @@ async function exportarAtual() {
           }
           else if(ev.type === 'done') {
             fill.style.width = '100%';
-            addLog(`✅ ${ev.total} slides exportados!`, 'log-ok');
-            btn.textContent = `✓ ${ev.total} SLIDES EXPORTADOS`;
+            if (ev.pdfPath) {
+              addLog(`📄 PDF do Carrossel gerado com sucesso: <a href="/${ev.pdfPath}" target="_blank" style="color:var(--gold); text-decoration:underline; font-weight:bold;">BAIXAR PDF DO LINKEDIN</a>`, 'log-ok');
+              addLog(`✅ ${ev.total} slides exportados e compilados no PDF!`, 'log-ok');
+              btn.textContent = `✓ PDF E SLIDES EXPORTADOS`;
+            } else {
+              addLog(`✅ ${ev.total} slides exportados!`, 'log-ok');
+              btn.textContent = `✓ ${ev.total} SLIDES EXPORTADOS`;
+            }
             btn.disabled = false;
             document.getElementById('btn-folder').disabled = false;
             currentSlidesDir = selected.slidesDir;
@@ -1280,6 +1296,43 @@ async function carregarBibliotecaImagens() {
   } catch (e) {
     console.error('[Biblioteca] Erro ao carregar imagens:', e);
   }
+}
+
+async function handleImageUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const statusText = document.getElementById('upload-status-text');
+  statusText.style.color = 'var(--gold)';
+  statusText.textContent = 'Enviando...';
+
+  const reader = new FileReader();
+  reader.onload = async function(e) {
+    const base64 = e.target.result;
+    try {
+      const resp = await fetch('/api/upload-imagem', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: file.name, base64 })
+      });
+      const data = await resp.json();
+      if (!resp.ok || !data.ok) throw new Error(data.error || 'Erro desconhecido.');
+
+      statusText.style.color = 'var(--gold)';
+      statusText.textContent = `✓ ${file.name} salvo!`;
+      
+      // Recarrega biblioteca e atualiza os inputs nos slides editor
+      await carregarBibliotecaImagens();
+      if (iaSlides && iaSlides.length > 0) {
+        renderIASlidesEditor();
+      }
+    } catch (err) {
+      console.error('[Upload] Falha:', err);
+      statusText.style.color = 'var(--fire)';
+      statusText.textContent = 'Erro ao enviar.';
+    }
+  };
+  reader.readAsDataURL(file);
 }
 
 function getBgOptionsHtml(selectedValue) {
@@ -1571,7 +1624,11 @@ function renderIASlidePreview() {
   // Ajusta dimensões físicas dinamicamente na div .slide para o Live Preview
   let width = 1080;
   let height = 1350;
-  if (iaActiveFormat === 'square') { width = 1080; height = 1080; }
+  if (iaActiveFormat === 'linkedin-carousel') { width = 1080; height = 1350; }
+  else if (iaActiveFormat === 'youtube-thumb') { width = 1280; height = 720; }
+  else if (iaActiveFormat === 'brand-logo') { width = 800; height = 800; }
+  else if (iaActiveFormat === 'banner-horizontal') { width = 1920; height = 1080; }
+  else if (iaActiveFormat === 'square') { width = 1080; height = 1080; }
   else if (iaActiveFormat === 'vertical') { width = 1080; height = 1920; }
   else if (iaActiveFormat === 'horizontal') { width = 1920; height = 1080; }
 
@@ -1606,7 +1663,11 @@ function resizeIAPreview() {
 
   let width = 1080;
   let height = 1350;
-  if (iaActiveFormat === 'square') { width = 1080; height = 1080; }
+  if (iaActiveFormat === 'linkedin-carousel') { width = 1080; height = 1350; }
+  else if (iaActiveFormat === 'youtube-thumb') { width = 1280; height = 720; }
+  else if (iaActiveFormat === 'brand-logo') { width = 800; height = 800; }
+  else if (iaActiveFormat === 'banner-horizontal') { width = 1920; height = 1080; }
+  else if (iaActiveFormat === 'square') { width = 1080; height = 1080; }
   else if (iaActiveFormat === 'vertical') { width = 1080; height = 1920; }
   else if (iaActiveFormat === 'horizontal') { width = 1920; height = 1080; }
 
