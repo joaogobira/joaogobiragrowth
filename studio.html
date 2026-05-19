@@ -601,6 +601,124 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   color: var(--bone);
 }
 .quote-text em { color: var(--fire); font-style: normal; }
+
+/* ==========================================================================
+   VARIAÇÕES DE LAYOUTS BRUTALISTAS JG (modelos.json)
+   ========================================================================== */
+
+/* 2. Grade Bento (layout-bento-metrics) */
+.slide.layout-bento-metrics {
+  background: var(--bone) !important;
+  color: var(--void) !important;
+}
+.slide.layout-bento-metrics .tape-v {
+  background: var(--void) !important;
+  width: 8px !important;
+}
+.slide.layout-bento-metrics .mono-tag {
+  background: var(--void) !important;
+  color: var(--bone) !important;
+  border: 2px solid var(--void) !important;
+}
+.slide.layout-bento-metrics .h-line {
+  background: var(--void) !important;
+}
+.slide.layout-bento-metrics .disp-medium,
+.slide.layout-bento-metrics .disp-large {
+  color: var(--void) !important;
+}
+.slide.layout-bento-metrics .body-copy {
+  color: var(--void) !important;
+  border-top: 3px solid var(--void) !important;
+  background: rgba(0, 0, 0, 0.04) !important;
+  border: 3px solid var(--void) !important;
+  padding: 30px !important;
+  font-weight: 500 !important;
+  box-shadow: 8px 8px 0px var(--void) !important;
+  transform: rotate(-0.5deg) !important;
+}
+
+/* 3. Vácuo Brutal (layout-minimal-void) */
+.slide.layout-minimal-void {
+  background: var(--void) !important;
+  color: var(--text) !important;
+}
+.slide.layout-minimal-void .tape-v {
+  background: var(--fire) !important;
+  width: 15px !important;
+}
+.slide.layout-minimal-void .cw {
+  padding-left: 100px !important;
+  padding-right: 100px !important;
+  width: 100% !important;
+}
+.slide.layout-minimal-void .disp-medium,
+.slide.layout-minimal-void .disp-large {
+  font-size: 110px !important;
+  line-height: 0.9 !important;
+  color: var(--text) !important;
+}
+.slide.layout-minimal-void .body-copy {
+  font-size: 44px !important;
+  border-top: 4px solid var(--fire) !important;
+  color: var(--sub) !important;
+  font-weight: 300 !important;
+}
+
+/* 4. Foco Editorial (layout-editorial-focus) */
+.slide.layout-editorial-focus {
+  background: var(--carbon) !important;
+}
+.slide.layout-editorial-focus .split-bg,
+.slide.layout-editorial-focus .photo-bg {
+  top: 0 !important; left: 0 !important; right: 0 !important; bottom: auto !important;
+  width: 100% !important; height: 50% !important;
+  border-bottom: 4px solid var(--fire) !important;
+  border-left: none !important;
+}
+.slide.layout-editorial-focus .split-gradient,
+.slide.layout-editorial-focus .split-gradient-bottom,
+.slide.layout-editorial-focus .photo-overlay {
+  display: none !important;
+}
+.slide.layout-editorial-focus .cw {
+  height: 50% !important;
+  top: 50% !important;
+  width: 100% !important;
+  padding: 60px 80px !important;
+  justify-content: center !important;
+}
+
+/* 5. Citação Massiva (layout-impact-quote) */
+.slide.layout-impact-quote {
+  background: var(--fire) !important;
+  color: var(--void) !important;
+}
+.slide.layout-impact-quote .tape-v {
+  background: var(--void) !important;
+  width: 8px !important;
+}
+.slide.layout-impact-quote .mono-tag {
+  background: var(--void) !important;
+  color: var(--fire) !important;
+}
+.slide.layout-impact-quote .h-line {
+  background: var(--void) !important;
+}
+.slide.layout-impact-quote .quote-mark {
+  color: var(--void) !important;
+  opacity: 0.15 !important;
+  font-size: 280px !important;
+}
+.slide.layout-impact-quote .quote-text {
+  color: var(--void) !important;
+  font-size: 84px !important;
+}
+.slide.layout-impact-quote .body-copy {
+  color: var(--void) !important;
+  border-top: 3px solid var(--void) !important;
+  font-weight: 500 !important;
+}
 </style>
 </head>
 <body>
@@ -1300,6 +1418,16 @@ function renderIASlidesEditor() {
               ${bgSelect}
             </select>
           </div>
+          <div class="ia-slide-field">
+            <label class="pub-label">Modelo do Layout</label>
+            <select class="pub-input" onchange="updateIASlideData(${idx}, 'layout', this.value)">
+              <option value="split-screen" ${(!s.layout || s.layout === 'split-screen') ? 'selected' : ''}>Divisão Brutalista</option>
+              <option value="bento-metrics" ${s.layout === 'bento-metrics' ? 'selected' : ''}>Grade Bento</option>
+              <option value="minimal-void" ${s.layout === 'minimal-void' ? 'selected' : ''}>Vácuo Brutal</option>
+              <option value="editorial-focus" ${s.layout === 'editorial-focus' ? 'selected' : ''}>Foco Editorial</option>
+              <option value="impact-quote" ${s.layout === 'impact-quote' ? 'selected' : ''}>Citação Massiva</option>
+            </select>
+          </div>
           <div class="ia-slide-field full-width">
             <label class="pub-label">Título (use &lt;br&gt; para quebrar linha)</label>
             <input class="pub-input" type="text" value="${s.title || ''}" oninput="updateIASlideData(${idx}, 'title', this.value)">
@@ -1329,6 +1457,7 @@ function renderIASlidePreview() {
   const renderEl = document.getElementById('ia-live-slide-render');
   const slideNo = `${String(iaCurrentSlideIdx + 1).padStart(2, '0')}/${String(iaSlides.length).padStart(2, '0')}`;
   const bgUrl = s.bg ? `./Carrosseis/${s.bg}` : '';
+  const layoutClass = `layout-${s.layout || 'split-screen'}`;
 
   let isCapa = s.type === 'capa';
   let isCta = s.type === 'cta';
@@ -1338,7 +1467,7 @@ function renderIASlidePreview() {
 
   if (isCapa) {
     html = `
-      <div class="slide">
+      <div class="slide ${layoutClass}">
         <div class="grain"></div>
         <div class="tape-v tape-v-fire"></div>
         <div class="tape-h tape-h-top tape-h-fire"></div>
@@ -1363,7 +1492,7 @@ function renderIASlidePreview() {
     `;
   } else if (isCta) {
     html = `
-      <div class="slide" style="background: var(--void);">
+      <div class="slide ${layoutClass}" style="background: var(--void);">
         <div class="grain"></div>
         <div class="tape-v tape-v-fire"></div>
         <div class="tape-h tape-h-bottom tape-h-fire"></div>
@@ -1388,7 +1517,7 @@ function renderIASlidePreview() {
     `;
   } else if (isQuote) {
     html = `
-      <div class="slide" style="background: var(--carbon);">
+      <div class="slide ${layoutClass}" style="background: var(--carbon);">
         <div class="grain"></div>
         <div class="tape-v tape-v-fire"></div>
         <div class="slide-no">${slideNo}</div>
@@ -1416,7 +1545,7 @@ function renderIASlidePreview() {
     const tagClass = isGold ? 'mono-tag gold' : 'mono-tag';
 
     html = `
-      <div class="slide" style="background: ${s.bg ? 'transparent' : 'var(--void)'};">
+      <div class="slide ${layoutClass}" style="background: ${s.bg ? 'transparent' : 'var(--void)'};">
         <div class="grain"></div>
         <div class="tape-v ${tapeClass}"></div>
         <div class="slide-no">${slideNo}</div>
@@ -1446,10 +1575,10 @@ function renderIASlidePreview() {
   else if (iaActiveFormat === 'vertical') { width = 1080; height = 1920; }
   else if (iaActiveFormat === 'horizontal') { width = 1920; height = 1080; }
 
-  html = html.replace('class="slide"', `class="slide" style="width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
-  html = html.replace('class="slide" style="background: var(--void);"', `class="slide" style="background: var(--void); width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
-  html = html.replace('class="slide" style="background: var(--carbon);"', `class="slide" style="background: var(--carbon); width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
-  html = html.replace('class="slide" style="background: transparent;"', `class="slide" style="background: transparent; width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
+  html = html.replace(`class="slide ${layoutClass}"`, `class="slide ${layoutClass}" style="width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
+  html = html.replace(`class="slide ${layoutClass}" style="background: var(--void);"`, `class="slide ${layoutClass}" style="background: var(--void); width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
+  html = html.replace(`class="slide ${layoutClass}" style="background: var(--carbon);"`, `class="slide ${layoutClass}" style="background: var(--carbon); width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
+  html = html.replace(`class="slide ${layoutClass}" style="background: transparent;"`, `class="slide ${layoutClass}" style="background: transparent; width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
 
   renderEl.innerHTML = html;
   

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "split-screen",
+    "nome": "Divisão Brutalista (Split-Screen)",
+    "descricao": "Metade com foto nítida/desfocada na direita e metade com tipografia brutalista gigante na esquerda. Perfeito para capas e slides de impacto de autoridade."
+  },
+  {
+    "id": "bento-metrics",
+    "nome": "Grade Bento (Cards de Destaque)",
+    "descricao": "Fundo creme/claro com cartões retangulares de borda preta grossa contendo dados, métricas, ícones ou chamadas cruciais. Muito moderno, com alta legibilidade."
+  },
+  {
+    "id": "minimal-void",
+    "nome": "Vácuo Brutal (Foco em Texto)",
+    "descricao": "Sem fotos. Fundo preto absoluto com tipografia gigantesca em vermelho brutalista ou branco e linhas grossas. Foco total em copywriting brutal na jugular."
+  },
+  {
+    "id": "editorial-focus",
+    "nome": "Foco Editorial (Estilo Revista)",
+    "descricao": "Foto nítida ocupando o topo do slide (50% do espaço vertical) e a copy em letras brutas e tags geométricas na metade inferior. Estilo revista de design."
+  },
+  {
+    "id": "impact-quote",
+    "nome": "Citação Massiva (Destaque)",
+    "descricao": "Fundo creme ou vermelho brutalista invertido. Aspas gigantescas no fundo com texto preto absoluto e bordas grossas. Excelente para frases de impacto."
+  }
+]

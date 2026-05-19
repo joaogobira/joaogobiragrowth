@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>o_que_rogrio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+:root {
+  --void:   #080808;
+  --carbon: #101010;
+  --iron:   #1A1A1A;
+  --steel:  #272727;
+  --fire:   #C8391A;
+  --gold:   #B8922A;
+  --bone:   #F0EBE0;
+  --muted:  #7A746C;
+  --text:   #EDE8E0;
+  --sub:    #9A9490;
+  --fd: 'Bebas Neue', sans-serif;
+  --fc: 'Barlow Condensed', sans-serif;
+  --fb: 'Barlow', sans-serif;
+  --fm: 'Space Mono', monospace;
+}
+
+body {
+  background: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 24px;
+}
+
+.preview-info {
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #444;
+  text-align: center;
+  margin-bottom: 32px;
+  text-transform: uppercase;
+}
+
+.slide {
+  width: 1080px;
+  height: 1350px;
+  background: var(--void);
+  position: relative;
+  flex-shrink: 0;
+  transform: scale(0.38);
+  transform-origin: top center;
+  margin-bottom: -825px;
+  overflow: hidden;
+  border: 1px solid #222;
+}
+
+.sep { width: 411px; height: 2px; background: #222; margin: 0 auto; position: relative; z-index: 99; }
+
+.grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.7;
+  mix-blend-mode: overlay;
+}
+
+.photo-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-size: cover;
+  background-position: center top;
+}
+
+.photo-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    to bottom,
+    rgba(8,8,8,0.2) 0%,
+    rgba(8,8,8,0.45) 35%,
+    rgba(8,8,8,0.88) 65%,
+    rgba(8,8,8,0.98) 100%
+  );
+}
+
+.photo-overlay-mid {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    to bottom,
+    rgba(8,8,8,0.5) 0%,
+    rgba(8,8,8,0.3) 50%,
+    rgba(8,8,8,0.95) 80%,
+    rgba(8,8,8,1) 100%
+  );
+}
+
+.split-bg {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 50%;
+  background-size: cover;
+  background-position: center top;
+  z-index: 1;
+  border-left: 2px solid var(--steel);
+}
+.split-gradient {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 50%;
+  background: linear-gradient(to right, var(--void) 0%, rgba(8,8,8,0) 25%);
+  z-index: 2;
+}
+.split-gradient-bottom {
+  position: absolute;
+  bottom: 0; right: 0; width: 50%; height: 50%;
+  background: linear-gradient(to bottom, rgba(8,8,8,0) 0%, var(--void) 100%);
+  z-index: 3;
+}
+
+.tape-v { position: absolute; left: 0; top: 0; bottom: 0; width: 5px; z-index: 10; }
+.tape-v-fire { background: var(--fire); }
+.tape-v-gold { background: var(--gold); }
+
+.tape-h { position: absolute; left: 0; right: 0; height: 4px; z-index: 10; }
+.tape-h-top { top: 0; }
+.tape-h-bottom { bottom: 0; }
+.tape-h-fire { background: var(--fire); }
+
+.cw {
+  position: relative;
+  z-index: 30;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 88px 88px 80px 92px;
+}
+
+.slide-no {
+  position: absolute;
+  top: 64px; right: 72px;
+  font-family: var(--fm);
+  font-size: 18px;
+  color: var(--steel);
+  letter-spacing: 2px;
+  z-index: 40;
+}
+
+.mono-tag {
+  font-family: var(--fm);
+  font-size: 18px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--fire);
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.mono-tag::before { content: '//'; color: var(--steel); }
+.mono-tag.gold { color: var(--gold); }
+.mono-tag.gold::before { color: var(--steel); }
+
+.h-line { width: 64px; height: 4px; margin-bottom: 40px; }
+.h-line-fire { background: var(--fire); }
+.h-line-gold { background: var(--gold); }
+
+.disp-large {
+  font-family: var(--fd);
+  font-size: 108px;
+  line-height: 0.92;
+  letter-spacing: 2px;
+  color: var(--bone);
+  margin-bottom: 40px;
+}
+.disp-large em { color: var(--fire); font-style: normal; }
+.disp-large .gold { color: var(--gold); }
+
+.disp-medium {
+  font-family: var(--fd);
+  font-size: 88px;
+  line-height: 0.93;
+  letter-spacing: 2px;
+  color: var(--bone);
+  margin-bottom: 36px;
+}
+.disp-medium em { color: var(--fire); font-style: normal; }
+
+.body-copy {
+  font-family: var(--fb);
+  font-size: 38px;
+  font-weight: 300;
+  color: var(--sub);
+  line-height: 1.6;
+  max-width: 880px;
+}
+.body-copy strong { color: var(--text); font-weight: 500; }
+.body-copy em { color: var(--fire); font-style: normal; }
+
+.author-badge { display: flex; align-items: center; gap: 24px; margin-top: 48px; padding: 20px 40px 20px 20px; background: rgba(26,26,26,0.85); border: 2px solid var(--steel); width: fit-content; }
+.author-avatar { width: 88px; height: 88px; border-radius: 50%; border: 3px solid var(--fire); object-fit: cover; }
+.author-name-text { font-family: var(--fd); font-size: 36px; color: var(--bone); letter-spacing: 1px; }
+.author-role-text { font-family: var(--fm); font-size: 14px; color: var(--fire); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+
+.quote-mark {
+  font-family: var(--fd);
+  font-size: 160px;
+  color: var(--fire);
+  line-height: 0.7;
+  opacity: 0.22;
+  margin-left: -16px;
+}
+
+.quote-text {
+  font-family: var(--fd);
+  font-size: 80px;
+  line-height: 0.96;
+  letter-spacing: 1px;
+  color: var(--bone);
+}
+.quote-text em { color: var(--fire); font-style: normal; }
+
+@media print {
+  @page { size: 1080px 1350px; margin: 0; }
+  body { background: var(--void) !important; padding: 0 !important; display: block !important; }
+  .slide { transform: none !important; margin: 0 !important; page-break-after: always; break-after: page; border: none !important; }
+  .slide:last-of-type { page-break-after: auto; break-after: auto; }
+}
+</style>
+</head>
+<body>
+
+<div class="preview-info">Carrossel Criador IA — o_que_rogrio</div>
+
+<!-- SLIDE 1: CAPA -->
+<div class="slide" id="slide-1">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="tape-h tape-h-top tape-h-fire"></div>
+
+  <div class="split-bg" style="background-image: url('../Rogerio Ceni no bahia.jpg'); filter: grayscale(30%) contrast(1.1) brightness(0.9);"></div>
+  <div class="split-gradient"></div>
+  <div class="split-gradient-bottom"></div>
+
+  <div class="slide-no">01/09</div>
+
+  <div class="cw" style="width: 55%; padding-right: 0; justify-content: flex-end; padding-bottom: 140px; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 40px;">LIDERANÇA & AUDÁCIA</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-large" style="font-size: 116px; line-height: 0.88; margin-bottom: 44px;">
+      O QUE O <em>M1T0</em> ME ENSINOU SOBRE LIDERANÇA
+    </div>
+
+    <div class="body-copy" style="font-size: 34px;">
+      Como a mentalidade de um goleiro artilheiro moldou minha visão de Growth e Performance.
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 2: DOR -->
+<div class="slide" id="slide-2" style="background: transparent;">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">02/09</div>
+
+  <div class="photo-bg" style="background-image: url('../defesa do rogério ceni no mundial.jpg'); filter: grayscale(40%) contrast(1.1) brightness(0.45);"></div><div class="photo-overlay-mid"></div>
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 32px;">O COADJUVANTE</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-medium" style="margin-bottom: 48px;">
+      O LUGAR DE QUEM <em>SOBRAVA</em>
+    </div>
+
+    <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
+      Ser goleiro era tapar o buraco que ninguém queria. Era ser o coadjuvante que só aparece no erro. No business, muitos fundadores ainda operam assim: na defensiva.
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 3: TRANSFORMACAO -->
+<div class="slide" id="slide-3" style="background: transparent;">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">03/09</div>
+
+  <div class="photo-bg" style="background-image: url('../Rogério Ceni levantando taça do mundial.jpg'); filter: grayscale(40%) contrast(1.1) brightness(0.45);"></div><div class="photo-overlay-mid"></div>
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 32px;">O PONTO DE INFLEXÃO</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-medium" style="margin-bottom: 48px;">
+      AUDÁCIA É <em>PROTAGONISMO</em>
+    </div>
+
+    <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
+      O M1T0 mudou o jogo quando decidiu marcar gols. Ele deixou de ser apenas o guardião para ser o guerreiro da vitória. Ele saiu da linha para ditar o ritmo.
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 4: METRICA -->
+<div class="slide" id="slide-4" style="background: var(--void);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-gold"></div>
+  <div class="slide-no">04/09</div>
+
+  
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag gold" style="margin-bottom: 32px;">DADOS REAIS</div>
+    <div class="h-line h-line-gold"></div>
+
+    <div class="disp-medium" style="margin-bottom: 48px;">
+      <em>131</em> GOLS NA CARREIRA
+    </div>
+
+    <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
+      Isso não é sorte. É repetição exaustiva sob pressão. No Growth, a precisão só vem com o volume de testes e a disciplina de quem não aceita o medíocre.
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 5: CONTEUDO -->
+<div class="slide" id="slide-5" style="background: transparent;">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">05/09</div>
+
+  <div class="photo-bg" style="background-image: url('../Rogerio ceni numa preleção no bahia.png'); filter: grayscale(40%) contrast(1.1) brightness(0.45);"></div><div class="photo-overlay-mid"></div>
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 32px;">A GRANDE LIÇÃO</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-medium" style="margin-bottom: 48px;">
+      O <em>ESFORÇO</em> VENCE O TALENTO
+    </div>
+
+    <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
+      A mensagem na preleção é clara: o esforço te leva onde o talento sozinho não consegue chegar. No tatame ou no board, a consistência é a sua maior arma.
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 6: LIDERANCA -->
+<div class="slide" id="slide-6" style="background: var(--void);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">06/09</div>
+
+  
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 32px;">GESTÃO</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-medium" style="margin-bottom: 48px;">
+      LIDERAR PELO <em>EXEMPLO</em>
+    </div>
+
+    <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
+      Você não lidera com discursos, você lidera sendo o primeiro a chegar e o último a sair. Se você quer que seu time marque gols, você precisa saber bater a falta.
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 7: ESTRATEGIA -->
+<div class="slide" id="slide-7" style="background: var(--void);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">07/09</div>
+
+  
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 32px;">EXECUÇÃO</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-medium" style="margin-bottom: 48px;">
+      SAIA DA <em>DEFESA</em>
+    </div>
+
+    <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
+      Se você gere seu negócio apenas para não perder, você já perdeu para o mercado. Audácia e sagacidade exigem que você assuma a responsabilidade pelo resultado final.
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 8: FRASE -->
+<div class="slide" id="slide-8" style="background: var(--void);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">08/09</div>
+
+  
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 32px;">CITAÇÃO</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-medium" style="margin-bottom: 48px;">
+      ESFORÇO VENCE <em>SEMPRE</em> O TALENTO
+    </div>
+
+    <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
+      E te leva mais longe do que realmente pode parecer. A disciplina é a ponte entre a meta e a realidade.
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 9: CTA -->
+<div class="slide" id="slide-9" style="background: var(--void);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="tape-h tape-h-bottom tape-h-fire"></div>
+
+  <div class="photo-bg" style="background-image: url('../defesa do rogério ceni no mundial.jpg'); background-position: center 10%; filter: grayscale(20%) brightness(0.35);"></div>
+  <div class="photo-overlay"></div>
+
+  <div class="slide-no">09/09</div>
+
+  <div class="cw" style="justify-content: center; text-align: center; align-items: center; padding-top: 160px; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 40px;">AÇÃO IMEDIATA</div>
+    
+    <div class="disp-medium" style="font-size: 96px; margin-bottom: 44px; line-height: 0.92;">
+      HORA DE <em>EXECUTAR</em>
+    </div>
+
+    <div class="body-copy" style="text-align: center; max-width: 800px; color: var(--bone);">
+      Sua operação precisa de um capitão ou de um espectador? Toque no link da bio e vamos escalar seu growth com método brutalista.
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

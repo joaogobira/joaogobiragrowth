@@ -404,6 +404,26 @@ app.post('/api/ia/chat', async (req, res) => {
     return res.status(400).json({ error: 'GEMINI_API_KEY não configurada no studio.config' });
   }
 
+  // Carregar repositório de modelos (layouts) que o João gosta
+  let listaModelos = [];
+  try {
+    const modelosPath = path.join(BASE_DIR, 'Modelos', 'modelos.json');
+    if (fs.existsSync(modelosPath)) {
+      listaModelos = JSON.parse(fs.readFileSync(modelosPath, 'utf8'));
+    }
+  } catch (e) {
+    // Modelos padrão se der falha
+    listaModelos = [
+      { id: "split-screen", nome: "Divisão Brutalista (Split-Screen)", descricao: "Metade com foto nítida/desfocada na direita e metade com tipografia brutalista gigante na esquerda." },
+      { id: "bento-metrics", nome: "Grade Bento (Cards de Destaque)", descricao: "Fundo creme/claro com cartões retangulares de borda preta grossa." },
+      { id: "minimal-void", nome: "Vácuo Brutal (Foco em Texto)", descricao: "Fundo preto absoluto com tipografia gigantesca em vermelho brutalista ou branco." },
+      { id: "editorial-focus", nome: "Foco Editorial (Estilo Revista)", descricao: "Foto nítida ocupando o topo do slide (50%) e a copy em letras brutas na base." },
+      { id: "impact-quote", nome: "Citação Massiva (Destaque)", descricao: "Fundo creme ou vermelho com aspas gigantescas no fundo e texto preto absoluto." }
+    ];
+  }
+
+  const modelosStr = listaModelos.map(m => `- "${m.id}": ${m.nome} -> ${m.descricao}`).join('\n');
+
   const listaImagens = getBibliotecaImagens();
   const imagensStr = listaImagens.length > 0 
     ? `Lista de arquivos de imagens físicas disponíveis na sua pasta Carrosseis/:\n${listaImagens.map(i => `- "${i}"`).join('\n')}`
@@ -426,6 +446,11 @@ DIRETRIZES DE MARCA (João Gobira):
 - Use números e dados específicos (ex: "47% de aumento em vendas" ao invés de "resultado expressivo").
 - Fale para fundadores e gestores que precisam de método e dados.
 
+REPOSITÓRIO DE MODELOS VISUAIS (LAYOUTS) DO JOÃO:
+Escolha com extrema sabedoria e de forma variada o layout de cada slide (atribuindo a chave "layout") para evitar posts monótonos ou repetitivos. Tente variar os layouts durante a narrativa do carrossel/criativo!
+Aqui estão os modelos visuais e layouts cadastrados e aprovados pelo João Gobira:
+${modelosStr}
+
 REGRAS DE IMAGENS & FOTOGRAFIAS:
 ${imagensStr}
 
@@ -439,11 +464,56 @@ A sua escolha de imagem para o campo "bg" deve ser altamente estratégica e lóg
 - Se o slide requerer foco puramente textual (como uma tabela ou citação direta), deixe o campo "bg" vazio "" para fundo sólido.
 
 REGRAS DE LAYOUT DOS SLIDES:
-1. Capa (Slide 1): Título impactante (Bebas Neue, use <em> para destacar em vermelho, ex: "3 LIÇÕES DO<br><em>JIU-JITSU</em>") + Subtítulo de apoio curto. A tag deve ser o tema central (maiúsculas, ex: "GROWTH NÚMEROS").
+1. Capa (Slide 1): Título impactante (Bebas Neue, use <em> para destacar em vermelho, ex: "3 LIÇÕES DO<br><em>JIU-JITSU</em>") + Subtítulo de apoio curto. A tag deve ser o tema central (maiúsculas, ex: "GROWTH NÚMEROS"). Use preferencialmente "split-screen" ou "editorial-focus".
 2. Slides Internos: Uma ideia central por slide.
    - Devem conter uma "tag" curta (maiúsculas), um "title" forte (Bebas Neue) e um "body" (Barlow Light).
    - O corpo do texto pode ter até 2 parágrafos curtos.
-3. Slide de Métrica/Destaque: Deve conter um número ou estatística bem destacada no título e explicada.
+   - Varie bastante o campo "layout" usando "bento-metrics", "minimal-void", "editorial-focus" ou "split-screen".
+3. Slide de Métrica/Destaque: Deve conter um número ou estatística bem destacada no título e explicada. Ótimo usar "bento-metrics" ou "minimal-void".
+4. Slide de Frase/Quote: Deve conter uma frase curta e impactante estilo citação (Bebas Neue). Ótimo usar "impact-quote" ou "minimal-void".
+5. Slide CTA Final (Último Slide): Um convite à ação urgente. Use layout "split-screen" ou "impact-quote".
+
+FORMATO DE RESPOSTA (OBRIGATÓRIO):
+Você DEVE responder UNICAMENTE com um objeto JSON estruturado contendo a lista de slides gerada, seguindo exatamente o formato abaixo:
+{
+  "assistantMessage": "Uma mensagem de introdução curta e inspiradora sobre o criativo gerado no estilo João Gobira.",
+  "slides": [
+    {
+      "type": "capa",
+      "layout": "split-screen",
+      "tag": "CATEGORIA DO CONTEÚDO",
+      "title": "TÍTULO DA CAPA<br>COM <em>DESTAQUE</em>",
+      "body": "Subtítulo de apoio complementar.",
+      "bg": "joao-gobira.JPG"
+    },
+    {
+      "type": "dor",
+      "layout": "minimal-void",
+      "tag": "O PROBLEMA",
+      "title": "TÍTULO DA DOR",
+      "body": "Texto descrevendo a dor do leitor...",
+      "bg": ""
+    },
+    {
+      "type": "solucao",
+      "layout": "bento-metrics",
+      "tag": "A SOLUÇÃO",
+      "title": "TÍTULO DA MÉTRICA",
+      "body": "Texto explicativo destacado...",
+      "bg": ""
+    },
+    {
+      "type": "cta",
+      "layout": "split-screen",
+      "tag": "AÇÃO",
+      "title": "CHAMADA FINAL",
+      "body": "Texto do botão ou convite...",
+      "bg": "joao-gobira.JPG"
+    }
+  ]
+}
+
+Importante: Retorne APENAS o JSON puro. Não inclua blocos de código markdown ou texto explicativo fora do JSON.`;tulo e explicada.
 4. Slide de Frase/Quote: Deve conter uma frase curta e impactante estilo citação (Bebas Neue).
 5. Slide CTA Final (Último Slide): Um convite à ação urgente.
 
@@ -554,6 +624,7 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
   slides.forEach((s, idx) => {
     const slideNo = `${String(idx + 1).padStart(2, '0')}/${String(slides.length).padStart(2, '0')}`;
     const bgUrl = s.bg ? `../${s.bg}` : '';
+    const layoutClass = `layout-${s.layout || 'split-screen'}`;
     
     let isCapa = s.type === 'capa';
     let isCta = s.type === 'cta';
@@ -562,7 +633,7 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
     slidesHtml += `\n<!-- SLIDE ${idx + 1}: ${s.type.toUpperCase()} -->\n`;
     
     if (isCapa) {
-      slidesHtml += `<div class="slide" id="slide-${idx + 1}">
+      slidesHtml += `<div class="slide ${layoutClass}" id="slide-${idx + 1}">
   <div class="grain"></div>
   <div class="tape-v tape-v-fire"></div>
   <div class="tape-h tape-h-top tape-h-fire"></div>
@@ -587,7 +658,7 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
   </div>
 </div>\n<div class="sep"></div>\n`;
     } else if (isCta) {
-      slidesHtml += `<div class="slide" id="slide-${idx + 1}" style="background: var(--void);">
+      slidesHtml += `<div class="slide ${layoutClass}" id="slide-${idx + 1}" style="background: var(--void);">
   <div class="grain"></div>
   <div class="tape-v tape-v-fire"></div>
   <div class="tape-h tape-h-bottom tape-h-fire"></div>
@@ -610,7 +681,7 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
   </div>
 </div>\n`;
     } else if (isQuote) {
-      slidesHtml += `<div class="slide" id="slide-${idx + 1}" style="background: var(--carbon);">
+      slidesHtml += `<div class="slide ${layoutClass}" id="slide-${idx + 1}" style="background: var(--carbon);">
   <div class="grain"></div>
   <div class="tape-v tape-v-fire"></div>
   <div class="slide-no">${slideNo}</div>
@@ -636,7 +707,7 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
       const lineClass = isGold ? 'h-line-gold' : 'h-line-fire';
       const tagClass = isGold ? 'mono-tag gold' : 'mono-tag';
 
-      slidesHtml += `<div class="slide" id="slide-${idx + 1}" style="background: ${bgUrl ? 'transparent' : 'var(--void)'};">
+      slidesHtml += `<div class="slide ${layoutClass}" id="slide-${idx + 1}" style="background: ${bgUrl ? 'transparent' : 'var(--void)'};">
   <div class="grain"></div>
   <div class="tape-v ${tapeClass}"></div>
   <div class="slide-no">${slideNo}</div>
@@ -887,6 +958,124 @@ body {
   color: var(--bone);
 }
 .quote-text em { color: var(--fire); font-style: normal; }
+
+/* ==========================================================================
+   VARIAÇÕES DE LAYOUTS BRUTALISTAS JG (modelos.json)
+   ========================================================================== */
+
+/* 2. Grade Bento (layout-bento-metrics) */
+.slide.layout-bento-metrics {
+  background: var(--bone) !important;
+  color: var(--void) !important;
+}
+.slide.layout-bento-metrics .tape-v {
+  background: var(--void) !important;
+  width: 8px !important;
+}
+.slide.layout-bento-metrics .mono-tag {
+  background: var(--void) !important;
+  color: var(--bone) !important;
+  border: 2px solid var(--void) !important;
+}
+.slide.layout-bento-metrics .h-line {
+  background: var(--void) !important;
+}
+.slide.layout-bento-metrics .disp-medium,
+.slide.layout-bento-metrics .disp-large {
+  color: var(--void) !important;
+}
+.slide.layout-bento-metrics .body-copy {
+  color: var(--void) !important;
+  border-top: 3px solid var(--void) !important;
+  background: rgba(0, 0, 0, 0.04) !important;
+  border: 3px solid var(--void) !important;
+  padding: 30px !important;
+  font-weight: 500 !important;
+  box-shadow: 8px 8px 0px var(--void) !important;
+  transform: rotate(-0.5deg) !important;
+}
+
+/* 3. Vácuo Brutal (layout-minimal-void) */
+.slide.layout-minimal-void {
+  background: var(--void) !important;
+  color: var(--text) !important;
+}
+.slide.layout-minimal-void .tape-v {
+  background: var(--fire) !important;
+  width: 15px !important;
+}
+.slide.layout-minimal-void .cw {
+  padding-left: 100px !important;
+  padding-right: 100px !important;
+  width: 100% !important;
+}
+.slide.layout-minimal-void .disp-medium,
+.slide.layout-minimal-void .disp-large {
+  font-size: 110px !important;
+  line-height: 0.9 !important;
+  color: var(--text) !important;
+}
+.slide.layout-minimal-void .body-copy {
+  font-size: 44px !important;
+  border-top: 4px solid var(--fire) !important;
+  color: var(--sub) !important;
+  font-weight: 300 !important;
+}
+
+/* 4. Foco Editorial (layout-editorial-focus) */
+.slide.layout-editorial-focus {
+  background: var(--carbon) !important;
+}
+.slide.layout-editorial-focus .split-bg,
+.slide.layout-editorial-focus .photo-bg {
+  top: 0 !important; left: 0 !important; right: 0 !important; bottom: auto !important;
+  width: 100% !important; height: 50% !important;
+  border-bottom: 4px solid var(--fire) !important;
+  border-left: none !important;
+}
+.slide.layout-editorial-focus .split-gradient,
+.slide.layout-editorial-focus .split-gradient-bottom,
+.slide.layout-editorial-focus .photo-overlay {
+  display: none !important;
+}
+.slide.layout-editorial-focus .cw {
+  height: 50% !important;
+  top: 50% !important;
+  width: 100% !important;
+  padding: 60px 80px !important;
+  justify-content: center !important;
+}
+
+/* 5. Citação Massiva (layout-impact-quote) */
+.slide.layout-impact-quote {
+  background: var(--fire) !important;
+  color: var(--void) !important;
+}
+.slide.layout-impact-quote .tape-v {
+  background: var(--void) !important;
+  width: 8px !important;
+}
+.slide.layout-impact-quote .mono-tag {
+  background: var(--void) !important;
+  color: var(--fire) !important;
+}
+.slide.layout-impact-quote .h-line {
+  background: var(--void) !important;
+}
+.slide.layout-impact-quote .quote-mark {
+  color: var(--void) !important;
+  opacity: 0.15 !important;
+  font-size: 280px !important;
+}
+.slide.layout-impact-quote .quote-text {
+  color: var(--void) !important;
+  font-size: 84px !important;
+}
+.slide.layout-impact-quote .body-copy {
+  color: var(--void) !important;
+  border-top: 3px solid var(--void) !important;
+  font-weight: 500 !important;
+}
 
 @media print {
   @page { size: ${width}px ${height}px; margin: 0; }
