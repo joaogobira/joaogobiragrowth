@@ -652,20 +652,42 @@ Importante: Retorne APENAS o JSON puro. Não inclua blocos de código markdown o
     }
   };
 
-  const models = ['gemini-3-flash-preview', 'gemini-1.5-flash'];
+  const models = [
+    'gemini-1.5-flash',
+    'gemini-2.5-flash',
+    'gemini-1.5-pro',
+    'gemini-2.0-flash-exp',
+    'gemini-1.5-flash-latest',
+    'gemini-1.5-pro-latest'
+  ];
   let lastError = null;
 
   for (const model of models) {
+    // 1. Tenta o endpoint estável (v1)
     try {
-      console.log(`[Gemini] Tentando modelo ${model} (formato: ${format})...`);
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+      console.log(`[Gemini] Tentando modelo ${model} via API v1...`);
+      const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${apiKey}`;
       const response = await axios.post(url, payload, { timeout: 30000 });
       const text = response.data.candidates[0].content.parts[0].text;
       const parsed = JSON.parse(text.trim());
+      console.log(`[Gemini] Sucesso com ${model} via API v1!`);
       return res.json({ ok: true, model, ...parsed });
     } catch (err) {
       lastError = err;
-      console.error(`[Gemini] Falha no modelo ${model}:`, err.response?.data?.error?.message || err.message);
+      console.warn(`[Gemini] Sem resposta para ${model} no v1. Tentando v1beta...`);
+      
+      // 2. Tenta o endpoint beta (v1beta) como fallback
+      try {
+        const urlBeta = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+        const response = await axios.post(urlBeta, payload, { timeout: 30000 });
+        const text = response.data.candidates[0].content.parts[0].text;
+        const parsed = JSON.parse(text.trim());
+        console.log(`[Gemini] Sucesso com ${model} via API v1beta!`);
+        return res.json({ ok: true, model, ...parsed });
+      } catch (errBeta) {
+        lastError = errBeta;
+        console.error(`[Gemini] Falha definitiva no modelo ${model}:`, errBeta.response?.data?.error?.message || errBeta.message);
+      }
     }
   }
 
