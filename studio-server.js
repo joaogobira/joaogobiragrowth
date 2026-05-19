@@ -485,20 +485,6 @@ app.delete('/api/publicar/fila/:id', (req, res) => {
 });
 
 // ── CO-CRIADOR IA ──────────────────────────────────────────────────────────
-const readConfig = () => {
-  const cfgPath = path.join(BASE_DIR, 'studio.config');
-  if (!fs.existsSync(cfgPath)) return {};
-  const cfgLines = fs.readFileSync(cfgPath, 'utf8').split(/\r?\n/);
-  const cfg = {};
-  cfgLines.forEach(l => {
-    const t = l.trim();
-    if (!t || t[0] === '#') return;
-    const eq = t.indexOf('=');
-    if (eq < 0) return;
-    cfg[t.slice(0, eq).trim()] = t.slice(eq + 1).trim();
-  });
-  return cfg;
-};
 
 // Retorna as imagens válidas no diretório Carrosseis
 const getBibliotecaImagens = () => {
