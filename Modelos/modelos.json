@@ -23,5 +23,25 @@
     "id": "impact-quote",
     "nome": "Citação Massiva (Destaque)",
     "descricao": "Fundo creme ou vermelho brutalista invertido. Aspas gigantescas no fundo com texto preto absoluto e bordas grossas. Excelente para frases de impacto."
+  },
+  {
+    "id": "giant-number",
+    "nome": "Número Gigante (Brutalista)",
+    "descricao": "Destaca estatísticas massivas de growth de forma agressiva com números gigantescos no topo."
+  },
+  {
+    "id": "social-proof",
+    "nome": "Post Social / Tweet",
+    "descricao": "Simula um depoimento do João com foto, selo de verificado e design brutalista 3D."
+  },
+  {
+    "id": "technical-sheet",
+    "nome": "Folha Editorial Técnica",
+    "descricao": "Estilo sofisticado com fundo bege (cor de papel antigo), linhas finas duplas e fontes mono."
+  },
+  {
+    "id": "neon-accent",
+    "nome": "Destaque Neon (Estilo Ric Neves)",
+    "descricao": "Fundo grafite profundo com rosa magenta neon vibrante e marca d'água de números ao fundo."
   }
 ]

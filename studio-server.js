@@ -471,50 +471,68 @@ app.post('/api/publicar/instagram', async (req, res) => {
   res.end();
 });
 
-// ── PUBLICAR: Fila ─────────────────────────────────────────────────────────
-app.get('/api/publicar/fila', (req, res) => res.json(readQueue()));
-app.post('/api/publicar/fila', (req, res) => {
-  const q = readQueue();
-  const item = { id: Date.now().toString(), ...req.body, createdAt: new Date().toISOString() };
-  q.push(item); writeQueue(q);
-  res.json({ ok: true, item });
-});
-app.delete('/api/publicar/fila/:id', (req, res) => {
-  writeQueue(readQueue().filter(i => i.id !== req.params.id));
-  res.json({ ok: true });
-});
-
-// ── CO-CRIADOR IA ──────────────────────────────────────────────────────────
-
-// Retorna as imagens válidas no diretório Carrosseis
-const getBibliotecaImagens = () => {
+function getBibliotecaImagens() {
   try {
-    const dirPath = path.join(BASE_DIR, 'Carrosseis');
-    if (!fs.existsSync(dirPath)) return [];
-    const files = fs.readdirSync(dirPath);
-    const validExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
-    return files.filter(f => {
+    const dir = path.join(BASE_DIR, 'Carrosseis');
+    if (!fs.existsSync(dir)) return [];
+    return fs.readdirSync(dir).filter(f => {
       const ext = path.extname(f).toLowerCase();
-      const stats = fs.statSync(path.join(dirPath, f));
-      return stats.isFile() && validExtensions.includes(ext);
+      return ['.png', '.jpg', '.jpeg', '.gif', '.webp'].includes(ext);
     });
-  } catch (e) {
+  } catch (err) {
+    console.error('[Biblioteca] Erro ao listar imagens:', err.message);
     return [];
   }
-};
+}
 
-// Endpoint da Biblioteca de Imagens
-app.get('/api/ia/biblioteca', (req, res) => {
-  res.json({ ok: true, imagens: getBibliotecaImagens() });
-});
-
+// ── PUBLICAR: Fila ───────────────────────────────────────────────────────
 app.post('/api/ia/chat', async (req, res) => {
-  const { message, history, format = 'carousel' } = req.body;
+  const { message, history, format = 'carousel', images = [] } = req.body;
   const cfg = readConfig();
   const apiKey = cfg.GEMINI_API_KEY;
  
   if (!apiKey) {
     return res.status(400).json({ error: 'GEMINI_API_KEY não configurada no studio.config' });
+  }
+
+  // 1. Processar e salvar imagens recebidas via chat fisicamente na pasta Carrosseis/
+  const parts = [];
+  if (images && images.length > 0) {
+    const carrosseisDir = path.join(BASE_DIR, 'Carrosseis');
+    if (!fs.existsSync(carrosseisDir)) {
+      fs.mkdirSync(carrosseisDir, { recursive: true });
+    }
+
+    images.forEach(img => {
+      try {
+        const cleanBase64 = img.data.replace(/^data:image\/\w+;base64,/, '');
+        const buffer = Buffer.from(cleanBase64, 'base64');
+        const timestamp = Date.now();
+        // Nome amigável com carimbo de data/hora
+        const sanitizedName = `upload_${timestamp}_${img.name.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`;
+        const targetPath = path.join(carrosseisDir, sanitizedName);
+        fs.writeFileSync(targetPath, buffer);
+        console.log(`[Chat IA] Imagem salva fisicamente na pasta Carrosseis/: ${sanitizedName}`);
+        
+        // Adiciona a imagem no payload do Gemini
+        parts.push({
+          inlineData: {
+            mimeType: img.mimeType,
+            data: cleanBase64
+          }
+        });
+      } catch (err) {
+        console.error('[Chat IA] Erro ao salvar imagem enviada pelo chat:', err.message);
+      }
+    });
+  }
+
+  // Adiciona a mensagem de texto do usuário como última parte
+  if (message) {
+    parts.push({ text: message });
+  } else if (parts.length > 0) {
+    // Se o usuário mandou apenas fotos sem mensagem, induzimos a IA a analisar as fotos
+    parts.push({ text: "Analise estas fotos e crie um carrossel brutalista de alta conversão adaptando estes dados." });
   }
 
   // Carregar repositório de modelos (layouts) que o João gosta
@@ -525,18 +543,22 @@ app.post('/api/ia/chat', async (req, res) => {
       listaModelos = JSON.parse(fs.readFileSync(modelosPath, 'utf8'));
     }
   } catch (e) {
-    // Modelos padrão se der falha
     listaModelos = [
       { id: "split-screen", nome: "Divisão Brutalista (Split-Screen)", descricao: "Metade com foto nítida/desfocada na direita e metade com tipografia brutalista gigante na esquerda." },
       { id: "bento-metrics", nome: "Grade Bento (Cards de Destaque)", descricao: "Fundo creme/claro com cartões retangulares de borda preta grossa." },
       { id: "minimal-void", nome: "Vácuo Brutal (Foco em Texto)", descricao: "Fundo preto absoluto com tipografia gigantesca em vermelho brutalista ou branco." },
       { id: "editorial-focus", nome: "Foco Editorial (Estilo Revista)", descricao: "Foto nítida ocupando o topo do slide (50%) e a copy em letras brutas na base." },
-      { id: "impact-quote", nome: "Citação Massiva (Destaque)", descricao: "Fundo creme ou vermelho com aspas gigantescas no fundo e texto preto absoluto." }
+      { id: "impact-quote", nome: "Citação Massiva (Destaque)", descricao: "Fundo creme ou vermelho com aspas gigantescas no fundo e texto preto absoluto." },
+      { id: "giant-number", nome: "Número Gigante (Brutalista)", descricao: "Destaca um número ou estatística massiva com tipografia gigante agressiva." },
+      { id: "social-proof", nome: "Post Social / Tweet", descricao: "Simula um post de rede social (Tweet) do João Gobira com foto de perfil e corpo em texto brutalista." },
+      { id: "technical-sheet", nome: "Folha Editorial Técnica", descricao: "Fundo bege papel antigo, linhas finas duplas pretas, estilo conceitual editorial técnico chique." },
+      { id: "neon-accent", nome: "Destaque Neon (Estilo Ric Neves)", descricao: "Fundo grafite profundo com rosa magenta neon fluorescente super marcante." }
     ];
   }
 
   const modelosStr = listaModelos.map(m => `- "${m.id}": ${m.nome} -> ${m.descricao}`).join('\n');
 
+  // Biblioteca de imagens físicas (que já inclui a recém-salva!)
   const listaImagens = getBibliotecaImagens();
   const imagensStr = listaImagens.length > 0 
     ? `Lista de arquivos de imagens físicas disponíveis na sua pasta Carrosseis/:\n${listaImagens.map(i => `- "${i}"`).join('\n')}`
@@ -547,10 +569,10 @@ Seu objetivo é gerar a copy e estrutura de slides de um criativo brutalista de 
 
 FORMATO DO CRIATIVO SOLICITADO: "${format}"
 Considere as diretrizes do formato solicitado para compor títulos e copys:
-- "carousel": Carrossel do Instagram (1080x1350px). Média de 5 a 10 slides. Texto fluido, bem sequenciado.
+- "carousel" ou "linkedin-carousel": Carrossel (1080x1350px). Média de 5 a 10 slides. Texto fluido, bem sequenciado.
 - "square": Feed quadrado/Meta Ads (1080x1080px). Criativo único ou carrossel quadrado. Foco em copy extremamente visual e direta.
 - "vertical": Stories / Reels (1080x1920px). Proporção vertical. Máximo 1 slide de roteiro ultra impactante ou sequência rápida de 3-4 slides para Stories.
-- "horizontal": Banner / Linkedin JG (1920x1080px). Proporção horizontal. Títulos bem amplos em uma linha e parágrafos distribuídos horizontalmente.
+- "horizontal" ou "banner-horizontal" ou "youtube-thumb": Proporção horizontal/paisagem. Títulos bem amplos em uma linha e parágrafos distribuídos horizontalmente.
 
 DIRETRIZES DE MARCA (João Gobira):
 - Tom de Voz: Direto, firme, com peso emocional e autoridade. Tom nascido da trincheira, do campo de batalha real de growth, e não de teorias corporativas vazias.
@@ -573,23 +595,76 @@ A sua escolha de imagem para o campo "bg" deve ser altamente estratégica e lóg
 - Use "IMG_7392.JPG" (palco/palestra) se o slide falar sobre autoridade, ensinar equipes, palestras, mentorias, liderança e escala.
 - Use "IMG_7397.JPG" (executivo/negócios) se o slide falar sobre reuniões, fechamentos de contrato, finanças corporativas e o lado corporativo de growth.
 - Use "DSC08278.png" (action/trabalho) se o slide falar sobre execução operacional, "colocar a mão na massa", tráfego, código ou análises em tempo real.
-- Use "WhatsApp Image 2026-02-18 at 08.30.57.jpeg" especificamente para fundos de CTA convidando para falar no WhatsApp ou agendamentos.
-- Se o slide requerer foco puramente textual (como uma tabela ou citação direta), deixe o campo "bg" vazio "" para fundo sólido.
+- Se o usuário carregou novas fotos suas boas de tatame, palestra ou trabalho, elas aparecerão com o prefixo "upload_timestamp_nome.png" na lista acima. Sinta-se 100% livre para usá-las estrategicamente no campo "bg" nos slides ideais!
+- Se o slide requerer foco puramente textual ou tiver um gráfico/tabela HTML nativo, deixe o campo "bg" vazio "" para fundo sólido.
 
-REGRAS DE LAYOUT DOS SLIDES:
-1. Capa (Slide 1): Título impactante (Bebas Neue, use <em> para destacar em vermelho, ex: "3 LIÇÕES DO<br><em>JIU-JITSU</em>") + Subtítulo de apoio curto. A tag deve ser o tema central (maiúsculas, ex: "GROWTH NÚMEROS"). Use preferencialmente "split-screen" ou "editorial-focus".
-2. Slides Internos: Uma ideia central por slide.
-   - Devem conter uma "tag" curta (maiúsculas), um "title" forte (Bebas Neue) e um "body" (Barlow Light).
-   - O corpo do texto pode ter até 2 parágrafos curtos.
-   - Varie bastante o campo "layout" usando "bento-metrics", "minimal-void", "editorial-focus" ou "split-screen".
-3. Slide de Métrica/Destaque: Deve conter um número ou estatística bem destacada no título e explicada. Ótimo usar "bento-metrics" ou "minimal-void".
-4. Slide de Frase/Quote: Deve conter uma frase curta e impactante estilo citação (Bebas Neue). Ótimo usar "impact-quote" ou "minimal-void".
-5. Slide CTA Final (Último Slide): Um convite à ação urgente. Use layout "split-screen" ou "impact-quote".
+REGRA DE CRIAÇÃO DE GRÁFICOS E COMPONENTES DE DADOS NATIVOS (HTML):
+Se você receber imagens contendo dados, prints de gráficos, roadmaps ou dados textuais desorganizados (ou se o usuário fornecer dados de growth/vendas no texto e pedir um design premium), você DEVE converter e traduzir esses dados automaticamente em componentes de código HTML brutalistas nativos dentro do campo "body" do slide correspondente.
+As três estruturas aprovadas para você injetar no campo "body" são:
+
+1. GRÁFICO DE BARRAS BRUTALISTA HORIZONTAL (usar "custom-chart"):
+Use para comparar métricas ou estatísticas. Defina a largura da barra no style inline "width: X%".
+Estrutura exata:
+<div class="custom-chart">
+  <div class="chart-header">
+    <div class="chart-title">NOME DO GRÁFICO</div>
+    <div class="chart-legend">
+      <div class="legend-item"><div class="legend-color off"></div><span>Meta Ads</span></div>
+      <div class="legend-item"><div class="legend-color on"></div><span>LinkedIn</span></div>
+    </div>
+  </div>
+  <div class="chart-row">
+    <div class="chart-label">Conversão</div>
+    <div class="chart-bars">
+      <div class="bar off" style="width: 35%;"></div>
+      <div class="bar on" style="width: 82%;"></div>
+    </div>
+  </div>
+</div>
+
+2. COMPARAÇÃO ANTES VS DEPOIS (usar "vs-container"):
+Use para contrastar o estado caótico e a solução estruturada de growth.
+Estrutura exata:
+<div class="vs-container">
+  <div class="vs-col">
+    <div class="vs-title">Antes (Sem Método)</div>
+    <div class="vs-item">Lutas diárias sem ROI previsível</div>
+    <div class="vs-item">Lead frio sem qualificação</div>
+  </div>
+  <div class="vs-col winner">
+    <div class="vs-title">Depois (Com Growth)</div>
+    <div class="vs-item">ROI escalável em 30 dias</div>
+    <div class="vs-item">Lead quente e qualificado no CRM</div>
+  </div>
+</div>
+
+3. ROADMAP / LISTA DE PASSOS (usar "step-list"):
+Use para ilustrar planos de ação, cronogramas ou sequências práticas.
+Estrutura exata:
+<div class="step-list">
+  <div class="step-item">
+    <div class="step-num">01</div>
+    <div class="step-text"><strong>Análise:</strong> Mapeamos o gargalo real de conversão do funil.</div>
+  </div>
+  <div class="step-item">
+    <div class="step-num">02</div>
+    <div class="step-text"><strong>Aceleração:</strong> Injetamos tráfego altamente qualificado.</div>
+  </div>
+</div>
+
+Importante: Ao usar esses componentes nativos, o campo "body" deve conter APENAS o bloco HTML do componente escolhido, e o "layout" do slide correspondente deve ser preferencialmente "minimal-void", "bento-metrics", "technical-sheet" ou "neon-accent" para máximo contraste estético, mantendo o "bg" vazio "".
+
+REGRAS DE ESTRUTURA DOS SLIDES:
+1. Capa (Slide 1): Título impactante (Bebas Neue, use <em> para destacar em vermelho/fluorescente, ex: "3 LIÇÕES DO<br><em>JIU-JITSU</em>") + Subtítulo curto de apoio. A tag deve ser o tema central (ex: "GROWTH NÚMEROS"). Use "split-screen" ou "editorial-focus".
+2. Slides Internos: Varie os layouts a cada slide para manter a leitura viva. Use os novos layouts "neon-accent" e "technical-sheet" alternados com os tradicionais.
+3. Slide de Métrica/Destaque: Ótimo usar layout "giant-number" (ex: número "48%" ou "3.4M" no título e texto curto no corpo).
+4. Slide de Depoimento/Tweet: Use layout "social-proof" se quiser simular um tweet/depoimento direto seu sobre o tema do carrossel.
+5. Slide CTA Final: Ação clara e firme. Use "split-screen", "impact-quote" ou "neon-accent" com sua foto no bg.
 
 FORMATO DE RESPOSTA (OBRIGATÓRIO):
-Você DEVE responder UNICAMENTE com um objeto JSON estruturado contendo a lista de slides gerada, seguindo exatamente o formato abaixo:
+Responda UNICAMENTE com um objeto JSON puro, sem blocos de código markdown ou explicações fora do JSON.
 {
-  "assistantMessage": "Uma mensagem de introdução curta e inspiradora sobre o criativo gerado no estilo João Gobira.",
+  "assistantMessage": "Mensagem inspiradora estilo João Gobira sobre a estratégia brutalista do criativo.",
   "slides": [
     {
       "type": "capa",
@@ -600,33 +675,23 @@ Você DEVE responder UNICAMENTE com um objeto JSON estruturado contendo a lista 
       "bg": "joao-gobira.JPG"
     },
     {
-      "type": "dor",
-      "layout": "minimal-void",
-      "tag": "O PROBLEMA",
-      "title": "TÍTULO DA DOR",
-      "body": "Texto descrevendo a dor do leitor...",
-      "bg": ""
-    },
-    {
-      "type": "solucao",
-      "layout": "bento-metrics",
-      "tag": "A SOLUÇÃO",
-      "title": "TÍTULO DA MÉTRICA",
-      "body": "Texto explicativo destacado...",
+      "type": "conteudo",
+      "layout": "neon-accent",
+      "tag": "MÉTRICA REAL",
+      "title": "GRAFICO DE DADOS",
+      "body": "<div class=\"custom-chart\">...</div>",
       "bg": ""
     },
     {
       "type": "cta",
       "layout": "split-screen",
-      "tag": "AÇÃO",
-      "title": "CHAMADA FINAL",
-      "body": "Texto do botão ou convite...",
+      "tag": "JOGO DA EXECUÇÃO",
+      "title": "TORNE-SE UM<br><em>BUILDER.</em>",
+      "body": "Toque no link da minha bio e me envie uma mensagem agora.",
       "bg": "joao-gobira.JPG"
     }
   ]
-}
-
-Importante: Retorne APENAS o JSON puro. Não inclua blocos de código markdown ou texto explicativo fora do JSON.`;
+}`;
 
   const contents = [];
   if (history && history.length > 0) {
@@ -639,7 +704,7 @@ Importante: Retorne APENAS o JSON puro. Não inclua blocos de código markdown o
   }
   contents.push({
     role: 'user',
-    parts: [{ text: message }]
+    parts: parts
   });
 
   const payload = {
@@ -653,17 +718,15 @@ Importante: Retorne APENAS o JSON puro. Não inclua blocos de código markdown o
   };
 
   const models = [
-    'gemini-1.5-flash',
     'gemini-2.5-flash',
-    'gemini-1.5-pro',
-    'gemini-2.0-flash-exp',
-    'gemini-1.5-flash-latest',
-    'gemini-1.5-pro-latest'
+    'gemini-2.5-pro',
+    'gemini-2.0-flash',
+    'gemini-flash-latest',
+    'gemini-pro-latest'
   ];
   let lastError = null;
 
   for (const model of models) {
-    // 1. Tenta o endpoint estável (v1)
     try {
       console.log(`[Gemini] Tentando modelo ${model} via API v1...`);
       const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${apiKey}`;
@@ -676,7 +739,6 @@ Importante: Retorne APENAS o JSON puro. Não inclua blocos de código markdown o
       lastError = err;
       console.warn(`[Gemini] Sem resposta para ${model} no v1. Tentando v1beta...`);
       
-      // 2. Tenta o endpoint beta (v1beta) como fallback
       try {
         const urlBeta = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
         const response = await axios.post(urlBeta, payload, { timeout: 30000 });
@@ -690,7 +752,6 @@ Importante: Retorne APENAS o JSON puro. Não inclua blocos de código markdown o
       }
     }
   }
-
   res.status(500).json({ error: `Falha ao conectar com o Gemini: ${lastError?.response?.data?.error?.message || lastError?.message}` });
 });
 
@@ -761,21 +822,57 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
     const bgUrl = s.bg ? `../${s.bg}` : '';
     const layoutClass = `layout-${s.layout || 'split-screen'}`;
     
+    let isSocialProof = s.layout === 'social-proof';
+    let isGiantNumber = s.layout === 'giant-number';
     let isCapa = s.type === 'capa';
     let isCta = s.type === 'cta';
     let isQuote = s.type === 'quote';
 
     slidesHtml += `\n<!-- SLIDE ${idx + 1}: ${s.type.toUpperCase()} -->\n`;
     
-    if (isCapa) {
+    if (isSocialProof) {
+      slidesHtml += `<div class="slide ${slideClass} ${layoutClass}" id="slide-${idx + 1}" style="background: var(--carbon);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">${slideNo}</div>
+  <div class="cw" style="justify-content: center; align-items: center; padding-top: 100px;">
+    <div class="mono-tag" style="margin-bottom: 24px;">${s.tag || 'PROVA SOCIAL'}</div>
+    <div class="tweet-card">
+      <div class="tweet-header">
+        <img class="tweet-avatar" src="../Carrosseis/joao-gobira.JPG" onerror="this.src='../joao-gobira.JPG'">
+        <div class="tweet-user-info">
+          <div class="tweet-name">João Gobira <span class="tweet-verified">✓</span></div>
+          <div class="tweet-handle">@joaogobira</div>
+        </div>
+      </div>
+      <div class="tweet-body">
+        ${s.body || s.title}
+      </div>
+    </div>
+  </div>
+</div>\n<div class="sep"></div>\n`;
+    } else if (isGiantNumber) {
+      slidesHtml += `<div class="slide ${slideClass} ${layoutClass}" id="slide-${idx + 1}">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">${slideNo}</div>
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 24px;">${s.tag || 'GROWTH MÉTRICAS'}</div>
+    <div class="disp-large" style="font-size: 220px; line-height: 0.75; color: var(--fire); margin-bottom: 24px; font-weight: 900;">
+      ${s.title}
+    </div>
+    <div class="body-copy" style="font-size: 40px; border-top: 3px solid var(--steel); padding-top: 24px; color: var(--sub);">
+      ${s.body}
+    </div>
+  </div>
+</div>\n<div class="sep"></div>\n`;
+    } else if (isCapa) {
       slidesHtml += `<div class="slide ${slideClass} ${layoutClass}" id="slide-${idx + 1}">
   <div class="grain"></div>
   <div class="tape-v tape-v-fire"></div>
   <div class="tape-h tape-h-top tape-h-fire"></div>
 
-  <div class="split-bg" style="background-image: url('${bgUrl}'); filter: grayscale(30%) contrast(1.1) brightness(0.9);"></div>
-  <div class="split-gradient"></div>
-  <div class="split-gradient-bottom"></div>
+  ${bgUrl ? `<div class="split-bg" style="background-image: url('${bgUrl}'); filter: grayscale(30%) contrast(1.1) brightness(0.9);"></div><div class="split-gradient"></div><div class="split-gradient-bottom"></div>` : ''}
 
   <div class="slide-no">${slideNo}</div>
 
@@ -864,6 +961,8 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
 </div>\n<div class="sep"></div>\n`;
     }
   });
+
+  
 
   const fullHtml = `<!DOCTYPE html>
 <html lang="pt-BR">
@@ -1211,6 +1310,389 @@ body {
   border-top: 3px solid var(--void) !important;
   font-weight: 500 !important;
 }
+
+/* 6. Número Gigante (layout-giant-number) */
+.slide.layout-giant-number {
+  background: var(--void) !important;
+}
+.slide.layout-giant-number .tape-v {
+  background: var(--fire) !important;
+  width: 20px !important;
+}
+.slide.layout-giant-number .disp-large {
+  font-size: 220px !important;
+  line-height: 0.75 !important;
+  color: var(--fire) !important;
+  margin-bottom: 24px !important;
+  font-weight: 900 !important;
+}
+.slide.layout-giant-number .disp-large em {
+  color: var(--bone) !important;
+  font-style: normal !important;
+}
+.slide.layout-giant-number .body-copy {
+  font-size: 40px !important;
+  border-top: 3px solid var(--steel) !important;
+  padding-top: 24px !important;
+  color: var(--sub) !important;
+}
+
+/* 7. Post Social / Tweet (layout-social-proof) */
+.slide.layout-social-proof {
+  background: var(--carbon) !important;
+}
+.slide.layout-social-proof .tweet-card {
+  background: var(--void) !important;
+  border: 3px solid var(--steel) !important;
+  padding: 40px !important;
+  box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.4) !important;
+  margin-top: 40px !important;
+  width: 100% !important;
+}
+.slide.layout-social-proof .tweet-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 20px !important;
+  margin-bottom: 30px !important;
+}
+.slide.layout-social-proof .tweet-avatar {
+  width: 80px !important;
+  height: 80px !important;
+  border-radius: 50% !important;
+  border: 2px solid var(--fire) !important;
+}
+.slide.layout-social-proof .tweet-user-info {
+  display: flex !important;
+  flex-direction: column !important;
+}
+.slide.layout-social-proof .tweet-name {
+  font-family: var(--fc) !important;
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  color: var(--bone) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+.slide.layout-social-proof .tweet-verified {
+  color: #1DA1F2 !important;
+  font-size: 20px !important;
+}
+.slide.layout-social-proof .tweet-handle {
+  font-family: var(--fm) !important;
+  font-size: 16px !important;
+  color: var(--muted) !important;
+}
+.slide.layout-social-proof .tweet-body {
+  font-family: var(--fb) !important;
+  font-size: 34px !important;
+  line-height: 1.5 !important;
+  color: var(--text) !important;
+}
+.slide.layout-social-proof .tweet-body strong {
+  color: var(--fire) !important;
+}
+
+/* 8. Folha Editorial Técnica (layout-technical-sheet) */
+.slide.layout-technical-sheet {
+  background: #F4F0E6 !important;
+  color: #111111 !important;
+}
+.slide.layout-technical-sheet .tape-v {
+  background: #111111 !important;
+  width: 6px !important;
+}
+.slide.layout-technical-sheet .mono-tag {
+  color: #111111 !important;
+  font-weight: 700 !important;
+}
+.slide.layout-technical-sheet .mono-tag::before {
+  color: var(--fire) !important;
+}
+.slide.layout-technical-sheet .h-line {
+  background: #111111 !important;
+  height: 2px !important;
+  width: 100% !important;
+  margin-bottom: 30px !important;
+}
+.slide.layout-technical-sheet .h-line::after {
+  content: '' !important;
+  display: block !important;
+  height: 2px !important;
+  background: #111111 !important;
+  margin-top: 4px !important;
+}
+.slide.layout-technical-sheet .disp-medium,
+.slide.layout-technical-sheet .disp-large {
+  color: #111111 !important;
+  font-family: var(--fm) !important;
+  font-size: 72px !important;
+  font-weight: 700 !important;
+  letter-spacing: -1px !important;
+  line-height: 1.0 !important;
+}
+.slide.layout-technical-sheet .disp-medium em,
+.slide.layout-technical-sheet .disp-large em {
+  color: var(--fire) !important;
+  font-style: normal !important;
+}
+.slide.layout-technical-sheet .body-copy {
+  color: #333333 !important;
+  font-family: var(--fm) !important;
+  font-size: 28px !important;
+  line-height: 1.5 !important;
+  border-top: 1px solid #111111 !important;
+  padding-top: 30px !important;
+}
+
+/* 9. Destaque Neon (layout-neon-accent) */
+.slide.layout-neon-accent {
+  background: #121212 !important;
+  background-image: radial-gradient(rgba(225, 48, 108, 0.08) 1px, transparent 0) !important;
+  background-size: 24px 24px !important;
+}
+.slide.layout-neon-accent .tape-v {
+  background: #E1306C !important;
+  box-shadow: 0 0 10px #E1306C !important;
+  width: 6px !important;
+}
+.slide.layout-neon-accent .mono-tag {
+  color: #E1306C !important;
+  text-shadow: 0 0 5px rgba(225, 48, 108, 0.3) !important;
+}
+.slide.layout-neon-accent .h-line {
+  background: #E1306C !important;
+  box-shadow: 0 0 8px #E1306C !important;
+}
+.slide.layout-neon-accent .disp-medium,
+.slide.layout-neon-accent .disp-large {
+  color: var(--bone) !important;
+}
+.slide.layout-neon-accent .disp-medium em,
+.slide.layout-neon-accent .disp-large em {
+  color: #E1306C !important;
+  text-shadow: 0 0 10px rgba(225, 48, 108, 0.6) !important;
+  font-style: normal !important;
+}
+.slide.layout-neon-accent .body-copy {
+  color: var(--sub) !important;
+  border-top: 2px solid rgba(225, 48, 108, 0.2) !important;
+}
+.slide.layout-neon-accent .body-copy strong {
+  color: #E1306C !important;
+}
+
+/* Componentes de Dados Brutalistas Dinâmicos */
+.custom-chart {
+  background: var(--carbon);
+  padding: 32px;
+  border: 1px solid var(--iron);
+  width: 100%;
+  margin-top: 30px;
+}
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--steel);
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+.chart-title {
+  font-family: var(--fc);
+  color: var(--bone);
+  font-size: 24px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.chart-legend {
+  display: flex;
+  justify-content: flex-end;
+  gap: 24px;
+  font-family: var(--fm);
+  font-size: 14px;
+  color: var(--sub);
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.legend-color {
+  width: 12px;
+  height: 12px;
+}
+.legend-color.off {
+  background: var(--steel);
+}
+.legend-color.on {
+  background: var(--fire);
+}
+.slide.layout-neon-accent .legend-color.on {
+  background: #E1306C;
+  box-shadow: 0 0 5px #E1306C;
+}
+.chart-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.chart-row:last-child {
+  margin-bottom: 0;
+}
+.chart-label {
+  width: 180px;
+  font-family: var(--fb);
+  font-weight: 500;
+  font-size: 22px;
+  color: var(--text);
+  text-align: right;
+  padding-right: 24px;
+}
+.chart-bars {
+  flex: 1;
+  border-left: 2px dashed var(--steel);
+  padding-left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.bar {
+  height: 32px;
+}
+.bar.off {
+  background: var(--steel);
+}
+.bar.on {
+  background: var(--fire);
+}
+.slide.layout-neon-accent .bar.on {
+  background: #E1306C;
+  box-shadow: 0 0 5px #E1306C;
+}
+
+/* Layout VS e Antes/Depois */
+.vs-container {
+  display: flex;
+  gap: 32px;
+  width: 100%;
+  margin-top: 30px;
+}
+.vs-col {
+  flex: 1;
+  background: var(--carbon);
+  border: 1px solid var(--iron);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.vs-col.winner {
+  border-color: var(--fire);
+  background: rgba(200, 57, 26, 0.03);
+}
+.slide.layout-neon-accent .vs-col.winner {
+  border-color: #E1306C;
+  background: rgba(225, 48, 108, 0.03);
+}
+.vs-title {
+  font-family: var(--fc);
+  font-size: 26px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--bone);
+  border-bottom: 2px solid var(--steel);
+  padding-bottom: 12px;
+  margin-bottom: 8px;
+}
+.vs-col.winner .vs-title {
+  color: var(--fire);
+}
+.slide.layout-neon-accent .vs-col.winner .vs-title {
+  color: #E1306C;
+}
+.vs-item {
+  font-family: var(--fb);
+  font-size: 22px;
+  color: var(--sub);
+  line-height: 1.4;
+  padding-left: 20px;
+  position: relative;
+}
+.vs-item::before {
+  content: '▪';
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+.vs-col.winner .vs-item::before {
+  color: var(--fire);
+}
+.slide.layout-neon-accent .vs-col.winner .vs-item::before {
+  color: #E1306C;
+}
+
+/* Layout Steps / Passos */
+.step-list {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  background: var(--carbon);
+  padding: 24px;
+  border: 1px solid var(--iron);
+  border-left: 4px solid var(--fire);
+}
+.slide.layout-neon-accent .step-item {
+  border-left-color: #E1306C;
+}
+.step-num {
+  font-family: var(--fd);
+  font-size: 48px;
+  color: var(--fire);
+  line-height: 0.8;
+}
+.slide.layout-neon-accent .step-num {
+  color: #E1306C;
+}
+.step-text {
+  font-family: var(--fb);
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+/* Layout Métrica / Data */
+.layout-data .data-number {
+  font-family: var(--fd);
+  font-size: 160px;
+  color: var(--fire);
+  line-height: 0.8;
+  font-weight: 900;
+  margin-top: 30px;
+  letter-spacing: -2px;
+}
+.slide.layout-neon-accent.layout-data .data-number {
+  color: #E1306C;
+  text-shadow: 0 0 10px rgba(225, 48, 108, 0.4);
+}
+.layout-data .data-label {
+  font-family: var(--fm);
+  font-size: 18px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 12px;
+}
+
+
 
 @media print {
   @page { size: ${width}px ${height}px; margin: 0; }

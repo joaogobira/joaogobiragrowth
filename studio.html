@@ -719,6 +719,445 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   border-top: 3px solid var(--void) !important;
   font-weight: 500 !important;
 }
+
+/* 6. Número Gigante (layout-giant-number) */
+.slide.layout-giant-number {
+  background: var(--void) !important;
+}
+.slide.layout-giant-number .tape-v {
+  background: var(--fire) !important;
+  width: 20px !important;
+}
+.slide.layout-giant-number .disp-large {
+  font-size: 220px !important;
+  line-height: 0.75 !important;
+  color: var(--fire) !important;
+  margin-bottom: 24px !important;
+  font-weight: 900 !important;
+}
+.slide.layout-giant-number .disp-large em {
+  color: var(--bone) !important;
+  font-style: normal !important;
+}
+.slide.layout-giant-number .body-copy {
+  font-size: 40px !important;
+  border-top: 3px solid var(--steel) !important;
+  padding-top: 24px !important;
+  color: var(--sub) !important;
+}
+
+/* 7. Post Social / Tweet (layout-social-proof) */
+.slide.layout-social-proof {
+  background: var(--carbon) !important;
+}
+.slide.layout-social-proof .tweet-card {
+  background: var(--void) !important;
+  border: 3px solid var(--steel) !important;
+  padding: 40px !important;
+  box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.4) !important;
+  margin-top: 40px !important;
+  width: 100% !important;
+}
+.slide.layout-social-proof .tweet-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 20px !important;
+  margin-bottom: 30px !important;
+}
+.slide.layout-social-proof .tweet-avatar {
+  width: 80px !important;
+  height: 80px !important;
+  border-radius: 50% !important;
+  border: 2px solid var(--fire) !important;
+}
+.slide.layout-social-proof .tweet-user-info {
+  display: flex !important;
+  flex-direction: column !important;
+}
+.slide.layout-social-proof .tweet-name {
+  font-family: var(--fc) !important;
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  color: var(--bone) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+.slide.layout-social-proof .tweet-verified {
+  color: #1DA1F2 !important;
+  font-size: 20px !important;
+}
+.slide.layout-social-proof .tweet-handle {
+  font-family: var(--fm) !important;
+  font-size: 16px !important;
+  color: var(--muted) !important;
+}
+.slide.layout-social-proof .tweet-body {
+  font-family: var(--fb) !important;
+  font-size: 34px !important;
+  line-height: 1.5 !important;
+  color: var(--text) !important;
+}
+.slide.layout-social-proof .tweet-body strong {
+  color: var(--fire) !important;
+}
+
+/* 8. Folha Editorial Técnica (layout-technical-sheet) */
+.slide.layout-technical-sheet {
+  background: #F4F0E6 !important;
+  color: #111111 !important;
+}
+.slide.layout-technical-sheet .tape-v {
+  background: #111111 !important;
+  width: 6px !important;
+}
+.slide.layout-technical-sheet .mono-tag {
+  color: #111111 !important;
+  font-weight: 700 !important;
+}
+.slide.layout-technical-sheet .mono-tag::before {
+  color: var(--fire) !important;
+}
+.slide.layout-technical-sheet .h-line {
+  background: #111111 !important;
+  height: 2px !important;
+  width: 100% !important;
+  margin-bottom: 30px !important;
+}
+.slide.layout-technical-sheet .h-line::after {
+  content: '' !important;
+  display: block !important;
+  height: 2px !important;
+  background: #111111 !important;
+  margin-top: 4px !important;
+}
+.slide.layout-technical-sheet .disp-medium,
+.slide.layout-technical-sheet .disp-large {
+  color: #111111 !important;
+  font-family: var(--fm) !important;
+  font-size: 72px !important;
+  font-weight: 700 !important;
+  letter-spacing: -1px !important;
+  line-height: 1.0 !important;
+}
+.slide.layout-technical-sheet .disp-medium em,
+.slide.layout-technical-sheet .disp-large em {
+  color: var(--fire) !important;
+  font-style: normal !important;
+}
+.slide.layout-technical-sheet .body-copy {
+  color: #333333 !important;
+  font-family: var(--fm) !important;
+  font-size: 28px !important;
+  line-height: 1.5 !important;
+  border-top: 1px solid #111111 !important;
+  padding-top: 30px !important;
+}
+
+/* 9. Destaque Neon (layout-neon-accent) */
+.slide.layout-neon-accent {
+  background: #121212 !important;
+  background-image: radial-gradient(rgba(225, 48, 108, 0.08) 1px, transparent 0) !important;
+  background-size: 24px 24px !important;
+}
+.slide.layout-neon-accent .tape-v {
+  background: #E1306C !important;
+  box-shadow: 0 0 10px #E1306C !important;
+  width: 6px !important;
+}
+.slide.layout-neon-accent .mono-tag {
+  color: #E1306C !important;
+  text-shadow: 0 0 5px rgba(225, 48, 108, 0.3) !important;
+}
+.slide.layout-neon-accent .h-line {
+  background: #E1306C !important;
+  box-shadow: 0 0 8px #E1306C !important;
+}
+.slide.layout-neon-accent .disp-medium,
+.slide.layout-neon-accent .disp-large {
+  color: var(--bone) !important;
+}
+.slide.layout-neon-accent .disp-medium em,
+.slide.layout-neon-accent .disp-large em {
+  color: #E1306C !important;
+  text-shadow: 0 0 10px rgba(225, 48, 108, 0.6) !important;
+  font-style: normal !important;
+}
+.slide.layout-neon-accent .body-copy {
+  color: var(--sub) !important;
+  border-top: 2px solid rgba(225, 48, 108, 0.2) !important;
+}
+.slide.layout-neon-accent .body-copy strong {
+  color: #E1306C !important;
+}
+
+/* Componentes de Dados Brutalistas Dinâmicos */
+.custom-chart {
+  background: var(--carbon);
+  padding: 32px;
+  border: 1px solid var(--iron);
+  width: 100%;
+  margin-top: 30px;
+}
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--steel);
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+.chart-title {
+  font-family: var(--fc);
+  color: var(--bone);
+  font-size: 24px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.chart-legend {
+  display: flex;
+  justify-content: flex-end;
+  gap: 24px;
+  font-family: var(--fm);
+  font-size: 14px;
+  color: var(--sub);
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.legend-color {
+  width: 12px;
+  height: 12px;
+}
+.legend-color.off {
+  background: var(--steel);
+}
+.legend-color.on {
+  background: var(--fire);
+}
+.slide.layout-neon-accent .legend-color.on {
+  background: #E1306C;
+  box-shadow: 0 0 5px #E1306C;
+}
+.chart-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.chart-row:last-child {
+  margin-bottom: 0;
+}
+.chart-label {
+  width: 180px;
+  font-family: var(--fb);
+  font-weight: 500;
+  font-size: 22px;
+  color: var(--text);
+  text-align: right;
+  padding-right: 24px;
+}
+.chart-bars {
+  flex: 1;
+  border-left: 2px dashed var(--steel);
+  padding-left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.bar {
+  height: 32px;
+}
+.bar.off {
+  background: var(--steel);
+}
+.bar.on {
+  background: var(--fire);
+}
+.slide.layout-neon-accent .bar.on {
+  background: #E1306C;
+  box-shadow: 0 0 5px #E1306C;
+}
+
+/* Layout VS e Antes/Depois */
+.vs-container {
+  display: flex;
+  gap: 32px;
+  width: 100%;
+  margin-top: 30px;
+}
+.vs-col {
+  flex: 1;
+  background: var(--carbon);
+  border: 1px solid var(--iron);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.vs-col.winner {
+  border-color: var(--fire);
+  background: rgba(200, 57, 26, 0.03);
+}
+.slide.layout-neon-accent .vs-col.winner {
+  border-color: #E1306C;
+  background: rgba(225, 48, 108, 0.03);
+}
+.vs-title {
+  font-family: var(--fc);
+  font-size: 26px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--bone);
+  border-bottom: 2px solid var(--steel);
+  padding-bottom: 12px;
+  margin-bottom: 8px;
+}
+.vs-col.winner .vs-title {
+  color: var(--fire);
+}
+.slide.layout-neon-accent .vs-col.winner .vs-title {
+  color: #E1306C;
+}
+.vs-item {
+  font-family: var(--fb);
+  font-size: 22px;
+  color: var(--sub);
+  line-height: 1.4;
+  padding-left: 20px;
+  position: relative;
+}
+.vs-item::before {
+  content: '▪';
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+.vs-col.winner .vs-item::before {
+  color: var(--fire);
+}
+.slide.layout-neon-accent .vs-col.winner .vs-item::before {
+  color: #E1306C;
+}
+
+/* Layout Steps / Passos */
+.step-list {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  background: var(--carbon);
+  padding: 24px;
+  border: 1px solid var(--iron);
+  border-left: 4px solid var(--fire);
+}
+.slide.layout-neon-accent .step-item {
+  border-left-color: #E1306C;
+}
+.step-num {
+  font-family: var(--fd);
+  font-size: 48px;
+  color: var(--fire);
+  line-height: 0.8;
+}
+.slide.layout-neon-accent .step-num {
+  color: #E1306C;
+}
+.step-text {
+  font-family: var(--fb);
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+/* Layout Métrica / Data */
+.layout-data .data-number {
+  font-family: var(--fd);
+  font-size: 160px;
+  color: var(--fire);
+  line-height: 0.8;
+  font-weight: 900;
+  margin-top: 30px;
+  letter-spacing: -2px;
+}
+.slide.layout-neon-accent.layout-data .data-number {
+  color: #E1306C;
+  text-shadow: 0 0 10px rgba(225, 48, 108, 0.4);
+}
+.layout-data .data-label {
+  font-family: var(--fm);
+  font-size: 18px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 12px;
+}
+
+/* Anexos no Chat */
+.btn-ia-attach {
+  background: var(--iron);
+  color: var(--bone);
+  border: 1px solid var(--steel);
+  font-size: 16px;
+  padding: 0 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.btn-ia-attach:hover {
+  background: var(--steel);
+  border-color: var(--fire);
+}
+.ia-chat-attached-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: var(--carbon);
+  border: 1px dashed var(--steel);
+  padding: 8px;
+  margin-bottom: 4px;
+  width: 100%;
+}
+.ia-attached-thumb {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border: 1px solid var(--steel);
+}
+.ia-attached-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ia-attached-remove {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--fire);
+  color: var(--bone);
+  border: none;
+  font-family: var(--fm);
+  font-size: 8px;
+  font-weight: 700;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
 </style>
 </head>
 <body>
@@ -897,11 +1336,17 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
         <div class="ia-chat-container">
           <div class="ia-chat-messages" id="ia-chat-messages">
             <div class="ia-message assistant">
-              <strong>🤖 CO-CRIADOR:</strong> E aí, executor. Qual é a trincheira de hoje? Digite o tema ou a dor principal do seu público (ex: "3 lições do Jiu-Jitsu para fechar mais negócios" ou "Por que seu tráfego pago não converte") e eu criarei a estrutura brutalista e a copy completa de alta conversão.
+              <strong>🤖 CO-CRIADOR:</strong> E aí, executor. Qual é a trincheira de hoje? Digite o tema ou a dor principal do seu público (ex: "3 lições do Jiu-Jitsu para fechar mais negócios" ou "Por que seu tráfego pago não converte") e anexe imagens se quiser que eu as analise e adapte em gráficos Brutalistas!
             </div>
           </div>
+          
+          <!-- Visualização das Imagens Anexadas antes do Envio -->
+          <div id="ia-chat-attached-container" class="ia-chat-attached-container" style="display: none;"></div>
+          
           <div class="ia-chat-input-wrap">
-            <input type="text" id="ia-chat-input" placeholder="DIGITE SUA IDEIA OU TEMA DE CRIATIVO..." onkeydown="if(event.key === 'Enter') enviarMensagemIA()">
+            <input type="file" id="ia-chat-image-input" multiple accept="image/*" style="display: none;" onchange="handleChatImagesSelect(this)">
+            <button class="btn-ia-attach" onclick="document.getElementById('ia-chat-image-input').click()" title="Anexar imagens para a IA analisar">📎</button>
+            <input type="text" id="ia-chat-input" placeholder="DIGITE SUA IDEIA OU ANEXE IMAGENS..." onkeydown="if(event.key === 'Enter') enviarMensagemIA()">
             <button class="btn-ia-send" onclick="enviarMensagemIA()">ENVIAR</button>
           </div>
         </div>
@@ -1363,18 +1808,86 @@ function getBgOptionsHtml(selectedValue) {
   return options;
 }
 
+// Variáveis e funções para imagens anexadas ao chat da IA
+let chatAttachedImages = []; // Array de objetos { name, mimeType, data, previewUrl }
+
+function handleChatImagesSelect(input) {
+  if (!input.files || input.files.length === 0) return;
+  
+  const files = Array.from(input.files);
+  let processed = 0;
+  
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const base64Data = e.target.result.split(',')[1];
+      const mimeType = file.type;
+      
+      // Evita duplicados por nome de arquivo
+      if (!chatAttachedImages.some(img => img.name === file.name)) {
+        chatAttachedImages.push({
+          name: file.name,
+          mimeType: mimeType,
+          data: base64Data,
+          previewUrl: e.target.result
+        });
+      }
+      
+      processed++;
+      if (processed === files.length) {
+        renderAttachedImages();
+        input.value = ''; // Limpa input
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderAttachedImages() {
+  const container = document.getElementById('ia-chat-attached-container');
+  if (chatAttachedImages.length === 0) {
+    container.style.display = 'none';
+    container.innerHTML = '';
+    return;
+  }
+  
+  container.style.display = 'flex';
+  container.innerHTML = chatAttachedImages.map((img, idx) => `
+    <div class="ia-attached-thumb">
+      <img src="${img.previewUrl}" alt="${img.name}">
+      <button class="ia-attached-remove" onclick="removeAttachedImage(${idx})">X</button>
+    </div>
+  `).join('');
+}
+
+function removeAttachedImage(idx) {
+  chatAttachedImages.splice(idx, 1);
+  renderAttachedImages();
+}
+
 async function enviarMensagemIA() {
   const input = document.getElementById('ia-chat-input');
   const message = input.value.trim();
-  if (!message) return;
+  if (!message && chatAttachedImages.length === 0) return;
 
-  // Adiciona a mensagem do usuário no chat
+  // Cria uma cópia das imagens anexadas para enviar e limpa o estado da interface
+  const imagesToSend = [...chatAttachedImages];
+  chatAttachedImages = [];
+  renderAttachedImages();
+
+  // Adiciona a mensagem do usuário no chat (com imagens anexadas se houver)
   const chatMessages = document.getElementById('ia-chat-messages');
-  chatMessages.innerHTML += `
-    <div class="ia-message user">
-      <strong>VOCÊ:</strong> ${message}
-    </div>
-  `;
+  let userMsgHtml = `<div class="ia-message user"><strong>VOCÊ:</strong> ${message || '(Imagens anexadas)'}`;
+  if (imagesToSend.length > 0) {
+    userMsgHtml += `<div style="display:flex; gap:6px; margin-top:8px;">`;
+    imagesToSend.forEach(img => {
+      userMsgHtml += `<img src="${img.previewUrl}" style="width:50px; height:50px; object-fit:cover; border:1px solid var(--steel)">`;
+    });
+    userMsgHtml += `</div>`;
+  }
+  userMsgHtml += `</div>`;
+  
+  chatMessages.innerHTML += userMsgHtml;
   chatMessages.scrollTop = chatMessages.scrollHeight;
   input.value = '';
 
@@ -1386,10 +1899,21 @@ async function enviarMensagemIA() {
   chatMessages.scrollTop = chatMessages.scrollHeight;
 
   try {
+    const payloadImages = imagesToSend.map(img => ({
+      name: img.name,
+      mimeType: img.mimeType,
+      data: img.data
+    }));
+
     const resp = await fetch('/api/ia/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message, history: iaHistory, format: iaActiveFormat })
+      body: JSON.stringify({ 
+        message, 
+        history: iaHistory, 
+        format: iaActiveFormat,
+        images: payloadImages
+      })
     });
 
     const data = await resp.json();
@@ -1479,6 +2003,10 @@ function renderIASlidesEditor() {
               <option value="minimal-void" ${s.layout === 'minimal-void' ? 'selected' : ''}>Vácuo Brutal</option>
               <option value="editorial-focus" ${s.layout === 'editorial-focus' ? 'selected' : ''}>Foco Editorial</option>
               <option value="impact-quote" ${s.layout === 'impact-quote' ? 'selected' : ''}>Citação Massiva</option>
+              <option value="giant-number" ${s.layout === 'giant-number' ? 'selected' : ''}>Número Gigante (Brutalista)</option>
+              <option value="social-proof" ${s.layout === 'social-proof' ? 'selected' : ''}>Post Social / Tweet</option>
+              <option value="technical-sheet" ${s.layout === 'technical-sheet' ? 'selected' : ''}>Folha Editorial Técnica</option>
+              <option value="neon-accent" ${s.layout === 'neon-accent' ? 'selected' : ''}>Destaque Neon (Estilo Ric Neves)</option>
             </select>
           </div>
           <div class="ia-slide-field full-width">
@@ -1512,13 +2040,58 @@ function renderIASlidePreview() {
   const bgUrl = s.bg ? `./Carrosseis/${s.bg}` : '';
   const layoutClass = `layout-${s.layout || 'split-screen'}`;
 
+  let isSocialProof = s.layout === 'social-proof';
+  let isGiantNumber = s.layout === 'giant-number';
+  let isTechnicalSheet = s.layout === 'technical-sheet';
+  let isNeonAccent = s.layout === 'neon-accent';
   let isCapa = s.type === 'capa';
   let isCta = s.type === 'cta';
   let isQuote = s.type === 'quote';
   
   let html = '';
 
-  if (isCapa) {
+  if (isSocialProof) {
+    html = `
+      <div class="slide ${layoutClass}" style="background: var(--carbon);">
+        <div class="grain"></div>
+        <div class="tape-v tape-v-fire"></div>
+        <div class="slide-no">${slideNo}</div>
+        <div class="cw" style="justify-content: center; align-items: center; padding-top: 100px;">
+          <div class="mono-tag" style="margin-bottom: 24px;">${s.tag || 'PROVA SOCIAL'}</div>
+          <div class="tweet-card">
+            <div class="tweet-header">
+              <img class="tweet-avatar" src="./Carrosseis/joao-gobira.JPG" onerror="this.src='./joao-gobira.JPG'">
+              <div class="tweet-user-info">
+                <div class="tweet-name">João Gobira <span class="tweet-verified">✓</span></div>
+                <div class="tweet-handle">@joaogobira</div>
+              </div>
+            </div>
+            <div class="tweet-body">
+              ${s.body || s.title}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (isGiantNumber) {
+    html = `
+      <div class="slide ${layoutClass}">
+        <div class="grain"></div>
+        <div class="tape-v tape-v-fire"></div>
+        <div class="slide-no">${slideNo}</div>
+        <div class="cw" style="justify-content: center; gap: 0;">
+          <div class="mono-tag" style="margin-bottom: 24px;">${s.tag || 'GROWTH MÉTRICAS'}</div>
+          <div class="disp-large" style="font-size: 220px; line-height: 0.75; color: var(--fire); margin-bottom: 24px; font-weight: 900;">
+            ${s.title}
+          </div>
+          <div class="body-copy" style="font-size: 40px; border-top: 3px solid var(--steel); padding-top: 24px; color: var(--sub);">
+            ${s.body}
+          </div>
+        </div>
+      </div>
+    `;
+
+  } else if (isCapa) {
     html = `
       <div class="slide ${layoutClass}">
         <div class="grain"></div>
@@ -1621,7 +2194,6 @@ function renderIASlidePreview() {
     `;
   }
 
-  // Ajusta dimensões físicas dinamicamente na div .slide para o Live Preview
   let width = 1080;
   let height = 1350;
   if (iaActiveFormat === 'linkedin-carousel') { width = 1080; height = 1350; }
