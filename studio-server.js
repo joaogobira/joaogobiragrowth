@@ -485,9 +485,121 @@ function getBibliotecaImagens() {
   }
 }
 
+// ── API: buscar conteúdo de URL para gerar criativos ──────────────────────
+app.post('/api/ia/fetch-url', async (req, res) => {
+  const { url } = req.body;
+  if (!url || !/^https?:\/\//i.test(url)) {
+    return res.status(400).json({ ok: false, error: 'URL inválida. Use http:// ou https://' });
+  }
+  try {
+    const https = require('https');
+    const http = require('http');
+    const protocol = url.startsWith('https') ? https : http;
+
+    const rawHtml = await new Promise((resolve, reject) => {
+      const req2 = protocol.get(url, { headers: { 'User-Agent': 'Mozilla/5.0 (compatible; StudioBot/1.0)' } }, (resp) => {
+        if (resp.statusCode >= 300 && resp.statusCode < 400 && resp.headers.location) {
+          resolve('REDIRECT:' + resp.headers.location);
+          return;
+        }
+        let data = '';
+        resp.on('data', chunk => data += chunk);
+        resp.on('end', () => resolve(data));
+      });
+      req2.on('error', reject);
+      req2.setTimeout(10000, () => { req2.destroy(); reject(new Error('Timeout')); });
+    });
+
+    if (rawHtml.startsWith('REDIRECT:')) {
+      return res.status(400).json({ ok: false, error: 'Redirecionamento não suportado. Acesse a URL final diretamente.' });
+    }
+
+    const clean = rawHtml
+      .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+      .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+      .replace(/<nav[^>]*>[\s\S]*?<\/nav>/gi, '')
+      .replace(/<header[^>]*>[\s\S]*?<\/header>/gi, '')
+      .replace(/<footer[^>]*>[\s\S]*?<\/footer>/gi, '')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/\s{2,}/g, ' ')
+      .trim()
+      .slice(0, 10000);
+
+    res.json({ ok: true, text: clean, length: clean.length });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: 'Não foi possível acessar a URL: ' + e.message });
+  }
+});
+
+// ── API: biblioteca de imagens ─────────────────────────────────────────────
+app.get('/api/ia/biblioteca', (req, res) => {
+  const imagens = getBibliotecaImagens();
+  res.json({ ok: true, imagens });
+});
+
+// ── API: Galeria de Exemplos / Referências de Estilo ──────────────────────
+const EXEMPLOS_DIR = path.join(BASE_DIR, 'Exemplos');
+
+app.post('/api/exemplos/upload', (req, res) => {
+  const { name, base64 } = req.body;
+  if (!name || !base64) return res.status(400).json({ error: 'Dados insuficientes.' });
+  try {
+    fs.mkdirSync(EXEMPLOS_DIR, { recursive: true });
+    const cleanBase64 = base64.replace(/^data:[^;]+;base64,/, '');
+    const buffer = Buffer.from(cleanBase64, 'base64');
+    const sanitized = `exemplo_${Date.now()}_${name.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`;
+    fs.writeFileSync(path.join(EXEMPLOS_DIR, sanitized), buffer);
+    res.json({ ok: true, filename: sanitized });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/exemplos', (req, res) => {
+  try {
+    fs.mkdirSync(EXEMPLOS_DIR, { recursive: true });
+    const IMAGE_EXTS = ['.png', '.jpg', '.jpeg', '.gif', '.webp'];
+    const files = fs.readdirSync(EXEMPLOS_DIR)
+      .filter(f => {
+        const ext = path.extname(f).toLowerCase();
+        return IMAGE_EXTS.includes(ext) || f.endsWith('.html');
+      })
+      .map(f => {
+        const stat = fs.statSync(path.join(EXEMPLOS_DIR, f));
+        const ext = path.extname(f).toLowerCase();
+        return {
+          filename: f,
+          isImage: IMAGE_EXTS.includes(ext),
+          size: stat.size,
+          mtime: stat.mtime,
+        };
+      })
+      .sort((a, b) => new Date(b.mtime) - new Date(a.mtime));
+    res.json({ ok: true, exemplos: files });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/exemplos/:filename', (req, res) => {
+  try {
+    const safe = path.basename(req.params.filename);
+    const filePath = path.join(EXEMPLOS_DIR, safe);
+    if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ── PUBLICAR: Fila ───────────────────────────────────────────────────────
 app.post('/api/ia/chat', async (req, res) => {
-  const { message, history, format = 'carousel', images = [] } = req.body;
+  const { message, history, format = 'carousel', images = [], currentSlides = [], referenceImages = [] } = req.body;
   const cfg = readConfig();
   const apiKey = cfg.GEMINI_API_KEY;
  
@@ -495,12 +607,26 @@ app.post('/api/ia/chat', async (req, res) => {
     return res.status(400).json({ error: 'GEMINI_API_KEY não configurada no studio.config' });
   }
 
-  // 1. Processar e salvar imagens recebidas via chat fisicamente na pasta Carrosseis/
+  // 1. Imagens de referência de estilo (Galeria de Exemplos) — vêm primeiro com contexto
   const parts = [];
+  if (referenceImages && referenceImages.length > 0) {
+    parts.push({ text: `[REFERÊNCIAS DE ESTILO — ${referenceImages.length} exemplo(s) selecionado(s) pelo usuário]\nAnalise VISUALMENTE cada imagem de referência abaixo. Estude a paleta de cores, tipografia, layout, hierarquia visual, espaçamentos e composição. Use esses elementos como INSPIRAÇÃO de estilo nos slides que você vai criar ou modificar. NÃO copie o conteúdo textual — apenas o estilo visual.` });
+    referenceImages.forEach(img => {
+      const cleanData = img.data.replace(/^data:[^;]+;base64,/, '');
+      parts.push({ inlineData: { mimeType: img.mimeType || 'image/png', data: cleanData } });
+    });
+    parts.push({ text: '[FIM DAS REFERÊNCIAS DE ESTILO]' });
+  }
+
+  // 2. Processar e salvar imagens de dados recebidas via chat
   if (images && images.length > 0) {
     const carrosseisDir = path.join(BASE_DIR, 'Carrosseis');
     if (!fs.existsSync(carrosseisDir)) {
       fs.mkdirSync(carrosseisDir, { recursive: true });
+    }
+
+    if (images.length > 0) {
+      parts.push({ text: `[IMAGENS DE DADOS — ${images.length} imagem(ns) para analisar e converter em componentes HTML nativos]` });
     }
 
     images.forEach(img => {
@@ -508,31 +634,22 @@ app.post('/api/ia/chat', async (req, res) => {
         const cleanBase64 = img.data.replace(/^data:image\/\w+;base64,/, '');
         const buffer = Buffer.from(cleanBase64, 'base64');
         const timestamp = Date.now();
-        // Nome amigável com carimbo de data/hora
         const sanitizedName = `upload_${timestamp}_${img.name.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`;
         const targetPath = path.join(carrosseisDir, sanitizedName);
         fs.writeFileSync(targetPath, buffer);
         console.log(`[Chat IA] Imagem salva fisicamente na pasta Carrosseis/: ${sanitizedName}`);
-        
-        // Adiciona a imagem no payload do Gemini
-        parts.push({
-          inlineData: {
-            mimeType: img.mimeType,
-            data: cleanBase64
-          }
-        });
+        parts.push({ inlineData: { mimeType: img.mimeType, data: cleanBase64 } });
       } catch (err) {
         console.error('[Chat IA] Erro ao salvar imagem enviada pelo chat:', err.message);
       }
     });
   }
 
-  // Adiciona a mensagem de texto do usuário como última parte
+  // 3. Mensagem de texto do usuário
   if (message) {
     parts.push({ text: message });
   } else if (parts.length > 0) {
-    // Se o usuário mandou apenas fotos sem mensagem, induzimos a IA a analisar as fotos
-    parts.push({ text: "Analise estas fotos e crie um carrossel brutalista de alta conversão adaptando estes dados." });
+    parts.push({ text: 'Analise as referências/imagens e crie um carrossel brutalista de alta conversão.' });
   }
 
   // Carregar repositório de modelos (layouts) que o João gosta
@@ -564,14 +681,54 @@ app.post('/api/ia/chat', async (req, res) => {
     ? `Lista de arquivos de imagens físicas disponíveis na sua pasta Carrosseis/:\n${listaImagens.map(i => `- "${i}"`).join('\n')}`
     : 'Nenhuma imagem física cadastrada. Use fundo sólido.';
 
-  const systemInstruction = `Você é o co-criador oficial de criativos de João Gobira, especialista em Growth, Gestão e Marketing de Performance.
+  const isEditMode = currentSlides && currentSlides.length > 0;
+
+  const refsContext = referenceImages && referenceImages.length > 0
+    ? `\nREFERÊNCIAS DE ESTILO ATIVAS: ${referenceImages.length} exemplo(s) foram enviados antes da sua mensagem. Incorpore elementos visuais desses exemplos nos slides criados/modificados.\n`
+    : '';
+
+  const editModeContext = isEditMode ? `⚠️ MODO DE EDIÇÃO CIRÚRGICA ⚠️
+O usuário já tem um carrossel com ${currentSlides.length} slides. Faça APENAS a alteração pedida — NÃO regenere o carrossel inteiro, a não ser que o usuário diga "refazer tudo" ou "criar novo carrossel do zero".
+
+SLIDES ATUAIS (mantenha todos, exceto o que for pedido para alterar):
+${currentSlides.map((s, i) => `  Slide ${i + 1} (índice ${i}): [${s.type}] TAG:"${(s.tag || '').slice(0, 35)}" | TÍTULO:"${(s.title || '').replace(/<[^>]+>/g, '').slice(0, 60)}"`).join('\n')}
+
+COMO INTERPRETAR O PEDIDO:
+- "adicionar depois do slide 3" → action:"insert_after", targetIndex:2 (índice 0-based do slide antes da inserção)
+- "inserir depois do slide N" → action:"insert_after", targetIndex: N-1
+- "colocar no final" → action:"insert_after", targetIndex:${currentSlides.length - 1}
+- "substituir / trocar o slide N" → action:"replace", targetIndex: N-1
+- "remover o slide N" → action:"delete", targetIndex: N-1
+- "refazer tudo" / "criar novo carrossel" → action:"full" (retorna todos os slides)
+
+ANÁLISE DE IMAGENS → COMPONENTES NATIVOS HTML (OBRIGATÓRIO):
+Quando o usuário enviar uma imagem com dados (gráfico, tabela do Semrush, Google Trends, termos de busca, métricas):
+1. ANALISE os dados visíveis: valores, percentuais, labels, tendências, palavras-chave
+2. RECONSTRUA os dados como componente HTML brutalista nativo no campo "body" (custom-chart, vs-container ou step-list)
+3. NUNCA use a imagem como "bg" (fundo). Sempre bg:"" para slides com dados. Layout recomendado: "technical-sheet" ou "neon-accent"
+4. Se quiser exibir a imagem original dentro do slide SEM distorção como referência visual, use o campo "contentImage" com o nome do arquivo
+
+FORMATO DE RESPOSTA PARA EDIÇÃO (JSON puro, sem markdown):
+{
+  "assistantMessage": "Mensagem breve explicando o que foi feito.",
+  "action": "insert_after",
+  "targetIndex": 2,
+  "slides": [{ "type":"conteudo","layout":"technical-sheet","tag":"...","title":"...","body":"...","bg":"","contentImage":"" }]
+}
+
+---
+DIRETRIZES GERAIS (aplique nos slides novos/modificados):
+${refsContext}` : '';
+
+  const systemInstruction = editModeContext + `Você é o co-criador oficial de criativos de João Gobira, especialista em Growth, Gestão e Marketing de Performance.
 Seu objetivo é gerar a copy e estrutura de slides de um criativo brutalista de alta conversão.
 
 FORMATO DO CRIATIVO SOLICITADO: "${format}"
 Considere as diretrizes do formato solicitado para compor títulos e copys:
 - "carousel" ou "linkedin-carousel": Carrossel (1080x1350px). Média de 5 a 10 slides. Texto fluido, bem sequenciado.
-- "square": Feed quadrado/Meta Ads (1080x1080px). Criativo único ou carrossel quadrado. Foco em copy extremamente visual e direta.
-- "vertical": Stories / Reels (1080x1920px). Proporção vertical. Máximo 1 slide de roteiro ultra impactante ou sequência rápida de 3-4 slides para Stories.
+- "square": Meta Ads Estático 1:1 (1080x1080px). Anúncio único de alto impacto. Copy extremamente direta, headline curtíssima, CTA visível. Pensado para feed pago do Instagram/Facebook.
+- "meta-portrait": Meta Ads Feed 4:5 (1080x1350px). Anúncio único vertical. Mais espaço que o quadrado — use para copy um pouco mais desenvolvida com imagem de fundo impactante e CTA forte. Ideal para tráfego pago.
+- "vertical": Meta Ads Stories / Reels (1080x1920px). Proporção 9:16. Máximo 1 slide ultra impactante para story patrocinado, ou sequência de 3 slides rápidos. Copy curtíssima, visual cinematográfico.
 - "horizontal" ou "banner-horizontal" ou "youtube-thumb": Proporção horizontal/paisagem. Títulos bem amplos em uma linha e parágrafos distribuídos horizontalmente.
 
 DIRETRIZES DE MARCA (João Gobira):
@@ -793,6 +950,11 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
     width = 1080;
     height = 1080;
     slideClass = 'ad-square';
+  } else if (format === 'meta-portrait') {
+    folder = 'Criativos/MetaAds';
+    width = 1080;
+    height = 1350;
+    slideClass = 'ad-portrait';
   } else if (format === 'vertical') {
     folder = 'Criativos/MetaAds';
     width = 1080;
@@ -821,6 +983,8 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
     const slideNo = `${String(idx + 1).padStart(2, '0')}/${String(slides.length).padStart(2, '0')}`;
     const bgUrl = s.bg ? `../${s.bg}` : '';
     const layoutClass = `layout-${s.layout || 'split-screen'}`;
+    const accentMap = { fire: '#C8391A', gold: '#B8922A', neon: '#E1306C', bone: '#F0EBE0' };
+    const accentVar = accentMap[s.accentColor] ? `--fire:${accentMap[s.accentColor]};` : '';
     
     let isSocialProof = s.layout === 'social-proof';
     let isGiantNumber = s.layout === 'giant-number';
@@ -938,8 +1102,9 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
       const tapeClass = isGold ? 'tape-v-gold' : 'tape-v-fire';
       const lineClass = isGold ? 'h-line-gold' : 'h-line-fire';
       const tagClass = isGold ? 'mono-tag gold' : 'mono-tag';
+      const contentImgUrl = s.contentImage ? `../${s.contentImage}` : '';
 
-      slidesHtml += `<div class="slide ${slideClass} ${layoutClass}" id="slide-${idx + 1}" style="background: ${bgUrl ? 'transparent' : 'var(--void)'};">
+      slidesHtml += `<div class="slide ${slideClass} ${layoutClass}" id="slide-${idx + 1}" style="${accentVar}background: ${bgUrl ? 'transparent' : 'var(--void)'};">
   <div class="grain"></div>
   <div class="tape-v ${tapeClass}"></div>
   <div class="slide-no">${slideNo}</div>
@@ -950,9 +1115,11 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
     <div class="${tagClass}" style="margin-bottom: 32px;">${s.tag || s.type.toUpperCase()}</div>
     <div class="h-line ${lineClass}"></div>
 
-    <div class="disp-medium" style="margin-bottom: 48px;">
+    <div class="disp-medium" style="margin-bottom: ${contentImgUrl ? '24px' : '48px'};">
       ${s.title}
     </div>
+
+    ${contentImgUrl ? `<img src="${contentImgUrl}" style="max-width:100%; max-height:320px; object-fit:contain; margin: 0 auto 28px; display:block; border: 1px solid rgba(255,255,255,0.08);">` : ''}
 
     <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
       ${s.body}
@@ -1121,7 +1288,7 @@ body {
 
 .mono-tag {
   font-family: var(--fm);
-  font-size: 18px;
+  font-size: 26px;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--fire);
@@ -1715,6 +1882,9 @@ ${slidesHtml}
 
 // ── Serve o Studio HTML na raiz ───────────────────────────────────────────
 app.get('/', (req, res) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
   res.sendFile(path.join(BASE_DIR, 'studio.html'));
 });
 

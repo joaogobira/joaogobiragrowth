@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/joaogobira/joaogobiragrowth#readme",
   "dependencies": {
+    "@linkedapi/linkedin-cli": "^1.0.10",
     "axios": "^1.16.1",
     "cloudinary": "^2.10.0",
     "dotenv": "^17.4.2",

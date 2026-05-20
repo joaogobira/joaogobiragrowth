@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>exclua_a_foto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+:root {
+  --void:   #080808;
+  --carbon: #101010;
+  --iron:   #1A1A1A;
+  --steel:  #272727;
+  --fire:   #C8391A;
+  --gold:   #B8922A;
+  --bone:   #F0EBE0;
+  --muted:  #7A746C;
+  --text:   #EDE8E0;
+  --sub:    #9A9490;
+  --fd: 'Bebas Neue', sans-serif;
+  --fc: 'Barlow Condensed', sans-serif;
+  --fb: 'Barlow', sans-serif;
+  --fm: 'Space Mono', monospace;
+}
+
+body {
+  background: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 24px;
+}
+
+.preview-info {
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #444;
+  text-align: center;
+  margin-bottom: 32px;
+  text-transform: uppercase;
+}
+
+.slide {
+  width: 1080px;
+  height: 1350px;
+  background: var(--void);
+  position: relative;
+  flex-shrink: 0;
+  transform: scale(0.38);
+  transform-origin: top center;
+  margin-bottom: -825px;
+  overflow: hidden;
+  border: 1px solid #222;
+}
+
+.sep { width: 411px; height: 2px; background: #222; margin: 0 auto; position: relative; z-index: 99; }
+
+.grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.7;
+  mix-blend-mode: overlay;
+}
+
+.photo-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-size: cover;
+  background-position: center top;
+}
+
+.photo-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    to bottom,
+    rgba(8,8,8,0.2) 0%,
+    rgba(8,8,8,0.45) 35%,
+    rgba(8,8,8,0.88) 65%,
+    rgba(8,8,8,0.98) 100%
+  );
+}
+
+.photo-overlay-mid {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    to bottom,
+    rgba(8,8,8,0.5) 0%,
+    rgba(8,8,8,0.3) 50%,
+    rgba(8,8,8,0.95) 80%,
+    rgba(8,8,8,1) 100%
+  );
+}
+
+.split-bg {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 50%;
+  background-size: cover;
+  background-position: center top;
+  z-index: 1;
+  border-left: 2px solid var(--steel);
+}
+.split-gradient {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 50%;
+  background: linear-gradient(to right, var(--void) 0%, rgba(8,8,8,0) 25%);
+  z-index: 2;
+}
+.split-gradient-bottom {
+  position: absolute;
+  bottom: 0; right: 0; width: 50%; height: 50%;
+  background: linear-gradient(to bottom, rgba(8,8,8,0) 0%, var(--void) 100%);
+  z-index: 3;
+}
+
+.tape-v { position: absolute; left: 0; top: 0; bottom: 0; width: 5px; z-index: 10; }
+.tape-v-fire { background: var(--fire); }
+.tape-v-gold { background: var(--gold); }
+
+.tape-h { position: absolute; left: 0; right: 0; height: 4px; z-index: 10; }
+.tape-h-top { top: 0; }
+.tape-h-bottom { bottom: 0; }
+.tape-h-fire { background: var(--fire); }
+
+.cw {
+  position: relative;
+  z-index: 30;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 88px 88px 80px 92px;
+}
+
+.slide-no {
+  position: absolute;
+  top: 64px; right: 72px;
+  font-family: var(--fm);
+  font-size: 18px;
+  color: var(--steel);
+  letter-spacing: 2px;
+  z-index: 40;
+}
+
+.mono-tag {
+  font-family: var(--fm);
+  font-size: 18px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--fire);
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.mono-tag::before { content: '//'; color: var(--steel); }
+.mono-tag.gold { color: var(--gold); }
+.mono-tag.gold::before { color: var(--steel); }
+
+.h-line { width: 64px; height: 4px; margin-bottom: 40px; }
+.h-line-fire { background: var(--fire); }
+.h-line-gold { background: var(--gold); }
+
+.disp-large {
+  font-family: var(--fd);
+  font-size: 108px;
+  line-height: 0.92;
+  letter-spacing: 2px;
+  color: var(--bone);
+  margin-bottom: 40px;
+}
+.disp-large em { color: var(--fire); font-style: normal; }
+.disp-large .gold { color: var(--gold); }
+
+.disp-medium {
+  font-family: var(--fd);
+  font-size: 88px;
+  line-height: 0.93;
+  letter-spacing: 2px;
+  color: var(--bone);
+  margin-bottom: 36px;
+}
+.disp-medium em { color: var(--fire); font-style: normal; }
+
+.body-copy {
+  font-family: var(--fb);
+  font-size: 38px;
+  font-weight: 300;
+  color: var(--sub);
+  line-height: 1.6;
+  max-width: 880px;
+}
+.body-copy strong { color: var(--text); font-weight: 500; }
+.body-copy em { color: var(--fire); font-style: normal; }
+
+.author-badge { display: flex; align-items: center; gap: 24px; margin-top: 48px; padding: 20px 40px 20px 20px; background: rgba(26,26,26,0.85); border: 2px solid var(--steel); width: fit-content; }
+.author-avatar { width: 88px; height: 88px; border-radius: 50%; border: 3px solid var(--fire); object-fit: cover; }
+.author-name-text { font-family: var(--fd); font-size: 36px; color: var(--bone); letter-spacing: 1px; }
+.author-role-text { font-family: var(--fm); font-size: 14px; color: var(--fire); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+
+.quote-mark {
+  font-family: var(--fd);
+  font-size: 160px;
+  color: var(--fire);
+  line-height: 0.7;
+  opacity: 0.22;
+  margin-left: -16px;
+}
+
+.quote-text {
+  font-family: var(--fd);
+  font-size: 80px;
+  line-height: 0.96;
+  letter-spacing: 1px;
+  color: var(--bone);
+}
+.quote-text em { color: var(--fire); font-style: normal; }
+
+/* ==========================================================================
+   VARIAÇÕES DE LAYOUTS BRUTALISTAS JG (modelos.json)
+   ========================================================================== */
+
+/* 2. Grade Bento (layout-bento-metrics) */
+.slide.layout-bento-metrics {
+  background: var(--bone) !important;
+  color: var(--void) !important;
+}
+.slide.layout-bento-metrics .tape-v {
+  background: var(--void) !important;
+  width: 8px !important;
+}
+.slide.layout-bento-metrics .mono-tag {
+  background: var(--void) !important;
+  color: var(--bone) !important;
+  border: 2px solid var(--void) !important;
+}
+.slide.layout-bento-metrics .h-line {
+  background: var(--void) !important;
+}
+.slide.layout-bento-metrics .disp-medium,
+.slide.layout-bento-metrics .disp-large {
+  color: var(--void) !important;
+}
+.slide.layout-bento-metrics .body-copy {
+  color: var(--void) !important;
+  border-top: 3px solid var(--void) !important;
+  background: rgba(0, 0, 0, 0.04) !important;
+  border: 3px solid var(--void) !important;
+  padding: 30px !important;
+  font-weight: 500 !important;
+  box-shadow: 8px 8px 0px var(--void) !important;
+  transform: rotate(-0.5deg) !important;
+}
+
+/* 3. Vácuo Brutal (layout-minimal-void) */
+.slide.layout-minimal-void {
+  background: var(--void) !important;
+  color: var(--text) !important;
+}
+.slide.layout-minimal-void .tape-v {
+  background: var(--fire) !important;
+  width: 15px !important;
+}
+.slide.layout-minimal-void .cw {
+  padding-left: 100px !important;
+  padding-right: 100px !important;
+  width: 100% !important;
+}
+.slide.layout-minimal-void .disp-medium,
+.slide.layout-minimal-void .disp-large {
+  font-size: 110px !important;
+  line-height: 0.9 !important;
+  color: var(--text) !important;
+}
+.slide.layout-minimal-void .body-copy {
+  font-size: 44px !important;
+  border-top: 4px solid var(--fire) !important;
+  color: var(--sub) !important;
+  font-weight: 300 !important;
+}
+
+/* 4. Foco Editorial (layout-editorial-focus) */
+.slide.layout-editorial-focus {
+  background: var(--carbon) !important;
+}
+.slide.layout-editorial-focus .split-bg,
+.slide.layout-editorial-focus .photo-bg {
+  top: 0 !important; left: 0 !important; right: 0 !important; bottom: auto !important;
+  width: 100% !important; height: 50% !important;
+  border-bottom: 4px solid var(--fire) !important;
+  border-left: none !important;
+}
+.slide.layout-editorial-focus .split-gradient,
+.slide.layout-editorial-focus .split-gradient-bottom,
+.slide.layout-editorial-focus .photo-overlay {
+  display: none !important;
+}
+.slide.layout-editorial-focus .cw {
+  height: 50% !important;
+  top: 50% !important;
+  width: 100% !important;
+  padding: 60px 80px !important;
+  justify-content: center !important;
+}
+
+/* 5. Citação Massiva (layout-impact-quote) */
+.slide.layout-impact-quote {
+  background: var(--fire) !important;
+  color: var(--void) !important;
+}
+.slide.layout-impact-quote .tape-v {
+  background: var(--void) !important;
+  width: 8px !important;
+}
+.slide.layout-impact-quote .mono-tag {
+  background: var(--void) !important;
+  color: var(--fire) !important;
+}
+.slide.layout-impact-quote .h-line {
+  background: var(--void) !important;
+}
+.slide.layout-impact-quote .quote-mark {
+  color: var(--void) !important;
+  opacity: 0.15 !important;
+  font-size: 280px !important;
+}
+.slide.layout-impact-quote .quote-text {
+  color: var(--void) !important;
+  font-size: 84px !important;
+}
+.slide.layout-impact-quote .body-copy {
+  color: var(--void) !important;
+  border-top: 3px solid var(--void) !important;
+  font-weight: 500 !important;
+}
+
+/* 6. Número Gigante (layout-giant-number) */
+.slide.layout-giant-number {
+  background: var(--void) !important;
+}
+.slide.layout-giant-number .tape-v {
+  background: var(--fire) !important;
+  width: 20px !important;
+}
+.slide.layout-giant-number .disp-large {
+  font-size: 220px !important;
+  line-height: 0.75 !important;
+  color: var(--fire) !important;
+  margin-bottom: 24px !important;
+  font-weight: 900 !important;
+}
+.slide.layout-giant-number .disp-large em {
+  color: var(--bone) !important;
+  font-style: normal !important;
+}
+.slide.layout-giant-number .body-copy {
+  font-size: 40px !important;
+  border-top: 3px solid var(--steel) !important;
+  padding-top: 24px !important;
+  color: var(--sub) !important;
+}
+
+/* 7. Post Social / Tweet (layout-social-proof) */
+.slide.layout-social-proof {
+  background: var(--carbon) !important;
+}
+.slide.layout-social-proof .tweet-card {
+  background: var(--void) !important;
+  border: 3px solid var(--steel) !important;
+  padding: 40px !important;
+  box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.4) !important;
+  margin-top: 40px !important;
+  width: 100% !important;
+}
+.slide.layout-social-proof .tweet-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 20px !important;
+  margin-bottom: 30px !important;
+}
+.slide.layout-social-proof .tweet-avatar {
+  width: 80px !important;
+  height: 80px !important;
+  border-radius: 50% !important;
+  border: 2px solid var(--fire) !important;
+}
+.slide.layout-social-proof .tweet-user-info {
+  display: flex !important;
+  flex-direction: column !important;
+}
+.slide.layout-social-proof .tweet-name {
+  font-family: var(--fc) !important;
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  color: var(--bone) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+.slide.layout-social-proof .tweet-verified {
+  color: #1DA1F2 !important;
+  font-size: 20px !important;
+}
+.slide.layout-social-proof .tweet-handle {
+  font-family: var(--fm) !important;
+  font-size: 16px !important;
+  color: var(--muted) !important;
+}
+.slide.layout-social-proof .tweet-body {
+  font-family: var(--fb) !important;
+  font-size: 34px !important;
+  line-height: 1.5 !important;
+  color: var(--text) !important;
+}
+.slide.layout-social-proof .tweet-body strong {
+  color: var(--fire) !important;
+}
+
+/* 8. Folha Editorial Técnica (layout-technical-sheet) */
+.slide.layout-technical-sheet {
+  background: #F4F0E6 !important;
+  color: #111111 !important;
+}
+.slide.layout-technical-sheet .tape-v {
+  background: #111111 !important;
+  width: 6px !important;
+}
+.slide.layout-technical-sheet .mono-tag {
+  color: #111111 !important;
+  font-weight: 700 !important;
+}
+.slide.layout-technical-sheet .mono-tag::before {
+  color: var(--fire) !important;
+}
+.slide.layout-technical-sheet .h-line {
+  background: #111111 !important;
+  height: 2px !important;
+  width: 100% !important;
+  margin-bottom: 30px !important;
+}
+.slide.layout-technical-sheet .h-line::after {
+  content: '' !important;
+  display: block !important;
+  height: 2px !important;
+  background: #111111 !important;
+  margin-top: 4px !important;
+}
+.slide.layout-technical-sheet .disp-medium,
+.slide.layout-technical-sheet .disp-large {
+  color: #111111 !important;
+  font-family: var(--fm) !important;
+  font-size: 72px !important;
+  font-weight: 700 !important;
+  letter-spacing: -1px !important;
+  line-height: 1.0 !important;
+}
+.slide.layout-technical-sheet .disp-medium em,
+.slide.layout-technical-sheet .disp-large em {
+  color: var(--fire) !important;
+  font-style: normal !important;
+}
+.slide.layout-technical-sheet .body-copy {
+  color: #333333 !important;
+  font-family: var(--fm) !important;
+  font-size: 28px !important;
+  line-height: 1.5 !important;
+  border-top: 1px solid #111111 !important;
+  padding-top: 30px !important;
+}
+
+/* 9. Destaque Neon (layout-neon-accent) */
+.slide.layout-neon-accent {
+  background: #121212 !important;
+  background-image: radial-gradient(rgba(225, 48, 108, 0.08) 1px, transparent 0) !important;
+  background-size: 24px 24px !important;
+}
+.slide.layout-neon-accent .tape-v {
+  background: #E1306C !important;
+  box-shadow: 0 0 10px #E1306C !important;
+  width: 6px !important;
+}
+.slide.layout-neon-accent .mono-tag {
+  color: #E1306C !important;
+  text-shadow: 0 0 5px rgba(225, 48, 108, 0.3) !important;
+}
+.slide.layout-neon-accent .h-line {
+  background: #E1306C !important;
+  box-shadow: 0 0 8px #E1306C !important;
+}
+.slide.layout-neon-accent .disp-medium,
+.slide.layout-neon-accent .disp-large {
+  color: var(--bone) !important;
+}
+.slide.layout-neon-accent .disp-medium em,
+.slide.layout-neon-accent .disp-large em {
+  color: #E1306C !important;
+  text-shadow: 0 0 10px rgba(225, 48, 108, 0.6) !important;
+  font-style: normal !important;
+}
+.slide.layout-neon-accent .body-copy {
+  color: var(--sub) !important;
+  border-top: 2px solid rgba(225, 48, 108, 0.2) !important;
+}
+.slide.layout-neon-accent .body-copy strong {
+  color: #E1306C !important;
+}
+
+/* Componentes de Dados Brutalistas Dinâmicos */
+.custom-chart {
+  background: var(--carbon);
+  padding: 32px;
+  border: 1px solid var(--iron);
+  width: 100%;
+  margin-top: 30px;
+}
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--steel);
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+.chart-title {
+  font-family: var(--fc);
+  color: var(--bone);
+  font-size: 24px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.chart-legend {
+  display: flex;
+  justify-content: flex-end;
+  gap: 24px;
+  font-family: var(--fm);
+  font-size: 14px;
+  color: var(--sub);
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.legend-color {
+  width: 12px;
+  height: 12px;
+}
+.legend-color.off {
+  background: var(--steel);
+}
+.legend-color.on {
+  background: var(--fire);
+}
+.slide.layout-neon-accent .legend-color.on {
+  background: #E1306C;
+  box-shadow: 0 0 5px #E1306C;
+}
+.chart-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.chart-row:last-child {
+  margin-bottom: 0;
+}
+.chart-label {
+  width: 180px;
+  font-family: var(--fb);
+  font-weight: 500;
+  font-size: 22px;
+  color: var(--text);
+  text-align: right;
+  padding-right: 24px;
+}
+.chart-bars {
+  flex: 1;
+  border-left: 2px dashed var(--steel);
+  padding-left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.bar {
+  height: 32px;
+}
+.bar.off {
+  background: var(--steel);
+}
+.bar.on {
+  background: var(--fire);
+}
+.slide.layout-neon-accent .bar.on {
+  background: #E1306C;
+  box-shadow: 0 0 5px #E1306C;
+}
+
+/* Layout VS e Antes/Depois */
+.vs-container {
+  display: flex;
+  gap: 32px;
+  width: 100%;
+  margin-top: 30px;
+}
+.vs-col {
+  flex: 1;
+  background: var(--carbon);
+  border: 1px solid var(--iron);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.vs-col.winner {
+  border-color: var(--fire);
+  background: rgba(200, 57, 26, 0.03);
+}
+.slide.layout-neon-accent .vs-col.winner {
+  border-color: #E1306C;
+  background: rgba(225, 48, 108, 0.03);
+}
+.vs-title {
+  font-family: var(--fc);
+  font-size: 26px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--bone);
+  border-bottom: 2px solid var(--steel);
+  padding-bottom: 12px;
+  margin-bottom: 8px;
+}
+.vs-col.winner .vs-title {
+  color: var(--fire);
+}
+.slide.layout-neon-accent .vs-col.winner .vs-title {
+  color: #E1306C;
+}
+.vs-item {
+  font-family: var(--fb);
+  font-size: 22px;
+  color: var(--sub);
+  line-height: 1.4;
+  padding-left: 20px;
+  position: relative;
+}
+.vs-item::before {
+  content: '▪';
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+.vs-col.winner .vs-item::before {
+  color: var(--fire);
+}
+.slide.layout-neon-accent .vs-col.winner .vs-item::before {
+  color: #E1306C;
+}
+
+/* Layout Steps / Passos */
+.step-list {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  background: var(--carbon);
+  padding: 24px;
+  border: 1px solid var(--iron);
+  border-left: 4px solid var(--fire);
+}
+.slide.layout-neon-accent .step-item {
+  border-left-color: #E1306C;
+}
+.step-num {
+  font-family: var(--fd);
+  font-size: 48px;
+  color: var(--fire);
+  line-height: 0.8;
+}
+.slide.layout-neon-accent .step-num {
+  color: #E1306C;
+}
+.step-text {
+  font-family: var(--fb);
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+/* Layout Métrica / Data */
+.layout-data .data-number {
+  font-family: var(--fd);
+  font-size: 160px;
+  color: var(--fire);
+  line-height: 0.8;
+  font-weight: 900;
+  margin-top: 30px;
+  letter-spacing: -2px;
+}
+.slide.layout-neon-accent.layout-data .data-number {
+  color: #E1306C;
+  text-shadow: 0 0 10px rgba(225, 48, 108, 0.4);
+}
+.layout-data .data-label {
+  font-family: var(--fm);
+  font-size: 18px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 12px;
+}
+
+
+
+@media print {
+  @page { size: 1080px 1350px; margin: 0; }
+  body { background: var(--void) !important; padding: 0 !important; display: block !important; }
+  .slide { transform: none !important; margin: 0 !important; page-break-after: always; break-after: page; border: none !important; }
+  .slide:last-of-type { page-break-after: auto; break-after: auto; }
+}
+</style>
+</head>
+<body>
+
+<div class="preview-info">Carrossel Criador IA — exclua_a_foto</div>
+
+<!-- SLIDE 1: CAPA -->
+<div class="slide slide layout-split-screen" id="slide-1">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="tape-h tape-h-top tape-h-fire"></div>
+
+  <div class="split-bg" style="background-image: url('../WhatsApp Image 2026-02-18 at 08.30.57.jpeg'); filter: grayscale(30%) contrast(1.1) brightness(0.9);"></div><div class="split-gradient"></div><div class="split-gradient-bottom"></div>
+
+  <div class="slide-no">01/08</div>
+
+  <div class="cw" style="width: 55%; padding-right: 0; justify-content: flex-end; padding-bottom: 140px; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 40px;">ESTILO DE VIDA</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-large" style="font-size: 116px; line-height: 0.88; margin-bottom: 44px;">
+      SE VOCÊ NÃO FAZ<br><em>JIU-JITSU</em>,<br>ESTÁ POR FORA.
+    </div>
+
+    <div class="body-copy" style="font-size: 34px;">
+      Se você não treina a arte suave, está perdendo o maior filtro de caráter e estilo de vida moderno.
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 2: CONTEUDO -->
+<div class="slide slide layout-technical-sheet" id="slide-2" style="background: var(--void);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">02/08</div>
+
+  
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 32px;">DADOS REAIS</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-medium" style="margin-bottom: 24px;">
+      QUASE 2 MILHÕES DE BUSCAS NO GOOGLE
+    </div>
+
+    <img src="../Volume_de_buscas_relacionadas_a_jiu-jitsu.png" style="max-width:100%; max-height:320px; object-fit:contain; margin: 0 auto 28px; display:block; border: 1px solid rgba(255,255,255,0.08);">
+
+    <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
+      <div class="custom-chart"><div class="chart-header"><div class="chart-title">Volume Total: 1.865.410 buscas/mês</div></div><div class="chart-row"><div class="chart-label">jiu jitsu</div><div class="chart-bars"><div class="bar on" style="width: 100%;"></div></div><div class="chart-value">110.000</div></div><div class="chart-row"><div class="chart-label">kimono jiu jitsu</div><div class="chart-bars"><div class="bar off" style="width: 55%;"></div></div><div class="chart-value">60.500</div></div><div class="chart-row"><div class="chart-label">faixas jiu jitsu</div><div class="chart-bars"><div class="bar off" style="width: 20%;"></div></div><div class="chart-value">22.200</div></div></div>
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 3: CONTEUDO -->
+<div class="slide slide layout-split-screen" id="slide-3" style="background: var(--void);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">03/08</div>
+
+  
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 32px;">CRESCIMENTO EXPONENCIAL</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-medium" style="margin-bottom: 24px;">
+      A CURVA DE INTERESSE
+    </div>
+
+    <img src="../tendencias_de_pesquisa_por_jiu-jitsu.png" style="max-width:100%; max-height:320px; object-fit:contain; margin: 0 auto 28px; display:block; border: 1px solid rgba(255,255,255,0.08);">
+
+    <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
+      <div class="custom-chart"><div class="chart-header"><div class="chart-title">INTERESSE NO BRASIL (ÚLTIMOS 5 ANOS)</div></div><div class="chart-row"><div class="chart-label">2022</div><div class="chart-bars"><div class="bar off" style="width: 28%;"></div></div></div><div class="chart-row"><div class="chart-label">2024</div><div class="chart-bars"><div class="bar off" style="width: 48%;"></div></div></div><div class="chart-row"><div class="chart-label">2025</div><div class="chart-bars"><div class="bar off" style="width: 65%;"></div></div></div><div class="chart-row"><div class="chart-label">2026 (Pico)</div><div class="chart-bars"><div class="bar on" style="width: 100%;"></div></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 4: CONTEUDO -->
+<div class="slide slide layout-editorial-focus" id="slide-4" style="background: transparent;">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">04/08</div>
+
+  <div class="photo-bg" style="background-image: url('../FOTO COM O TIME DE JU-JITSU.jpeg'); filter: grayscale(40%) contrast(1.1) brightness(0.45);"></div><div class="photo-overlay-mid"></div>
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 32px;">FILTRO DE CARÁTER</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-medium" style="margin-bottom: 48px;">
+      O QUE A ARTE SUAVE
+TE ENSINA?
+    </div>
+
+    
+
+    <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
+      Não é sobre bater ou apanhar. É sobre se olhar no espelho sem desculpas.
+
+O tatame é o único lugar do mundo que não aceita mentira. Se você fingir esforço, a realidade te cobra em segundos.
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 5: CONTEUDO -->
+<div class="slide slide layout-bento-metrics" id="slide-5" style="background: var(--void);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">05/08</div>
+
+  
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 32px;">LIÇÕES PRÁTICAS - PARTE 1</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-medium" style="margin-bottom: 48px;">
+      O RITO E A RESISTÊNCIA
+    </div>
+
+    
+
+    <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
+      <div class="step-list"><div class="step-item"><div class="step-num">01</div><div class="step-text"><strong>Hierarquia:</strong> Existe um rito claro do momento em que pisa no tatame até o fim da aula. O respeito é obrigatório.</div></div><div class="step-item"><div class="step-num">02</div><div class="step-text"><strong>Resiliência:</strong> Você vai ser amassado, vai faltar o ar e você vai aprender a manter a calma no pior cenário.</div></div><div class="step-item"><div class="step-num">03</div><div class="step-text"><strong>Esforço:</strong> Sem atalhos. Seu nível técnica depende unicamente das horas de suor entregues no chão.</div></div></div>
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 6: CONTEUDO -->
+<div class="slide slide layout-bento-metrics" id="slide-6" style="background: var(--void);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">06/08</div>
+
+  
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 32px;">LIÇÕES PRÁTICAS - PARTE 2</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-medium" style="margin-bottom: 48px;">
+      CONSTÂNCIA E REALIDADE
+    </div>
+
+    
+
+    <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
+      <div class="step-list"><div class="step-item"><div class="step-num">04</div><div class="step-text"><strong>Constância:</strong> O tatame expõe quem só aparece de vez em quando. A evolução é diária ou inexistente.</div></div><div class="step-item"><div class="step-num">05</div><div class="step-text"><strong>Lei de Murphy do Tatame:</strong> Nada é tão ruim que não possa piorar. Quando achar que estabilizou, o peso do adversário duplica.</div></div></div>
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 7: CONTEUDO -->
+<div class="slide slide layout-impact-quote" id="slide-7" style="background: var(--void);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">07/08</div>
+
+  
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 32px;">BÔNUS ESPECIAL PARA VOCÊ</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-medium" style="margin-bottom: 48px;">
+      "SÓ 5 MINUTINHOS<br>SEM PERDER A AMIZADE"
+    </div>
+
+    
+
+    <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
+      Quem diz isso não faz ideia de que 5 minutos de soltinho sob pressão parecem uma eternidade inteira de sobrevivência.
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 8: CTA -->
+<div class="slide slide layout-split-screen" id="slide-8" style="background: var(--void);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="tape-h tape-h-bottom tape-h-fire"></div>
+
+  <div class="photo-bg" style="background-image: url('../DSC08278.png'); background-position: center 10%; filter: grayscale(20%) brightness(0.35);"></div>
+  <div class="photo-overlay"></div>
+
+  <div class="slide-no">08/08</div>
+
+  <div class="cw" style="justify-content: center; text-align: center; align-items: center; padding-top: 160px; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 40px;">ENTRE NO TATAME</div>
+    
+    <div class="disp-medium" style="font-size: 96px; margin-bottom: 44px; line-height: 0.92;">
+      VAI CONTINUAR<br>ASSISTINDO?
+    </div>
+
+    <div class="body-copy" style="text-align: center; max-width: 800px; color: var(--bone);">
+      Comente aqui qual dessas lições você mais precisa aplicar na sua rotina hoje.
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

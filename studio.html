@@ -186,7 +186,7 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   display: flex;
   flex-direction: column;
   height: 100%;
-  overflow-y: auto;
+  overflow: hidden;
   border-right: 1px solid var(--iron);
   background: var(--void);
 }
@@ -194,6 +194,7 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   padding: 20px 24px;
   border-bottom: 1px solid var(--iron);
   background: var(--carbon);
+  flex-shrink: 0;
 }
 .ia-title {
   font-family: var(--fd);
@@ -210,15 +211,17 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   letter-spacing: 1px;
 }
 .ia-chat-container {
-  padding: 20px 24px;
-  border-bottom: 1px solid var(--iron);
+  padding: 16px 24px 12px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   background: var(--void);
+  flex: 1;
+  min-height: 0;
 }
 .ia-chat-messages {
-  max-height: 220px;
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -317,9 +320,82 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 
 /* Editor */
 .ia-editor-section {
-  padding: 24px;
+  padding: 20px 24px 24px;
   background: var(--void);
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
 }
+
+/* ── TABS ──────────────────────────────────────────────────────────────── */
+.ia-tabs-bar {
+  display: flex;
+  border-bottom: 1px solid var(--iron);
+  background: var(--carbon);
+  flex-shrink: 0;
+}
+.ia-tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 10px 8px;
+  cursor: pointer;
+  transition: color .15s, border-color .15s, background .15s;
+}
+.ia-tab-btn:hover { color: var(--bone); }
+.ia-tab-btn.active {
+  color: var(--bone);
+  border-bottom-color: var(--fire);
+  background: rgba(200,57,26,0.06);
+}
+.ia-tab-badge {
+  display: inline-block;
+  background: var(--fire);
+  color: #fff;
+  font-size: 8px;
+  padding: 1px 5px;
+  border-radius: 8px;
+  margin-left: 5px;
+  vertical-align: middle;
+  font-weight: 700;
+}
+.ia-tabs-content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.ia-tab-panel {
+  display: none;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+  overflow: hidden;
+}
+.ia-tab-panel.active { display: flex; }
+
+/* Collapsible design section inside slide cards */
+.ia-slide-design-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 6px 0 6px;
+  border-bottom: 1px solid var(--iron);
+  margin-bottom: 8px;
+  user-select: none;
+}
+.ia-slide-design-toggle:hover { opacity: .8; }
+.ia-slide-design-toggle-icon { font-size: 10px; color: var(--muted); }
+.ia-slide-design-body { margin-bottom: 4px; }
+.ia-slide-design-body.collapsed { display: none; }
 .ia-slides-editor-list {
   display: flex;
   flex-direction: column;
@@ -426,6 +502,86 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   position: relative;
   min-height: 200px;
 }
+
+/* ── RICH TEXT EDITOR ───────────────────────────────────────────────────── */
+.rte-wrap { display: flex; flex-direction: column; gap: 0; }
+.rte-toolbar {
+  display: flex; align-items: center; gap: 2px; flex-wrap: wrap;
+  background: #181818; border: 1px solid #2a2a2a; border-bottom: none;
+  padding: 4px 6px; border-radius: 3px 3px 0 0;
+}
+.rte-btn {
+  background: transparent; border: 1px solid transparent; color: var(--bone);
+  font-size: 11px; font-family: var(--fm); letter-spacing: 1px;
+  padding: 3px 7px; cursor: pointer; border-radius: 2px; line-height: 1.4;
+  transition: background .15s, border-color .15s;
+  user-select: none;
+}
+.rte-btn:hover { background: #252525; border-color: #333; }
+.rte-btn b, .rte-btn i, .rte-btn u { font-size: 12px; }
+.rte-color-btn {
+  width: 16px; height: 16px; border-radius: 2px; cursor: pointer;
+  border: 1px solid #444; padding: 0; flex-shrink: 0; transition: transform .1s;
+}
+.rte-color-btn:hover { transform: scale(1.25); }
+.rte-div { width: 1px; height: 14px; background: #2a2a2a; margin: 0 3px; flex-shrink: 0; }
+.pub-rte {
+  background: #111; border: 1px solid #2a2a2a; border-radius: 0 0 3px 3px;
+  padding: 10px 14px; font-size: 14px; line-height: 1.6; color: var(--bone);
+  min-height: 56px; outline: none; white-space: pre-wrap; word-break: break-word;
+}
+.pub-rte.body { min-height: 110px; font-family: var(--fm); font-size: 13px; }
+.pub-rte:focus { border-color: #444; }
+
+/* ── FULLSCREEN PREVIEW MODAL ──────────────────────────────────────────── */
+#slide-fullscreen-modal {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.93);
+  z-index: 9999; align-items: center; justify-content: center; flex-direction: column; gap: 16px;
+}
+#slide-fullscreen-modal.open { display: flex; }
+#slide-modal-render {
+  transform-origin: top center;
+  flex-shrink: 0; position: relative; background: var(--void);
+}
+.modal-close-btn {
+  position: fixed; top: 16px; right: 24px;
+  background: transparent; border: 1px solid #444; color: var(--bone);
+  font-family: var(--fm); font-size: 10px; letter-spacing: 2px;
+  padding: 6px 16px; cursor: pointer; border-radius: 2px; z-index: 10000;
+}
+.modal-close-btn:hover { background: #222; border-color: var(--fire); color: var(--fire); }
+.modal-nav-btns { display: flex; gap: 8px; z-index: 10000; }
+.modal-nav-btn {
+  background: transparent; border: 1px solid #333; color: var(--bone);
+  font-family: var(--fm); font-size: 10px; letter-spacing: 2px;
+  padding: 6px 14px; cursor: pointer; border-radius: 2px;
+}
+.modal-nav-btn:hover { border-color: #666; }
+
+/* ── URL IMPORT PANEL ─────────────────────────────────────────────────── */
+.url-import-bar {
+  display: flex; gap: 6px; align-items: center;
+  padding: 6px 10px 6px 12px; background: #101010; border-top: 1px solid #1a1a1a;
+}
+.url-import-bar input {
+  flex: 1; background: #181818; border: 1px solid #2a2a2a; color: var(--bone);
+  font-family: var(--fm); font-size: 10px; letter-spacing: 1px; padding: 6px 10px;
+  border-radius: 2px; outline: none;
+}
+.url-import-bar input:focus { border-color: #444; }
+.url-import-bar input::placeholder { color: #444; }
+.btn-url-import {
+  background: transparent; border: 1px solid #333; color: var(--muted);
+  font-family: var(--fm); font-size: 9px; letter-spacing: 2px; padding: 6px 12px;
+  cursor: pointer; border-radius: 2px; white-space: nowrap; transition: all .15s;
+}
+.btn-url-import:hover { border-color: var(--gold); color: var(--gold); }
+.btn-url-toggle {
+  background: transparent; border: none; color: #444; font-family: var(--fm);
+  font-size: 9px; letter-spacing: 2px; padding: 4px 6px; cursor: pointer;
+  transition: color .15s;
+}
+.btn-url-toggle:hover { color: var(--muted); }
 
 /* O wrapper que a gente calcula a escala via JavaScript */
 .ia-live-slide-render {
@@ -1158,6 +1314,160 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   justify-content: center;
   box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
+
+/* ── CHAT BUBBLES ── */
+.ia-chat-messages {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+  padding: 16px !important;
+}
+.ia-message {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  max-width: 92%;
+  font-family: var(--fb);
+  font-size: 13px;
+  line-height: 1.65;
+  padding: 0 !important;
+  border-left: none !important;
+  background: none !important;
+}
+.ia-message.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+  width: auto !important;
+}
+.ia-message.assistant {
+  align-self: flex-start;
+  width: auto !important;
+}
+.ia-msg-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+  border: 1px solid var(--iron);
+}
+.ia-message.user .ia-msg-avatar { background: rgba(184,146,42,0.2); border-color: rgba(184,146,42,0.4); }
+.ia-message.assistant .ia-msg-avatar { background: rgba(200,57,26,0.2); border-color: rgba(200,57,26,0.4); }
+.ia-msg-bubble {
+  padding: 10px 14px;
+  border-radius: 2px;
+  position: relative;
+}
+.ia-message.user .ia-msg-bubble {
+  background: rgba(184,146,42,0.12);
+  border: 1px solid rgba(184,146,42,0.35);
+  color: var(--text);
+  border-bottom-right-radius: 0;
+}
+.ia-message.assistant .ia-msg-bubble {
+  background: var(--carbon);
+  border: 1px solid var(--iron);
+  color: var(--bone);
+  border-bottom-left-radius: 0;
+}
+.ia-msg-bubble strong { display: block; font-family: var(--fm); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; opacity: .55; margin-bottom: 4px; }
+.ia-message.user .ia-msg-bubble strong { color: var(--gold); text-align: right; }
+.ia-message.assistant .ia-msg-bubble strong { color: var(--fire); }
+
+/* Typing animation */
+.typing-indicator { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
+.typing-indicator span {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--muted);
+  animation: typingPulse 1.2s infinite ease-in-out;
+}
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingPulse {
+  0%, 60%, 100% { transform: scale(1); opacity: .4; }
+  30% { transform: scale(1.3); opacity: 1; background: var(--fire); }
+}
+
+/* ── SLIDE CARD EDITOR MELHORADO ── */
+.ia-slide-card { border-left: 3px solid var(--iron) !important; transition: border-color .15s; }
+.ia-slide-card:focus-within { border-left-color: var(--fire) !important; }
+.ia-slide-card-header { background: rgba(255,255,255,0.02); }
+.slide-card-actions { display: flex; gap: 4px; }
+.btn-slide-action {
+  background: none; border: 1px solid var(--steel); color: var(--muted);
+  font-family: var(--fm); font-size: 9px; padding: 3px 8px; cursor: pointer;
+  transition: all .12s; line-height: 1;
+}
+.btn-slide-action:hover { border-color: var(--fire); color: var(--fire); }
+.btn-slide-action:disabled { opacity: .25; cursor: not-allowed; pointer-events: none; }
+.btn-slide-del:hover { border-color: var(--fire); color: var(--fire); background: rgba(200,57,26,.08); }
+
+/* Color accent picker */
+.accent-picker { display: flex; gap: 6px; margin-top: 4px; }
+.accent-btn {
+  width: 24px; height: 24px; border-radius: 50%; border: 2px solid transparent;
+  cursor: pointer; transition: all .15s;
+}
+.accent-btn.active { border-color: var(--bone); transform: scale(1.15); }
+.accent-btn:hover { transform: scale(1.1); }
+
+/* ── GALERIA DE REFERÊNCIAS ── */
+.refs-panel { background: var(--carbon); border: 1px solid var(--iron); margin-bottom: 14px; }
+.refs-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 12px; cursor: pointer; user-select: none;
+  border-bottom: 1px solid var(--iron);
+}
+.refs-header:hover { background: rgba(255,255,255,0.02); }
+.refs-header-left { display: flex; align-items: center; gap: 8px; }
+.refs-count-badge {
+  background: var(--fire); color: var(--bone); font-family: var(--fm);
+  font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 2px;
+  display: none;
+}
+.refs-count-badge.show { display: inline-block; }
+.refs-body { padding: 10px 12px; }
+.refs-upload-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+.refs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 8px; }
+.ref-thumb {
+  position: relative; border: 2px solid var(--iron); cursor: pointer;
+  transition: border-color .15s; background: var(--void);
+  aspect-ratio: 1; overflow: hidden;
+}
+.ref-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ref-thumb-icon { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 4px; }
+.ref-thumb:hover { border-color: var(--steel); }
+.ref-thumb.selected { border-color: var(--fire); box-shadow: 0 0 0 1px var(--fire); }
+.ref-thumb .ref-sel-badge {
+  position: absolute; top: 3px; left: 3px;
+  background: var(--fire); color: var(--bone);
+  font-size: 9px; font-weight: 700; padding: 1px 4px;
+  font-family: var(--fm); display: none;
+}
+.ref-thumb.selected .ref-sel-badge { display: block; }
+.ref-thumb .ref-del-btn {
+  position: absolute; top: 2px; right: 2px;
+  background: rgba(0,0,0,.7); border: none; color: var(--muted);
+  font-size: 9px; width: 16px; height: 16px; border-radius: 50%;
+  cursor: pointer; display: none; align-items: center; justify-content: center;
+}
+.ref-thumb:hover .ref-del-btn { display: flex; }
+.ref-thumb .ref-del-btn:hover { color: var(--fire); }
+.ref-name { font-family: var(--fm); font-size: 7px; color: var(--muted); padding: 2px 4px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+.refs-empty { font-family: var(--fm); font-size: 10px; color: var(--muted); text-align: center; padding: 16px 0; letter-spacing: 1px; }
+.refs-active-info { font-family: var(--fm); font-size: 9px; color: var(--fire); letter-spacing: 1px; margin-top: 8px; display: none; }
+.refs-active-info.show { display: block; }
+
+/* ── RESET BUTTON ── */
+.btn-reset-ia {
+  background: none; border: 1px solid var(--steel); color: var(--muted);
+  font-family: var(--fm); font-size: 9px; letter-spacing: 1px; text-transform: uppercase;
+  padding: 5px 12px; cursor: pointer; transition: all .15s; margin-top: 8px; display: inline-block;
+}
+.btn-reset-ia:hover { border-color: var(--fire); color: var(--fire); }
 </style>
 </head>
 <body>
@@ -1206,6 +1516,17 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
     <div class="sidebar-title">Ações Rápidas</div>
     <button class="filter-btn" onclick="exportarTodos()">
       <span class="fi">⚡</span> Exportar Todos
+    </button>
+    <div class="sidebar-sep"></div>
+    <div class="sidebar-title">Criar Meta Ad</div>
+    <button class="filter-btn" onclick="criarMetaAd('square')">
+      <span class="fi">📢</span> Ad Estático 1:1
+    </button>
+    <button class="filter-btn" onclick="criarMetaAd('meta-portrait')">
+      <span class="fi">📢</span> Ad Feed 4:5
+    </button>
+    <button class="filter-btn" onclick="criarMetaAd('vertical')">
+      <span class="fi">📱</span> Stories / Reels
     </button>
   </aside>
 
@@ -1304,39 +1625,75 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
       <div class="ia-left">
         <!-- Top header do Co-Criador -->
         <div class="ia-header">
-          <div class="ia-title">Co-Criador de Criativos IA</div>
-          <div class="ia-subtitle">Converse com a IA de João Gobira e co-crie sua copy brutalista em tempo real</div>
-        </div>
-        
-        <!-- Seletor de Formatos Brutalista -->
-        <div style="padding: 0 24px; margin-bottom: 8px;">
-          <div class="pub-label" style="margin-bottom: 6px;">Selecione o Formato do Criativo</div>
-          <div class="ia-format-selector" style="margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 4px;">
-            <button class="ia-format-btn active" style="flex: auto; min-width: 120px;" data-fmt="carousel" onclick="setIAFormat('carousel')">📸 Instagram Carrossel</button>
-            <button class="ia-format-btn" style="flex: auto; min-width: 120px;" data-fmt="linkedin-carousel" onclick="setIAFormat('linkedin-carousel')">💼 LinkedIn Carrossel</button>
-            <button class="ia-format-btn" style="flex: auto; min-width: 120px;" data-fmt="youtube-thumb" onclick="setIAFormat('youtube-thumb')">▶ YouTube Thumbnail</button>
-            <button class="ia-format-btn" style="flex: auto; min-width: 120px;" data-fmt="brand-logo" onclick="setIAFormat('brand-logo')">🎨 Logo / Marca</button>
-            <button class="ia-format-btn" style="flex: auto; min-width: 120px;" data-fmt="banner-horizontal" onclick="setIAFormat('banner-horizontal')">🖥️ Banner JG (16:9)</button>
-          </div>
-          <div style="font-family:var(--fm); font-size:10px; color:var(--muted); line-height:1.4; margin-bottom: 10px;">
-            💡 <strong>BIBLIOTECA JG:</strong> Cole fotos suas (.jpg, .png) na pasta <code>Carrosseis/</code> ou use o botão abaixo para importar agora.
-          </div>
-          <!-- Upload de Imagens do Usuário -->
-          <div style="background: var(--carbon); border: 1px solid var(--iron); padding: 12px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 8px;">
-            <div class="pub-label" style="margin-bottom: 0;">📤 IMPORTAR IMAGEM PERSONALIZADA</div>
-            <div style="display: flex; gap: 8px; align-items: center;">
-              <input type="file" id="user-image-upload" accept="image/*" style="display: none;" onchange="handleImageUpload(this)">
-              <button class="btn-ia-action" style="flex: 1; padding: 8px;" onclick="document.getElementById('user-image-upload').click()">📁 ESCOLHER FOTO DO SEU PC</button>
-              <div id="upload-status-text" style="font-family:var(--fm); font-size:9px; color:var(--muted);">Nenhum arquivo...</div>
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <div>
+              <div class="ia-title">Co-Criador de Criativos IA</div>
+              <div class="ia-subtitle">Converse com a IA e co-crie sua copy brutalista em tempo real</div>
             </div>
+            <button class="btn-reset-ia" onclick="reiniciarTudo()" title="Apaga todos os slides e o histórico do chat">🔄 NOVO CARROSSEL</button>
           </div>
         </div>
         
-        <!-- Seção do Chat Brutalista -->
+        <!-- Seletor de Formatos (compacto, acima dos tabs) -->
+        <div style="padding: 6px 16px 6px; flex-shrink: 0; border-bottom: 1px solid var(--iron); background: var(--carbon);">
+          <div class="ia-format-selector" style="margin-bottom: 0; display: flex; flex-wrap: nowrap; gap: 4px; overflow-x: auto;">
+            <button class="ia-format-btn active" style="white-space:nowrap;flex-shrink:0;" data-fmt="carousel" onclick="setIAFormat('carousel')">📸 Insta</button>
+            <button class="ia-format-btn" style="white-space:nowrap;flex-shrink:0;" data-fmt="linkedin-carousel" onclick="setIAFormat('linkedin-carousel')">💼 LinkedIn</button>
+            <button class="ia-format-btn" style="white-space:nowrap;flex-shrink:0;" data-fmt="square" onclick="setIAFormat('square')">📢 Meta 1:1</button>
+            <button class="ia-format-btn" style="white-space:nowrap;flex-shrink:0;" data-fmt="meta-portrait" onclick="setIAFormat('meta-portrait')">📢 Meta 4:5</button>
+            <button class="ia-format-btn" style="white-space:nowrap;flex-shrink:0;" data-fmt="vertical" onclick="setIAFormat('vertical')">📱 Stories/Reels</button>
+            <button class="ia-format-btn" style="white-space:nowrap;flex-shrink:0;" data-fmt="youtube-thumb" onclick="setIAFormat('youtube-thumb')">▶ YouTube</button>
+            <button class="ia-format-btn" style="white-space:nowrap;flex-shrink:0;" data-fmt="brand-logo" onclick="setIAFormat('brand-logo')">🎨 Marca</button>
+            <button class="ia-format-btn" style="white-space:nowrap;flex-shrink:0;" data-fmt="banner-horizontal" onclick="setIAFormat('banner-horizontal')">🖥️ Banner</button>
+          </div>
+        </div>
+
+        <!-- Tab strip -->
+        <div class="ia-tabs-bar">
+          <button class="ia-tab-btn active" id="tab-btn-chat" onclick="switchIATab('chat')">💬 CHAT</button>
+          <button class="ia-tab-btn" id="tab-btn-editor" onclick="switchIATab('editor')">
+            ✏️ SLIDES <span class="ia-tab-badge" id="tab-slides-badge" style="display:none;">0</span>
+          </button>
+        </div>
+
+        <!-- Tab content wrapper -->
+        <div class="ia-tabs-content">
+
+        <!-- TAB: CHAT -->
+        <div id="tab-panel-chat" class="ia-tab-panel active">
+
+        <!-- Ferramentas do chat: upload de foto + refs -->
+        <div style="display:flex;gap:6px;align-items:center;padding:6px 12px;background:var(--carbon);border-bottom:1px solid var(--iron);flex-shrink:0;">
+          <input type="file" id="user-image-upload" accept="image/*" multiple style="display:none;" onchange="handleImageUpload(this)">
+          <button class="btn-ia-action" style="padding:5px 10px;font-size:9px;" onclick="document.getElementById('user-image-upload').click()" title="Importar imagem para a biblioteca">📁 FOTO</button>
+          <span id="upload-status-text" style="font-family:var(--fm);font-size:9px;color:var(--muted);flex:1;">—</span>
+          <button class="btn-ia-action" style="padding:5px 10px;font-size:9px;" onclick="toggleReferencias()" title="Galeria de referências de estilo">🎨 REFS <span class="refs-count-badge" id="refs-sel-badge">0</span></button>
+        </div>
+
+        <!-- Galeria de Referências de Estilo (colapsável) -->
+        <div class="refs-panel" style="flex-shrink:0;border:none;border-bottom:1px solid var(--iron);margin-bottom:0;">
+          <div class="refs-body" id="refs-body" style="display:none;">
+            <input type="file" id="refs-upload-input" accept="image/*" multiple style="display:none;" onchange="uploadReferencias(this)">
+            <div class="refs-upload-row">
+              <button class="btn-ia-action" style="flex:1;padding:7px;" onclick="document.getElementById('refs-upload-input').click()">📤 Adicionar Exemplos</button>
+              <div id="refs-upload-status" style="font-family:var(--fm);font-size:9px;color:var(--muted);"></div>
+            </div>
+            <div class="refs-grid" id="refs-grid">
+              <div class="refs-empty">Nenhum exemplo ainda.<br>Faça upload de capturas de criativos que você gosta.</div>
+            </div>
+            <div class="refs-active-info" id="refs-active-info"></div>
+          </div>
+        </div>
+
         <div class="ia-chat-container">
           <div class="ia-chat-messages" id="ia-chat-messages">
             <div class="ia-message assistant">
-              <strong>🤖 CO-CRIADOR:</strong> E aí, executor. Qual é a trincheira de hoje? Digite o tema ou a dor principal do seu público (ex: "3 lições do Jiu-Jitsu para fechar mais negócios" ou "Por que seu tráfego pago não converte") e anexe imagens se quiser que eu as analise e adapte em gráficos Brutalistas!
+              <div class="ia-msg-avatar">🤖</div>
+              <div class="ia-msg-bubble">
+                <strong>CO-CRIADOR JG</strong>
+                E aí, executor. Qual é a trincheira de hoje?<br><br>
+                Digite o tema do criativo <em style="color:var(--fire);font-style:normal;">ou</em> anexe imagens com dados (gráficos, Google Trends, métricas) para eu reconstruir em componentes brutalistas nativos.
+              </div>
             </div>
           </div>
           
@@ -1347,24 +1704,34 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
             <input type="file" id="ia-chat-image-input" multiple accept="image/*" style="display: none;" onchange="handleChatImagesSelect(this)">
             <button class="btn-ia-attach" onclick="document.getElementById('ia-chat-image-input').click()" title="Anexar imagens para a IA analisar">📎</button>
             <input type="text" id="ia-chat-input" placeholder="DIGITE SUA IDEIA OU ANEXE IMAGENS..." onkeydown="if(event.key === 'Enter') enviarMensagemIA()">
+            <button class="btn-url-toggle" onclick="toggleURLImport()" title="Importar de blogpost ou página web">🌐</button>
             <button class="btn-ia-send" onclick="enviarMensagemIA()">ENVIAR</button>
           </div>
-        </div>
+          <div id="url-import-bar" class="url-import-bar" style="display:none;">
+            <span style="font-family:var(--fm);font-size:9px;letter-spacing:1px;color:var(--muted);white-space:nowrap;">URL:</span>
+            <input type="text" id="url-import-input" placeholder="Cole a URL do blogpost ou página... (https://...)" onkeydown="if(event.key==='Enter') importarDeURL()">
+            <button class="btn-url-import" onclick="importarDeURL()" id="btn-url-import">IMPORTAR</button>
+          </div>
+        </div><!-- /ia-chat-container -->
+        </div><!-- /tab-panel-chat -->
 
-        <!-- Editor de Slides (Gerado dinamicamente após a resposta da IA) -->
-        <div class="ia-editor-section" id="ia-editor-section" style="display:none;">
-          <div class="pub-sec-title" style="margin-bottom:16px;">Refinamento Manual dos Slides</div>
-          
-          <!-- Campo para o Nome do Criativo -->
-          <div style="margin-bottom: 20px;">
-            <div class="pub-label">Nome do Criativo (para salvar o arquivo)</div>
+        <!-- TAB: EDITOR DE SLIDES -->
+        <div id="tab-panel-editor" class="ia-tab-panel">
+        <div class="ia-editor-section" id="ia-editor-section">
+          <div style="margin-bottom: 16px;">
+            <div class="pub-label" style="margin-bottom:6px;">Nome do Criativo (para salvar o arquivo)</div>
             <input class="pub-input" id="ia-creative-name" placeholder="Ex: licoes_jiujitsu_growth" value="carrossel_ia">
           </div>
 
           <div class="ia-slides-editor-list" id="ia-slides-editor-list">
-            <!-- Lista de slides com inputs para editar texto/imagem -->
+            <div style="font-family:var(--fm);font-size:10px;letter-spacing:1px;color:var(--muted);text-align:center;padding:40px 0;">
+              Nenhum slide ainda — volte ao chat e peça um criativo.
+            </div>
           </div>
         </div>
+        </div><!-- /tab-panel-editor -->
+
+        </div><!-- /ia-tabs-content -->
       </div>
 
       <!-- Coluna Direita: Live Preview dos Slides -->
@@ -1389,13 +1756,27 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
         </div>
 
         <div class="ia-preview-footer">
-          <button class="btn-pub" id="btn-ia-salvar" onclick="salvarCriativoIA()" disabled>💾 SALVAR E EXPORTAR CRIATIVO</button>
-          <div id="ia-status-log" class="pub-status" style="margin-top: 10px;"></div>
+          <div style="display:flex;gap:8px;margin-bottom:8px;">
+            <button class="btn-pub" id="btn-ia-salvar" onclick="salvarCriativoIA()" disabled style="flex:1;">💾 SALVAR E EXPORTAR CRIATIVO</button>
+            <button class="btn-outline" onclick="abrirModalPreview()" title="Ampliar preview do slide" style="padding:0 14px;font-size:11px;">⛶ AMPLIAR</button>
+          </div>
+          <div id="ia-status-log" class="pub-status"></div>
         </div>
       </div>
     </div>
   </div>
 
+</div>
+
+<!-- ── FULLSCREEN PREVIEW MODAL ──────────────────────────────────────── -->
+<div id="slide-fullscreen-modal" onclick="if(event.target===this)fecharModalPreview()">
+  <button class="modal-close-btn" onclick="fecharModalPreview()">✕ FECHAR (ESC)</button>
+  <div id="slide-modal-render" class="ia-live-slide-render"></div>
+  <div class="modal-nav-btns">
+    <button class="modal-nav-btn" onclick="modalNavSlide(-1)">← ANTERIOR</button>
+    <span id="modal-slide-counter" style="font-family:var(--fm);font-size:10px;letter-spacing:2px;color:var(--muted);padding:6px 10px;"></span>
+    <button class="modal-nav-btn" onclick="modalNavSlide(1)">PRÓXIMO →</button>
+  </div>
 </div>
 
 <script>
@@ -1422,6 +1803,7 @@ const PLATFORM_LABELS = {
 async function init() {
   try {
     await carregarBibliotecaImagens();
+    await carregarExemplos();
     const resp = await fetch('/api/criativos');
     allCreatives = await resp.json();
     updateCounts();
@@ -1730,6 +2112,11 @@ function setIAFormat(fmt) {
   renderIASlidePreview();
 }
 
+function criarMetaAd(format) {
+  switchTab('iacreator');
+  setIAFormat(format);
+}
+
 async function carregarBibliotecaImagens() {
   try {
     const resp = await fetch('/api/ia/biblioteca');
@@ -1744,16 +2131,20 @@ async function carregarBibliotecaImagens() {
 }
 
 async function handleImageUpload(input) {
-  const file = input.files[0];
-  if (!file) return;
+  const files = Array.from(input.files);
+  if (!files.length) return;
 
   const statusText = document.getElementById('upload-status-text');
   statusText.style.color = 'var(--gold)';
-  statusText.textContent = 'Enviando...';
+  statusText.textContent = `Enviando ${files.length} imagem(ns)...`;
 
-  const reader = new FileReader();
-  reader.onload = async function(e) {
-    const base64 = e.target.result;
+  let successCount = 0;
+  for (const file of files) {
+    const base64 = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target.result);
+      reader.readAsDataURL(file);
+    });
     try {
       const resp = await fetch('/api/upload-imagem', {
         method: 'POST',
@@ -1762,22 +2153,22 @@ async function handleImageUpload(input) {
       });
       const data = await resp.json();
       if (!resp.ok || !data.ok) throw new Error(data.error || 'Erro desconhecido.');
-
-      statusText.style.color = 'var(--gold)';
-      statusText.textContent = `✓ ${file.name} salvo!`;
-      
-      // Recarrega biblioteca e atualiza os inputs nos slides editor
-      await carregarBibliotecaImagens();
-      if (iaSlides && iaSlides.length > 0) {
-        renderIASlidesEditor();
-      }
+      successCount++;
     } catch (err) {
       console.error('[Upload] Falha:', err);
-      statusText.style.color = 'var(--fire)';
-      statusText.textContent = 'Erro ao enviar.';
     }
-  };
-  reader.readAsDataURL(file);
+  }
+
+  statusText.style.color = successCount > 0 ? 'var(--gold)' : 'var(--fire)';
+  statusText.textContent = successCount > 0
+    ? `✓ ${successCount}/${files.length} imagem(ns) salvas!`
+    : 'Erro ao enviar.';
+
+  input.value = '';
+  await carregarBibliotecaImagens();
+  if (iaSlides && iaSlides.length > 0) {
+    renderIASlidesEditor();
+  }
 }
 
 function getBgOptionsHtml(selectedValue) {
@@ -1806,6 +2197,139 @@ function getBgOptionsHtml(selectedValue) {
     });
   }
   return options;
+}
+
+function getContentImageOptionsHtml(selectedValue) {
+  let options = `<option value="" ${selectedValue === '' ? 'selected' : ''}>Sem imagem de conteúdo</option>`;
+  if (dynamicBgs && dynamicBgs.length > 0) {
+    dynamicBgs.forEach(img => {
+      options += `<option value="${img}" ${selectedValue === img ? 'selected' : ''}>${img}</option>`;
+    });
+  }
+  return options;
+}
+
+// ── GALERIA DE REFERÊNCIAS DE ESTILO ──────────────────────────────────────
+let allExemplos = [];         // lista de arquivos do servidor
+let selectedRefs = new Set(); // filenames selecionados como referência ativa
+let refsExpanded = false;
+
+async function carregarExemplos() {
+  try {
+    const resp = await fetch('/api/exemplos');
+    const data = await resp.json();
+    if (data.ok) {
+      allExemplos = data.exemplos || [];
+      renderReferenciasGrid();
+    }
+  } catch (e) { console.warn('[Refs] Falha ao carregar exemplos:', e); }
+}
+
+function toggleReferencias() {
+  refsExpanded = !refsExpanded;
+  document.getElementById('refs-body').style.display = refsExpanded ? 'block' : 'none';
+}
+
+function renderReferenciasGrid() {
+  const grid = document.getElementById('refs-grid');
+  const badge = document.getElementById('refs-sel-badge');
+  const activeInfo = document.getElementById('refs-active-info');
+
+  badge.textContent = selectedRefs.size;
+  badge.classList.toggle('show', selectedRefs.size > 0);
+
+  if (selectedRefs.size > 0) {
+    activeInfo.classList.add('show');
+    activeInfo.textContent = `✓ ${selectedRefs.size} referência(s) ativa(s) — a IA vai usá-las como inspiração visual no próximo envio.`;
+  } else {
+    activeInfo.classList.remove('show');
+  }
+
+  if (allExemplos.length === 0) {
+    grid.innerHTML = `<div class="refs-empty" style="grid-column:1/-1">Nenhum exemplo ainda.<br>Faça upload de capturas de criativos que você gosta.</div>`;
+    return;
+  }
+
+  grid.innerHTML = allExemplos.map(ex => {
+    const sel = selectedRefs.has(ex.filename);
+    const isImg = ex.isImage;
+    const thumb = isImg
+      ? `<img src="/Exemplos/${ex.filename}" alt="${ex.filename}" loading="lazy">`
+      : `<div class="ref-thumb-icon"><span style="font-size:24px;">📄</span><span style="font-family:var(--fm);font-size:7px;color:var(--muted);">HTML</span></div>`;
+    const shortName = ex.filename.replace(/^exemplo_\d+_/, '').substring(0, 18);
+    return `
+      <div class="ref-thumb ${sel ? 'selected' : ''}" onclick="toggleRefSel('${ex.filename}')" title="${ex.filename}">
+        ${thumb}
+        <div class="ref-sel-badge">✓ REF</div>
+        <button class="ref-del-btn" onclick="event.stopPropagation();deletarExemplo('${ex.filename}')" title="Remover">✕</button>
+      </div>
+      <div class="ref-name" title="${ex.filename}">${shortName}</div>`;
+  }).join('');
+}
+
+function toggleRefSel(filename) {
+  if (selectedRefs.has(filename)) {
+    selectedRefs.delete(filename);
+  } else {
+    selectedRefs.add(filename);
+  }
+  renderReferenciasGrid();
+}
+
+async function deletarExemplo(filename) {
+  if (!confirm(`Remover "${filename}" dos exemplos?`)) return;
+  selectedRefs.delete(filename);
+  await fetch(`/api/exemplos/${encodeURIComponent(filename)}`, { method: 'DELETE' });
+  await carregarExemplos();
+}
+
+async function uploadReferencias(input) {
+  const files = Array.from(input.files);
+  if (!files.length) return;
+  const statusEl = document.getElementById('refs-upload-status');
+  statusEl.style.color = 'var(--gold)';
+  statusEl.textContent = `Enviando ${files.length}...`;
+
+  let ok = 0;
+  for (const file of files) {
+    const base64 = await new Promise(resolve => {
+      const reader = new FileReader();
+      reader.onload = e => resolve(e.target.result);
+      reader.readAsDataURL(file);
+    });
+    try {
+      const resp = await fetch('/api/exemplos/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: file.name, base64 })
+      });
+      const data = await resp.json();
+      if (data.ok) ok++;
+    } catch (e) { console.error('[Refs] Upload falhou:', e); }
+  }
+
+  statusEl.textContent = `✓ ${ok}/${files.length} salvo(s)`;
+  input.value = '';
+  await carregarExemplos();
+}
+
+async function coletarRefImagensBase64() {
+  const result = [];
+  for (const filename of selectedRefs) {
+    const ex = allExemplos.find(e => e.filename === filename);
+    if (!ex || !ex.isImage) continue;
+    try {
+      const resp = await fetch(`/Exemplos/${filename}`);
+      const blob = await resp.blob();
+      const base64 = await new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result.split(',')[1]);
+        reader.readAsDataURL(blob);
+      });
+      result.push({ name: filename, mimeType: blob.type || 'image/png', data: base64 });
+    } catch (e) { console.warn('[Refs] Falha ao carregar ref:', filename, e); }
+  }
+  return result;
 }
 
 // Variáveis e funções para imagens anexadas ao chat da IA
@@ -1877,24 +2401,34 @@ async function enviarMensagemIA() {
 
   // Adiciona a mensagem do usuário no chat (com imagens anexadas se houver)
   const chatMessages = document.getElementById('ia-chat-messages');
-  let userMsgHtml = `<div class="ia-message user"><strong>VOCÊ:</strong> ${message || '(Imagens anexadas)'}`;
+  let imgsHtml = '';
   if (imagesToSend.length > 0) {
-    userMsgHtml += `<div style="display:flex; gap:6px; margin-top:8px;">`;
-    imagesToSend.forEach(img => {
-      userMsgHtml += `<img src="${img.previewUrl}" style="width:50px; height:50px; object-fit:cover; border:1px solid var(--steel)">`;
-    });
-    userMsgHtml += `</div>`;
+    imgsHtml = `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">` +
+      imagesToSend.map(img => `<img src="${img.previewUrl}" style="width:52px;height:52px;object-fit:cover;border:1px solid rgba(184,146,42,0.3);border-radius:2px;">`).join('') +
+      `</div>`;
   }
-  userMsgHtml += `</div>`;
-  
+  const userMsgHtml = `
+    <div class="ia-message user">
+      <div class="ia-msg-avatar">👤</div>
+      <div class="ia-msg-bubble">
+        <strong>VOCÊ</strong>
+        ${message || '(Imagens anexadas)'}${imgsHtml}
+      </div>
+    </div>`;
+
   chatMessages.innerHTML += userMsgHtml;
   chatMessages.scrollTop = chatMessages.scrollHeight;
   input.value = '';
 
-  // Cria um elemento temporário de carregamento
+  // Indicador de digitação animado
   const loadingEl = document.createElement('div');
   loadingEl.className = 'ia-message assistant';
-  loadingEl.innerHTML = `<strong>🤖 CO-CRIADOR:</strong> Analisando estratégia brutalista e desenhando slides...`;
+  loadingEl.innerHTML = `
+    <div class="ia-msg-avatar">🤖</div>
+    <div class="ia-msg-bubble">
+      <strong>CO-CRIADOR JG</strong>
+      <div class="typing-indicator"><span></span><span></span><span></span></div>
+    </div>`;
   chatMessages.appendChild(loadingEl);
   chatMessages.scrollTop = chatMessages.scrollHeight;
 
@@ -1905,14 +2439,18 @@ async function enviarMensagemIA() {
       data: img.data
     }));
 
+    const refImages = await coletarRefImagensBase64();
+
     const resp = await fetch('/api/ia/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
-        message, 
-        history: iaHistory, 
+      body: JSON.stringify({
+        message,
+        history: iaHistory,
         format: iaActiveFormat,
-        images: payloadImages
+        images: payloadImages,
+        currentSlides: iaSlides.length > 0 ? iaSlides : [],
+        referenceImages: refImages
       })
     });
 
@@ -1921,33 +2459,54 @@ async function enviarMensagemIA() {
 
     if (!resp.ok || !data.ok) {
       chatMessages.innerHTML += `
-        <div class="ia-message assistant" style="border-color:var(--fire);">
-          <strong>🤖 CO-CRIADOR (ERRO):</strong> ${data.error || 'Erro na requisição. Verifique o console.'}
-          <br><br>
-          <span style="font-size:11px;color:var(--muted)">💡 Certifique-se de que a sua <strong>GEMINI_API_KEY</strong> foi cadastrada no arquivo <code>studio.config</code> na raiz do projeto!</span>
-        </div>
-      `;
+        <div class="ia-message assistant">
+          <div class="ia-msg-avatar" style="background:rgba(200,57,26,.3);">⚠️</div>
+          <div class="ia-msg-bubble" style="border-color:rgba(200,57,26,.5);">
+            <strong>ERRO</strong>
+            ${data.error || 'Erro na requisição. Verifique o console.'}<br><br>
+            <span style="font-size:11px;color:var(--muted);">💡 Certifique-se de que sua <strong>GEMINI_API_KEY</strong> está no <code>studio.config</code>.</span>
+          </div>
+        </div>`;
       chatMessages.scrollTop = chatMessages.scrollHeight;
       return;
     }
 
-    // Adiciona resposta no chat e no histórico
+    // Adiciona resposta da IA no chat
     chatMessages.innerHTML += `
       <div class="ia-message assistant">
-        <strong>🤖 CO-CRIADOR:</strong> ${data.assistantMessage}
-      </div>
-    `;
+        <div class="ia-msg-avatar">🤖</div>
+        <div class="ia-msg-bubble">
+          <strong>CO-CRIADOR JG</strong>
+          ${data.assistantMessage}
+        </div>
+      </div>`;
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
     iaHistory.push({ role: 'user', text: message });
     iaHistory.push({ role: 'assistant', text: data.assistantMessage });
 
-    // Salva e renderiza os slides sugeridos
-    iaSlides = data.slides || [];
-    iaCurrentSlideIdx = 0;
+    // Aplica a ação retornada pela IA (edição cirúrgica ou criação completa)
+    const action = data.action || 'full';
+    const newSlides = data.slides || [];
+    const targetIdx = typeof data.targetIndex === 'number' ? data.targetIndex : -1;
 
-    // Habilita a seção de refinamento e botões
-    document.getElementById('ia-editor-section').style.display = 'block';
+    if (action === 'insert_after' && newSlides.length > 0) {
+      const insertAt = Math.min(targetIdx + 1, iaSlides.length);
+      iaSlides.splice(insertAt, 0, ...newSlides);
+      iaCurrentSlideIdx = insertAt;
+    } else if (action === 'replace' && newSlides.length > 0 && targetIdx >= 0) {
+      iaSlides.splice(targetIdx, 1, newSlides[0]);
+      iaCurrentSlideIdx = targetIdx;
+    } else if (action === 'delete' && targetIdx >= 0) {
+      iaSlides.splice(targetIdx, 1);
+      iaCurrentSlideIdx = Math.min(targetIdx, iaSlides.length - 1);
+    } else {
+      // 'full' ou fallback — substitui tudo
+      iaSlides = newSlides;
+      iaCurrentSlideIdx = 0;
+    }
+
+    // Habilita botões e mostra badge no tab de slides
     document.getElementById('btn-ia-salvar').disabled = false;
     document.getElementById('btn-ia-salvar').textContent = '💾 SALVAR E EXPORTAR CRIATIVO';
 
@@ -1965,10 +2524,13 @@ async function enviarMensagemIA() {
   } catch (err) {
     loadingEl.remove();
     chatMessages.innerHTML += `
-      <div class="ia-message assistant" style="border-color:var(--fire);">
-        <strong>🤖 CO-CRIADOR (ERRO):</strong> Falha ao conectar ao servidor local. Erro: ${err.message}
-      </div>
-    `;
+      <div class="ia-message assistant">
+        <div class="ia-msg-avatar" style="background:rgba(200,57,26,.3);">⚠️</div>
+        <div class="ia-msg-bubble" style="border-color:rgba(200,57,26,.5);">
+          <strong>ERRO DE CONEXÃO</strong>
+          Falha ao conectar ao servidor local. Erro: ${err.message}
+        </div>
+      </div>`;
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 }
@@ -1977,24 +2539,30 @@ function renderIASlidesEditor() {
   const container = document.getElementById('ia-slides-editor-list');
   container.innerHTML = iaSlides.map((s, idx) => {
     const bgSelect = getBgOptionsHtml(s.bg);
+    const contentImgSelect = getContentImageOptionsHtml(s.contentImage || '');
 
     return `
       <div class="ia-slide-card" id="ia-slide-card-${idx}">
         <div class="ia-slide-card-header">
-          <div class="ia-slide-card-title">Slide ${idx + 1}</div>
-          <span class="ia-slide-type-badge">${s.type}</span>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="ia-slide-card-title" style="cursor:pointer;" onclick="iaCurrentSlideIdx=${idx};renderIASlidePreview()">
+              Slide ${idx + 1} <span style="font-size:8px;color:var(--muted);">(clicar = pré-visualizar)</span>
+            </div>
+            <span class="ia-slide-type-badge">${s.type}</span>
+          </div>
+          <div class="slide-card-actions">
+            <button class="btn-slide-action" onclick="moverSlide(${idx},-1)" ${idx === 0 ? 'disabled' : ''} title="Mover para cima">↑</button>
+            <button class="btn-slide-action" onclick="moverSlide(${idx},1)" ${idx === iaSlides.length - 1 ? 'disabled' : ''} title="Mover para baixo">↓</button>
+            <button class="btn-slide-action btn-slide-del" onclick="deletarSlide(${idx})" title="Remover slide">✕</button>
+          </div>
         </div>
+
+        <div class="ia-slide-design-toggle" onclick="this.nextElementSibling.classList.toggle('collapsed');this.querySelector('.ia-slide-design-toggle-icon').textContent = this.nextElementSibling.classList.contains('collapsed') ? '▶' : '▼';">
+          <span style="color:var(--gold);font-family:var(--fm);font-size:10px;letter-spacing:1px;text-transform:uppercase;">⬛ Design Visual</span>
+          <span class="ia-slide-design-toggle-icon">▶</span>
+        </div>
+        <div class="ia-slide-design-body collapsed">
         <div class="ia-slide-field-group">
-          <div class="ia-slide-field">
-            <label class="pub-label">Tag do Slide</label>
-            <input class="pub-input" type="text" value="${s.tag || ''}" oninput="updateIASlideData(${idx}, 'tag', this.value)">
-          </div>
-          <div class="ia-slide-field">
-            <label class="pub-label">Imagem de Fundo</label>
-            <select class="pub-input" onchange="updateIASlideData(${idx}, 'bg', this.value)">
-              ${bgSelect}
-            </select>
-          </div>
           <div class="ia-slide-field">
             <label class="pub-label">Modelo do Layout</label>
             <select class="pub-input" onchange="updateIASlideData(${idx}, 'layout', this.value)">
@@ -2003,24 +2571,101 @@ function renderIASlidesEditor() {
               <option value="minimal-void" ${s.layout === 'minimal-void' ? 'selected' : ''}>Vácuo Brutal</option>
               <option value="editorial-focus" ${s.layout === 'editorial-focus' ? 'selected' : ''}>Foco Editorial</option>
               <option value="impact-quote" ${s.layout === 'impact-quote' ? 'selected' : ''}>Citação Massiva</option>
-              <option value="giant-number" ${s.layout === 'giant-number' ? 'selected' : ''}>Número Gigante (Brutalista)</option>
+              <option value="giant-number" ${s.layout === 'giant-number' ? 'selected' : ''}>Número Gigante</option>
               <option value="social-proof" ${s.layout === 'social-proof' ? 'selected' : ''}>Post Social / Tweet</option>
               <option value="technical-sheet" ${s.layout === 'technical-sheet' ? 'selected' : ''}>Folha Editorial Técnica</option>
-              <option value="neon-accent" ${s.layout === 'neon-accent' ? 'selected' : ''}>Destaque Neon (Estilo Ric Neves)</option>
+              <option value="neon-accent" ${s.layout === 'neon-accent' ? 'selected' : ''}>Destaque Neon</option>
+            </select>
+          </div>
+          <div class="ia-slide-field">
+            <label class="pub-label">Foto de Fundo <span style="color:var(--muted);font-size:8px;">(cobre o slide inteiro)</span></label>
+            <select class="pub-input" onchange="updateIASlideData(${idx}, 'bg', this.value)">
+              ${bgSelect}
             </select>
           </div>
           <div class="ia-slide-field full-width">
-            <label class="pub-label">Título (use &lt;br&gt; para quebrar linha)</label>
-            <input class="pub-input" type="text" value="${s.title || ''}" oninput="updateIASlideData(${idx}, 'title', this.value)">
+            <label class="pub-label">Imagem de Conteúdo <span style="color:var(--muted);font-size:8px;">(sem distorção — ideal para gráficos e dados)</span></label>
+            <select class="pub-input" onchange="updateIASlideData(${idx}, 'contentImage', this.value)">
+              ${contentImgSelect}
+            </select>
           </div>
           <div class="ia-slide-field full-width">
-            <label class="pub-label">Texto de Apoio (Corpo)</label>
-            <textarea class="pub-textarea" style="min-height: 60px;" oninput="updateIASlideData(${idx}, 'body', this.value)">${s.body || ''}</textarea>
+            <label class="pub-label">Cor de Destaque <span style="color:var(--muted);font-size:8px;">(altera &lt;em&gt;, linhas e marcadores)</span></label>
+            <div class="accent-picker">
+              <button class="accent-btn ${!s.accentColor || s.accentColor === 'fire' ? 'active' : ''}" style="background:#C8391A;" onclick="updateIASlideData(${idx},'accentColor','fire');this.closest('.accent-picker').querySelectorAll('.accent-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');" title="Vermelho Brutalista"></button>
+              <button class="accent-btn ${s.accentColor === 'gold' ? 'active' : ''}" style="background:#B8922A;" onclick="updateIASlideData(${idx},'accentColor','gold');this.closest('.accent-picker').querySelectorAll('.accent-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');" title="Dourado Premium"></button>
+              <button class="accent-btn ${s.accentColor === 'neon' ? 'active' : ''}" style="background:#E1306C;" onclick="updateIASlideData(${idx},'accentColor','neon');this.closest('.accent-picker').querySelectorAll('.accent-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');" title="Neon Magenta"></button>
+              <button class="accent-btn ${s.accentColor === 'bone' ? 'active' : ''}" style="background:#F0EBE0;" onclick="updateIASlideData(${idx},'accentColor','bone');this.closest('.accent-picker').querySelectorAll('.accent-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');" title="Osso (neutro)"></button>
+            </div>
+          </div>
+        </div>
+        </div><!-- /ia-slide-design-body -->
+
+        <div class="pub-label" style="color:var(--fire);border-bottom:1px solid var(--iron);padding-bottom:4px;margin:10px 0 8px;">✏️ COPY DO SLIDE</div>
+        <div class="ia-slide-field-group">
+          <div class="ia-slide-field full-width">
+            <label class="pub-label">// TAG <span style="color:var(--muted);font-size:8px;">(rótulo no topo — ex: GROWTH NÚMEROS)</span></label>
+            <input class="pub-input" type="text" value="${s.tag || ''}" oninput="updateIASlideData(${idx}, 'tag', this.value)" style="font-size:14px;padding:10px 14px;">
+          </div>
+          <div class="ia-slide-field full-width">
+            <label class="pub-label">TÍTULO <span style="color:var(--muted);font-size:8px;">(selecione texto e use a barra de formatação — &lt;em&gt; aplica a cor de destaque)</span></label>
+            <div class="rte-wrap">
+              <div class="rte-toolbar" onmousedown="event.preventDefault()">
+                <button class="rte-btn" title="Negrito" onclick="document.execCommand('bold')"><b>B</b></button>
+                <button class="rte-btn" title="Itálico" onclick="document.execCommand('italic')"><i>I</i></button>
+                <button class="rte-btn" title="Sublinhado" onclick="document.execCommand('underline')"><u>U</u></button>
+                <span class="rte-div"></span>
+                <button class="rte-color-btn" style="background:#C8391A" onclick="document.execCommand('foreColor',false,'#C8391A')" title="Vermelho Brutalista"></button>
+                <button class="rte-color-btn" style="background:#B8922A" onclick="document.execCommand('foreColor',false,'#B8922A')" title="Dourado Premium"></button>
+                <button class="rte-color-btn" style="background:#E1306C" onclick="document.execCommand('foreColor',false,'#E1306C')" title="Neon Magenta"></button>
+                <button class="rte-color-btn" style="background:#F0EBE0;border-color:#555" onclick="document.execCommand('foreColor',false,'#F0EBE0')" title="Bone"></button>
+                <button class="rte-color-btn" style="background:#fff;border-color:#555" onclick="document.execCommand('foreColor',false,'#FFFFFF')" title="Branco"></button>
+                <button class="rte-color-btn" style="background:#111" onclick="document.execCommand('foreColor',false,'#111111')" title="Preto"></button>
+                <span class="rte-div"></span>
+                <button class="rte-btn" title="Aumentar tamanho" onclick="rteChangeFontSize(1.3)">A<sup style="font-size:8px">+</sup></button>
+                <button class="rte-btn" title="Diminuir tamanho" onclick="rteChangeFontSize(0.77)">A<sup style="font-size:8px">-</sup></button>
+                <span class="rte-div"></span>
+                <button class="rte-btn" title="Limpar formatação" onclick="document.execCommand('removeFormat')">✕</button>
+              </div>
+              <div class="pub-rte" contenteditable="true" spellcheck="false"
+                   oninput="updateIASlideData(${idx}, 'title', this.innerHTML)">${s.title || ''}</div>
+            </div>
+          </div>
+          <div class="ia-slide-field full-width">
+            <label class="pub-label">TEXTO DE APOIO <span style="color:var(--muted);font-size:8px;">(selecione e formate — ou use HTML avançado: custom-chart, step-list)</span></label>
+            <div class="rte-wrap">
+              <div class="rte-toolbar" onmousedown="event.preventDefault()">
+                <button class="rte-btn" title="Negrito" onclick="document.execCommand('bold')"><b>B</b></button>
+                <button class="rte-btn" title="Itálico" onclick="document.execCommand('italic')"><i>I</i></button>
+                <button class="rte-btn" title="Sublinhado" onclick="document.execCommand('underline')"><u>U</u></button>
+                <span class="rte-div"></span>
+                <button class="rte-color-btn" style="background:#C8391A" onclick="document.execCommand('foreColor',false,'#C8391A')" title="Vermelho Brutalista"></button>
+                <button class="rte-color-btn" style="background:#B8922A" onclick="document.execCommand('foreColor',false,'#B8922A')" title="Dourado Premium"></button>
+                <button class="rte-color-btn" style="background:#E1306C" onclick="document.execCommand('foreColor',false,'#E1306C')" title="Neon Magenta"></button>
+                <button class="rte-color-btn" style="background:#F0EBE0;border-color:#555" onclick="document.execCommand('foreColor',false,'#F0EBE0')" title="Bone"></button>
+                <button class="rte-color-btn" style="background:#fff;border-color:#555" onclick="document.execCommand('foreColor',false,'#FFFFFF')" title="Branco"></button>
+                <button class="rte-color-btn" style="background:#111" onclick="document.execCommand('foreColor',false,'#111111')" title="Preto"></button>
+                <span class="rte-div"></span>
+                <button class="rte-btn" title="Aumentar tamanho" onclick="rteChangeFontSize(1.3)">A<sup style="font-size:8px">+</sup></button>
+                <button class="rte-btn" title="Diminuir tamanho" onclick="rteChangeFontSize(0.77)">A<sup style="font-size:8px">-</sup></button>
+                <span class="rte-div"></span>
+                <button class="rte-btn" title="Limpar formatação" onclick="document.execCommand('removeFormat')">✕</button>
+              </div>
+              <div class="pub-rte body" contenteditable="true" spellcheck="false"
+                   oninput="updateIASlideData(${idx}, 'body', this.innerHTML)">${s.body || ''}</div>
+            </div>
           </div>
         </div>
       </div>
     `;
   }).join('');
+
+  // Update slides badge on tab button
+  const badge = document.getElementById('tab-slides-badge');
+  if (badge) {
+    badge.textContent = iaSlides.length;
+    badge.style.display = iaSlides.length > 0 ? 'inline-block' : 'none';
+  }
 }
 
 function updateIASlideData(idx, field, value) {
@@ -2169,6 +2814,7 @@ function renderIASlidePreview() {
     const tapeClass = isGold ? 'tape-v-gold' : 'tape-v-fire';
     const lineClass = isGold ? 'h-line-gold' : 'h-line-fire';
     const tagClass = isGold ? 'mono-tag gold' : 'mono-tag';
+    const contentImgUrl = s.contentImage ? `./Carrosseis/${s.contentImage}` : '';
 
     html = `
       <div class="slide ${layoutClass}" style="background: ${s.bg ? 'transparent' : 'var(--void)'};">
@@ -2182,9 +2828,11 @@ function renderIASlidePreview() {
           <div class="${tagClass}" style="margin-bottom: 32px;">${s.tag || s.type.toUpperCase()}</div>
           <div class="h-line ${lineClass}"></div>
 
-          <div class="disp-medium" style="margin-bottom: 48px;">
+          <div class="disp-medium" style="margin-bottom: ${contentImgUrl ? '20px' : '48px'};">
             ${s.title}
           </div>
+
+          ${contentImgUrl ? `<img src="${contentImgUrl}" style="max-width:100%; max-height:320px; object-fit:contain; margin: 0 auto 24px; display:block; border: 1px solid rgba(255,255,255,0.08);">` : ''}
 
           <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
             ${s.body}
@@ -2210,7 +2858,15 @@ function renderIASlidePreview() {
   html = html.replace(`class="slide ${layoutClass}" style="background: transparent;"`, `class="slide ${layoutClass}" style="background: transparent; width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
 
   renderEl.innerHTML = html;
-  
+
+  // Aplica cor de destaque personalizada via CSS variable
+  const slideEl = renderEl.querySelector('.slide');
+  if (slideEl) {
+    const accentMap = { fire: '#C8391A', gold: '#B8922A', neon: '#E1306C', bone: '#F0EBE0' };
+    const accent = accentMap[s.accentColor] || accentMap.fire;
+    slideEl.style.setProperty('--fire', accent);
+  }
+
   // Atualiza controles de navegação
   document.getElementById('ia-preview-info').textContent = `SLIDE ${iaCurrentSlideIdx + 1} / ${iaSlides.length}`;
   document.getElementById('btn-ia-prev').disabled = iaCurrentSlideIdx === 0;
@@ -2320,6 +2976,208 @@ async function salvarCriativoIA() {
 }
 
 window.addEventListener('resize', resizeIAPreview);
+
+function reiniciarTudo() {
+  if (iaSlides.length === 0 && iaHistory.length === 0) return;
+  if (!confirm('Isso vai apagar todos os slides criados e o histórico do chat. Deseja continuar?')) return;
+
+  iaSlides = [];
+  iaHistory = [];
+  iaCurrentSlideIdx = 0;
+  chatAttachedImages = [];
+
+  document.getElementById('ia-chat-messages').innerHTML = `
+    <div class="ia-message assistant">
+      <div class="ia-msg-avatar">🤖</div>
+      <div class="ia-msg-bubble">
+        <strong>CO-CRIADOR JG</strong>
+        Tudo limpo. Pronto pra batalha, executor. Qual é o próximo criativo?
+      </div>
+    </div>`;
+
+  document.getElementById('btn-ia-salvar').disabled = true;
+  document.getElementById('btn-ia-salvar').textContent = '💾 SALVAR E EXPORTAR CRIATIVO';
+  document.getElementById('ia-status-log').className = 'pub-status';
+  document.getElementById('ia-status-log').textContent = '';
+  document.getElementById('ia-live-slide-render').innerHTML = `
+    <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;opacity:.3;color:var(--bone);">
+      <div style="font-size:48px;">🤖</div>
+      <p style="font-family:var(--fm);font-size:11px;letter-spacing:2px;text-transform:uppercase;">AGUARDANDO IA...</p>
+    </div>`;
+  document.getElementById('ia-preview-info').textContent = 'SLIDE 1 / 1';
+  document.getElementById('btn-ia-prev').disabled = true;
+  document.getElementById('btn-ia-next').disabled = true;
+  renderAttachedImages();
+  switchIATab('chat');
+  const badge = document.getElementById('tab-slides-badge');
+  if (badge) badge.style.display = 'none';
+  document.getElementById('ia-slides-editor-list').innerHTML = `
+    <div style="font-family:var(--fm);font-size:10px;letter-spacing:1px;color:var(--muted);text-align:center;padding:40px 0;">
+      Nenhum slide ainda — volte ao chat e peça um criativo.
+    </div>`;
+}
+
+function moverSlide(idx, dir) {
+  const newIdx = idx + dir;
+  if (newIdx < 0 || newIdx >= iaSlides.length) return;
+  [iaSlides[idx], iaSlides[newIdx]] = [iaSlides[newIdx], iaSlides[idx]];
+  if (iaCurrentSlideIdx === idx) iaCurrentSlideIdx = newIdx;
+  else if (iaCurrentSlideIdx === newIdx) iaCurrentSlideIdx = idx;
+  renderIASlidesEditor();
+  renderIASlidePreview();
+}
+
+function deletarSlide(idx) {
+  if (!confirm(`Remover o Slide ${idx + 1}? Esta ação não pode ser desfeita.`)) return;
+  iaSlides.splice(idx, 1);
+  iaCurrentSlideIdx = Math.min(iaCurrentSlideIdx, Math.max(0, iaSlides.length - 1));
+  renderIASlidesEditor();
+  if (iaSlides.length > 0) renderIASlidePreview();
+}
+
+// ── IA INNER TABS (chat / editor) ─────────────────────────────────────────
+function switchIATab(name) {
+  ['chat', 'editor'].forEach(t => {
+    document.getElementById('tab-panel-' + t).classList.toggle('active', t === name);
+    document.getElementById('tab-btn-' + t).classList.toggle('active', t === name);
+  });
+  if (name === 'editor') {
+    const badge = document.getElementById('tab-slides-badge');
+    if (badge) badge.style.display = 'none';
+  }
+}
+
+// ── RICH TEXT EDITOR ───────────────────────────────────────────────────────
+function rteChangeFontSize(multiplier) {
+  const sel = window.getSelection();
+  if (!sel || sel.rangeCount === 0 || sel.isCollapsed) return;
+  const range = sel.getRangeAt(0);
+  const span = document.createElement('span');
+  span.style.fontSize = multiplier + 'em';
+  try {
+    range.surroundContents(span);
+  } catch (e) {
+    const frag = range.extractContents();
+    span.appendChild(frag);
+    range.insertNode(span);
+  }
+}
+
+// ── FULLSCREEN PREVIEW MODAL ───────────────────────────────────────────────
+function abrirModalPreview() {
+  if (iaSlides.length === 0) return;
+  const modal = document.getElementById('slide-fullscreen-modal');
+  modal.classList.add('open');
+  renderModalSlide();
+  document.addEventListener('keydown', fecharModalKeydown);
+}
+
+function fecharModalPreview() {
+  document.getElementById('slide-fullscreen-modal').classList.remove('open');
+  document.removeEventListener('keydown', fecharModalKeydown);
+}
+
+function fecharModalKeydown(e) {
+  if (e.key === 'Escape') fecharModalPreview();
+  if (e.key === 'ArrowRight') modalNavSlide(1);
+  if (e.key === 'ArrowLeft') modalNavSlide(-1);
+}
+
+function modalNavSlide(dir) {
+  const newIdx = iaCurrentSlideIdx + dir;
+  if (newIdx < 0 || newIdx >= iaSlides.length) return;
+  iaCurrentSlideIdx = newIdx;
+  renderModalSlide();
+  renderIASlidePreview();
+}
+
+function renderModalSlide() {
+  if (iaSlides.length === 0) return;
+  const modalRender = document.getElementById('slide-modal-render');
+
+  // Clone the current preview HTML into the modal
+  const liveRender = document.getElementById('ia-live-slide-render');
+  modalRender.innerHTML = liveRender.innerHTML;
+
+  // Size and scale to fit viewport
+  const vw = window.innerWidth - 80;
+  const vh = window.innerHeight - 140;
+  const s = iaSlides[iaCurrentSlideIdx];
+  let w = 1080, h = 1350;
+  if (iaActiveFormat === 'youtube-thumb') { w = 1280; h = 720; }
+  else if (iaActiveFormat === 'square') { w = 1080; h = 1080; }
+  else if (iaActiveFormat === 'vertical') { w = 1080; h = 1920; }
+  else if (iaActiveFormat === 'horizontal' || iaActiveFormat === 'banner-horizontal') { w = 1920; h = 1080; }
+
+  modalRender.style.width = w + 'px';
+  modalRender.style.height = h + 'px';
+  const scale = Math.min(vw / w, vh / h, 1);
+  modalRender.style.transform = `scale(${scale})`;
+  modalRender.style.transformOrigin = 'top center';
+
+  const counter = document.getElementById('modal-slide-counter');
+  counter.textContent = `${String(iaCurrentSlideIdx + 1).padStart(2,'0')} / ${String(iaSlides.length).padStart(2,'0')}`;
+}
+
+// ── IMPORTAR DE URL ────────────────────────────────────────────────────────
+function toggleURLImport() {
+  const bar = document.getElementById('url-import-bar');
+  const isVisible = bar.style.display !== 'none';
+  bar.style.display = isVisible ? 'none' : 'flex';
+  if (!isVisible) document.getElementById('url-import-input').focus();
+}
+
+async function importarDeURL() {
+  const input = document.getElementById('url-import-input');
+  const btn = document.getElementById('btn-url-import');
+  const url = input.value.trim();
+  if (!url) return;
+
+  btn.textContent = 'BUSCANDO...';
+  btn.disabled = true;
+
+  try {
+    const resp = await fetch('/api/ia/fetch-url', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url })
+    });
+    const data = await resp.json();
+
+    if (!data.ok) {
+      alert('Erro ao importar: ' + data.error);
+      return;
+    }
+
+    // Pre-fill the chat input with a summarized prompt
+    const chatInput = document.getElementById('ia-chat-input');
+    const snippet = data.text.slice(0, 300).replace(/\s+/g, ' ');
+    chatInput.value = `Gere um carrossel brutalista com base no conteúdo desta página (${url}):\n\n"${snippet}..."`;
+
+    // Hide the URL bar and focus chat
+    document.getElementById('url-import-bar').style.display = 'none';
+    input.value = '';
+    chatInput.focus();
+
+    // Add a visual note in chat
+    const chatMessages = document.getElementById('ia-chat-messages');
+    chatMessages.innerHTML += `
+      <div class="ia-message assistant" style="opacity:.7;">
+        <div class="ia-msg-avatar" style="background:rgba(184,146,42,.2);">🌐</div>
+        <div class="ia-msg-bubble" style="border-color:rgba(184,146,42,.3);">
+          <strong style="color:var(--gold);">CONTEÚDO IMPORTADO</strong>
+          <span style="font-size:11px;color:var(--muted);">${data.length} caracteres extraídos de <em>${url}</em>. Edite o prompt acima e envie.</span>
+        </div>
+      </div>`;
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  } catch (e) {
+    alert('Falha na requisição: ' + e.message);
+  } finally {
+    btn.textContent = 'IMPORTAR';
+    btn.disabled = false;
+  }
+}
 
 // ── PUBLISH ────────────────────────────────────────────────────────────────
 let pubSelected = null; // creative selecionado na aba publicar
