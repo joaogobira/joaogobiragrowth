@@ -58,5 +58,20 @@
     "id": "highlight-card",
     "nome": "Cartão Flutuante (Destaque Central)",
     "descricao": "Fundo limpo (sólido ou textura suave) com um gigantesco cartão central de bordas grossas pretas e sombra marcada contendo a mensagem principal."
+  },
+  {
+    "id": "cover-split-reverse",
+    "nome": "Capa: Divisão Invertida (Texto à Direita)",
+    "descricao": "Capa dividida ao meio verticalmente. Imagem/Fotografia fixada do lado ESQUERDO e tipografia brutalista do lado DIREITO. Ideal para variação de capas."
+  },
+  {
+    "id": "cover-minimal-void",
+    "nome": "Capa: Vazio Absoluto (Sem Imagem)",
+    "descricao": "Capa extremamente minimalista. Fundo totalmente sem cor (void absoluto ou textura crua), sem fotos. Foco 100% no peso e contraste da tipografia gigante."
+  },
+  {
+    "id": "cover-top-heavy",
+    "nome": "Capa: Peso Superior (Imagem em Cima, Texto Embaixo)",
+    "descricao": "Fotografia principal achatada ocupando toda a metade SUPERIOR da capa. Metade INFERIOR reservada para um fundo sólido com o título principal. Estilo editorial."
   }
 ]

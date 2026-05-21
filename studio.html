@@ -1166,6 +1166,82 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   margin: 0 auto 40px auto !important;
 }
 
+/* 13. Capa: Divisão Invertida (cover-split-reverse) */
+.layout-cover-split-reverse {
+  background: var(--carbon) !important;
+}
+.layout-cover-split-reverse .split-bg,
+.layout-cover-split-reverse .photo-bg {
+  top: 0 !important; left: 0 !important; bottom: 0 !important; right: auto !important;
+  width: 50% !important;
+  border-right: 2px solid var(--steel) !important;
+  border-left: none !important;
+  background-position: center center !important;
+}
+.layout-cover-split-reverse .split-gradient,
+.layout-cover-split-reverse .split-gradient-bottom,
+.layout-cover-split-reverse .photo-overlay {
+  display: none !important;
+}
+.layout-cover-split-reverse .cw {
+  margin-left: 50% !important;
+  width: 50% !important;
+  justify-content: center !important;
+  padding: 60px 80px !important;
+}
+
+/* 14. Capa: Vazio Absoluto (cover-minimal-void) */
+.layout-cover-minimal-void {
+  background: var(--void) !important;
+  color: var(--bone) !important;
+}
+.layout-cover-minimal-void .photo-bg,
+.layout-cover-minimal-void .split-bg,
+.layout-cover-minimal-void .photo-overlay,
+.layout-cover-minimal-void .grain {
+  display: none !important;
+}
+.layout-cover-minimal-void .cw {
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+.layout-cover-minimal-void .disp-large {
+  font-size: 160px !important;
+  line-height: 0.8 !important;
+  margin-bottom: 30px !important;
+}
+.layout-cover-minimal-void .h-line {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* 15. Capa: Peso Superior (cover-top-heavy) */
+.layout-cover-top-heavy {
+  background: var(--carbon) !important;
+}
+.layout-cover-top-heavy .split-bg,
+.layout-cover-top-heavy .photo-bg {
+  top: 0 !important; left: 0 !important; right: 0 !important; bottom: auto !important;
+  width: 100% !important; height: 50% !important;
+  border-bottom: 4px solid var(--fire) !important;
+  border-left: none !important;
+}
+.layout-cover-top-heavy .split-gradient,
+.layout-cover-top-heavy .split-gradient-bottom,
+.layout-cover-top-heavy .photo-overlay {
+  display: none !important;
+}
+.layout-cover-top-heavy .cw {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 50% !important;
+  justify-content: flex-start !important;
+  padding: 60px 80px !important;
+}
+
 /* Componentes de Dados Brutalistas Dinâmicos */
 .custom-chart {
   background: var(--carbon);
