@@ -599,7 +599,7 @@ app.delete('/api/exemplos/:filename', (req, res) => {
 
 // ── PUBLICAR: Fila ───────────────────────────────────────────────────────
 app.post('/api/ia/chat', async (req, res) => {
-  const { message, history, format = 'carousel', images = [], currentSlides = [], referenceImages = [] } = req.body;
+  const { message, history, format = 'carousel', images = [], currentSlides = [], referenceImages = [], brandId = 'jg' } = req.body;
   const cfg = readConfig();
   const apiKey = cfg.GEMINI_API_KEY;
  
@@ -720,8 +720,19 @@ FORMATO DE RESPOSTA PARA EDIÇÃO (JSON puro, sem markdown):
 DIRETRIZES GERAIS (aplique nos slides novos/modificados):
 ${refsContext}` : '';
 
-  const systemInstruction = editModeContext + `Você é o co-criador oficial de criativos de João Gobira, especialista em Growth, Gestão e Marketing de Performance.
-Seu objetivo é gerar a copy e estrutura de slides de um criativo brutalista de alta conversão.
+  const brandRules = brandId === 'tgsr' ? `DIRETRIZES DE MARCA (TGSR):
+- Identidade Visual: Use layouts focados em Verde Limão Neon e Azul/Cinza escuro. Os elementos de destaque devem ter uma pegada tecnológica e moderna (recomendamos usar o layout "neon-accent" ou "technical-sheet").
+- Tom de Voz: Direto, claro e corporativo moderno. Focado em resultados escaláveis para negócios.
+- Sem metáforas de luta/Jiu-Jitsu. Foco em inovação, calculadoras de ROI e eficiência técnica.`
+  : `DIRETRIZES DE MARCA (João Gobira):
+- Tom de Voz: Direto, firme, com peso emocional e autoridade. Tom nascido da trincheira, do campo de batalha real de growth, e não de teorias corporativas vazias.
+- Use metáforas ocasionais de Jiu-Jitsu, tatame, resiliência sob pressão e sobrevivência.
+- NUNCA use clichês corporativos como: "disruptivo", "innovador", "inovador", "potencializar resultados", "jornada de aprendizado", "entrega de valor", "ecossistema".
+- Use números e dados específicos (ex: "47% de aumento em vendas" ao invés de "resultado expressivo").
+- Fale para fundadores e gestores que precisam de método e dados.`;
+
+  const systemInstruction = editModeContext + `Você é o co-criador oficial de criativos do Studio.
+Seu objetivo é gerar a copy e estrutura de slides de um criativo brutalista/moderno de alta conversão.
 
 FORMATO DO CRIATIVO SOLICITADO: "${format}"
 Considere as diretrizes do formato solicitado para compor títulos e copys:
@@ -731,12 +742,7 @@ Considere as diretrizes do formato solicitado para compor títulos e copys:
 - "vertical": Meta Ads Stories / Reels (1080x1920px). Proporção 9:16. Máximo 1 slide ultra impactante para story patrocinado, ou sequência de 3 slides rápidos. Copy curtíssima, visual cinematográfico.
 - "horizontal" ou "banner-horizontal" ou "youtube-thumb": Proporção horizontal/paisagem. Títulos bem amplos em uma linha e parágrafos distribuídos horizontalmente.
 
-DIRETRIZES DE MARCA (João Gobira):
-- Tom de Voz: Direto, firme, com peso emocional e autoridade. Tom nascido da trincheira, do campo de batalha real de growth, e não de teorias corporativas vazias.
-- Use metáforas ocasionais de Jiu-Jitsu, tatame, resiliência sob pressão e sobrevivência.
-- NUNCA use clichês corporativos como: "disruptivo", "innovador", "inovador", "potencializar resultados", "jornada de aprendizado", "entrega de valor", "ecossistema".
-- Use números e dados específicos (ex: "47% de aumento em vendas" ao invés de "resultado expressivo").
-- Fale para fundadores e gestores que precisam de método e dados.
+${brandRules}
 
 REPOSITÓRIO DE MODELOS VISUAIS (LAYOUTS) DO JOÃO:
 Escolha com extrema sabedoria e de forma variada o layout de cada slide (atribuindo a chave "layout") para evitar posts monótonos ou repetitivos. Tente variar os layouts durante a narrativa do carrossel/criativo!

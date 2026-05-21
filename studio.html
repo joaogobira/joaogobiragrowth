@@ -87,8 +87,10 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 .detail-panel{background:var(--carbon);border-left:1px solid var(--iron);display:flex;flex-direction:column;overflow:hidden;}
 
 /* ── TOPBAR ── */
-.logo-text{font-family:var(--fd);font-size:22px;letter-spacing:2px;color:var(--bone);}
+.logo-text{font-family:var(--fd);font-size:22px;letter-spacing:2px;color:var(--bone);display:flex;align-items:center;gap:12px;}
 .logo-text span{color:var(--fire);}
+.brand-select{background:var(--carbon);color:var(--muted);border:1px solid var(--iron);font-family:var(--fm);font-size:10px;padding:4px 8px;cursor:pointer;outline:none;}
+.brand-select:hover{color:var(--bone);border-color:var(--steel);}
 .topbar-sep{flex:1;}
 .badge-count{font-family:var(--fm);font-size:11px;color:var(--muted);letter-spacing:1px;}
 
@@ -177,7 +179,7 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 /* ── IA CO-CREATOR VIEW ── */
 .ia-wrap {
   display: grid;
-  grid-template-columns: 1fr 440px;
+  grid-template-columns: 1fr 480px;
   height: 100%;
   overflow: hidden;
   background: var(--void);
@@ -191,24 +193,27 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   background: var(--void);
 }
 .ia-header {
-  padding: 20px 24px;
+  padding: 10px 20px;
   border-bottom: 1px solid var(--iron);
   background: var(--carbon);
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 .ia-title {
   font-family: var(--fd);
-  font-size: 26px;
-  letter-spacing: 1px;
+  font-size: 20px;
+  letter-spacing: 2px;
   color: var(--bone);
-  margin-bottom: 6px;
 }
 .ia-subtitle {
   font-family: var(--fm);
-  font-size: 10px;
+  font-size: 9px;
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 1px;
+  opacity: .7;
 }
 .ia-chat-container {
   padding: 16px 24px 12px;
@@ -251,71 +256,90 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   align-self: flex-start;
   width: 95%;
 }
+.ia-format-bar {
+  padding: 8px 16px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--iron);
+  background: var(--carbon);
+}
 .ia-format-selector {
   display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-  background: var(--carbon);
-  padding: 8px;
-  border: 1px solid var(--iron);
+  gap: 6px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+.ia-format-selector::-webkit-scrollbar { display: none; }
 .ia-format-btn {
-  flex: 1;
-  background: var(--iron);
-  color: var(--sub);
+  flex-shrink: 0;
+  background: transparent;
+  color: var(--muted);
   border: 1px solid var(--steel);
+  border-radius: 20px;
   font-family: var(--fm);
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
-  padding: 8px 4px;
+  padding: 7px 14px;
   cursor: pointer;
   text-transform: uppercase;
   text-align: center;
-  transition: all .15s;
+  transition: all .2s ease;
+  white-space: nowrap;
 }
 .ia-format-btn:hover {
-  border-color: var(--fire);
+  border-color: var(--bone);
   color: var(--bone);
+  background: rgba(255,255,255,0.04);
 }
 .ia-format-btn.active {
-  background: var(--fire);
-  color: var(--bone);
+  background: rgba(200,57,26,0.15);
+  color: var(--fire);
   border-color: var(--fire);
-  box-shadow: 2px 2px 0px var(--bone);
+  box-shadow: 0 0 12px rgba(200,57,26,0.12);
 }
 
 .ia-chat-input-wrap {
   display: flex;
-  gap: 8px;
+  gap: 6px;
+  align-items: stretch;
 }
 #ia-chat-input {
   flex: 1;
-  background: var(--iron);
-  border: 1px solid var(--steel);
+  background: var(--carbon);
+  border: 1px solid var(--iron);
+  border-radius: 8px;
   color: var(--bone);
   font-family: var(--fb);
   font-size: 13px;
-  padding: 12px 14px;
+  padding: 12px 16px;
   outline: none;
+  transition: border-color .2s, box-shadow .2s;
 }
 #ia-chat-input:focus {
   border-color: var(--fire);
+  box-shadow: 0 0 0 2px rgba(200,57,26,0.08);
 }
 .btn-ia-send {
   background: var(--fire);
   color: var(--bone);
   border: none;
+  border-radius: 8px;
   font-family: var(--fm);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 2px;
-  padding: 0 20px;
+  padding: 0 18px;
   cursor: pointer;
   text-transform: uppercase;
-  transition: background .15s;
+  transition: all .2s ease;
 }
 .btn-ia-send:hover {
   background: var(--ember);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(200,57,26,0.25);
 }
 
 /* Editor */
@@ -330,40 +354,46 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 /* ── TABS ──────────────────────────────────────────────────────────────── */
 .ia-tabs-bar {
   display: flex;
-  border-bottom: 1px solid var(--iron);
+  border-bottom: 2px solid var(--iron);
   background: var(--carbon);
   flex-shrink: 0;
+  padding: 0 16px;
+  gap: 4px;
 }
 .ia-tab-btn {
-  flex: 1;
+  flex: none;
   background: transparent;
   border: none;
   border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
   color: var(--muted);
   font-family: var(--fm);
   font-size: 10px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  padding: 10px 8px;
+  padding: 12px 20px;
   cursor: pointer;
-  transition: color .15s, border-color .15s, background .15s;
+  transition: all .2s ease;
+  position: relative;
 }
-.ia-tab-btn:hover { color: var(--bone); }
+.ia-tab-btn:hover { color: var(--bone); background: rgba(255,255,255,0.02); }
 .ia-tab-btn.active {
   color: var(--bone);
   border-bottom-color: var(--fire);
-  background: rgba(200,57,26,0.06);
+  background: transparent;
 }
 .ia-tab-badge {
   display: inline-block;
   background: var(--fire);
   color: #fff;
   font-size: 8px;
-  padding: 1px 5px;
-  border-radius: 8px;
-  margin-left: 5px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-left: 6px;
   vertical-align: middle;
   font-weight: 700;
+  min-width: 18px;
+  text-align: center;
 }
 .ia-tabs-content {
   flex: 1;
@@ -405,10 +435,12 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 .ia-slide-card {
   background: var(--carbon);
   border: 1px solid var(--iron);
-  padding: 16px;
+  border-radius: 6px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
+  transition: border-color .2s, box-shadow .2s;
 }
 .ia-slide-card-header {
   display: flex;
@@ -458,11 +490,12 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   overflow: hidden;
 }
 .ia-preview-header {
-  padding: 16px 20px;
+  padding: 10px 16px;
   border-bottom: 1px solid var(--iron);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
 }
 .ia-preview-actions {
   display: flex;
@@ -1552,21 +1585,21 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 .ia-message.user .ia-msg-avatar { background: rgba(184,146,42,0.2); border-color: rgba(184,146,42,0.4); }
 .ia-message.assistant .ia-msg-avatar { background: rgba(200,57,26,0.2); border-color: rgba(200,57,26,0.4); }
 .ia-msg-bubble {
-  padding: 10px 14px;
-  border-radius: 2px;
+  padding: 12px 16px;
+  border-radius: 10px;
   position: relative;
 }
 .ia-message.user .ia-msg-bubble {
   background: rgba(184,146,42,0.12);
   border: 1px solid rgba(184,146,42,0.35);
   color: var(--text);
-  border-bottom-right-radius: 0;
+  border-bottom-right-radius: 2px;
 }
 .ia-message.assistant .ia-msg-bubble {
   background: var(--carbon);
   border: 1px solid var(--iron);
   color: var(--bone);
-  border-bottom-left-radius: 0;
+  border-bottom-left-radius: 2px;
 }
 .ia-msg-bubble strong { display: block; font-family: var(--fm); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; opacity: .55; margin-bottom: 4px; }
 .ia-message.user .ia-msg-bubble strong { color: var(--gold); text-align: right; }
@@ -1587,9 +1620,10 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 }
 
 /* ── SLIDE CARD EDITOR MELHORADO ── */
-.ia-slide-card { border-left: 3px solid var(--iron) !important; transition: border-color .15s; }
-.ia-slide-card:focus-within { border-left-color: var(--fire) !important; }
-.ia-slide-card-header { background: rgba(255,255,255,0.02); }
+.ia-slide-card { border-left: 3px solid var(--iron) !important; transition: all .2s ease; border-radius: 6px !important; }
+.ia-slide-card:focus-within { border-left-color: var(--fire) !important; box-shadow: 0 0 0 1px rgba(200,57,26,0.12) !important; }
+.ia-slide-card:hover { border-color: var(--steel) !important; }
+.ia-slide-card-header { background: rgba(255,255,255,0.02); border-radius: 4px; }
 .slide-card-actions { display: flex; gap: 4px; }
 .btn-slide-action {
   background: none; border: 1px solid var(--steel); color: var(--muted);
@@ -1663,6 +1697,62 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   padding: 5px 12px; cursor: pointer; transition: all .15s; margin-top: 8px; display: inline-block;
 }
 .btn-reset-ia:hover { border-color: var(--fire); color: var(--fire); }
+
+/* ── REDESIGN UX MELHORIAS ── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.ia-message { animation: fadeInUp .25s ease-out; }
+.ia-slide-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,.2); }
+.btn-ia-attach {
+  border-radius: 8px;
+  transition: all .2s;
+}
+.btn-ia-attach:hover {
+  background: var(--steel);
+  border-color: var(--fire);
+  transform: scale(1.05);
+}
+.ia-editor-section {
+  padding: 16px 20px 24px;
+  background: var(--void);
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+.ia-slides-editor-list {
+  gap: 14px;
+}
+.ia-preview-footer {
+  padding: 12px 16px;
+  border-top: 1px solid var(--iron);
+  background: var(--carbon);
+}
+.btn-ia-action {
+  border-radius: 4px;
+  padding: 5px 12px;
+  transition: all .2s;
+}
+.ia-chat-container {
+  padding: 12px 16px 10px;
+}
+/* Scrollbar refinada para áreas IA */
+.ia-left ::-webkit-scrollbar { width: 3px; }
+.ia-left ::-webkit-scrollbar-track { background: transparent; }
+.ia-left ::-webkit-scrollbar-thumb { background: var(--iron); border-radius: 4px; }
+.ia-left ::-webkit-scrollbar-thumb:hover { background: var(--steel); }
+.ia-right ::-webkit-scrollbar { width: 3px; }
+.ia-right ::-webkit-scrollbar-track { background: transparent; }
+.ia-right ::-webkit-scrollbar-thumb { background: var(--iron); border-radius: 4px; }
+.ia-right ::-webkit-scrollbar-thumb:hover { background: var(--steel); }
+/* Avatares do chat maiores e mais suaves */
+.ia-msg-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  font-size: 14px;
+}
 </style>
 </head>
 <body>
@@ -1671,7 +1761,13 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 
   <!-- TOPBAR -->
   <header class="topbar">
-    <div class="logo-text">STUDIO <span>///</span> JG</div>
+    <div class="logo-text">
+      STUDIO <span>///</span> <span id="brand-indicator" style="color:var(--bone);">JG</span>
+      <select id="brand-select" class="brand-select" onchange="switchBrand(this.value)">
+        <option value="jg">Brand: JG</option>
+        <option value="tgsr">Brand: TGSR</option>
+      </select>
+    </div>
     <div style="font-family:var(--fm);font-size:10px;color:var(--muted);letter-spacing:2px;margin-left:8px;">CRIATIVOS</div>
     <div class="tab-nav">
       <button class="tab-btn active" id="tab-studio" onclick="switchTab('studio')">🗂 Studio</button>
@@ -1820,26 +1916,23 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
       <div class="ia-left">
         <!-- Top header do Co-Criador -->
         <div class="ia-header">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-            <div>
-              <div class="ia-title">Co-Criador de Criativos IA</div>
-              <div class="ia-subtitle">Converse com a IA e co-crie sua copy brutalista em tempo real</div>
-            </div>
-            <button class="btn-reset-ia" onclick="reiniciarTudo()" title="Apaga todos os slides e o histórico do chat">🔄 NOVO CARROSSEL</button>
-          </div>
+            <div class="ia-title">CO-CRIADOR IA</div>
+            <div class="ia-subtitle">Copy brutalista em tempo real</div>
+            <div style="flex:1;"></div>
+            <button class="btn-reset-ia" onclick="reiniciarTudo()" title="Apaga todos os slides e o histórico do chat">🔄 NOVO</button>
         </div>
         
         <!-- Seletor de Formatos (compacto, acima dos tabs) -->
-        <div style="padding: 6px 16px 6px; flex-shrink: 0; border-bottom: 1px solid var(--iron); background: var(--carbon);">
-          <div class="ia-format-selector" style="margin-bottom: 0; display: flex; flex-wrap: nowrap; gap: 4px; overflow-x: auto;">
-            <button class="ia-format-btn active" style="white-space:nowrap;flex-shrink:0;" data-fmt="carousel" onclick="setIAFormat('carousel')">📸 Insta</button>
-            <button class="ia-format-btn" style="white-space:nowrap;flex-shrink:0;" data-fmt="linkedin-carousel" onclick="setIAFormat('linkedin-carousel')">💼 LinkedIn</button>
-            <button class="ia-format-btn" style="white-space:nowrap;flex-shrink:0;" data-fmt="square" onclick="setIAFormat('square')">📢 Meta 1:1</button>
-            <button class="ia-format-btn" style="white-space:nowrap;flex-shrink:0;" data-fmt="meta-portrait" onclick="setIAFormat('meta-portrait')">📢 Meta 4:5</button>
-            <button class="ia-format-btn" style="white-space:nowrap;flex-shrink:0;" data-fmt="vertical" onclick="setIAFormat('vertical')">📱 Stories/Reels</button>
-            <button class="ia-format-btn" style="white-space:nowrap;flex-shrink:0;" data-fmt="youtube-thumb" onclick="setIAFormat('youtube-thumb')">▶ YouTube</button>
-            <button class="ia-format-btn" style="white-space:nowrap;flex-shrink:0;" data-fmt="brand-logo" onclick="setIAFormat('brand-logo')">🎨 Marca</button>
-            <button class="ia-format-btn" style="white-space:nowrap;flex-shrink:0;" data-fmt="banner-horizontal" onclick="setIAFormat('banner-horizontal')">🖥️ Banner</button>
+        <div class="ia-format-bar">
+          <div class="ia-format-selector">
+            <button class="ia-format-btn active" data-fmt="carousel" onclick="setIAFormat('carousel')">📸 Insta</button>
+            <button class="ia-format-btn" data-fmt="linkedin-carousel" onclick="setIAFormat('linkedin-carousel')">💼 LinkedIn</button>
+            <button class="ia-format-btn" data-fmt="square" onclick="setIAFormat('square')">📢 Meta 1:1</button>
+            <button class="ia-format-btn" data-fmt="meta-portrait" onclick="setIAFormat('meta-portrait')">📢 Meta 4:5</button>
+            <button class="ia-format-btn" data-fmt="vertical" onclick="setIAFormat('vertical')">📱 Stories</button>
+            <button class="ia-format-btn" data-fmt="youtube-thumb" onclick="setIAFormat('youtube-thumb')">▶ YouTube</button>
+            <button class="ia-format-btn" data-fmt="brand-logo" onclick="setIAFormat('brand-logo')">🎨 Marca</button>
+            <button class="ia-format-btn" data-fmt="banner-horizontal" onclick="setIAFormat('banner-horizontal')">🖥️ Banner</button>
           </div>
         </div>
 
@@ -2645,7 +2738,8 @@ async function enviarMensagemIA() {
         format: iaActiveFormat,
         images: payloadImages,
         currentSlides: iaSlides.length > 0 ? iaSlides : [],
-        referenceImages: refImages
+        referenceImages: refImages,
+        brandId: window.currentBrandId || 'jg'
       })
     });
 
@@ -3579,7 +3673,53 @@ async function removerDaFila(id) {
 // ── SEARCH ─────────────────────────────────────────────────────────────────
 document.getElementById('search').addEventListener('input', renderGallery);
 
+// ── BRANDS (TEMA) ──────────────────────────────────────────────────────────
+const BRANDS = {
+  jg: {
+    name: "JG",
+    colors: {
+      "--void":"#080808", "--carbon":"#101010", "--iron":"#1A1A1A", "--steel":"#272727",
+      "--fire":"#C8391A", "--ember":"#E04B27", "--gold":"#B8922A", "--bone":"#F0EBE0",
+      "--muted":"#7A746C", "--text":"#EDE8E0", "--sub":"#9A9490"
+    }
+  },
+  tgsr: {
+    name: "TGSR",
+    colors: {
+      "--void":"#0e1217", "--carbon":"#151b23", "--iron":"#1e2631", "--steel":"#2d3748",
+      "--fire":"#b8e92b", "--ember":"#a1cc26", "--gold":"#b8e92b", "--bone":"#f8f9fa",
+      "--muted":"#718096", "--text":"#e2e8f0", "--sub":"#a0aec0"
+    }
+  }
+};
+
+window.currentBrandId = 'jg';
+
+function switchBrand(brandId) {
+  if (!BRANDS[brandId]) return;
+  window.currentBrandId = brandId;
+  const brand = BRANDS[brandId];
+  
+  const root = document.documentElement;
+  for (const [key, value] of Object.entries(brand.colors)) {
+    root.style.setProperty(key, value);
+  }
+  
+  const indicator = document.getElementById('brand-indicator');
+  if (indicator) indicator.textContent = brand.name;
+  
+  localStorage.setItem('studio_brand', brandId);
+}
+
+function initBrand() {
+  const savedBrand = localStorage.getItem('studio_brand') || 'jg';
+  const select = document.getElementById('brand-select');
+  if (select) select.value = savedBrand;
+  switchBrand(savedBrand);
+}
+
 // ── START ──────────────────────────────────────────────────────────────────
+initBrand();
 // Inicializa view-studio como ativa manualmente (id+class conflict workaround)
 document.getElementById('view-studio').classList.add('active');
 init();
