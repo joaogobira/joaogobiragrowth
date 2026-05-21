@@ -600,14 +600,21 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 }
 
 /* ── ESTILOS GRÁFICOS DO TEMPLATE BRUTALISTA V2 ── */
-.slide {
-  width: 1080px;
-  height: 1350px;
+.slide, .ad-square, .ad-portrait, .ad-story, .yt-thumb, .yt-banner, .yt-short, .logo-asset, .banner {
   background: var(--void);
   position: relative;
   flex-shrink: 0;
   overflow: hidden;
 }
+.slide { width: 1080px; height: 1350px; }
+.ad-square { width: 1080px; height: 1080px; }
+.ad-portrait { width: 1080px; height: 1350px; }
+.ad-story { width: 1080px; height: 1920px; }
+.yt-thumb { width: 1280px; height: 720px; }
+.yt-banner { width: 2560px; height: 1440px; }
+.yt-short { width: 1080px; height: 1920px; }
+.logo-asset { width: 1080px; height: 1080px; display: flex; align-items: center; justify-content: center; }
+.banner { width: 2560px; height: 800px; }
 .sep { width: 411px; height: 2px; background: #222; margin: 0 auto; position: relative; z-index: 99; }
 .grain {
   position: absolute;
@@ -763,27 +770,27 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
    ========================================================================== */
 
 /* 2. Grade Bento (layout-bento-metrics) */
-.slide.layout-bento-metrics {
+.layout-bento-metrics {
   background: var(--bone) !important;
   color: var(--void) !important;
 }
-.slide.layout-bento-metrics .tape-v {
+.layout-bento-metrics .tape-v {
   background: var(--void) !important;
   width: 8px !important;
 }
-.slide.layout-bento-metrics .mono-tag {
+.layout-bento-metrics .mono-tag {
   background: var(--void) !important;
   color: var(--bone) !important;
   border: 2px solid var(--void) !important;
 }
-.slide.layout-bento-metrics .h-line {
+.layout-bento-metrics .h-line {
   background: var(--void) !important;
 }
-.slide.layout-bento-metrics .disp-medium,
-.slide.layout-bento-metrics .disp-large {
+.layout-bento-metrics .disp-medium,
+.layout-bento-metrics .disp-large {
   color: var(--void) !important;
 }
-.slide.layout-bento-metrics .body-copy {
+.layout-bento-metrics .body-copy {
   color: var(--void) !important;
   border-top: 3px solid var(--void) !important;
   background: rgba(0, 0, 0, 0.04) !important;
@@ -795,26 +802,26 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 }
 
 /* 3. Vácuo Brutal (layout-minimal-void) */
-.slide.layout-minimal-void {
+.layout-minimal-void {
   background: var(--void) !important;
   color: var(--text) !important;
 }
-.slide.layout-minimal-void .tape-v {
+.layout-minimal-void .tape-v {
   background: var(--fire) !important;
   width: 15px !important;
 }
-.slide.layout-minimal-void .cw {
+.layout-minimal-void .cw {
   padding-left: 100px !important;
   padding-right: 100px !important;
   width: 100% !important;
 }
-.slide.layout-minimal-void .disp-medium,
-.slide.layout-minimal-void .disp-large {
+.layout-minimal-void .disp-medium,
+.layout-minimal-void .disp-large {
   font-size: 110px !important;
   line-height: 0.9 !important;
   color: var(--text) !important;
 }
-.slide.layout-minimal-void .body-copy {
+.layout-minimal-void .body-copy {
   font-size: 44px !important;
   border-top: 4px solid var(--fire) !important;
   color: var(--sub) !important;
@@ -822,22 +829,22 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 }
 
 /* 4. Foco Editorial (layout-editorial-focus) */
-.slide.layout-editorial-focus {
+.layout-editorial-focus {
   background: var(--carbon) !important;
 }
-.slide.layout-editorial-focus .split-bg,
-.slide.layout-editorial-focus .photo-bg {
+.layout-editorial-focus .split-bg,
+.layout-editorial-focus .photo-bg {
   top: 0 !important; left: 0 !important; right: 0 !important; bottom: auto !important;
   width: 100% !important; height: 50% !important;
   border-bottom: 4px solid var(--fire) !important;
   border-left: none !important;
 }
-.slide.layout-editorial-focus .split-gradient,
-.slide.layout-editorial-focus .split-gradient-bottom,
-.slide.layout-editorial-focus .photo-overlay {
+.layout-editorial-focus .split-gradient,
+.layout-editorial-focus .split-gradient-bottom,
+.layout-editorial-focus .photo-overlay {
   display: none !important;
 }
-.slide.layout-editorial-focus .cw {
+.layout-editorial-focus .cw {
   height: 50% !important;
   top: 50% !important;
   width: 100% !important;
@@ -846,56 +853,56 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 }
 
 /* 5. Citação Massiva (layout-impact-quote) */
-.slide.layout-impact-quote {
+.layout-impact-quote {
   background: var(--fire) !important;
   color: var(--void) !important;
 }
-.slide.layout-impact-quote .tape-v {
+.layout-impact-quote .tape-v {
   background: var(--void) !important;
   width: 8px !important;
 }
-.slide.layout-impact-quote .mono-tag {
+.layout-impact-quote .mono-tag {
   background: var(--void) !important;
   color: var(--fire) !important;
 }
-.slide.layout-impact-quote .h-line {
+.layout-impact-quote .h-line {
   background: var(--void) !important;
 }
-.slide.layout-impact-quote .quote-mark {
+.layout-impact-quote .quote-mark {
   color: var(--void) !important;
   opacity: 0.15 !important;
   font-size: 280px !important;
 }
-.slide.layout-impact-quote .quote-text {
+.layout-impact-quote .quote-text {
   color: var(--void) !important;
   font-size: 84px !important;
 }
-.slide.layout-impact-quote .body-copy {
+.layout-impact-quote .body-copy {
   color: var(--void) !important;
   border-top: 3px solid var(--void) !important;
   font-weight: 500 !important;
 }
 
 /* 6. Número Gigante (layout-giant-number) */
-.slide.layout-giant-number {
+.layout-giant-number {
   background: var(--void) !important;
 }
-.slide.layout-giant-number .tape-v {
+.layout-giant-number .tape-v {
   background: var(--fire) !important;
   width: 20px !important;
 }
-.slide.layout-giant-number .disp-large {
+.layout-giant-number .disp-large {
   font-size: 220px !important;
   line-height: 0.75 !important;
   color: var(--fire) !important;
   margin-bottom: 24px !important;
   font-weight: 900 !important;
 }
-.slide.layout-giant-number .disp-large em {
+.layout-giant-number .disp-large em {
   color: var(--bone) !important;
   font-style: normal !important;
 }
-.slide.layout-giant-number .body-copy {
+.layout-giant-number .body-copy {
   font-size: 40px !important;
   border-top: 3px solid var(--steel) !important;
   padding-top: 24px !important;
@@ -903,10 +910,10 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 }
 
 /* 7. Post Social / Tweet (layout-social-proof) */
-.slide.layout-social-proof {
+.layout-social-proof {
   background: var(--carbon) !important;
 }
-.slide.layout-social-proof .tweet-card {
+.layout-social-proof .tweet-card {
   background: var(--void) !important;
   border: 3px solid var(--steel) !important;
   padding: 40px !important;
@@ -914,23 +921,23 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   margin-top: 40px !important;
   width: 100% !important;
 }
-.slide.layout-social-proof .tweet-header {
+.layout-social-proof .tweet-header {
   display: flex !important;
   align-items: center !important;
   gap: 20px !important;
   margin-bottom: 30px !important;
 }
-.slide.layout-social-proof .tweet-avatar {
+.layout-social-proof .tweet-avatar {
   width: 80px !important;
   height: 80px !important;
   border-radius: 50% !important;
   border: 2px solid var(--fire) !important;
 }
-.slide.layout-social-proof .tweet-user-info {
+.layout-social-proof .tweet-user-info {
   display: flex !important;
   flex-direction: column !important;
 }
-.slide.layout-social-proof .tweet-name {
+.layout-social-proof .tweet-name {
   font-family: var(--fc) !important;
   font-size: 28px !important;
   font-weight: 800 !important;
@@ -939,56 +946,56 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   align-items: center !important;
   gap: 8px !important;
 }
-.slide.layout-social-proof .tweet-verified {
+.layout-social-proof .tweet-verified {
   color: #1DA1F2 !important;
   font-size: 20px !important;
 }
-.slide.layout-social-proof .tweet-handle {
+.layout-social-proof .tweet-handle {
   font-family: var(--fm) !important;
   font-size: 16px !important;
   color: var(--muted) !important;
 }
-.slide.layout-social-proof .tweet-body {
+.layout-social-proof .tweet-body {
   font-family: var(--fb) !important;
   font-size: 34px !important;
   line-height: 1.5 !important;
   color: var(--text) !important;
 }
-.slide.layout-social-proof .tweet-body strong {
+.layout-social-proof .tweet-body strong {
   color: var(--fire) !important;
 }
 
 /* 8. Folha Editorial Técnica (layout-technical-sheet) */
-.slide.layout-technical-sheet {
+.layout-technical-sheet {
   background: #F4F0E6 !important;
   color: #111111 !important;
 }
-.slide.layout-technical-sheet .tape-v {
+.layout-technical-sheet .tape-v {
   background: #111111 !important;
   width: 6px !important;
 }
-.slide.layout-technical-sheet .mono-tag {
+.layout-technical-sheet .mono-tag {
   color: #111111 !important;
   font-weight: 700 !important;
 }
-.slide.layout-technical-sheet .mono-tag::before {
+.layout-technical-sheet .mono-tag::before {
   color: var(--fire) !important;
 }
-.slide.layout-technical-sheet .h-line {
+.layout-technical-sheet .h-line {
   background: #111111 !important;
   height: 2px !important;
   width: 100% !important;
   margin-bottom: 30px !important;
 }
-.slide.layout-technical-sheet .h-line::after {
+.layout-technical-sheet .h-line::after {
   content: '' !important;
   display: block !important;
   height: 2px !important;
   background: #111111 !important;
   margin-top: 4px !important;
 }
-.slide.layout-technical-sheet .disp-medium,
-.slide.layout-technical-sheet .disp-large {
+.layout-technical-sheet .disp-medium,
+.layout-technical-sheet .disp-large {
   color: #111111 !important;
   font-family: var(--fm) !important;
   font-size: 72px !important;
@@ -996,12 +1003,12 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   letter-spacing: -1px !important;
   line-height: 1.0 !important;
 }
-.slide.layout-technical-sheet .disp-medium em,
-.slide.layout-technical-sheet .disp-large em {
+.layout-technical-sheet .disp-medium em,
+.layout-technical-sheet .disp-large em {
   color: var(--fire) !important;
   font-style: normal !important;
 }
-.slide.layout-technical-sheet .body-copy {
+.layout-technical-sheet .body-copy {
   color: #333333 !important;
   font-family: var(--fm) !important;
   font-size: 28px !important;
@@ -1011,40 +1018,152 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 }
 
 /* 9. Destaque Neon (layout-neon-accent) */
-.slide.layout-neon-accent {
+.layout-neon-accent {
   background: #121212 !important;
   background-image: radial-gradient(rgba(225, 48, 108, 0.08) 1px, transparent 0) !important;
   background-size: 24px 24px !important;
 }
-.slide.layout-neon-accent .tape-v {
+.layout-neon-accent .tape-v {
   background: #E1306C !important;
   box-shadow: 0 0 10px #E1306C !important;
   width: 6px !important;
 }
-.slide.layout-neon-accent .mono-tag {
+.layout-neon-accent .mono-tag {
   color: #E1306C !important;
   text-shadow: 0 0 5px rgba(225, 48, 108, 0.3) !important;
 }
-.slide.layout-neon-accent .h-line {
+.layout-neon-accent .h-line {
   background: #E1306C !important;
   box-shadow: 0 0 8px #E1306C !important;
 }
-.slide.layout-neon-accent .disp-medium,
-.slide.layout-neon-accent .disp-large {
+.layout-neon-accent .disp-medium,
+.layout-neon-accent .disp-large {
   color: var(--bone) !important;
 }
-.slide.layout-neon-accent .disp-medium em,
-.slide.layout-neon-accent .disp-large em {
+.layout-neon-accent .disp-medium em,
+.layout-neon-accent .disp-large em {
   color: #E1306C !important;
   text-shadow: 0 0 10px rgba(225, 48, 108, 0.6) !important;
   font-style: normal !important;
 }
-.slide.layout-neon-accent .body-copy {
+.layout-neon-accent .body-copy {
   color: var(--sub) !important;
   border-top: 2px solid rgba(225, 48, 108, 0.2) !important;
 }
-.slide.layout-neon-accent .body-copy strong {
+.layout-neon-accent .body-copy strong {
   color: #E1306C !important;
+}
+
+/* 10. Lista Brutalista (layout-split-list) */
+.layout-split-list, .ad-story.layout-split-list, .ad-portrait.layout-split-list {
+  background: var(--void) !important;
+  color: var(--bone) !important;
+}
+.layout-split-list .cw, .ad-story.layout-split-list .cw, .ad-portrait.layout-split-list .cw {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  gap: 40px !important;
+}
+.layout-split-list .split-container, .ad-story.layout-split-list .split-container, .ad-portrait.layout-split-list .split-container {
+  display: flex !important;
+  gap: 60px !important;
+  width: 100% !important;
+  border-top: 4px solid var(--fire) !important;
+  padding-top: 40px !important;
+}
+.layout-split-list .split-col, .ad-story.layout-split-list .split-col, .ad-portrait.layout-split-list .split-col {
+  flex: 1 !important;
+}
+.layout-split-list .split-title, .ad-story.layout-split-list .split-title, .ad-portrait.layout-split-list .split-title {
+  font-family: var(--fc) !important;
+  font-size: 32px !important;
+  color: var(--bone) !important;
+  margin-bottom: 24px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 2px !important;
+}
+.layout-split-list .split-col:last-child .split-title, .ad-story.layout-split-list .split-col:last-child .split-title, .ad-portrait.layout-split-list .split-col:last-child .split-title {
+  color: var(--fire) !important;
+}
+.layout-split-list .split-item, .ad-story.layout-split-list .split-item, .ad-portrait.layout-split-list .split-item {
+  font-family: var(--fb) !important;
+  font-size: 26px !important;
+  color: var(--sub) !important;
+  margin-bottom: 16px !important;
+  line-height: 1.4 !important;
+  padding-left: 20px !important;
+  position: relative !important;
+}
+.layout-split-list .split-item::before, .ad-story.layout-split-list .split-item::before, .ad-portrait.layout-split-list .split-item::before {
+  content: "—" !important;
+  position: absolute !important;
+  left: 0 !important;
+  color: var(--steel) !important;
+}
+
+/* 11. Centro Texturizado (layout-center-texture) */
+.layout-center-texture, .ad-square.layout-center-texture, .ad-story.layout-center-texture {
+  background: radial-gradient(circle at center, #2a2a2a 0%, var(--void) 70%) !important;
+  color: var(--bone) !important;
+}
+.layout-center-texture .cw, .ad-square.layout-center-texture .cw, .ad-story.layout-center-texture .cw {
+  align-items: center !important;
+  text-align: center !important;
+  justify-content: center !important;
+}
+.layout-center-texture .mono-tag, .ad-square.layout-center-texture .mono-tag, .ad-story.layout-center-texture .mono-tag {
+  justify-content: center !important;
+}
+.layout-center-texture .disp-large, .layout-center-texture .disp-medium,
+.ad-square.layout-center-texture .disp-large, .ad-square.layout-center-texture .disp-medium,
+.ad-story.layout-center-texture .disp-large, .ad-story.layout-center-texture .disp-medium {
+  text-align: center !important;
+}
+.layout-center-texture .h-line, .ad-square.layout-center-texture .h-line, .ad-story.layout-center-texture .h-line {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* 12. Cartão Flutuante (layout-highlight-card) */
+.layout-highlight-card, .ad-square.layout-highlight-card, .ad-portrait.layout-highlight-card, .yt-thumb.layout-highlight-card {
+  background: var(--carbon) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.layout-highlight-card .cw, .ad-square.layout-highlight-card .cw, .ad-portrait.layout-highlight-card .cw, .yt-thumb.layout-highlight-card .cw {
+  background: var(--bone) !important;
+  border: 4px solid var(--void) !important;
+  box-shadow: 16px 16px 0px var(--void) !important;
+  padding: 80px !important;
+  width: 80% !important;
+  height: auto !important;
+  margin: auto !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+.layout-highlight-card .disp-large, .layout-highlight-card .disp-medium,
+.ad-square.layout-highlight-card .disp-large, .ad-square.layout-highlight-card .disp-medium,
+.ad-portrait.layout-highlight-card .disp-large, .ad-portrait.layout-highlight-card .disp-medium,
+.yt-thumb.layout-highlight-card .disp-large, .yt-thumb.layout-highlight-card .disp-medium {
+  color: var(--void) !important;
+  font-size: 80px !important;
+  line-height: 1.0 !important;
+}
+.layout-highlight-card .body-copy, .ad-square.layout-highlight-card .body-copy, .ad-portrait.layout-highlight-card .body-copy, .yt-thumb.layout-highlight-card .body-copy {
+  color: var(--void) !important;
+  font-weight: 500 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.layout-highlight-card .mono-tag, .ad-square.layout-highlight-card .mono-tag, .ad-portrait.layout-highlight-card .mono-tag, .yt-thumb.layout-highlight-card .mono-tag {
+  color: var(--void) !important;
+}
+.layout-highlight-card .h-line, .ad-square.layout-highlight-card .h-line, .ad-portrait.layout-highlight-card .h-line, .yt-thumb.layout-highlight-card .h-line {
+  background: var(--fire) !important;
+  margin: 0 auto 40px auto !important;
 }
 
 /* Componentes de Dados Brutalistas Dinâmicos */
@@ -1093,7 +1212,7 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 .legend-color.on {
   background: var(--fire);
 }
-.slide.layout-neon-accent .legend-color.on {
+.layout-neon-accent .legend-color.on {
   background: #E1306C;
   box-shadow: 0 0 5px #E1306C;
 }
@@ -1131,7 +1250,7 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 .bar.on {
   background: var(--fire);
 }
-.slide.layout-neon-accent .bar.on {
+.layout-neon-accent .bar.on {
   background: #E1306C;
   box-shadow: 0 0 5px #E1306C;
 }
@@ -1156,7 +1275,7 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   border-color: var(--fire);
   background: rgba(200, 57, 26, 0.03);
 }
-.slide.layout-neon-accent .vs-col.winner {
+.layout-neon-accent .vs-col.winner {
   border-color: #E1306C;
   background: rgba(225, 48, 108, 0.03);
 }
@@ -1173,7 +1292,7 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 .vs-col.winner .vs-title {
   color: var(--fire);
 }
-.slide.layout-neon-accent .vs-col.winner .vs-title {
+.layout-neon-accent .vs-col.winner .vs-title {
   color: #E1306C;
 }
 .vs-item {
@@ -1193,7 +1312,7 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 .vs-col.winner .vs-item::before {
   color: var(--fire);
 }
-.slide.layout-neon-accent .vs-col.winner .vs-item::before {
+.layout-neon-accent .vs-col.winner .vs-item::before {
   color: #E1306C;
 }
 
@@ -1214,7 +1333,7 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   border: 1px solid var(--iron);
   border-left: 4px solid var(--fire);
 }
-.slide.layout-neon-accent .step-item {
+.layout-neon-accent .step-item {
   border-left-color: #E1306C;
 }
 .step-num {
@@ -1223,7 +1342,7 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   color: var(--fire);
   line-height: 0.8;
 }
-.slide.layout-neon-accent .step-num {
+.layout-neon-accent .step-num {
   color: #E1306C;
 }
 .step-text {
@@ -1244,7 +1363,7 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   margin-top: 30px;
   letter-spacing: -2px;
 }
-.slide.layout-neon-accent.layout-data .data-number {
+.layout-neon-accent.layout-data .data-number {
   color: #E1306C;
   text-shadow: 0 0 10px rgba(225, 48, 108, 0.4);
 }

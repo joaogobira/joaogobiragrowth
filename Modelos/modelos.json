@@ -43,5 +43,20 @@
     "id": "neon-accent",
     "nome": "Destaque Neon (Estilo Ric Neves)",
     "descricao": "Fundo grafite profundo com rosa magenta neon vibrante e marca d'água de números ao fundo."
+  },
+  {
+    "id": "split-list",
+    "nome": "Lista Brutalista (Problema/Solução)",
+    "descricao": "Layout dividido em duas colunas de texto para listas de itens ou paralelos (Problema/Solução). Alto contraste tipográfico, perfeito para carrosséis instrutivos."
+  },
+  {
+    "id": "center-texture",
+    "nome": "Centro Texturizado (Foco Singular)",
+    "descricao": "Fundo com gradiente radial escuro e texturizado. O texto e a imagem ficam rigorosamente centralizados. Gera forte apelo visual, ótimo para o Instagram."
+  },
+  {
+    "id": "highlight-card",
+    "nome": "Cartão Flutuante (Destaque Central)",
+    "descricao": "Fundo limpo (sólido ou textura suave) com um gigantesco cartão central de bordas grossas pretas e sombra marcada contendo a mensagem principal."
   }
 ]
