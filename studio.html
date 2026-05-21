@@ -3220,7 +3220,7 @@ async function salvarCriativoIA() {
     const saveResp = await fetch('/api/ia/salvar-criativo', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, slides: iaSlides, format: iaActiveFormat })
+      body: JSON.stringify({ name, slides: iaSlides, format: iaActiveFormat, brandId: window.currentBrandId || 'jg' })
     });
     const saveData = await saveResp.json();
     if (!saveResp.ok || !saveData.ok) throw new Error(saveData.error || 'Erro ao gerar HTML');

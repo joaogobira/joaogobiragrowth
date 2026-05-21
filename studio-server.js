@@ -919,7 +919,7 @@ Responda UNICAMENTE com um objeto JSON puro, sem blocos de código markdown ou e
 });
 
 app.post('/api/ia/salvar-criativo', (req, res) => {
-  const { name, slides, format = 'carousel' } = req.body;
+  const { name, slides, format = 'carousel', brandId = 'jg' } = req.body;
   if (!name || !slides || slides.length === 0) {
     return res.status(400).json({ error: 'Dados insuficientes' });
   }
@@ -1147,6 +1147,28 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
 
   
 
+  const brandColors = brandId === 'tgsr' ? `
+  --void:   #0e1217;
+  --carbon: #151b23;
+  --iron:   #1e2631;
+  --steel:  #2d3748;
+  --fire:   #b8e92b;
+  --gold:   #b8e92b;
+  --bone:   #f8f9fa;
+  --muted:  #718096;
+  --text:   #e2e8f0;
+  --sub:    #a0aec0;` : `
+  --void:   #080808;
+  --carbon: #101010;
+  --iron:   #1A1A1A;
+  --steel:  #272727;
+  --fire:   #C8391A;
+  --gold:   #B8922A;
+  --bone:   #F0EBE0;
+  --muted:  #7A746C;
+  --text:   #EDE8E0;
+  --sub:    #9A9490;`;
+
   const fullHtml = `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -1157,17 +1179,7 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
 
-:root {
-  --void:   #080808;
-  --carbon: #101010;
-  --iron:   #1A1A1A;
-  --steel:  #272727;
-  --fire:   #C8391A;
-  --gold:   #B8922A;
-  --bone:   #F0EBE0;
-  --muted:  #7A746C;
-  --text:   #EDE8E0;
-  --sub:    #9A9490;
+:root {${brandColors}
   --fd: 'Bebas Neue', sans-serif;
   --fc: 'Barlow Condensed', sans-serif;
   --fb: 'Barlow', sans-serif;
