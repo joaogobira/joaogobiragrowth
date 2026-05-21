@@ -2948,15 +2948,15 @@ function renderIASlidePreview() {
 
         <div class="slide-no">${slideNo}</div>
 
-        <div class="cw" style="width: 55%; padding-right: 0; justify-content: flex-end; padding-bottom: 140px; gap: 0;">
+        <div class="cw" ${(!s.layout || s.layout === 'split-screen') ? 'style="width: 55%; padding-right: 0; justify-content: flex-end; padding-bottom: 140px; gap: 0;"' : ''}>
           <div class="mono-tag" style="margin-bottom: 40px;">${s.tag || 'GROWTH EXECUÇÃO'}</div>
           <div class="h-line h-line-fire"></div>
 
-          <div class="disp-large" style="font-size: 116px; line-height: 0.88; margin-bottom: 44px;">
+          <div class="disp-large" ${(!s.layout || s.layout === 'split-screen') ? 'style="font-size: 116px; line-height: 0.88; margin-bottom: 44px;"' : 'style="margin-bottom: 44px;"'}>
             ${s.title}
           </div>
 
-          <div class="body-copy" style="font-size: 34px;">
+          <div class="body-copy" ${(!s.layout || s.layout === 'split-screen') ? 'style="font-size: 34px;"' : ''}>
             ${s.body}
           </div>
         </div>
@@ -3045,18 +3045,20 @@ function renderIASlidePreview() {
 
   let width = 1080;
   let height = 1350;
-  if (iaActiveFormat === 'linkedin-carousel') { width = 1080; height = 1350; }
-  else if (iaActiveFormat === 'youtube-thumb') { width = 1280; height = 720; }
-  else if (iaActiveFormat === 'brand-logo') { width = 800; height = 800; }
-  else if (iaActiveFormat === 'banner-horizontal') { width = 1920; height = 1080; }
-  else if (iaActiveFormat === 'square') { width = 1080; height = 1080; }
-  else if (iaActiveFormat === 'vertical') { width = 1080; height = 1920; }
-  else if (iaActiveFormat === 'horizontal') { width = 1920; height = 1080; }
+  let slideClass = 'slide';
+  if (iaActiveFormat === 'linkedin-carousel') { width = 1080; height = 1350; slideClass = 'slide'; }
+  else if (iaActiveFormat === 'youtube-thumb') { width = 1280; height = 720; slideClass = 'yt-thumb'; }
+  else if (iaActiveFormat === 'brand-logo') { width = 800; height = 800; slideClass = 'logo-asset'; }
+  else if (iaActiveFormat === 'banner-horizontal') { width = 1920; height = 1080; slideClass = 'banner'; }
+  else if (iaActiveFormat === 'square') { width = 1080; height = 1080; slideClass = 'ad-square'; }
+  else if (iaActiveFormat === 'vertical') { width = 1080; height = 1920; slideClass = 'ad-story'; }
+  else if (iaActiveFormat === 'horizontal') { width = 1920; height = 1080; slideClass = 'banner'; }
+  else if (iaActiveFormat === 'meta-portrait') { width = 1080; height = 1350; slideClass = 'ad-portrait'; }
 
-  html = html.replace(`class="slide ${layoutClass}"`, `class="slide ${layoutClass}" style="width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
-  html = html.replace(`class="slide ${layoutClass}" style="background: var(--void);"`, `class="slide ${layoutClass}" style="background: var(--void); width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
-  html = html.replace(`class="slide ${layoutClass}" style="background: var(--carbon);"`, `class="slide ${layoutClass}" style="background: var(--carbon); width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
-  html = html.replace(`class="slide ${layoutClass}" style="background: transparent;"`, `class="slide ${layoutClass}" style="background: transparent; width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
+  html = html.replace(`class="slide ${layoutClass}"`, `class="${slideClass} ${layoutClass}" style="width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
+  html = html.replace(`class="slide ${layoutClass}" style="background: var(--void);"`, `class="${slideClass} ${layoutClass}" style="background: var(--void); width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
+  html = html.replace(`class="slide ${layoutClass}" style="background: var(--carbon);"`, `class="${slideClass} ${layoutClass}" style="background: var(--carbon); width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
+  html = html.replace(`class="slide ${layoutClass}" style="background: transparent;"`, `class="${slideClass} ${layoutClass}" style="background: transparent; width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
 
   renderEl.innerHTML = html;
 
@@ -3296,28 +3298,45 @@ function renderModalSlide() {
   if (iaSlides.length === 0) return;
   const modalRender = document.getElementById('slide-modal-render');
 
-  // Clone the current preview HTML into the modal
-  const liveRender = document.getElementById('ia-live-slide-render');
-  modalRender.innerHTML = liveRender.innerHTML;
+  // Garante que o preview ao vivo esteja atualizado antes de clonar
+  renderIASlidePreview();
 
-  // Size and scale to fit viewport
-  const vw = window.innerWidth - 80;
-  const vh = window.innerHeight - 140;
-  const s = iaSlides[iaCurrentSlideIdx];
-  let w = 1080, h = 1350;
-  if (iaActiveFormat === 'youtube-thumb') { w = 1280; h = 720; }
-  else if (iaActiveFormat === 'square') { w = 1080; h = 1080; }
-  else if (iaActiveFormat === 'vertical') { w = 1080; h = 1920; }
-  else if (iaActiveFormat === 'horizontal' || iaActiveFormat === 'banner-horizontal') { w = 1920; h = 1080; }
+  // Aguarda um frame para o DOM atualizar, depois clona o HTML
+  requestAnimationFrame(() => {
+    const liveRender = document.getElementById('ia-live-slide-render');
+    modalRender.innerHTML = liveRender.innerHTML;
 
-  modalRender.style.width = w + 'px';
-  modalRender.style.height = h + 'px';
-  const scale = Math.min(vw / w, vh / h, 1);
-  modalRender.style.transform = `scale(${scale})`;
-  modalRender.style.transformOrigin = 'top center';
+    // Size and scale to fit viewport
+    const vw = window.innerWidth - 80;
+    const vh = window.innerHeight - 140;
+    let w = 1080, h = 1350;
+    if (iaActiveFormat === 'linkedin-carousel') { w = 1080; h = 1350; }
+    else if (iaActiveFormat === 'youtube-thumb') { w = 1280; h = 720; }
+    else if (iaActiveFormat === 'brand-logo') { w = 800; h = 800; }
+    else if (iaActiveFormat === 'banner-horizontal') { w = 1920; h = 1080; }
+    else if (iaActiveFormat === 'square') { w = 1080; h = 1080; }
+    else if (iaActiveFormat === 'meta-portrait') { w = 1080; h = 1350; }
+    else if (iaActiveFormat === 'vertical') { w = 1080; h = 1920; }
+    else if (iaActiveFormat === 'horizontal') { w = 1920; h = 1080; }
 
-  const counter = document.getElementById('modal-slide-counter');
-  counter.textContent = `${String(iaCurrentSlideIdx + 1).padStart(2,'0')} / ${String(iaSlides.length).padStart(2,'0')}`;
+    modalRender.style.width = w + 'px';
+    modalRender.style.height = h + 'px';
+    const scale = Math.min(vw / w, vh / h, 1);
+    modalRender.style.transform = `scale(${scale})`;
+    modalRender.style.transformOrigin = 'top center';
+
+    // Aplica cor de destaque no modal também
+    const slideEl = modalRender.querySelector('.slide, .yt-thumb, .ad-square, .ad-portrait, .ad-story, .banner, .logo-asset');
+    if (slideEl) {
+      const accentMap = { fire: '#C8391A', gold: '#B8922A', neon: '#E1306C', bone: '#F0EBE0' };
+      const s = iaSlides[iaCurrentSlideIdx];
+      const accent = accentMap[s.accentColor] || accentMap.fire;
+      slideEl.style.setProperty('--fire', accent);
+    }
+
+    const counter = document.getElementById('modal-slide-counter');
+    counter.textContent = `${String(iaCurrentSlideIdx + 1).padStart(2,'0')} / ${String(iaSlides.length).padStart(2,'0')}`;
+  });
 }
 
 // ── IMPORTAR DE URL ────────────────────────────────────────────────────────

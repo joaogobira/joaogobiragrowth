@@ -1031,6 +1031,16 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
   </div>
 </div>\n<div class="sep"></div>\n`;
     } else if (isCapa) {
+      const capaLayout = s.layout || 'split-screen';
+      const cwStyle = (!s.layout || s.layout === 'split-screen') 
+        ? `style="width: 55%; padding-right: 0; justify-content: flex-end; padding-bottom: 140px; gap: 0;"`
+        : '';
+      const titleStyle = (!s.layout || s.layout === 'split-screen')
+        ? `style="font-size: 116px; line-height: 0.88; margin-bottom: 44px;"`
+        : `style="margin-bottom: 44px;"`;
+      const bodyStyle = (!s.layout || s.layout === 'split-screen')
+        ? `style="font-size: 34px;"`
+        : '';
       slidesHtml += `<div class="slide ${slideClass} ${layoutClass}" id="slide-${idx + 1}">
   <div class="grain"></div>
   <div class="tape-v tape-v-fire"></div>
@@ -1040,15 +1050,15 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
 
   <div class="slide-no">${slideNo}</div>
 
-  <div class="cw" style="width: 55%; padding-right: 0; justify-content: flex-end; padding-bottom: 140px; gap: 0;">
+  <div class="cw" ${cwStyle}>
     <div class="mono-tag" style="margin-bottom: 40px;">${s.tag || 'GROWTH EXECUÇÃO'}</div>
     <div class="h-line h-line-fire"></div>
 
-    <div class="disp-large" style="font-size: 116px; line-height: 0.88; margin-bottom: 44px;">
+    <div class="disp-large" ${titleStyle}>
       ${s.title}
     </div>
 
-    <div class="body-copy" style="font-size: 34px;">
+    <div class="body-copy" ${bodyStyle}>
       ${s.body}
     </div>
   </div>
@@ -1647,6 +1657,194 @@ body {
 }
 .slide.layout-neon-accent .body-copy strong {
   color: #E1306C !important;
+}
+
+/* 10. Lista Brutalista (layout-split-list) */
+.slide.layout-split-list, .ad-story.layout-split-list, .ad-portrait.layout-split-list {
+  background: var(--void) !important;
+  color: var(--bone) !important;
+}
+.slide.layout-split-list .cw, .ad-story.layout-split-list .cw, .ad-portrait.layout-split-list .cw {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  gap: 40px !important;
+}
+.slide.layout-split-list .split-container, .ad-story.layout-split-list .split-container, .ad-portrait.layout-split-list .split-container {
+  display: flex !important;
+  gap: 60px !important;
+  width: 100% !important;
+  border-top: 4px solid var(--fire) !important;
+  padding-top: 40px !important;
+}
+.slide.layout-split-list .split-col, .ad-story.layout-split-list .split-col, .ad-portrait.layout-split-list .split-col {
+  flex: 1 !important;
+}
+.slide.layout-split-list .split-title, .ad-story.layout-split-list .split-title, .ad-portrait.layout-split-list .split-title {
+  font-family: var(--fc) !important;
+  font-size: 32px !important;
+  color: var(--bone) !important;
+  margin-bottom: 24px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 2px !important;
+}
+.slide.layout-split-list .split-col:last-child .split-title, .ad-story.layout-split-list .split-col:last-child .split-title, .ad-portrait.layout-split-list .split-col:last-child .split-title {
+  color: var(--fire) !important;
+}
+.slide.layout-split-list .split-item, .ad-story.layout-split-list .split-item, .ad-portrait.layout-split-list .split-item {
+  font-family: var(--fb) !important;
+  font-size: 26px !important;
+  color: var(--sub) !important;
+  margin-bottom: 16px !important;
+  line-height: 1.4 !important;
+  padding-left: 20px !important;
+  position: relative !important;
+}
+.slide.layout-split-list .split-item::before, .ad-story.layout-split-list .split-item::before, .ad-portrait.layout-split-list .split-item::before {
+  content: "—" !important;
+  position: absolute !important;
+  left: 0 !important;
+  color: var(--steel) !important;
+}
+
+/* 11. Centro Texturizado (layout-center-texture) */
+.slide.layout-center-texture, .ad-square.layout-center-texture, .ad-story.layout-center-texture {
+  background: radial-gradient(circle at center, #2a2a2a 0%, var(--void) 70%) !important;
+  color: var(--bone) !important;
+}
+.slide.layout-center-texture .cw, .ad-square.layout-center-texture .cw, .ad-story.layout-center-texture .cw {
+  align-items: center !important;
+  text-align: center !important;
+  justify-content: center !important;
+}
+.slide.layout-center-texture .mono-tag, .ad-square.layout-center-texture .mono-tag, .ad-story.layout-center-texture .mono-tag {
+  justify-content: center !important;
+}
+.slide.layout-center-texture .disp-large, .slide.layout-center-texture .disp-medium,
+.ad-square.layout-center-texture .disp-large, .ad-square.layout-center-texture .disp-medium,
+.ad-story.layout-center-texture .disp-large, .ad-story.layout-center-texture .disp-medium {
+  text-align: center !important;
+}
+.slide.layout-center-texture .h-line, .ad-square.layout-center-texture .h-line, .ad-story.layout-center-texture .h-line {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* 12. Cartão Flutuante (layout-highlight-card) */
+.slide.layout-highlight-card, .ad-square.layout-highlight-card, .ad-portrait.layout-highlight-card, .yt-thumb.layout-highlight-card {
+  background: var(--carbon) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.slide.layout-highlight-card .cw, .ad-square.layout-highlight-card .cw, .ad-portrait.layout-highlight-card .cw, .yt-thumb.layout-highlight-card .cw {
+  background: var(--bone) !important;
+  border: 4px solid var(--void) !important;
+  box-shadow: 16px 16px 0px var(--void) !important;
+  padding: 80px !important;
+  width: 80% !important;
+  height: auto !important;
+  margin: auto !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+.slide.layout-highlight-card .disp-large, .slide.layout-highlight-card .disp-medium,
+.ad-square.layout-highlight-card .disp-large, .ad-square.layout-highlight-card .disp-medium,
+.ad-portrait.layout-highlight-card .disp-large, .ad-portrait.layout-highlight-card .disp-medium,
+.yt-thumb.layout-highlight-card .disp-large, .yt-thumb.layout-highlight-card .disp-medium {
+  color: var(--void) !important;
+  font-size: 80px !important;
+  line-height: 1.0 !important;
+}
+.slide.layout-highlight-card .body-copy, .ad-square.layout-highlight-card .body-copy, .ad-portrait.layout-highlight-card .body-copy, .yt-thumb.layout-highlight-card .body-copy {
+  color: var(--void) !important;
+  font-weight: 500 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.slide.layout-highlight-card .mono-tag, .ad-square.layout-highlight-card .mono-tag, .ad-portrait.layout-highlight-card .mono-tag, .yt-thumb.layout-highlight-card .mono-tag {
+  color: var(--void) !important;
+}
+.slide.layout-highlight-card .h-line, .ad-square.layout-highlight-card .h-line, .ad-portrait.layout-highlight-card .h-line, .yt-thumb.layout-highlight-card .h-line {
+  background: var(--fire) !important;
+  margin: 0 auto 40px auto !important;
+}
+
+/* 13. Capa: Divisão Invertida (cover-split-reverse) */
+.slide.layout-cover-split-reverse {
+  background: var(--carbon) !important;
+}
+.slide.layout-cover-split-reverse .split-bg,
+.slide.layout-cover-split-reverse .photo-bg {
+  top: 0 !important; left: 0 !important; bottom: 0 !important; right: auto !important;
+  width: 50% !important;
+  border-right: 2px solid var(--steel) !important;
+  border-left: none !important;
+  background-position: center center !important;
+}
+.slide.layout-cover-split-reverse .split-gradient,
+.slide.layout-cover-split-reverse .split-gradient-bottom,
+.slide.layout-cover-split-reverse .photo-overlay {
+  display: none !important;
+}
+.slide.layout-cover-split-reverse .cw {
+  margin-left: 50% !important;
+  width: 50% !important;
+  justify-content: center !important;
+  padding: 60px 80px !important;
+}
+
+/* 14. Capa: Vazio Absoluto (cover-minimal-void) */
+.slide.layout-cover-minimal-void {
+  background: var(--void) !important;
+  color: var(--bone) !important;
+}
+.slide.layout-cover-minimal-void .photo-bg,
+.slide.layout-cover-minimal-void .split-bg,
+.slide.layout-cover-minimal-void .photo-overlay,
+.slide.layout-cover-minimal-void .grain {
+  display: none !important;
+}
+.slide.layout-cover-minimal-void .cw {
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+.slide.layout-cover-minimal-void .disp-large {
+  font-size: 160px !important;
+  line-height: 0.8 !important;
+  margin-bottom: 30px !important;
+}
+.slide.layout-cover-minimal-void .h-line {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* 15. Capa: Peso Superior (cover-top-heavy) */
+.slide.layout-cover-top-heavy {
+  background: var(--carbon) !important;
+}
+.slide.layout-cover-top-heavy .split-bg,
+.slide.layout-cover-top-heavy .photo-bg {
+  top: 0 !important; left: 0 !important; right: 0 !important; bottom: auto !important;
+  width: 100% !important; height: 50% !important;
+  border-bottom: 4px solid var(--fire) !important;
+  border-left: none !important;
+}
+.slide.layout-cover-top-heavy .split-gradient,
+.slide.layout-cover-top-heavy .split-gradient-bottom,
+.slide.layout-cover-top-heavy .photo-overlay {
+  display: none !important;
+}
+.slide.layout-cover-top-heavy .cw {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 50% !important;
+  justify-content: flex-start !important;
+  padding: 60px 80px !important;
 }
 
 /* Componentes de Dados Brutalistas Dinâmicos */
