@@ -261,7 +261,7 @@
   <script>
     // Se o usuário já tiver o cookie de autenticação, podemos tentar ir direto
     if (document.cookie.split(';').some((item) => item.trim().startsWith('studio_session='))) {
-      window.location.href = '/studio.html';
+      window.location.href = '/';
     }
 
     async function handleLogin(e) {
@@ -291,7 +291,7 @@
           d.setTime(d.getTime() + (30*24*60*60*1000));
           document.cookie = `studio_session=${encodeURIComponent(password)};expires=${d.toUTCString()};path=/`;
           
-          window.location.href = '/studio.html';
+          window.location.href = '/';
         } else {
           showError();
         }

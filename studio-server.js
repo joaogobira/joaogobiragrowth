@@ -652,10 +652,13 @@ app.post('/api/ia/chat', async (req, res) => {
     parts.push({ text: 'Analise as referências/imagens e crie um carrossel brutalista de alta conversão.' });
   }
 
-  // Carregar repositório de modelos (layouts) que o João gosta
+  // Carregar repositório de modelos (layouts) por marca
   let listaModelos = [];
   try {
-    const modelosPath = path.join(BASE_DIR, 'Modelos', 'modelos.json');
+    const brandModelosPath = path.join(BASE_DIR, 'Modelos', `modelos_${brandId}.json`);
+    const defaultModelosPath = path.join(BASE_DIR, 'Modelos', 'modelos.json');
+    const modelosPath = fs.existsSync(brandModelosPath) ? brandModelosPath : defaultModelosPath;
+
     if (fs.existsSync(modelosPath)) {
       listaModelos = JSON.parse(fs.readFileSync(modelosPath, 'utf8'));
     }
@@ -706,35 +709,23 @@ Quando o usuário enviar uma imagem com dados (gráfico, tabela do Semrush, Goog
 1. ANALISE os dados visíveis: valores, percentuais, labels, tendências, palavras-chave
 2. RECONSTRUA os dados como componente HTML brutalista nativo no campo "body" (custom-chart, vs-container ou step-list)
 3. NUNCA use a imagem como "bg" (fundo). Sempre bg:"" para slides com dados. Layout recomendado: "technical-sheet" ou "neon-accent"
-4. Se quiser exibir a imagem original dentro do slide SEM distorção como referência visual, use o campo "contentImage" com o nome do arquivo
+4. Se quiser exibir a imagem original dentro do slide SEM distorção como referência visual, use o campo "contentIma  const structureRules = brandId === 'tgsr' ? \`REGRAS DE ESTRUTURA DOS SLIDES:
+1. Capa (Slide 1): Título corporativo e tecnológico (Bebas Neue, use <em> para destacar em neon, ex: "COMO ESCALAR COM<br><em>DADOS</em>") + Subtítulo curto. Use "neon-accent" ou "technical-sheet".
+2. Slides Internos: Varie os layouts a cada slide para manter a leitura viva. Foque nos layouts "neon-accent", "technical-sheet" e "bento-metrics".
+3. Slide de Métrica/Destaque: Ótimo usar layout "giant-number" (ex: número "48% ROI" ou "3.4M" no título).
+4. Slide de Explicação: Use "split-screen" ou "split-list" para explicar tecnologia ou fluxos.
+5. Slide CTA Final: Ação clara e corporativa. Use "neon-accent".\`
+  : \`REGRAS DE ESTRUTURA DOS SLIDES:
+1. Capa (Slide 1): Título impactante (Bebas Neue, use <em> para destacar em vermelho/fluorescente, ex: "3 LIÇÕES DO<br><em>JIU-JITSU</em>") + Subtítulo curto de apoio. A tag deve ser o tema central (ex: "GROWTH NÚMEROS"). Use "split-screen" ou "editorial-focus".
+2. Slides Internos: Varie os layouts a cada slide para manter a leitura viva. Use os novos layouts "neon-accent" e "technical-sheet" alternados com os tradicionais.
+3. Slide de Métrica/Destaque: Ótimo usar layout "giant-number" (ex: número "48%" ou "3.4M" no título e texto curto no corpo).
+4. Slide de Depoimento/Tweet: Use layout "social-proof" se quiser simular um tweet/depoimento direto seu sobre o tema do carrossel.
+5. Slide CTA Final: Ação clara e firme. Use "split-screen", "impact-quote" ou "neon-accent" com sua foto no bg.\`;
 
-FORMATO DE RESPOSTA PARA EDIÇÃO (JSON puro, sem markdown):
-{
-  "assistantMessage": "Mensagem breve explicando o que foi feito.",
-  "action": "insert_after",
-  "targetIndex": 2,
-  "slides": [{ "type":"conteudo","layout":"technical-sheet","tag":"...","title":"...","body":"...","bg":"","contentImage":"" }]
-}
-
----
-DIRETRIZES GERAIS (aplique nos slides novos/modificados):
-${refsContext}` : '';
-
-  const brandRules = brandId === 'tgsr' ? `DIRETRIZES DE MARCA (TGSR):
-- Identidade Visual: Use layouts focados em Verde Limão Neon e Azul/Cinza escuro. Os elementos de destaque devem ter uma pegada tecnológica e moderna (recomendamos usar o layout "neon-accent" ou "technical-sheet").
-- Tom de Voz: Direto, claro e corporativo moderno. Focado em resultados escaláveis para negócios.
-- Sem metáforas de luta/Jiu-Jitsu. Foco em inovação, calculadoras de ROI e eficiência técnica.`
-  : `DIRETRIZES DE MARCA (João Gobira):
-- Tom de Voz: Direto, firme, com peso emocional e autoridade. Tom nascido da trincheira, do campo de batalha real de growth, e não de teorias corporativas vazias.
-- Use metáforas ocasionais de Jiu-Jitsu, tatame, resiliência sob pressão e sobrevivência.
-- NUNCA use clichês corporativos como: "disruptivo", "innovador", "inovador", "potencializar resultados", "jornada de aprendizado", "entrega de valor", "ecossistema".
-- Use números e dados específicos (ex: "47% de aumento em vendas" ao invés de "resultado expressivo").
-- Fale para fundadores e gestores que precisam de método e dados.`;
-
-  const systemInstruction = editModeContext + `Você é o co-criador oficial de criativos do Studio.
+  const systemInstruction = editModeContext + \`Você é o co-criador oficial de criativos do Studio.
 Seu objetivo é gerar a copy e estrutura de slides de um criativo brutalista/moderno de alta conversão.
 
-FORMATO DO CRIATIVO SOLICITADO: "${format}"
+FORMATO DO CRIATIVO SOLICITADO: "\${format}"
 Considere as diretrizes do formato solicitado para compor títulos e copys:
 - "carousel" ou "linkedin-carousel": Carrossel (1080x1350px). Média de 5 a 10 slides. Texto fluido, bem sequenciado.
 - "square": Meta Ads Estático 1:1 (1080x1080px). Anúncio único de alto impacto. Copy extremamente direta, headline curtíssima, CTA visível. Pensado para feed pago do Instagram/Facebook.
@@ -742,24 +733,21 @@ Considere as diretrizes do formato solicitado para compor títulos e copys:
 - "vertical": Meta Ads Stories / Reels (1080x1920px). Proporção 9:16. Máximo 1 slide ultra impactante para story patrocinado, ou sequência de 3 slides rápidos. Copy curtíssima, visual cinematográfico.
 - "horizontal" ou "banner-horizontal" ou "youtube-thumb": Proporção horizontal/paisagem. Títulos bem amplos em uma linha e parágrafos distribuídos horizontalmente.
 
-${brandRules}
+\${brandRules}
 
-REPOSITÓRIO DE MODELOS VISUAIS (LAYOUTS) DO JOÃO:
+REPOSITÓRIO DE MODELOS VISUAIS (LAYOUTS):
 Escolha com extrema sabedoria e de forma variada o layout de cada slide (atribuindo a chave "layout") para evitar posts monótonos ou repetitivos. Tente variar os layouts durante a narrativa do carrossel/criativo!
-Aqui estão os modelos visuais e layouts cadastrados e aprovados pelo João Gobira:
-${modelosStr}
+Aqui estão os modelos visuais e layouts cadastrados e aprovados:
+\${modelosStr}
 
 REGRAS DE IMAGENS & FOTOGRAFIAS:
-${imagensStr}
+\${imagensStr}
 
 A sua escolha de imagem para o campo "bg" deve ser altamente estratégica e lógica com base no teor do slide:
-- Use preferencialmente "joao-gobira.JPG" para Capa e CTA.
-- Use "IMG_7386.JPG" (tatame/luta) se o slide falar sobre disciplina, Jiu-Jitsu, resiliência, luta diária ou sob pressão.
-- Use "IMG_7392.JPG" (palco/palestra) se o slide falar sobre autoridade, ensinar equipes, palestras, mentorias, liderança e escala.
-- Use "IMG_7397.JPG" (executivo/negócios) se o slide falar sobre reuniões, fechamentos de contrato, finanças corporativas e o lado corporativo de growth.
-- Use "DSC08278.png" (action/trabalho) se o slide falar sobre execução operacional, "colocar a mão na massa", tráfego, código ou análises em tempo real.
-- Se o usuário carregou novas fotos suas boas de tatame, palestra ou trabalho, elas aparecerão com o prefixo "upload_timestamp_nome.png" na lista acima. Sinta-se 100% livre para usá-las estrategicamente no campo "bg" nos slides ideais!
-- Se o slide requerer foco puramente textual ou tiver um gráfico/tabela HTML nativo, deixe o campo "bg" vazio "" para fundo sólido.
+- Use imagens de fundo adequadas para a marca. Para TagServer, não use fotos do João Gobira, use fotos conceituais ou sem fundo ("").
+- Para João Gobira, use preferencialmente "joao-gobira.JPG" para Capa e CTA, e outras fotos do acervo dependendo do assunto (luta, palco, reuniões).
+- Se o usuário carregou novas fotos, elas aparecerão com o prefixo "upload_timestamp_nome.png". Use-as!
+- Se o slide requerer foco puramente textual, deixe o campo "bg" vazio "" para fundo sólido.
 
 REGRA DE CRIAÇÃO DE GRÁFICOS E COMPONENTES DE DADOS NATIVOS (HTML):
 Se você receber imagens contendo dados, prints de gráficos, roadmaps ou dados textuais desorganizados (ou se o usuário fornecer dados de growth/vendas no texto e pedir um design premium), você DEVE converter e traduzir esses dados automaticamente em componentes de código HTML brutalistas nativos dentro do campo "body" do slide correspondente.
@@ -817,17 +805,12 @@ Estrutura exata:
 
 Importante: Ao usar esses componentes nativos, o campo "body" deve conter APENAS o bloco HTML do componente escolhido, e o "layout" do slide correspondente deve ser preferencialmente "minimal-void", "bento-metrics", "technical-sheet" ou "neon-accent" para máximo contraste estético, mantendo o "bg" vazio "".
 
-REGRAS DE ESTRUTURA DOS SLIDES:
-1. Capa (Slide 1): Título impactante (Bebas Neue, use <em> para destacar em vermelho/fluorescente, ex: "3 LIÇÕES DO<br><em>JIU-JITSU</em>") + Subtítulo curto de apoio. A tag deve ser o tema central (ex: "GROWTH NÚMEROS"). Use "split-screen" ou "editorial-focus".
-2. Slides Internos: Varie os layouts a cada slide para manter a leitura viva. Use os novos layouts "neon-accent" e "technical-sheet" alternados com os tradicionais.
-3. Slide de Métrica/Destaque: Ótimo usar layout "giant-number" (ex: número "48%" ou "3.4M" no título e texto curto no corpo).
-4. Slide de Depoimento/Tweet: Use layout "social-proof" se quiser simular um tweet/depoimento direto seu sobre o tema do carrossel.
-5. Slide CTA Final: Ação clara e firme. Use "split-screen", "impact-quote" ou "neon-accent" com sua foto no bg.
+\${structureRules}
 
 FORMATO DE RESPOSTA (OBRIGATÓRIO):
 Responda UNICAMENTE com um objeto JSON puro, sem blocos de código markdown ou explicações fora do JSON.
 {
-  "assistantMessage": "Mensagem inspiradora estilo João Gobira sobre a estratégia brutalista do criativo.",
+  "assistantMessage": "Mensagem inspiradora sobre a estratégia do criativo.",
   "slides": [
     {
       "type": "capa",
@@ -2097,12 +2080,15 @@ ${slidesHtml}
 });
 
 // ── Serve o Studio HTML na raiz ───────────────────────────────────────────
-app.get('/', (req, res) => {
+function serveStudio(req, res) {
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
   res.setHeader('Pragma', 'no-cache');
   res.setHeader('Expires', '0');
   res.sendFile(path.join(BASE_DIR, 'studio.html'));
-});
+}
+
+app.get('/', serveStudio);
+app.get('/studio.html', serveStudio);
 
 // ── Serve arquivos estáticos (imagens, fontes, etc.) ──────────────────────
 // index: false evita que index.html do site sobrescreva a rota /

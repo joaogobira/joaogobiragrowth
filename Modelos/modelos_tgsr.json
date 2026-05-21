@@ -1,0 +1,42 @@
+[
+  {
+    "id": "neon-accent",
+    "nome": "Destaque Neon Tech (TagServer)",
+    "descricao": "Fundo grafite/azul escuro profundo com verde limão neon vibrante e marca d'água de códigos ou dados ao fundo. Ideal para capas e slides de alto impacto tecnológico."
+  },
+  {
+    "id": "technical-sheet",
+    "nome": "Folha de Dados Técnicos (Blueprint)",
+    "descricao": "Estilo sofisticado e corporativo com fundo cinza escuro, linhas finas duplas neon e fontes mono, remetendo a arquitetura de sistemas e eficiência técnica."
+  },
+  {
+    "id": "bento-metrics",
+    "nome": "Dashboard Bento (Foco em KPIs)",
+    "descricao": "Fundo escuro com cartões retangulares de borda fina neon contendo dados, métricas de ROI, ou chamadas cruciais. Muito moderno, com alta legibilidade executiva."
+  },
+  {
+    "id": "giant-number",
+    "nome": "Métrica de Escala (Resultados)",
+    "descricao": "Destaca estatísticas massivas de ROI ou crescimento de forma clara e corporativa com números gigantescos no topo em verde limão neon."
+  },
+  {
+    "id": "minimal-void",
+    "nome": "Foco Executivo (Direto ao Ponto)",
+    "descricao": "Sem fotos. Fundo escuro absoluto com tipografia gigantesca em verde neon e linhas finas. Foco total em copywriting corporativo claro e direto."
+  },
+  {
+    "id": "split-screen",
+    "nome": "Divisão Corporativa (Tech/Texto)",
+    "descricao": "Metade com imagem técnica ou gráfico na direita e metade com tipografia clara na esquerda. Perfeito para explicar inovações e resultados."
+  },
+  {
+    "id": "split-list",
+    "nome": "Roadmap Técnico (Desafio/Solução)",
+    "descricao": "Layout dividido em duas colunas de texto para listas de itens ou paralelos. Alto contraste tipográfico, perfeito para explicar fluxos de trabalho ou integração."
+  },
+  {
+    "id": "highlight-card",
+    "nome": "Card de Feature (Destaque Central)",
+    "descricao": "Fundo escuro e limpo com um cartão central tech contendo um benefício chave de inovação ou integração da TagServer."
+  }
+]

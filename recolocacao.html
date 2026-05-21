@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acelerador de Recolocação — 80 Prompts Estratégicos</title>
+<meta name="description" content="80 prompts para acelerar sua recolocação profissional. Cole seu contexto uma vez, copie prompts personalizados para o ChatGPT.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  --void:    #070707;
+  --carbon:  #111111;
+  --iron:    #1C1C1C;
+  --steel:   #2A2A2A;
+  --ash:     #444444;
+  --fire:    #C8391A;
+  --ember:   #E04B27;
+  --gold:    #B8922A;
+  --gold-lt: #D4AA42;
+  --bone:    #F0EBE0;
+  --muted:   #7A746C;
+  --text:    #EDE8E0;
+  --text-sub:#A09890;
+  --font-disp: 'Bebas Neue', sans-serif;
+  --font-cond: 'Barlow Condensed', sans-serif;
+  --font-body: 'Barlow', sans-serif;
+  --font-data: 'Space Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 40px;
+  background: rgba(7,7,7,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--iron);
+}
+.nav-logo {
+  font-family: var(--font-disp);
+  font-size: 18px;
+  color: var(--bone);
+  text-decoration: none;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-logo .logo-fire { color: var(--fire); }
+.nav-back {
+  font-family: var(--font-data);
+  font-size: 10px;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color .15s;
+}
+.nav-back:hover { color: var(--bone); }
+
+/* ── HERO ── */
+.hero {
+  padding: 120px 40px 56px;
+  max-width: 920px;
+  margin: 0 auto;
+}
+.hero-tag {
+  font-family: var(--font-data);
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--fire);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: var(--font-disp);
+  font-size: clamp(36px, 6vw, 68px);
+  line-height: 1;
+  color: var(--bone);
+  margin-bottom: 16px;
+}
+.hero h1 em { color: var(--fire); font-style: normal; }
+.hero-sub {
+  font-size: 16px;
+  color: var(--text-sub);
+  max-width: 560px;
+  margin-bottom: 32px;
+}
+.hero-stats {
+  display: flex;
+  gap: 40px;
+}
+.hero-stat-n {
+  font-family: var(--font-disp);
+  font-size: 40px;
+  color: var(--gold);
+  line-height: 1;
+}
+.hero-stat-l {
+  font-family: var(--font-data);
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ── CONTEXT PANEL ── */
+.ctx-wrap {
+  max-width: 920px;
+  margin: 0 auto 48px;
+  padding: 0 40px;
+}
+.ctx-panel {
+  background: var(--carbon);
+  border: 1px solid var(--iron);
+}
+.ctx-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--iron);
+  cursor: pointer;
+  user-select: none;
+}
+.ctx-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ctx-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--ash);
+  transition: background .2s;
+  flex-shrink: 0;
+}
+.ctx-dot.filled { background: var(--gold); }
+.ctx-tag {
+  font-family: var(--font-data);
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.ctx-hint {
+  font-family: var(--font-data);
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--ash);
+}
+.ctx-toggle {
+  font-family: var(--font-data);
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--muted);
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color .15s;
+}
+.ctx-toggle:hover { color: var(--bone); }
+.ctx-body { padding: 24px 20px; }
+.ctx-body.hidden { display: none; }
+.ctx-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.ctx-field { display: flex; flex-direction: column; gap: 6px; }
+.ctx-field.full { grid-column: 1 / -1; }
+.ctx-label {
+  font-family: var(--font-data);
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.ctx-input, .ctx-textarea {
+  background: var(--iron);
+  border: 1px solid var(--steel);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 13px;
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color .15s;
+  resize: vertical;
+  width: 100%;
+}
+.ctx-input:focus, .ctx-textarea:focus { border-color: var(--fire); }
+.ctx-textarea { min-height: 110px; line-height: 1.55; }
+.ctx-textarea.tall { min-height: 160px; }
+.ctx-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.btn-save {
+  background: var(--fire);
+  color: var(--bone);
+  font-family: var(--font-data);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: none;
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: background .15s;
+}
+.btn-save:hover { background: var(--ember); }
+.ctx-feedback {
+  font-family: var(--font-data);
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--gold);
+  opacity: 0;
+  transition: opacity .2s;
+}
+.ctx-feedback.show { opacity: 1; }
+
+/* ── PROMPTS SECTION ── */
+.prompts-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px 100px;
+}
+
+/* Pillar tabs */
+.pillar-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  margin-bottom: 24px;
+}
+.pillar-btn {
+  background: var(--carbon);
+  border: 1px solid var(--iron);
+  color: var(--muted);
+  font-family: var(--font-cond);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 16px 14px;
+  cursor: pointer;
+  transition: all .15s;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  text-align: left;
+  line-height: 1.2;
+}
+.p-num {
+  font-family: var(--font-data);
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--ash);
+}
+.p-name { display: block; }
+.p-count {
+  font-family: var(--font-data);
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: var(--ash);
+  text-transform: uppercase;
+}
+.pillar-btn:hover { color: var(--text); border-color: var(--steel); }
+.pillar-btn.active {
+  background: var(--fire);
+  border-color: var(--fire);
+  color: var(--bone);
+}
+.pillar-btn.active .p-num,
+.pillar-btn.active .p-count { color: rgba(240,235,224,0.5); }
+
+/* Pillar desc */
+.pillar-desc {
+  display: none;
+  padding: 12px 16px;
+  background: var(--iron);
+  border: 1px solid var(--steel);
+  border-top: 2px solid var(--fire);
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: var(--text-sub);
+  font-family: var(--font-body);
+}
+.pillar-desc.active { display: block; }
+
+/* Prompt grid */
+.pillar-content { display: none; }
+.pillar-content.active {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+/* Prompt card */
+.prompt-card {
+  background: var(--carbon);
+  border: 1px solid var(--iron);
+  padding: 18px 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color .15s;
+}
+.prompt-card:hover { border-color: var(--steel); }
+.prompt-card.copied { border-color: var(--gold) !important; }
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.prompt-num {
+  font-family: var(--font-data);
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--ash);
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.prompt-text {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.55;
+  flex: 1;
+}
+.prompt-text mark {
+  background: none;
+  color: var(--gold-lt);
+  font-style: italic;
+}
+.btn-copy {
+  background: none;
+  border: 1px solid var(--steel);
+  color: var(--muted);
+  font-family: var(--font-data);
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all .15s;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.btn-copy:hover { border-color: var(--fire); color: var(--fire); }
+.btn-copy.ok { border-color: var(--gold); color: var(--gold); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 14px 20px; }
+  .hero { padding: 100px 20px 48px; }
+  .hero-stats { gap: 24px; }
+  .ctx-wrap { padding: 0 20px; }
+  .ctx-grid { grid-template-columns: 1fr; }
+  .prompts-section { padding: 0 20px 60px; }
+  .pillar-tabs { grid-template-columns: repeat(2, 1fr); }
+  .pillar-content.active { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <span class="logo-fire">JG</span> GOBIRA
+  </a>
+  <a href="index.html" class="nav-back">← Voltar ao site</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-tag">Ferramenta de recolocação profissional</p>
+  <h1>80 PROMPTS PARA <em>ACELERAR</em> SUA RECOLOCAÇÃO</h1>
+  <p class="hero-sub">Cole seu contexto uma vez. Copie os prompts personalizados prontos para colar no ChatGPT. Pare de implorar por vagas — comece a ser encontrado.</p>
+  <div class="hero-stats">
+    <div>
+      <div class="hero-stat-n">80</div>
+      <div class="hero-stat-l">Prompts</div>
+    </div>
+    <div>
+      <div class="hero-stat-n">4</div>
+      <div class="hero-stat-l">Pilares</div>
+    </div>
+    <div>
+      <div class="hero-stat-n">1×</div>
+      <div class="hero-stat-l">Contexto</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTEXT PANEL -->
+<div class="ctx-wrap">
+  <div class="ctx-panel">
+    <div class="ctx-header" id="ctxHeader">
+      <div class="ctx-header-left">
+        <div class="ctx-dot" id="ctxDot"></div>
+        <span class="ctx-tag">Seu Contexto</span>
+        <span class="ctx-hint" id="ctxHint">— preencha para personalizar os prompts</span>
+      </div>
+      <button class="ctx-toggle" id="ctxToggle">Recolher ↑</button>
+    </div>
+    <div class="ctx-body" id="ctxBody">
+      <div class="ctx-grid">
+        <div class="ctx-field">
+          <label class="ctx-label" for="ctx-objective">Cargo Alvo / Objetivo Profissional</label>
+          <input type="text" class="ctx-input" id="ctx-objective"
+            placeholder="Ex: Gerência de Marketing em empresas de tecnologia">
+        </div>
+        <div class="ctx-field">
+          <label class="ctx-label" for="ctx-hours">Horas disponíveis por dia para a busca</label>
+          <input type="text" class="ctx-input" id="ctx-hours"
+            placeholder="Ex: 3 horas">
+        </div>
+        <div class="ctx-field full">
+          <label class="ctx-label" for="ctx-resume">Currículo Completo</label>
+          <textarea class="ctx-textarea tall" id="ctx-resume"
+            placeholder="Cole seu CV completo — experiências, cargos, datas, resultados, ferramentas, formações..."></textarea>
+        </div>
+        <div class="ctx-field full">
+          <label class="ctx-label" for="ctx-linkedin">Perfil LinkedIn (Headline + Sobre + Experiências)</label>
+          <textarea class="ctx-textarea" id="ctx-linkedin"
+            placeholder="Cole seu headline, seção Sobre e experiências do LinkedIn..."></textarea>
+        </div>
+        <div class="ctx-field full">
+          <label class="ctx-label" for="ctx-jobs">5 Vagas Alvo — empregos dos sonhos (descrições completas)</label>
+          <textarea class="ctx-textarea tall" id="ctx-jobs"
+            placeholder="Cole as descrições completas das vagas que você realmente quer — empresas, cargos e requisitos..."></textarea>
+        </div>
+      </div>
+      <div class="ctx-actions">
+        <button class="btn-save" id="btnSave">Salvar contexto →</button>
+        <span class="ctx-feedback" id="ctxFeedback">Contexto salvo!</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROMPTS -->
+<section class="prompts-section">
+
+  <div class="pillar-tabs">
+    <button class="pillar-btn active" data-pillar="1">
+      <span class="p-num">01</span>
+      <span class="p-name">LinkedIn</span>
+      <span class="p-count">20 prompts</span>
+    </button>
+    <button class="pillar-btn" data-pillar="2">
+      <span class="p-num">02</span>
+      <span class="p-name">Currículo + ATS</span>
+      <span class="p-count">20 prompts</span>
+    </button>
+    <button class="pillar-btn" data-pillar="3">
+      <span class="p-num">03</span>
+      <span class="p-name">Busca Estratégica</span>
+      <span class="p-count">20 prompts</span>
+    </button>
+    <button class="pillar-btn" data-pillar="4">
+      <span class="p-num">04</span>
+      <span class="p-name">Entrevista &amp; Negociação</span>
+      <span class="p-count">20 prompts</span>
+    </button>
+  </div>
+
+  <div class="pillar-desc active" id="desc-1">
+    LinkedIn como motor de oportunidades — ajuste seu perfil para ser encontrado, não para encontrar vagas.
+  </div>
+  <div class="pillar-desc" id="desc-2">
+    Currículo + ATS — vença o robô sem morrer no recrutador. Impacto, métricas e orientação a decisão.
+  </div>
+  <div class="pillar-desc" id="desc-3">
+    Busca estratégica e mercado oculto — qualidade sobre volume, funil personalizado, abordagem sem desespero.
+  </div>
+  <div class="pillar-desc" id="desc-4">
+    Entrevista, narrativa e negociação — transforme entrevistas em conversas de solução, não de defesa.
+  </div>
+
+  <div class="pillar-content active" id="pillar-1"></div>
+  <div class="pillar-content" id="pillar-2"></div>
+  <div class="pillar-content" id="pillar-3"></div>
+  <div class="pillar-content" id="pillar-4"></div>
+
+</section>
+
+<script>
+const PROMPTS = [
+  // PILAR 1 — LINKEDIN
+  { id:1,  p:1, text:'Analise meu LinkedIn como um recrutador sênior analisaria em 30 segundos. O que me elimina ou me subestima?' },
+  { id:2,  p:1, text:'Reescreva meu headline para refletir senioridade real, impacto e cargo alvo, sem frases genéricas.' },
+  { id:3,  p:1, text:'Transforme meu campo "Sobre" em uma narrativa executiva focada em decisão de contratação.' },
+  { id:4,  p:1, text:'Liste os sinais que meu LinkedIn passa hoje sobre meu nível de maturidade profissional.' },
+  { id:5,  p:1, text:'Quais palavras-chave estratégicas estão faltando no meu perfil para aparecer em buscas de recrutadores?' },
+  { id:6,  p:1, text:'Reescreva minhas experiências no LinkedIn para mostrar impacto de negócio, não tarefas.' },
+  { id:7,  p:1, text:'Meu perfil parece de operador, especialista ou líder? Justifique com base no que você leu.' },
+  { id:8,  p:1, text:'Simule como um recrutador buscaria alguém para [CARGO ALVO] e diga se eu apareceria nesses resultados.' },
+  { id:9,  p:1, text:'Quais ajustes fariam meu LinkedIn sair do nível "bom" para "difícil de ignorar"?' },
+  { id:10, p:1, text:'Transforme minha trajetória em uma proposta de valor clara e diferenciada para o mercado.' },
+  { id:11, p:1, text:'Atue como um headhunter da minha área e diga por que alguém me chamaria — ou não — para entrevista.' },
+  { id:12, p:1, text:'Compare meu LinkedIn com o de um profissional referência da minha área e destaque as diferenças estratégicas.' },
+  { id:13, p:1, text:'Reescreva meu campo "Sobre" para alinhar com vagas de [CARGO ALVO], usando a linguagem que o mercado usa.' },
+  { id:14, p:1, text:'Quais partes do meu perfil parecem genéricas, copiadas ou sem identidade?' },
+  { id:15, p:1, text:'Avalie se meu LinkedIn transmite crescimento de carreira, estagnação ou retrocesso.' },
+  { id:16, p:1, text:'Sugira melhorias específicas no meu perfil para aumentar a taxa de resposta em abordagens de recrutadores.' },
+  { id:17, p:1, text:'Analise se meu LinkedIn vende potencial futuro ou apenas registra histórico passado.' },
+  { id:18, p:1, text:'Quais elementos do meu perfil aumentam o risco percebido pelo recrutador ao me avaliar?' },
+  { id:19, p:1, text:'Reescreva meu resumo focando em decisão de contratação, não em storytelling bonito.' },
+  { id:20, p:1, text:'Meu LinkedIn está mais alinhado ao cargo que eu quero ou ao cargo que eu tive?' },
+
+  // PILAR 2 — CURRÍCULO + ATS
+  { id:21, p:2, text:'Analise meu currículo como um sistema ATS faria. Onde perco pontos e por quê?' },
+  { id:22, p:2, text:'Reescreva minhas experiências usando impacto quantificado, métricas e contexto de decisão.' },
+  { id:23, p:2, text:'Quais palavras-chave da minha área precisam aparecer no meu CV para passar em filtros automáticos?' },
+  { id:24, p:2, text:'Transforme este CV descritivo em um CV orientado a decisão de contratação.' },
+  { id:25, p:2, text:'Meu currículo parece sênior, pleno ou júnior? Explique com exemplos concretos.' },
+  { id:26, p:2, text:'Adapte meu currículo especificamente para as vagas alvo que compartilhei no contexto.' },
+  { id:27, p:2, text:'Quais frases do meu CV soam fracas, vagas ou genéricas e precisam ser eliminadas?' },
+  { id:28, p:2, text:'Reorganize meu currículo para ser lido e compreendido em menos de 30 segundos por um recrutador ocupado.' },
+  { id:29, p:2, text:'Quais informações estão sobrando e quais estão faltando no meu CV?' },
+  { id:30, p:2, text:'Reescreva meu CV para reduzir o risco percebido pelo recrutador ao me analisar.' },
+  { id:31, p:2, text:'Atue como um recrutador crítico e destrua meu currículo com feedback honesto e sem filtros.' },
+  { id:32, p:2, text:'Transforme as tarefas operacionais listadas no meu CV em conquistas estratégicas com impacto.' },
+  { id:33, p:2, text:'Use a metodologia STAR para reescrever minhas três experiências mais relevantes.' },
+  { id:34, p:2, text:'Avalie se meu currículo vende impacto real ou apenas documenta esforço.' },
+  { id:35, p:2, text:'Ajuste meu CV para empresas grandes, multinacionais e ambientes mais estratégicos.' },
+  { id:36, p:2, text:'Compare meu currículo com o perfil ideal das vagas que compartilhei e liste os gaps.' },
+  { id:37, p:2, text:'Quais erros silenciosos no meu CV podem me eliminar antes mesmo de uma entrevista?' },
+  { id:38, p:2, text:'Reescreva meu resumo profissional em até 5 linhas de alto impacto e aderência ao cargo alvo.' },
+  { id:39, p:2, text:'Avalie se meu CV conversa com meu LinkedIn ou se os dois parecem ser de pessoas diferentes.' },
+  { id:40, p:2, text:'Meu currículo transmite crescimento contínuo de carreira ou lateralidade sem progressão?' },
+
+  // PILAR 3 — BUSCA ESTRATÉGICA
+  { id:41, p:3, text:'Analise minha estratégia atual de busca de vagas e diga por que ela provavelmente não escala.' },
+  { id:42, p:3, text:'Quais cargos e variações de título fazem mais sentido para meu perfil e experiência?' },
+  { id:43, p:3, text:'Onde estão as vagas menos concorridas para o meu nível de senioridade e área de atuação?' },
+  { id:44, p:3, text:'Monte uma estratégia de busca semanal focada em qualidade de candidatura, não volume.' },
+  { id:45, p:3, text:'Como acessar oportunidades fora da Gupy e do LinkedIn para o meu perfil específico?' },
+  { id:46, p:3, text:'Quais empresas deveriam me querer com base no meu perfil, mas que provavelmente não estou alcançando?' },
+  { id:47, p:3, text:'Crie um plano de abordagem estratégica a recrutadores que gere interesse sem parecer desesperado.' },
+  { id:48, p:3, text:'Quais critérios objetivos devo usar para decidir se vale a pena aplicar para uma vaga?' },
+  { id:49, p:3, text:'Analise onde estou desperdiçando energia e tempo na minha busca de emprego.' },
+  { id:50, p:3, text:'Crie um funil de recolocação personalizado para mim com etapas, métricas e prioridades.' },
+  { id:51, p:3, text:'Desenvolva uma estratégia para acessar o mercado oculto — vagas que nunca são publicadas.' },
+  { id:52, p:3, text:'Crie 5 mensagens de conexão estratégicas para LinkedIn que gerem resposta sem pedir emprego.' },
+  { id:53, p:3, text:'Monte uma rotina semanal de busca de vagas com [HORAS_DIA] horas disponíveis por dia.' },
+  { id:54, p:3, text:'Identifique as empresas-alvo ideais para meu próximo passo de carreira e por que cada uma faz sentido.' },
+  { id:55, p:3, text:'Crie um plano de follow-up inteligente para manter networking ativo sem ser invasivo.' },
+  { id:56, p:3, text:'Avalie se estou aplicando para vagas abaixo, no nível certo ou acima do meu perfil atual.' },
+  { id:57, p:3, text:'Analise se meu problema de recolocação é falta de vagas ou falta de posicionamento.' },
+  { id:58, p:3, text:'Crie um mapa de decisão para priorizar candidaturas e focar nos processos certos.' },
+  { id:59, p:3, text:'Quais movimentos estratégicos posso fazer além de aplicar para vagas publicadas?' },
+  { id:60, p:3, text:'Como aumentar a previsibilidade e o controle na minha recolocação?' },
+
+  // PILAR 4 — ENTREVISTA, NARRATIVA E NEGOCIAÇÃO
+  { id:61, p:4, text:'Simule uma entrevista difícil para [CARGO ALVO] e me desafie com as perguntas mais críticas.' },
+  { id:62, p:4, text:'Reescreva minha resposta para "Fale sobre você" com foco em impacto e decisão de contratação.' },
+  { id:63, p:4, text:'Transforme minhas experiências em respostas estruturadas usando a metodologia STAR.' },
+  { id:64, p:4, text:'Quais respostas minhas provavelmente geram insegurança ou risco percebido pelo recrutador?' },
+  { id:65, p:4, text:'Me ajude a falar de resultados com precisão e confiança, sem parecer arrogante.' },
+  { id:66, p:4, text:'Crie respostas estratégicas para as 10 perguntas comportamentais mais comuns em entrevistas.' },
+  { id:67, p:4, text:'Me ajude a explicar uma trajetória diversa ou não-linear de forma coerente e positiva.' },
+  { id:68, p:4, text:'Quais perguntas inteligentes devo fazer no final da entrevista para me diferenciar?' },
+  { id:69, p:4, text:'Analise esta resposta minha e diga como torná-la mais convincente: [COLE SUA RESPOSTA AQUI]' },
+  { id:70, p:4, text:'Me ajude a conduzir a entrevista como alguém que resolve problemas, não alguém que defende o passado.' },
+  { id:71, p:4, text:'Simule uma entrevista técnica baseada nas vagas alvo que compartilhei no contexto.' },
+  { id:72, p:4, text:'Avalie minha postura de comunicação e sugira melhorias para clareza e presença executiva.' },
+  { id:73, p:4, text:'Crie um pitch de 3 frases que eu possa usar em entrevistas, eventos e mensagens de conexão.' },
+  { id:74, p:4, text:'Me ajude a justificar minha pretensão salarial com argumentos baseados em valor e pesquisa de mercado.' },
+  { id:75, p:4, text:'Crie um script completo para negociação salarial, incluindo respostas para as objeções mais comuns.' },
+  { id:76, p:4, text:'Analise uma proposta de emprego e diga se devo aceitar, negociar ou recusar. [COLE A PROPOSTA AQUI]' },
+  { id:77, p:4, text:'Crie um e-mail de follow-up pós-entrevista que reforce meu interesse sem parecer ansioso ou desesperado.' },
+  { id:78, p:4, text:'Com base no meu perfil, identifique pontos fracos que provavelmente aparecem nas minhas entrevistas.' },
+  { id:79, p:4, text:'Me ajude a responder as objeções mais comuns que recrutadores levantam sobre perfis como o meu.' },
+  { id:80, p:4, text:'Transforme minha abordagem de entrevista em uma narrativa de solução — não de defesa do meu histórico.' },
+];
+
+const STORAGE_KEY = 'jg-recolocacao-v1';
+
+// ── Context helpers ──────────────────────────────────────────────────────────
+
+function readFields() {
+  return {
+    objective: document.getElementById('ctx-objective').value.trim(),
+    hours:     document.getElementById('ctx-hours').value.trim(),
+    resume:    document.getElementById('ctx-resume').value.trim(),
+    linkedin:  document.getElementById('ctx-linkedin').value.trim(),
+    jobs:      document.getElementById('ctx-jobs').value.trim(),
+  };
+}
+
+function fillFields(ctx) {
+  document.getElementById('ctx-objective').value = ctx.objective || '';
+  document.getElementById('ctx-hours').value     = ctx.hours     || '';
+  document.getElementById('ctx-resume').value    = ctx.resume    || '';
+  document.getElementById('ctx-linkedin').value  = ctx.linkedin  || '';
+  document.getElementById('ctx-jobs').value      = ctx.jobs      || '';
+}
+
+function refreshDot() {
+  const saved = getSaved();
+  const filled = saved && (saved.resume || saved.linkedin || saved.objective);
+  document.getElementById('ctxDot').classList.toggle('filled', !!filled);
+  document.getElementById('ctxHint').textContent = filled
+    ? '— contexto salvo, prompts personalizados'
+    : '— preencha para personalizar os prompts';
+}
+
+function getSaved() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || null; } catch(e) { return null; }
+}
+
+function collapseCtx() {
+  document.getElementById('ctxBody').classList.add('hidden');
+  document.getElementById('ctxToggle').textContent = 'Expandir ↓';
+}
+function expandCtx() {
+  document.getElementById('ctxBody').classList.remove('hidden');
+  document.getElementById('ctxToggle').textContent = 'Recolher ↑';
+}
+
+// Load saved on page start
+const saved = getSaved();
+if (saved) { fillFields(saved); collapseCtx(); }
+refreshDot();
+
+// Save button
+document.getElementById('btnSave').addEventListener('click', function() {
+  const ctx = readFields();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(ctx));
+  refreshDot();
+  const fb = document.getElementById('ctxFeedback');
+  fb.classList.add('show');
+  setTimeout(() => fb.classList.remove('show'), 2200);
+  collapseCtx();
+});
+
+// Toggle collapse
+document.getElementById('ctxHeader').addEventListener('click', function(e) {
+  if (e.target.tagName === 'BUTTON') return;
+  const body = document.getElementById('ctxBody');
+  body.classList.contains('hidden') ? expandCtx() : collapseCtx();
+});
+document.getElementById('ctxToggle').addEventListener('click', function(e) {
+  e.stopPropagation();
+  const body = document.getElementById('ctxBody');
+  body.classList.contains('hidden') ? expandCtx() : collapseCtx();
+});
+
+// ── Build prompt text ────────────────────────────────────────────────────────
+
+function buildCopyText(prompt) {
+  const ctx = getSaved() || readFields();
+  const objective = ctx.objective || '[seu cargo alvo]';
+  const hours     = ctx.hours     || 'X';
+  const resume    = ctx.resume    || '[cole seu currículo aqui]';
+  const linkedin  = ctx.linkedin  || '[cole seu perfil LinkedIn aqui]';
+  const jobs      = ctx.jobs      || '[cole as vagas alvo aqui]';
+
+  const text = prompt.text
+    .replace(/\[CARGO ALVO\]/g, objective)
+    .replace(/\[HORAS_DIA\]/g, hours);
+
+  return [
+    'Use o contexto abaixo para responder com precisão e personalização máxima.\n',
+    '═══════════════════════════════════════',
+    'CONTEXTO DO CANDIDATO',
+    '═══════════════════════════════════════\n',
+    'Cargo Alvo / Objetivo:',
+    objective + '\n',
+    'Currículo Completo:',
+    resume + '\n',
+    'Perfil LinkedIn:',
+    linkedin + '\n',
+    'Vagas Alvo (empregos dos sonhos):',
+    jobs + '\n',
+    '═══════════════════════════════════════',
+    'PROMPT',
+    '═══════════════════════════════════════\n',
+    text
+  ].join('\n');
+}
+
+// ── Build cards ──────────────────────────────────────────────────────────────
+
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function buildCard(prompt) {
+  const card = document.createElement('div');
+  card.className = 'prompt-card';
+
+  const displayText = escapeHtml(prompt.text)
+    .replace(/\[CARGO ALVO\]/g, '<mark>[CARGO ALVO]</mark>')
+    .replace(/\[HORAS_DIA\]/g, '<mark>[HORAS_DIA]</mark>')
+    .replace(/\[COLE SUA RESPOSTA AQUI\]/g, '<mark>[COLE SUA RESPOSTA AQUI]</mark>')
+    .replace(/\[COLE A PROPOSTA AQUI\]/g, '<mark>[COLE A PROPOSTA AQUI]</mark>');
+
+  card.innerHTML =
+    '<div class="card-top">' +
+      '<span class="prompt-num">#' + String(prompt.id).padStart(2,'0') + '</span>' +
+      '<button class="btn-copy">Copiar</button>' +
+    '</div>' +
+    '<div class="prompt-text">' + displayText + '</div>';
+
+  const btn = card.querySelector('.btn-copy');
+  btn.addEventListener('click', function() {
+    const text = buildCopyText(prompt);
+    const done = function() {
+      btn.textContent = 'Copiado!';
+      btn.classList.add('ok');
+      card.classList.add('copied');
+      setTimeout(function() {
+        btn.textContent = 'Copiar';
+        btn.classList.remove('ok');
+        card.classList.remove('copied');
+      }, 1600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(function() { fallbackCopy(text); done(); });
+    } else {
+      fallbackCopy(text); done();
+    }
+  });
+
+  return card;
+}
+
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0;';
+  document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  try { document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(ta);
+}
+
+// Populate grids
+[1,2,3,4].forEach(function(p) {
+  const grid = document.getElementById('pillar-' + p);
+  PROMPTS.filter(function(pr) { return pr.p === p; }).forEach(function(pr) {
+    grid.appendChild(buildCard(pr));
+  });
+});
+
+// ── Tab switching ────────────────────────────────────────────────────────────
+
+document.querySelectorAll('.pillar-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    const pillar = this.dataset.pillar;
+    document.querySelectorAll('.pillar-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.querySelectorAll('.pillar-content').forEach(function(c) { c.classList.remove('active'); });
+    document.querySelectorAll('.pillar-desc').forEach(function(d) { d.classList.remove('active'); });
+    this.classList.add('active');
+    document.getElementById('pillar-' + pillar).classList.add('active');
+    document.getElementById('desc-' + pillar).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

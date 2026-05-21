@@ -19,10 +19,10 @@
 html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(--fb);}
 
 /* ── TABS ── */
-.tab-nav{display:flex;gap:2px;margin-left:16px;}
-.tab-btn{background:none;border:1px solid var(--iron);color:var(--muted);font-family:var(--fm);font-size:10px;padding:6px 14px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all .15s;}
-.tab-btn:hover{color:var(--bone);border-color:var(--steel);}
-.tab-btn.active{background:var(--fire);color:var(--bone);border-color:var(--fire);}
+.tab-nav{display:flex;gap:3px;margin-left:16px;}
+.tab-btn{background:none;border:none;color:var(--muted);font-family:var(--fb);font-size:12px;font-weight:500;padding:6px 14px;cursor:pointer;border-radius:6px;transition:all .15s;white-space:nowrap;}
+.tab-btn:hover{color:var(--text);background:var(--iron);}
+.tab-btn.active{background:rgba(200,57,26,.12);color:var(--fire);}
 /* ── VIEWS ── */
 .view-panel{display:none;height:100%;overflow:hidden;}
 .view-panel.active{display:flex;flex-direction:column;}
@@ -30,123 +30,124 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 #view-studio.active{display:grid;grid-template-columns:1fr 420px;overflow:hidden;}
 /* ── PUBLISH VIEW ── */
 .pub-wrap{display:grid;grid-template-columns:1fr 360px;height:100%;overflow:hidden;}
-.pub-left{overflow-y:auto;padding:24px;background:var(--void);}
-.pub-sec-title{font-family:var(--fm);font-size:10px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;}
+.pub-left{overflow-y:auto;padding:20px;background:var(--void);}
+.pub-sec-title{font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--muted);text-transform:uppercase;margin-bottom:10px;}
 .pub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-bottom:20px;}
-.pub-slide{position:relative;cursor:pointer;border:2px solid transparent;transition:all .15s;}
+.pub-slide{position:relative;cursor:pointer;border:2px solid transparent;border-radius:6px;transition:all .15s;overflow:hidden;}
 .pub-slide:hover{border-color:var(--steel);}
 .pub-slide.sel{border-color:var(--fire);}
 .pub-slide img{width:100%;aspect-ratio:1;object-fit:cover;display:block;background:#111;}
-.pub-slide-n{position:absolute;bottom:3px;right:5px;font-family:var(--fm);font-size:8px;color:var(--bone);background:rgba(0,0,0,.75);padding:1px 4px;}
-.pub-creative-list{display:flex;flex-direction:column;gap:6px;margin-bottom:20px;}
-.pub-creative-item{padding:10px 12px;background:var(--iron);border:1px solid var(--steel);cursor:pointer;font-family:var(--fb);font-size:13px;color:var(--sub);transition:all .15s;display:flex;align-items:center;gap:10px;}
-.pub-creative-item:hover{border-color:var(--fire);color:var(--bone);}
-.pub-creative-item.sel{border-color:var(--fire);background:rgba(200,57,26,.1);color:var(--bone);}
-.pub-right{background:var(--carbon);border-left:1px solid var(--iron);padding:20px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;}
-.pub-label{font-family:var(--fm);font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;}
-.pub-textarea{width:100%;background:var(--iron);border:1px solid var(--steel);color:var(--bone);font-family:var(--fb);font-size:13px;padding:10px 12px;outline:none;resize:vertical;min-height:100px;}
-.pub-textarea:focus{border-color:var(--fire);}
-.pub-input{width:100%;background:var(--iron);border:1px solid var(--steel);color:var(--bone);font-family:var(--fb);font-size:13px;padding:10px 12px;outline:none;}
-.pub-input:focus{border-color:var(--fire);}
-.pub-char{font-family:var(--fm);font-size:9px;color:var(--muted);text-align:right;}
-.btn-pub{width:100%;padding:13px;background:var(--fire);color:var(--bone);font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:background .15s;}
+.pub-slide-n{position:absolute;bottom:3px;right:5px;font-family:var(--fb);font-size:9px;color:var(--bone);background:rgba(0,0,0,.75);border-radius:3px;padding:1px 5px;}
+.pub-creative-list{display:flex;flex-direction:column;gap:5px;margin-bottom:20px;}
+.pub-creative-item{padding:9px 12px;background:var(--iron);border:0.5px solid rgba(255,255,255,0.07);border-radius:8px;cursor:pointer;font-family:var(--fb);font-size:13px;color:var(--sub);transition:all .15s;display:flex;align-items:center;gap:10px;}
+.pub-creative-item:hover{border-color:rgba(200,57,26,.3);color:var(--text);}
+.pub-creative-item.sel{border-color:rgba(200,57,26,.4);background:rgba(200,57,26,.08);color:var(--text);}
+.pub-right{background:var(--carbon);border-left:0.5px solid rgba(255,255,255,0.07);padding:18px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;}
+.pub-label{font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;margin-bottom:5px;}
+.pub-textarea{width:100%;background:var(--iron);border:0.5px solid rgba(255,255,255,0.13);border-radius:8px;color:var(--text);font-family:var(--fb);font-size:13px;padding:10px 12px;outline:none;resize:vertical;min-height:100px;}
+.pub-textarea:focus{border-color:rgba(200,57,26,.5);}
+.pub-input{width:100%;background:var(--iron);border:0.5px solid rgba(255,255,255,0.13);border-radius:8px;color:var(--text);font-family:var(--fb);font-size:13px;padding:9px 12px;outline:none;}
+.pub-input:focus{border-color:rgba(200,57,26,.5);}
+.pub-char{font-family:var(--fb);font-size:10px;color:var(--muted);text-align:right;}
+.btn-pub{width:100%;padding:12px;background:var(--fire);color:var(--bone);font-family:var(--fb);font-size:13px;font-weight:700;border-radius:8px;border:none;cursor:pointer;transition:background .15s;}
 .btn-pub:hover:not(:disabled){background:var(--ember);}
-.btn-pub:disabled{background:var(--steel);color:var(--muted);cursor:not-allowed;}
-.btn-queue-add{width:100%;padding:10px;background:none;border:1px solid var(--steel);color:var(--sub);font-family:var(--fm);font-size:10px;letter-spacing:1px;cursor:pointer;transition:all .15s;}
-.btn-queue-add:hover:not(:disabled){border-color:var(--gold);color:var(--gold);}
+.btn-pub:disabled{background:var(--iron);color:var(--muted);cursor:not-allowed;}
+.btn-queue-add{width:100%;padding:9px;background:none;border:0.5px solid rgba(255,255,255,0.13);border-radius:8px;color:var(--muted);font-family:var(--fb);font-size:12px;cursor:pointer;transition:all .15s;}
+.btn-queue-add:hover:not(:disabled){border-color:rgba(184,146,42,.5);color:var(--gold);}
 .btn-queue-add:disabled{opacity:.3;cursor:not-allowed;}
-.pub-status{font-family:var(--fm);font-size:10px;padding:10px;border:1px solid var(--steel);color:var(--sub);line-height:1.7;display:none;white-space:pre-wrap;}
+.pub-status{font-family:var(--fb);font-size:11px;padding:10px 12px;border:0.5px solid rgba(255,255,255,0.13);border-radius:8px;color:var(--sub);line-height:1.7;display:none;white-space:pre-wrap;}
 .pub-status.show{display:block;}
-.pub-status.ok{border-color:var(--gold);color:var(--gold);}
-.pub-status.err{border-color:var(--fire);color:var(--fire);}
-.pub-sep{height:1px;background:var(--iron);}
+.pub-status.ok{border-color:rgba(184,146,42,.4);color:var(--gold);}
+.pub-status.err{border-color:rgba(200,57,26,.4);color:var(--fire);}
+.pub-sep{height:0.5px;background:rgba(255,255,255,0.07);}
 /* ── QUEUE VIEW ── */
-.queue-wrap{padding:32px;overflow-y:auto;height:100%;background:var(--void);}
-.queue-h{font-family:var(--fd);font-size:28px;letter-spacing:1px;color:var(--bone);margin-bottom:4px;}
-.queue-sub{font-family:var(--fm);font-size:10px;color:var(--muted);letter-spacing:1px;margin-bottom:24px;}
-.queue-list{display:flex;flex-direction:column;gap:10px;}
-.queue-card{background:var(--carbon);border:1px solid var(--iron);padding:14px 18px;display:flex;align-items:center;gap:14px;transition:border-color .15s;}
-.queue-card:hover{border-color:var(--steel);}
-.queue-thumb{width:56px;height:56px;object-fit:cover;background:var(--iron);flex-shrink:0;}
+.queue-wrap{padding:28px;overflow-y:auto;height:100%;background:var(--void);}
+.queue-h{font-family:var(--fd);font-size:26px;letter-spacing:1px;color:var(--text);margin-bottom:4px;}
+.queue-sub{font-family:var(--fb);font-size:12px;color:var(--muted);margin-bottom:20px;}
+.queue-list{display:flex;flex-direction:column;gap:8px;}
+.queue-card{background:var(--carbon);border:0.5px solid rgba(255,255,255,0.07);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px;transition:border-color .15s;}
+.queue-card:hover{border-color:rgba(255,255,255,0.13);}
+.queue-thumb{width:52px;height:52px;object-fit:cover;background:var(--iron);flex-shrink:0;border-radius:6px;}
 .queue-info{flex:1;min-width:0;}
-.queue-name{font-family:var(--fc);font-size:15px;font-weight:600;color:var(--bone);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.queue-cap{font-family:var(--fb);font-size:11px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px;}
-.queue-date{font-family:var(--fm);font-size:9px;color:var(--muted);margin-top:4px;}
-.queue-actions{display:flex;gap:6px;flex-shrink:0;}
-.btn-q-pub{padding:7px 14px;background:var(--fire);color:var(--bone);font-family:var(--fm);font-size:9px;font-weight:700;letter-spacing:1px;border:none;cursor:pointer;}
-.btn-q-del{padding:7px 12px;background:none;border:1px solid var(--steel);color:var(--muted);font-family:var(--fm);font-size:9px;cursor:pointer;}
-.btn-q-del:hover{border-color:var(--fire);color:var(--fire);}
+.queue-name{font-family:var(--fb);font-size:14px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.queue-cap{font-family:var(--fb);font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px;}
+.queue-date{font-family:var(--fb);font-size:10px;color:var(--muted);margin-top:3px;opacity:.6;}
+.queue-actions{display:flex;gap:5px;flex-shrink:0;}
+.btn-q-pub{padding:6px 12px;background:var(--fire);color:var(--bone);font-family:var(--fb);font-size:11px;font-weight:700;border-radius:6px;border:none;cursor:pointer;}
+.btn-q-del{padding:6px 10px;background:none;border:0.5px solid rgba(255,255,255,0.13);border-radius:6px;color:var(--muted);font-family:var(--fb);font-size:11px;cursor:pointer;}
+.btn-q-del:hover{border-color:rgba(200,57,26,.4);color:var(--fire);}
 .queue-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;gap:10px;opacity:.35;}
 .queue-empty .em{font-size:36px;}
-.queue-empty p{font-family:var(--fm);font-size:10px;letter-spacing:2px;text-transform:uppercase;}
-.app{display:grid;grid-template-columns:280px 1fr;grid-template-rows:56px 1fr;height:100vh;overflow:hidden;}
-.topbar{grid-column:1/-1;background:var(--carbon);border-bottom:1px solid var(--iron);display:flex;align-items:center;gap:16px;padding:0 24px;}
-.sidebar{background:var(--carbon);border-right:1px solid var(--iron);display:flex;flex-direction:column;overflow:hidden;}
+.queue-empty p{font-family:var(--fb);font-size:11px;text-transform:uppercase;}
+.app{display:grid;grid-template-columns:260px 1fr;grid-template-rows:52px 1fr;height:100vh;overflow:hidden;}
+.topbar{grid-column:1/-1;background:var(--carbon);border-bottom:0.5px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:0;padding:0 16px;}
+.sidebar{background:var(--carbon);border-right:0.5px solid rgba(255,255,255,0.07);display:flex;flex-direction:column;overflow:hidden;}
 .main{display:grid;grid-template-columns:1fr 420px;overflow:hidden;}
-.gallery{overflow-y:auto;padding:24px;}
-.detail-panel{background:var(--carbon);border-left:1px solid var(--iron);display:flex;flex-direction:column;overflow:hidden;}
+.gallery{overflow-y:auto;padding:20px;}
+.detail-panel{background:var(--carbon);border-left:0.5px solid rgba(255,255,255,0.07);display:flex;flex-direction:column;overflow:hidden;}
 
 /* ── TOPBAR ── */
-.logo-text{font-family:var(--fd);font-size:22px;letter-spacing:2px;color:var(--bone);display:flex;align-items:center;gap:12px;}
+.logo-text{font-family:var(--fd);font-size:17px;letter-spacing:2px;color:var(--text);display:flex;align-items:center;gap:6px;margin-right:20px;}
 .logo-text span{color:var(--fire);}
-.brand-select{background:var(--carbon);color:var(--muted);border:1px solid var(--iron);font-family:var(--fm);font-size:10px;padding:4px 8px;cursor:pointer;outline:none;}
-.brand-select:hover{color:var(--bone);border-color:var(--steel);}
+.logo-text strong{color:var(--text2,var(--text));}
+.brand-select{background:var(--iron);color:var(--muted);border:0.5px solid rgba(255,255,255,0.13);border-radius:6px;font-family:var(--fb);font-size:11px;padding:5px 8px;cursor:pointer;outline:none;}
+.brand-select:hover{color:var(--text);}
 .topbar-sep{flex:1;}
-.badge-count{font-family:var(--fm);font-size:11px;color:var(--muted);letter-spacing:1px;}
+.badge-count{font-family:var(--fb);font-size:11px;color:var(--muted);}
 
 /* ── SIDEBAR FILTERS ── */
-.sidebar-title{font-family:var(--fm);font-size:10px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;padding:20px 20px 8px;}
-.filter-btn{display:flex;align-items:center;gap:12px;padding:10px 20px;cursor:pointer;border:none;background:none;color:var(--sub);font-family:var(--fb);font-size:14px;width:100%;text-align:left;transition:all .15s;}
-.filter-btn:hover{background:var(--iron);color:var(--bone);}
-.filter-btn.active{background:rgba(200,57,26,.15);color:var(--bone);border-left:3px solid var(--fire);}
+.sidebar-title{font-family:var(--fb);font-size:10px;font-weight:600;letter-spacing:.07em;color:var(--muted);text-transform:uppercase;padding:16px 14px 6px;}
+.filter-btn{display:flex;align-items:center;gap:10px;padding:8px 14px;margin:1px 8px;cursor:pointer;border:none;background:none;color:var(--sub);font-family:var(--fb);font-size:13px;font-weight:400;width:calc(100% - 16px);text-align:left;transition:all .15s;border-radius:7px;}
+.filter-btn:hover{background:var(--iron);color:var(--text);}
+.filter-btn.active{background:rgba(200,57,26,.12);color:var(--text);border-left:none;}
 .filter-btn .fi{font-size:16px;width:22px;text-align:center;}
-.filter-btn .fc{font-size:11px;font-family:var(--fm);color:var(--muted);margin-left:auto;}
-.sidebar-sep{height:1px;background:var(--iron);margin:12px 16px;}
+.filter-btn .fc{font-size:11px;font-family:var(--fb);color:var(--muted);margin-left:auto;}
+.sidebar-sep{height:0.5px;background:rgba(255,255,255,0.07);margin:8px 14px;}
 
 /* ── SEARCH ── */
-.search-wrap{padding:16px 16px 8px;}
-.search-input{width:100%;background:var(--iron);border:1px solid var(--steel);color:var(--bone);font-family:var(--fm);font-size:12px;padding:8px 12px;outline:none;letter-spacing:.5px;}
+.search-wrap{padding:12px 14px 6px;}
+.search-input{width:100%;background:var(--iron);border:0.5px solid rgba(255,255,255,0.13);border-radius:8px;color:var(--text);font-family:var(--fb);font-size:12px;padding:7px 12px;outline:none;}
 .search-input::placeholder{color:var(--muted);}
-.search-input:focus{border-color:var(--fire);}
+.search-input:focus{border-color:rgba(200,57,26,.5);}
 
 /* ── GALLERY CARDS ── */
-.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;}
-.gallery-title{font-family:var(--fm);font-size:10px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:16px;}
-.card{background:var(--carbon);border:1px solid var(--iron);cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
-.card:hover{border-color:var(--steel);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.5);}
-.card.active{border-color:var(--fire);box-shadow:0 0 0 1px var(--fire);}
-.card-preview{width:100%;height:160px;background:var(--iron);overflow:hidden;position:relative;}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+.gallery-title{font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--muted);text-transform:uppercase;margin-bottom:14px;}
+.card{background:var(--carbon);border:0.5px solid rgba(255,255,255,0.07);border-radius:10px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.card:hover{border-color:rgba(255,255,255,0.13);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.5);}
+.card.active{border-color:rgba(200,57,26,.5);box-shadow:0 0 0 1px rgba(200,57,26,.25);}
+.card-preview{width:100%;height:150px;background:var(--iron);overflow:hidden;position:relative;border-radius:8px 8px 0 0;}
 .card-preview iframe{width:200%;height:200%;transform:scale(.5);transform-origin:top left;pointer-events:none;border:none;background:#000;}
-.card-preview-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:40px;opacity:.3;}
-.card-body{padding:12px 14px;}
-.card-name{font-family:var(--fc);font-size:15px;font-weight:600;color:var(--bone);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.card-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.tag{font-family:var(--fm);font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:2px 6px;border-radius:2px;}
-.tag-ig{background:rgba(225,48,108,.15);color:var(--ig);}
-.tag-li{background:rgba(0,119,181,.15);color:var(--li);}
-.tag-meta{background:rgba(24,119,242,.15);color:var(--meta);}
-.tag-yt{background:rgba(255,0,0,.15);color:var(--yt);}
-.tag-brand{background:rgba(184,146,42,.15);color:var(--brand);}
-.tag-carousel{background:rgba(200,57,26,.15);color:var(--fire);}
-.card-exported{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.7);border:1px solid var(--steel);font-family:var(--fm);font-size:9px;color:var(--gold);padding:2px 6px;letter-spacing:1px;}
+.card-preview-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:36px;opacity:.3;}
+.card-body{padding:10px 12px;}
+.card-name{font-family:var(--fb);font-size:13px;font-weight:600;color:var(--text);margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.card-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.tag{font-family:var(--fb);font-size:10px;padding:2px 8px;border-radius:20px;}
+.tag-ig{background:rgba(225,48,108,.12);color:var(--ig);}
+.tag-li{background:rgba(0,119,181,.12);color:var(--li);}
+.tag-meta{background:rgba(24,119,242,.12);color:var(--meta);}
+.tag-yt{background:rgba(255,0,0,.12);color:var(--yt);}
+.tag-brand{background:rgba(184,146,42,.12);color:var(--brand);}
+.tag-carousel{background:rgba(200,57,26,.12);color:var(--fire);}
+.card-exported{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.75);border:0.5px solid rgba(184,146,42,.4);border-radius:4px;font-family:var(--fb);font-size:9px;color:var(--gold);padding:2px 6px;}
 
 /* ── DETAIL PANEL ── */
-.detail-header{padding:20px 20px 12px;border-bottom:1px solid var(--iron);}
-.detail-name{font-family:var(--fd);font-size:24px;letter-spacing:1px;color:var(--bone);margin-bottom:4px;}
-.detail-sub{font-family:var(--fm);font-size:10px;color:var(--muted);letter-spacing:1px;}
+.detail-header{padding:16px 18px 12px;border-bottom:0.5px solid rgba(255,255,255,0.07);}
+.detail-name{font-family:var(--fd);font-size:22px;letter-spacing:1px;color:var(--text);margin-bottom:3px;}
+.detail-sub{font-family:var(--fb);font-size:11px;color:var(--muted);}
 .detail-preview{flex:1;overflow:hidden;position:relative;background:#000;}
 .detail-preview iframe{width:100%;height:100%;border:none;}
 .detail-preview-empty{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;opacity:.3;}
-.detail-preview-empty .em{font-size:48px;}
-.detail-preview-empty p{font-family:var(--fm);font-size:11px;letter-spacing:2px;text-transform:uppercase;}
-.detail-footer{padding:16px 20px;border-top:1px solid var(--iron);display:flex;flex-direction:column;gap:12px;}
-.formats-list{display:flex;flex-wrap:wrap;gap:6px;}
-.format-tag{font-family:var(--fm);font-size:9px;padding:3px 8px;border:1px solid var(--steel);color:var(--sub);letter-spacing:.5px;}
-.btn-export{width:100%;padding:14px;background:var(--fire);color:var(--bone);font-family:var(--fm);font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:background .15s;}
+.detail-preview-empty .em{font-size:44px;}
+.detail-preview-empty p{font-family:var(--fb);font-size:11px;letter-spacing:1px;text-transform:uppercase;}
+.detail-footer{padding:14px 18px;border-top:0.5px solid rgba(255,255,255,0.07);display:flex;flex-direction:column;gap:10px;}
+.formats-list{display:flex;flex-wrap:wrap;gap:5px;}
+.format-tag{font-family:var(--fb);font-size:10px;padding:3px 10px;border:0.5px solid rgba(255,255,255,0.13);border-radius:20px;color:var(--muted);}
+.btn-export{width:100%;padding:12px;background:var(--fire);color:var(--bone);font-family:var(--fb);font-size:13px;font-weight:700;border-radius:8px;border:none;cursor:pointer;transition:background .15s;}
 .btn-export:hover{background:var(--ember);}
-.btn-export:disabled{background:var(--steel);color:var(--muted);cursor:not-allowed;}
-.btn-folder{width:100%;padding:10px;background:none;border:1px solid var(--steel);color:var(--sub);font-family:var(--fm);font-size:11px;letter-spacing:1px;cursor:pointer;transition:all .15s;}
-.btn-folder:hover{border-color:var(--gold);color:var(--gold);}
+.btn-export:disabled{background:var(--iron);color:var(--muted);cursor:not-allowed;}
+.btn-folder{width:100%;padding:9px;background:none;border:0.5px solid rgba(255,255,255,0.13);border-radius:8px;color:var(--muted);font-family:var(--fb);font-size:12px;cursor:pointer;transition:all .15s;}
+.btn-folder:hover{border-color:rgba(184,146,42,.5);color:var(--gold);}
 .btn-folder:disabled{opacity:.3;cursor:not-allowed;}
 
 /* ── PROGRESS / LOG ── */
@@ -170,56 +171,78 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 ::-webkit-scrollbar-thumb{background:var(--steel);}
 
 /* ── SLIDE NAV ── */
-.slide-nav{display:flex;align-items:center;gap:8px;padding:8px 20px;background:var(--void);border-bottom:1px solid var(--iron);}
-.slide-nav-btn{background:none;border:1px solid var(--steel);color:var(--sub);font-family:var(--fm);font-size:11px;padding:4px 10px;cursor:pointer;transition:all .15s;}
-.slide-nav-btn:hover:not(:disabled){border-color:var(--fire);color:var(--fire);}
+.slide-nav{display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--carbon);border-bottom:0.5px solid rgba(255,255,255,0.07);}
+.slide-nav-btn{background:none;border:0.5px solid rgba(255,255,255,0.13);border-radius:6px;color:var(--muted);font-family:var(--fb);font-size:11px;padding:4px 12px;cursor:pointer;transition:all .15s;}
+.slide-nav-btn:hover:not(:disabled){border-color:rgba(200,57,26,.4);color:var(--fire);}
 .slide-nav-btn:disabled{opacity:.3;cursor:not-allowed;}
-.slide-nav-info{font-family:var(--fm);font-size:10px;color:var(--muted);letter-spacing:1px;flex:1;text-align:center;}
+.slide-nav-info{font-family:var(--fb);font-size:11px;color:var(--muted);flex:1;text-align:center;}
 
 /* ── IA CO-CREATOR VIEW ── */
 .ia-wrap {
   display: grid;
-  grid-template-columns: 1fr 480px;
+  grid-template-columns: 1fr 4px var(--ia-right-w, 480px);
   height: 100%;
   overflow: hidden;
   background: var(--void);
+}
+.ia-wrap.editor-expanded { display: flex; flex-direction: row; }
+.ia-wrap.editor-expanded .ia-left { display: none; }
+.ia-wrap.editor-expanded .ia-resizer { display: none; }
+.ia-wrap.editor-expanded .ia-right { flex: 1; flex-direction: row; }
+.ia-wrap.editor-expanded .ia-preview-area { flex: 1 1 50% !important; min-width: 0 !important; border-right: none; }
+.ia-wrap.editor-expanded .ia-editor-section { width: auto !important; flex: 1 1 50% !important; min-width: 0 !important; border-top: none !important; border-left: 1px solid rgba(255,255,255,0.07) !important; }
+body.is-resizing iframe {
+  pointer-events: none !important;
+}
+.ia-resizer {
+  background: transparent;
+  cursor: col-resize;
+  transition: background 0.2s;
+  border-left: 0.5px solid rgba(255,255,255,0.07);
+  border-right: 0.5px solid rgba(255,255,255,0.07);
+  z-index: 10;
+}
+.ia-resizer:hover, .ia-resizer.active {
+  background: rgba(255,255,255,0.15);
 }
 .ia-left {
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  border-right: 1px solid var(--iron);
+  border-right: 0.5px solid rgba(255,255,255,0.07);
   background: var(--void);
 }
 .ia-header {
-  padding: 10px 20px;
-  border-bottom: 1px solid var(--iron);
+  padding: 10px 16px;
+  border-bottom: 0.5px solid rgba(255,255,255,0.07);
   background: var(--carbon);
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 .ia-title {
-  font-family: var(--fd);
-  font-size: 20px;
-  letter-spacing: 2px;
-  color: var(--bone);
+  font-family: var(--fb);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: var(--text);
 }
 .ia-subtitle {
-  font-family: var(--fm);
-  font-size: 9px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  opacity: .7;
+  font-family: var(--fb);
+  font-size: 11px;
+  font-weight: 500;
+  color: #5dcaa5;
+  background: rgba(93,202,165,.1);
+  padding: 2px 8px;
+  border-radius: 10px;
 }
 .ia-chat-container {
-  padding: 16px 24px 12px;
+  padding: 14px 16px 10px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   background: var(--void);
   flex: 1;
   min-height: 0;
@@ -231,40 +254,19 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border: 1px solid var(--iron);
-  background: var(--carbon);
-  padding: 14px;
-}
-.ia-message {
-  font-family: var(--fb);
-  font-size: 13px;
-  line-height: 1.6;
-  padding: 8px 12px;
-  border-left: 3px solid var(--steel);
-}
-.ia-message.user {
-  border-color: var(--gold);
-  background: rgba(184,146,42,0.05);
-  color: var(--text);
-  align-self: flex-end;
-  width: 90%;
-}
-.ia-message.assistant {
-  border-color: var(--fire);
-  background: rgba(200,57,26,0.05);
-  color: var(--bone);
-  align-self: flex-start;
-  width: 95%;
+  border: none;
+  background: var(--void);
+  padding: 14px 16px;
 }
 .ia-format-bar {
-  padding: 8px 16px;
+  padding: 7px 14px;
   flex-shrink: 0;
-  border-bottom: 1px solid var(--iron);
+  border-bottom: 0.5px solid rgba(255,255,255,0.07);
   background: var(--carbon);
 }
 .ia-format-selector {
   display: flex;
-  gap: 6px;
+  gap: 5px;
   padding: 0;
   border: none;
   background: transparent;
@@ -277,74 +279,91 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   flex-shrink: 0;
   background: transparent;
   color: var(--muted);
-  border: 1px solid var(--steel);
+  border: 0.5px solid rgba(255,255,255,0.13);
   border-radius: 20px;
-  font-family: var(--fm);
-  font-size: 9px;
-  font-weight: 700;
-  padding: 7px 14px;
+  font-family: var(--fb);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 5px 13px;
   cursor: pointer;
-  text-transform: uppercase;
   text-align: center;
-  transition: all .2s ease;
+  transition: all .15s;
   white-space: nowrap;
 }
 .ia-format-btn:hover {
-  border-color: var(--bone);
-  color: var(--bone);
-  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.25);
+  color: var(--text);
 }
 .ia-format-btn.active {
-  background: rgba(200,57,26,0.15);
+  background: rgba(200,57,26,0.12);
   color: var(--fire);
-  border-color: var(--fire);
-  box-shadow: 0 0 12px rgba(200,57,26,0.12);
+  border-color: rgba(200,57,26,0.4);
 }
 
 .ia-chat-input-wrap {
   display: flex;
   gap: 6px;
-  align-items: stretch;
+  align-items: flex-end;
+  background: var(--iron);
+  border: 0.5px solid rgba(255,255,255,0.13);
+  border-radius: 10px;
+  padding: 8px 10px;
+  transition: border-color .15s;
+}
+.ia-chat-input-wrap:focus-within {
+  border-color: rgba(200,57,26,0.4);
 }
 #ia-chat-input {
   flex: 1;
-  background: var(--carbon);
-  border: 1px solid var(--iron);
-  border-radius: 8px;
-  color: var(--bone);
+  background: none;
+  border: none;
+  color: var(--text);
   font-family: var(--fb);
   font-size: 13px;
-  padding: 12px 16px;
+  padding: 2px 0;
   outline: none;
-  transition: border-color .2s, box-shadow .2s;
+  resize: none;
+  max-height: 80px;
+  line-height: 1.5;
 }
-#ia-chat-input:focus {
-  border-color: var(--fire);
-  box-shadow: 0 0 0 2px rgba(200,57,26,0.08);
-}
+#ia-chat-input::placeholder { color: var(--muted); }
 .btn-ia-send {
   background: var(--fire);
   color: var(--bone);
   border: none;
-  border-radius: 8px;
-  font-family: var(--fm);
-  font-size: 10px;
+  border-radius: 7px;
+  font-family: var(--fb);
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 2px;
-  padding: 0 18px;
+  padding: 7px 16px;
   cursor: pointer;
-  text-transform: uppercase;
-  transition: all .2s ease;
+  transition: all .15s;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .btn-ia-send:hover {
   background: var(--ember);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(200,57,26,0.25);
 }
+.btn-ia-attach {
+  background: var(--steel);
+  border: none;
+  border-radius: 7px;
+  color: var(--muted);
+  font-size: 14px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all .12s;
+}
+.btn-ia-attach:hover { color: var(--text); background: var(--ash, #444); }
 
 /* Editor */
 .ia-editor-section {
-  padding: 20px 24px 24px;
+  padding: 18px 16px 20px;
   background: var(--void);
   flex: 1;
   min-height: 0;
@@ -354,45 +373,44 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 /* ── TABS ──────────────────────────────────────────────────────────────── */
 .ia-tabs-bar {
   display: flex;
-  border-bottom: 2px solid var(--iron);
+  border-bottom: 0.5px solid rgba(255,255,255,0.07);
   background: var(--carbon);
   flex-shrink: 0;
-  padding: 0 16px;
-  gap: 4px;
+  padding: 6px 12px;
+  gap: 3px;
 }
 .ia-tab-btn {
   flex: none;
   background: transparent;
   border: none;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
+  border-bottom: none;
+  margin-bottom: 0;
   color: var(--muted);
-  font-family: var(--fm);
-  font-size: 10px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 12px 20px;
+  font-family: var(--fb);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 14px;
   cursor: pointer;
-  transition: all .2s ease;
-  position: relative;
+  border-radius: 6px;
+  transition: all .15s;
 }
-.ia-tab-btn:hover { color: var(--bone); background: rgba(255,255,255,0.02); }
+.ia-tab-btn:hover { color: var(--text); background: var(--iron); }
 .ia-tab-btn.active {
-  color: var(--bone);
-  border-bottom-color: var(--fire);
-  background: transparent;
+  color: var(--fire);
+  background: rgba(200,57,26,0.12);
+  border-bottom-color: transparent;
 }
 .ia-tab-badge {
   display: inline-block;
   background: var(--fire);
   color: #fff;
-  font-size: 8px;
-  padding: 2px 6px;
+  font-size: 9px;
+  padding: 1px 6px;
   border-radius: 10px;
-  margin-left: 6px;
+  margin-left: 5px;
   vertical-align: middle;
   font-weight: 700;
-  min-width: 18px;
+  min-width: 16px;
   text-align: center;
 }
 .ia-tabs-content {
@@ -483,15 +501,15 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 /* Coluna Direita (Live Preview) */
 .ia-right {
   background: var(--carbon);
-  border-left: 1px solid var(--iron);
+  border-left: 0.5px solid rgba(255,255,255,0.07);
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
 }
 .ia-preview-header {
-  padding: 10px 16px;
-  border-bottom: 1px solid var(--iron);
+  padding: 10px 14px;
+  border-bottom: 0.5px solid rgba(255,255,255,0.07);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -500,19 +518,22 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 .ia-preview-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
 }
 .btn-ia-action {
-  background: none;
-  border: 1px solid var(--steel);
-  color: var(--sub);
-  padding: 4px 10px;
+  background: var(--iron);
+  border: 0.5px solid rgba(255,255,255,0.13);
+  border-radius: 6px;
+  color: var(--muted);
+  padding: 4px 12px;
   cursor: pointer;
-  font-family: var(--fm);
+  font-family: var(--fb);
   font-size: 11px;
+  font-weight: 500;
+  transition: all .12s;
 }
 .btn-ia-action:hover:not(:disabled) {
-  border-color: var(--fire);
+  border-color: rgba(200,57,26,.4);
   color: var(--fire);
 }
 .btn-ia-action:disabled {
@@ -520,10 +541,11 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   cursor: not-allowed;
 }
 .ia-preview-info {
-  font-family: var(--fm);
-  font-size: 10px;
+  font-family: var(--fb);
+  font-size: 11px;
   color: var(--muted);
-  letter-spacing: 1px;
+  min-width: 44px;
+  text-align: center;
 }
 .ia-preview-container {
   flex: 1;
@@ -594,27 +616,27 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 /* ── URL IMPORT PANEL ─────────────────────────────────────────────────── */
 .url-import-bar {
   display: flex; gap: 6px; align-items: center;
-  padding: 6px 10px 6px 12px; background: #101010; border-top: 1px solid #1a1a1a;
+  padding: 6px 12px; background: var(--carbon); border-top: 0.5px solid rgba(255,255,255,0.07);
 }
 .url-import-bar input {
-  flex: 1; background: #181818; border: 1px solid #2a2a2a; color: var(--bone);
-  font-family: var(--fm); font-size: 10px; letter-spacing: 1px; padding: 6px 10px;
-  border-radius: 2px; outline: none;
+  flex: 1; background: var(--iron); border: 0.5px solid rgba(255,255,255,0.13); color: var(--text);
+  font-family: var(--fb); font-size: 12px; padding: 6px 10px;
+  border-radius: 6px; outline: none;
 }
-.url-import-bar input:focus { border-color: #444; }
-.url-import-bar input::placeholder { color: #444; }
+.url-import-bar input:focus { border-color: rgba(200,57,26,.4); }
+.url-import-bar input::placeholder { color: var(--muted); }
 .btn-url-import {
-  background: transparent; border: 1px solid #333; color: var(--muted);
-  font-family: var(--fm); font-size: 9px; letter-spacing: 2px; padding: 6px 12px;
-  cursor: pointer; border-radius: 2px; white-space: nowrap; transition: all .15s;
+  background: var(--iron); border: 0.5px solid rgba(255,255,255,0.13); color: var(--muted);
+  font-family: var(--fb); font-size: 11px; padding: 6px 12px;
+  cursor: pointer; border-radius: 6px; white-space: nowrap; transition: all .15s;
 }
-.btn-url-import:hover { border-color: var(--gold); color: var(--gold); }
+.btn-url-import:hover { border-color: rgba(184,146,42,.4); color: var(--gold); }
 .btn-url-toggle {
-  background: transparent; border: none; color: #444; font-family: var(--fm);
-  font-size: 9px; letter-spacing: 2px; padding: 4px 6px; cursor: pointer;
-  transition: color .15s;
+  background: var(--iron); border: 0.5px solid rgba(255,255,255,0.13); color: var(--muted);
+  font-family: var(--fb); font-size: 13px; padding: 4px 8px; cursor: pointer;
+  border-radius: 6px; transition: color .15s; flex-shrink: 0;
 }
-.btn-url-toggle:hover { color: var(--muted); }
+.btn-url-toggle:hover { color: var(--text); }
 
 /* O wrapper que a gente calcula a escala via JavaScript */
 .ia-live-slide-render {
@@ -1487,27 +1509,28 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 
 /* Anexos no Chat */
 .btn-ia-attach {
-  background: var(--iron);
-  color: var(--bone);
-  border: 1px solid var(--steel);
+  background: none;
+  color: var(--muted);
+  border: none;
   font-size: 16px;
-  padding: 0 14px;
+  padding: 0 4px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.15s;
+  flex-shrink: 0;
+  transition: all 0.12s;
 }
 .btn-ia-attach:hover {
-  background: var(--steel);
-  border-color: var(--fire);
+  color: var(--text);
 }
 .ia-chat-attached-container {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  background: var(--carbon);
-  border: 1px dashed var(--steel);
+  background: var(--iron);
+  border: 0.5px dashed rgba(255,255,255,0.13);
+  border-radius: 8px;
   padding: 8px;
   margin-bottom: 4px;
   width: 100%;
@@ -1548,7 +1571,7 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   display: flex !important;
   flex-direction: column !important;
   gap: 14px !important;
-  padding: 16px !important;
+  padding: 14px 16px !important;
 }
 .ia-message {
   display: flex;
@@ -1620,19 +1643,19 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 }
 
 /* ── SLIDE CARD EDITOR MELHORADO ── */
-.ia-slide-card { border-left: 3px solid var(--iron) !important; transition: all .2s ease; border-radius: 6px !important; }
-.ia-slide-card:focus-within { border-left-color: var(--fire) !important; box-shadow: 0 0 0 1px rgba(200,57,26,0.12) !important; }
-.ia-slide-card:hover { border-color: var(--steel) !important; }
-.ia-slide-card-header { background: rgba(255,255,255,0.02); border-radius: 4px; }
+.ia-slide-card { border-left: 3px solid rgba(255,255,255,0.07) !important; transition: all .2s ease; border-radius: 8px !important; }
+.ia-slide-card:focus-within { border-left-color: var(--fire) !important; box-shadow: 0 0 0 1px rgba(200,57,26,0.1) !important; }
+.ia-slide-card:hover { border-color: rgba(255,255,255,0.13) !important; }
+.ia-slide-card-header { background: rgba(255,255,255,0.02); border-radius: 5px; }
 .slide-card-actions { display: flex; gap: 4px; }
 .btn-slide-action {
-  background: none; border: 1px solid var(--steel); color: var(--muted);
-  font-family: var(--fm); font-size: 9px; padding: 3px 8px; cursor: pointer;
-  transition: all .12s; line-height: 1;
+  background: var(--iron); border: 0.5px solid rgba(255,255,255,0.13); border-radius: 6px; color: var(--muted);
+  font-family: var(--fb); font-size: 10px; padding: 3px 10px; cursor: pointer;
+  transition: all .12s; line-height: 1.4;
 }
-.btn-slide-action:hover { border-color: var(--fire); color: var(--fire); }
+.btn-slide-action:hover { border-color: rgba(200,57,26,.4); color: var(--fire); }
 .btn-slide-action:disabled { opacity: .25; cursor: not-allowed; pointer-events: none; }
-.btn-slide-del:hover { border-color: var(--fire); color: var(--fire); background: rgba(200,57,26,.08); }
+.btn-slide-del:hover { border-color: rgba(200,57,26,.4); color: var(--fire); background: rgba(200,57,26,.08); }
 
 /* Color accent picker */
 .accent-picker { display: flex; gap: 6px; margin-top: 4px; }
@@ -1644,7 +1667,7 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 .accent-btn:hover { transform: scale(1.1); }
 
 /* ── GALERIA DE REFERÊNCIAS ── */
-.refs-panel { background: var(--carbon); border: 1px solid var(--iron); margin-bottom: 14px; }
+.refs-panel { background: var(--carbon); border: 0.5px solid rgba(255,255,255,0.07); border-radius: 8px; margin-bottom: 10px; }
 .refs-header {
   display: flex; justify-content: space-between; align-items: center;
   padding: 8px 12px; cursor: pointer; user-select: none;
@@ -1692,11 +1715,11 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 
 /* ── RESET BUTTON ── */
 .btn-reset-ia {
-  background: none; border: 1px solid var(--steel); color: var(--muted);
-  font-family: var(--fm); font-size: 9px; letter-spacing: 1px; text-transform: uppercase;
-  padding: 5px 12px; cursor: pointer; transition: all .15s; margin-top: 8px; display: inline-block;
+  background: var(--iron); border: 0.5px solid rgba(255,255,255,0.13); border-radius: 6px; color: var(--muted);
+  font-family: var(--fb); font-size: 11px; font-weight: 500;
+  padding: 5px 12px; cursor: pointer; transition: all .15s;
 }
-.btn-reset-ia:hover { border-color: var(--fire); color: var(--fire); }
+.btn-reset-ia:hover { border-color: rgba(200,57,26,.4); color: var(--fire); }
 
 /* ── REDESIGN UX MELHORIAS ── */
 @keyframes fadeInUp {
@@ -1725,17 +1748,12 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
   gap: 14px;
 }
 .ia-preview-footer {
-  padding: 12px 16px;
-  border-top: 1px solid var(--iron);
+  padding: 12px 14px;
+  border-top: 0.5px solid rgba(255,255,255,0.07);
   background: var(--carbon);
 }
-.btn-ia-action {
-  border-radius: 4px;
-  padding: 5px 12px;
-  transition: all .2s;
-}
 .ia-chat-container {
-  padding: 12px 16px 10px;
+  padding: 10px 14px 10px;
 }
 /* Scrollbar refinada para áreas IA */
 .ia-left ::-webkit-scrollbar { width: 3px; }
@@ -1761,68 +1779,58 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 
   <!-- TOPBAR -->
   <header class="topbar">
-    <div class="logo-text">
-      STUDIO <span>///</span> <span id="brand-indicator" style="color:var(--bone);">JG</span>
-      <select id="brand-select" class="brand-select" onchange="switchBrand(this.value)">
-        <option value="jg">Brand: JG</option>
-        <option value="tgsr">Brand: TGSR</option>
-      </select>
-    </div>
-    <div style="font-family:var(--fm);font-size:10px;color:var(--muted);letter-spacing:2px;margin-left:8px;">CRIATIVOS</div>
+    <div class="logo-text">STUDIO <span>///</span> <span id="brand-indicator">JG</span></div>
     <div class="tab-nav">
-      <button class="tab-btn active" id="tab-studio" onclick="switchTab('studio')">🗂 Studio</button>
-      <button class="tab-btn" id="tab-iacreator" onclick="switchTab('iacreator')">🤖 Co-Criador IA</button>
-      <button class="tab-btn" id="tab-publicar" onclick="switchTab('publicar')">📤 Publicar</button>
-      <button class="tab-btn" id="tab-fila" onclick="switchTab('fila')">📋 Fila</button>
+      <button class="tab-btn active" id="tab-studio" onclick="switchTab('studio')">Studio</button>
+      <button class="tab-btn" id="tab-iacreator" onclick="switchTab('iacreator')">Co-Criador IA</button>
+      <button class="tab-btn" id="tab-publicar" onclick="switchTab('publicar')">Publicar</button>
+      <button class="tab-btn" id="tab-fila" onclick="switchTab('fila')">Fila</button>
     </div>
     <div class="topbar-sep"></div>
-    <div class="badge-count" id="total-count">carregando...</div>
+    <span style="font-size:11px;color:var(--muted);margin-right:8px;">Brand:</span>
+    <select id="brand-select" class="brand-select" onchange="switchBrand(this.value)">
+      <option value="jg">JG</option>
+      <option value="tgsr">TGSR</option>
+    </select>
+    <span class="badge-count" id="total-count" style="margin-left:12px;"></span>
   </header>
 
   <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar-el">
     <div class="search-wrap">
-      <input class="search-input" type="text" id="search" placeholder="BUSCAR CRIATIVO...">
+      <input class="search-input" type="text" id="search" placeholder="Buscar criativo...">
     </div>
     <div class="sidebar-title">Plataforma</div>
     <button class="filter-btn active" data-filter="all" onclick="setFilter('all',this)">
-      <span class="fi">🗂️</span> Todos <span class="fc" id="cnt-all">0</span>
+      Todos <span class="fc" id="cnt-all">0</span>
     </button>
     <button class="filter-btn" data-filter="instagram" onclick="setFilter('instagram',this)">
-      <span class="fi">📸</span> Instagram <span class="fc" id="cnt-instagram">0</span>
+      Instagram <span class="fc" id="cnt-instagram">0</span>
     </button>
     <button class="filter-btn" data-filter="linkedin" onclick="setFilter('linkedin',this)">
-      <span class="fi">💼</span> LinkedIn <span class="fc" id="cnt-linkedin">0</span>
+      LinkedIn <span class="fc" id="cnt-linkedin">0</span>
     </button>
     <button class="filter-btn" data-filter="meta" onclick="setFilter('meta',this)">
-      <span class="fi">📢</span> Meta Ads <span class="fc" id="cnt-meta">0</span>
+      Meta Ads <span class="fc" id="cnt-meta">0</span>
     </button>
     <button class="filter-btn" data-filter="youtube" onclick="setFilter('youtube',this)">
-      <span class="fi">▶</span> YouTube <span class="fc" id="cnt-youtube">0</span>
+      YouTube <span class="fc" id="cnt-youtube">0</span>
     </button>
     <button class="filter-btn" data-filter="brand" onclick="setFilter('brand',this)">
-      <span class="fi">🎨</span> Logo / Marca <span class="fc" id="cnt-brand">0</span>
+      Logo / Marca <span class="fc" id="cnt-brand">0</span>
     </button>
     <div class="sidebar-sep"></div>
-    <div class="sidebar-title">Ações Rápidas</div>
-    <button class="filter-btn" onclick="exportarTodos()">
-      <span class="fi">⚡</span> Exportar Todos
-    </button>
+    <div class="sidebar-title">Ações</div>
+    <button class="filter-btn" onclick="exportarTodos()">Exportar Todos</button>
     <div class="sidebar-sep"></div>
     <div class="sidebar-title">Criar Meta Ad</div>
-    <button class="filter-btn" onclick="criarMetaAd('square')">
-      <span class="fi">📢</span> Ad Estático 1:1
-    </button>
-    <button class="filter-btn" onclick="criarMetaAd('meta-portrait')">
-      <span class="fi">📢</span> Ad Feed 4:5
-    </button>
-    <button class="filter-btn" onclick="criarMetaAd('vertical')">
-      <span class="fi">📱</span> Stories / Reels
-    </button>
+    <button class="filter-btn" onclick="criarMetaAd('square')">Ad Estático 1:1</button>
+    <button class="filter-btn" onclick="criarMetaAd('meta-portrait')">Ad Feed 4:5</button>
+    <button class="filter-btn" onclick="criarMetaAd('vertical')">Stories / Reels</button>
   </aside>
 
   <!-- MAIN: Studio View -->
-  <main class="main" id="view-studio" class="view-panel active">
+  <main id="view-studio" class="main view-panel active">
 
     <!-- GALLERY -->
     <section class="gallery">
@@ -1839,14 +1847,14 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
 
       <!-- Slide navigation -->
       <div class="slide-nav" id="slide-nav" style="display:none;">
-        <button class="slide-nav-btn" id="prev-slide" onclick="navSlide(-1)">◀ Anterior</button>
+        <button class="slide-nav-btn" id="prev-slide" onclick="navSlide(-1)">‹ Anterior</button>
         <div class="slide-nav-info" id="slide-info">Slide 1 / ?</div>
-        <button class="slide-nav-btn" id="next-slide" onclick="navSlide(1)">Próximo ▶</button>
+        <button class="slide-nav-btn" id="next-slide" onclick="navSlide(1)">Próximo ›</button>
       </div>
 
       <div class="detail-preview" id="detail-preview">
         <div class="detail-preview-empty">
-          <div class="em">🎨</div>
+          <div class="em" style="font-size:32px;opacity:.3;">◻</div>
           <p>Preview aqui</p>
         </div>
       </div>
@@ -1859,103 +1867,123 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
           <div class="progress-log" id="progress-log"></div>
         </div>
 
-        <button class="btn-export" id="btn-export" onclick="exportarAtual()" disabled>
-          ⬇ EXPORTAR SLIDES
-        </button>
-        <button class="btn-folder" id="btn-folder" onclick="abrirPasta()" disabled>
-          📁 ABRIR PASTA DE SAÍDA
-        </button>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-export" id="btn-export" onclick="exportarAtual()" disabled style="flex:1;">
+            ↓ Gerar Arquivos
+          </button>
+        </div>
+        <div style="display:flex; gap:8px; margin-top:4px;">
+          <button class="btn-folder" id="btn-edit-creative" onclick="switchTab('view-iacreator');" disabled style="flex:1; background:var(--iron); color:var(--text); border:none;">
+            ✏️ Editar na IA
+          </button>
+          <button class="btn-pub" id="btn-pub-creative" onclick="switchTab('view-publicar'); loadPubCreatives();" disabled style="flex:1; padding:9px;">
+            🚀 Publicar
+          </button>
+        </div>
       </div>
     </aside>
 
   </main>
 
   <!-- VIEW: Publicar -->
-  <div id="view-publicar" class="view-panel" style="grid-column:2;grid-row:2;">
-    <div class="pub-wrap">
-      <div class="pub-left">
-        <div class="pub-sec-title">1. Selecione o Criativo</div>
-        <div class="pub-creative-list" id="pub-creative-list"></div>
-        <div class="pub-sec-title" id="pub-slides-title" style="display:none">2. Slides a publicar</div>
+  <div id="view-publicar" class="view-panel" style="grid-column:1 / -1;grid-row:2; height:100%; overflow:hidden;">
+    
+    <!-- Stepper Header -->
+    <div style="padding:20px 30px; background:var(--carbon); border-bottom:1px solid var(--iron); flex-shrink:0;">
+      <div style="display:flex; gap:20px; align-items:center;">
+        <div style="display:flex; align-items:center; gap:8px;">
+           <div style="width:24px;height:24px;border-radius:12px;background:var(--fire);color:var(--bone);display:flex;align-items:center;justify-content:center;font-family:var(--fb);font-size:12px;">1</div>
+           <span style="font-family:var(--fb);font-size:13px;color:var(--bone);">Selecionar</span>
+        </div>
+        <div style="height:1px; width:40px; background:var(--iron);"></div>
+        <div style="display:flex; align-items:center; gap:8px;">
+           <div style="width:24px;height:24px;border-radius:12px;background:var(--iron);color:var(--muted);display:flex;align-items:center;justify-content:center;font-family:var(--fb);font-size:12px;" id="stepper-step-2">2</div>
+           <span style="font-family:var(--fb);font-size:13px;color:var(--muted);" id="stepper-label-2">Validar Slides</span>
+        </div>
+        <div style="height:1px; width:40px; background:var(--iron);"></div>
+        <div style="display:flex; align-items:center; gap:8px;">
+           <div style="width:24px;height:24px;border-radius:12px;background:var(--iron);color:var(--muted);display:flex;align-items:center;justify-content:center;font-family:var(--fb);font-size:12px;" id="stepper-step-3">3</div>
+           <span style="font-family:var(--fb);font-size:13px;color:var(--muted);" id="stepper-label-3">Legenda & Post</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stepper Content -->
+    <div class="pub-wrap" style="flex:1; overflow-y:auto; padding:20px 30px; gap:40px; align-items:flex-start; flex-direction:row; display:flex;">
+      <div class="pub-left" style="flex:1; max-width:500px; padding:0;">
+        <div class="pub-sec-title">Selecione o Criativo</div>
+        <div class="pub-creative-list" id="pub-creative-list" style="margin-bottom:30px;"></div>
+        
+        <div class="pub-sec-title" id="pub-slides-title" style="display:none; margin-top:30px;">Validação de Slides</div>
         <div class="pub-grid" id="pub-slide-grid"></div>
       </div>
-      <div class="pub-right">
+      
+      <div class="pub-right" style="flex:1; max-width:400px; background:var(--carbon); border:1px solid var(--iron); border-radius:8px; padding:24px; position:sticky; top:20px;">
         <div>
           <div class="pub-label">Legenda</div>
-          <textarea class="pub-textarea" id="pub-caption" placeholder="Escreva a legenda do post..." oninput="updatePubChar()"></textarea>
+          <textarea class="pub-textarea" id="pub-caption" placeholder="Escreva a legenda do post..." oninput="updatePubChar()" style="min-height:140px; resize:vertical;"></textarea>
           <div class="pub-char" id="pub-char">0 / 2200</div>
         </div>
-        <div>
+        <div style="margin-top:16px;">
           <div class="pub-label">Hashtags</div>
           <input class="pub-input" id="pub-hashtags" placeholder="#growth #marketing #liderança">
         </div>
-        <div class="pub-sep"></div>
+        <div class="pub-sep" style="margin:20px 0;"></div>
         <div id="pub-status" class="pub-status"></div>
-        <button class="btn-pub" id="btn-pub-now" onclick="publicarAgora()" disabled>📤 PUBLICAR AGORA NO INSTAGRAM</button>
-        <button class="btn-queue-add" id="btn-add-queue" onclick="adicionarFila()" disabled>📋 ADICIONAR À FILA</button>
-        <div style="font-family:var(--fm);font-size:9px;color:var(--muted);line-height:1.6;">
-          ⚠ Configure CLOUDINARY_* e IG_ACCESS_TOKEN no arquivo .env antes de publicar.
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <button class="btn-pub" id="btn-pub-now" onclick="publicarAgora()" disabled style="padding:14px; font-size:13px;">🚀 Publicar no Instagram</button>
+          <button class="btn-queue-add" id="btn-add-queue" onclick="adicionarFila()" disabled style="padding:10px; font-size:11px;">⏳ Adicionar à Fila</button>
+        </div>
+        <div style="font-family:var(--fm);font-size:9px;color:var(--muted);line-height:1.6;margin-top:16px;text-align:center;">
+          Certifique-se de configurar CLOUDINARY_* e IG_ACCESS_TOKEN no arquivo .env antes de publicar.
         </div>
       </div>
     </div>
   </div>
 
   <!-- VIEW: Fila -->
-  <div id="view-fila" class="view-panel" style="grid-column:2;grid-row:2;">
+  <div id="view-fila" class="view-panel" style="grid-column:1 / -1;grid-row:2;">
     <div class="queue-wrap">
-      <div class="queue-h">FILA DE PUBLICAÇÃO</div>
+      <div class="queue-h">Fila de Publicação</div>
       <div class="queue-sub">Posts salvos aguardando publicação no Instagram</div>
       <div class="queue-list" id="queue-list"></div>
     </div>
   </div>
 
   <!-- VIEW: Co-Criador IA -->
-  <div id="view-iacreator" class="view-panel" style="grid-column:2;grid-row:2;height:100%;overflow:hidden;">
+  <div id="view-iacreator" class="view-panel" style="grid-column:1 / -1;grid-row:2;height:100%;overflow:hidden;">
     <div class="ia-wrap">
       <!-- Coluna Esquerda: Chat & Editor -->
       <div class="ia-left">
         <!-- Top header do Co-Criador -->
         <div class="ia-header">
-            <div class="ia-title">CO-CRIADOR IA</div>
-            <div class="ia-subtitle">Copy brutalista em tempo real</div>
+            <div class="ia-title">Co-Criador IA</div>
+            <div class="ia-subtitle">ao vivo</div>
             <div style="flex:1;"></div>
-            <button class="btn-reset-ia" onclick="reiniciarTudo()" title="Apaga todos os slides e o histórico do chat">🔄 NOVO</button>
+            <button class="btn-reset-ia" onclick="reiniciarTudo()" title="Apaga todos os slides e o histórico do chat">+ Novo</button>
         </div>
         
         <!-- Seletor de Formatos (compacto, acima dos tabs) -->
         <div class="ia-format-bar">
           <div class="ia-format-selector">
-            <button class="ia-format-btn active" data-fmt="carousel" onclick="setIAFormat('carousel')">📸 Insta</button>
-            <button class="ia-format-btn" data-fmt="linkedin-carousel" onclick="setIAFormat('linkedin-carousel')">💼 LinkedIn</button>
-            <button class="ia-format-btn" data-fmt="square" onclick="setIAFormat('square')">📢 Meta 1:1</button>
-            <button class="ia-format-btn" data-fmt="meta-portrait" onclick="setIAFormat('meta-portrait')">📢 Meta 4:5</button>
-            <button class="ia-format-btn" data-fmt="vertical" onclick="setIAFormat('vertical')">📱 Stories</button>
-            <button class="ia-format-btn" data-fmt="youtube-thumb" onclick="setIAFormat('youtube-thumb')">▶ YouTube</button>
-            <button class="ia-format-btn" data-fmt="brand-logo" onclick="setIAFormat('brand-logo')">🎨 Marca</button>
-            <button class="ia-format-btn" data-fmt="banner-horizontal" onclick="setIAFormat('banner-horizontal')">🖥️ Banner</button>
+            <button class="ia-format-btn active" data-fmt="carousel" onclick="setIAFormat('carousel')">Insta</button>
+            <button class="ia-format-btn" data-fmt="linkedin-carousel" onclick="setIAFormat('linkedin-carousel')">LinkedIn</button>
+            <button class="ia-format-btn" data-fmt="square" onclick="setIAFormat('square')">Meta 1:1</button>
+            <button class="ia-format-btn" data-fmt="meta-portrait" onclick="setIAFormat('meta-portrait')">Meta 4:5</button>
+            <button class="ia-format-btn" data-fmt="vertical" onclick="setIAFormat('vertical')">Stories</button>
+            <button class="ia-format-btn" data-fmt="youtube-thumb" onclick="setIAFormat('youtube-thumb')">YouTube</button>
+            <button class="ia-format-btn" data-fmt="brand-logo" onclick="setIAFormat('brand-logo')">Marca</button>
+            <button class="ia-format-btn" data-fmt="banner-horizontal" onclick="setIAFormat('banner-horizontal')">Banner</button>
           </div>
         </div>
 
-        <!-- Tab strip -->
-        <div class="ia-tabs-bar">
-          <button class="ia-tab-btn active" id="tab-btn-chat" onclick="switchIATab('chat')">💬 CHAT</button>
-          <button class="ia-tab-btn" id="tab-btn-editor" onclick="switchIATab('editor')">
-            ✏️ SLIDES <span class="ia-tab-badge" id="tab-slides-badge" style="display:none;">0</span>
-          </button>
-        </div>
-
-        <!-- Tab content wrapper -->
-        <div class="ia-tabs-content">
-
-        <!-- TAB: CHAT -->
-        <div id="tab-panel-chat" class="ia-tab-panel active">
-
-        <!-- Ferramentas do chat: upload de foto + refs -->
-        <div style="display:flex;gap:6px;align-items:center;padding:6px 12px;background:var(--carbon);border-bottom:1px solid var(--iron);flex-shrink:0;">
+        <!-- Context bar -->
+        <div style="display:flex;gap:6px;align-items:center;padding:7px 14px;background:var(--carbon);border-bottom:0.5px solid rgba(255,255,255,0.07);flex-shrink:0;flex-wrap:wrap;">
+          <span style="font-family:var(--fb);font-size:11px;color:var(--muted);flex-shrink:0;">Contexto:</span>
           <input type="file" id="user-image-upload" accept="image/*" multiple style="display:none;" onchange="handleImageUpload(this)">
-          <button class="btn-ia-action" style="padding:5px 10px;font-size:9px;" onclick="document.getElementById('user-image-upload').click()" title="Importar imagem para a biblioteca">📁 FOTO</button>
-          <span id="upload-status-text" style="font-family:var(--fm);font-size:9px;color:var(--muted);flex:1;">—</span>
-          <button class="btn-ia-action" style="padding:5px 10px;font-size:9px;" onclick="toggleReferencias()" title="Galeria de referências de estilo">🎨 REFS <span class="refs-count-badge" id="refs-sel-badge">0</span></button>
+          <button onclick="document.getElementById('user-image-upload').click()" title="Importar imagem" style="display:flex;align-items:center;gap:5px;padding:4px 10px;background:var(--iron);border:0.5px solid rgba(255,255,255,0.13);border-radius:6px;font-family:var(--fb);font-size:11px;color:var(--muted);cursor:pointer;transition:all .12s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Imagem</button>
+          <span id="upload-status-text" style="font-family:var(--fb);font-size:11px;color:var(--muted);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></span>
+          <button onclick="toggleReferencias()" title="Referências de estilo" style="display:flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(184,146,42,.08);border:0.5px solid rgba(184,146,42,.25);border-radius:6px;font-family:var(--fb);font-size:11px;color:var(--gold);cursor:pointer;margin-left:auto;">Refs <span class="refs-count-badge" id="refs-sel-badge" style="background:var(--gold);color:#000;font-size:9px;font-weight:700;border-radius:8px;padding:1px 5px;">0</span></button>
         </div>
 
         <!-- Galeria de Referências de Estilo (colapsável) -->
@@ -1988,67 +2016,82 @@ html,body{height:100%;background:var(--void);color:var(--bone);font-family:var(-
           <!-- Visualização das Imagens Anexadas antes do Envio -->
           <div id="ia-chat-attached-container" class="ia-chat-attached-container" style="display: none;"></div>
           
+          <!-- Sugestões rápidas -->
+          <div style="display:flex;gap:6px;flex-wrap:wrap;padding:0 0 2px;">
+            <button onclick="usarSugestao('Deixe o tom mais direto e agressivo')" style="padding:5px 12px;background:var(--iron);border:0.5px solid rgba(255,255,255,0.13);border-radius:20px;font-family:var(--fb);font-size:11px;color:var(--muted);cursor:pointer;transition:all .12s;white-space:nowrap;" onmouseover="this.style.color='var(--fire)';this.style.borderColor='rgba(200,57,26,.35)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='rgba(255,255,255,0.13)'">Tom mais agressivo</button>
+            <button onclick="usarSugestao('Adicione um slide com dados e métricas')" style="padding:5px 12px;background:var(--iron);border:0.5px solid rgba(255,255,255,0.13);border-radius:20px;font-family:var(--fb);font-size:11px;color:var(--muted);cursor:pointer;transition:all .12s;white-space:nowrap;" onmouseover="this.style.color='var(--fire)';this.style.borderColor='rgba(200,57,26,.35)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='rgba(255,255,255,0.13)'">+ Slide de dados</button>
+            <button onclick="usarSugestao('Refaça o CTA do último slide, mais direto')" style="padding:5px 12px;background:var(--iron);border:0.5px solid rgba(255,255,255,0.13);border-radius:20px;font-family:var(--fb);font-size:11px;color:var(--muted);cursor:pointer;transition:all .12s;white-space:nowrap;" onmouseover="this.style.color='var(--fire)';this.style.borderColor='rgba(200,57,26,.35)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='rgba(255,255,255,0.13)'">Refazer CTA</button>
+          </div>
           <div class="ia-chat-input-wrap">
             <input type="file" id="ia-chat-image-input" multiple accept="image/*" style="display: none;" onchange="handleChatImagesSelect(this)">
-            <button class="btn-ia-attach" onclick="document.getElementById('ia-chat-image-input').click()" title="Anexar imagens para a IA analisar">📎</button>
-            <input type="text" id="ia-chat-input" placeholder="DIGITE SUA IDEIA OU ANEXE IMAGENS..." onkeydown="if(event.key === 'Enter') enviarMensagemIA()">
-            <button class="btn-url-toggle" onclick="toggleURLImport()" title="Importar de blogpost ou página web">🌐</button>
-            <button class="btn-ia-send" onclick="enviarMensagemIA()">ENVIAR</button>
+            <button class="btn-ia-attach" onclick="document.getElementById('ia-chat-image-input').click()" title="Anexar imagens">📎</button>
+            <textarea id="ia-chat-input" rows="1" placeholder="Digite sua ideia, tema ou cole um brief..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();enviarMensagemIA()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px'"></textarea>
+            <button class="btn-url-toggle" onclick="toggleURLImport()" title="Importar de URL">🌐</button>
+            <button class="btn-ia-send" onclick="enviarMensagemIA()">Enviar</button>
+          </div>
+          <div style="font-family:var(--fb);font-size:10px;color:var(--muted);display:flex;gap:12px;padding:0 2px;">
+            <span>Enter para enviar</span>
+            <span>Shift+Enter nova linha</span>
+            <span>Cole imagens direto</span>
           </div>
           <div id="url-import-bar" class="url-import-bar" style="display:none;">
             <span style="font-family:var(--fm);font-size:9px;letter-spacing:1px;color:var(--muted);white-space:nowrap;">URL:</span>
             <input type="text" id="url-import-input" placeholder="Cole a URL do blogpost ou página... (https://...)" onkeydown="if(event.key==='Enter') importarDeURL()">
             <button class="btn-url-import" onclick="importarDeURL()" id="btn-url-import">IMPORTAR</button>
           </div>
-        </div><!-- /ia-chat-container -->
-        </div><!-- /tab-panel-chat -->
+        </div>
+        </div>
 
-        <!-- TAB: EDITOR DE SLIDES -->
-        <div id="tab-panel-editor" class="ia-tab-panel">
-        <div class="ia-editor-section" id="ia-editor-section">
-          <div style="margin-bottom: 16px;">
-            <div class="pub-label" style="margin-bottom:6px;">Nome do Criativo (para salvar o arquivo)</div>
-            <input class="pub-input" id="ia-creative-name" placeholder="Ex: licoes_jiujitsu_growth" value="carrossel_ia">
+        <!-- DIVISÓRIA REDIMENSIONÁVEL -->
+        <div class="ia-resizer" id="ia-main-resizer"></div>
+
+        <!-- Coluna Direita: Live Preview dos Slides -->
+        <div class="ia-right">
+        <div class="ia-preview-area" style="display:flex; flex-direction:column; flex:1; min-height:0;">
+          <div class="ia-preview-header">
+            <div class="pub-label" style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.05em;">Preview</div>
+            <div class="ia-preview-actions">
+              <button class="btn-ia-action" id="btn-ia-prev" onclick="navIASlide(-1)" disabled>‹</button>
+              <span class="ia-preview-info" id="ia-preview-info">1 / 1</span>
+              <button class="btn-ia-action" id="btn-ia-next" onclick="navIASlide(1)" disabled>›</button>
+            </div>
+          </div>
+          
+          <div class="ia-preview-container">
+            <!-- Renderização ao vivo do slide selecionado -->
+            <div id="ia-live-slide-render" class="ia-live-slide-render">
+              <div class="detail-preview-empty" style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:.3; color:var(--bone);">
+                <div style="font-size:28px;opacity:.25;">◻</div>
+                <p style="font-family:var(--fb); font-size:12px; color:var(--muted);">Aguardando geração...</p>
+              </div>
+            </div>
           </div>
 
+          <div class="ia-preview-footer">
+            <div style="display:flex;gap:8px;margin-bottom:8px;">
+              <button class="btn-pub" id="btn-ia-salvar" onclick="salvarCriativoIA()" disabled style="flex:1;">Salvar e Exportar</button>
+              <button class="btn-ia-action" onclick="abrirModalPreview()" title="Ampliar preview do slide" style="padding:5px 14px;">⛶ Ampliar</button>
+            </div>
+            <div id="ia-status-log" class="pub-status"></div>
+          </div>
+        </div>
+        
+        <!-- EDITOR DE SLIDES NOVO -->
+        <div class="ia-editor-section" id="ia-editor-section" style="flex:1; overflow-y:auto; border-top:1px solid var(--iron); background:var(--void); padding:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 16px;">
+            <div>
+              <div class="pub-label" style="margin-bottom:6px;">Nome do Criativo</div>
+              <input class="pub-input" id="ia-creative-name" placeholder="Ex: licoes_jiujitsu_growth" value="carrossel_ia">
+            </div>
+            <button class="btn-ia-action" id="btn-toggle-editor" onclick="toggleEditorMode()" style="padding:6px 12px; font-size:11px;" title="Expandir/Reduzir Editor">
+              ⛶ Modo Foco
+            </button>
+          </div>
           <div class="ia-slides-editor-list" id="ia-slides-editor-list">
             <div style="font-family:var(--fm);font-size:10px;letter-spacing:1px;color:var(--muted);text-align:center;padding:40px 0;">
               Nenhum slide ainda — volte ao chat e peça um criativo.
             </div>
           </div>
-        </div>
-        </div><!-- /tab-panel-editor -->
-
-        </div><!-- /ia-tabs-content -->
-      </div>
-
-      <!-- Coluna Direita: Live Preview dos Slides -->
-      <div class="ia-right">
-        <div class="ia-preview-header">
-          <div class="pub-label">PREVISÃO GRÁFICA DOS SLIDES</div>
-          <div class="ia-preview-actions">
-            <button class="btn-ia-action" id="btn-ia-prev" onclick="navIASlide(-1)" disabled>◀ Anterior</button>
-            <span class="ia-preview-info" id="ia-preview-info">SLIDE 1 / 1</span>
-            <button class="btn-ia-action" id="btn-ia-next" onclick="navIASlide(1)" disabled>Próximo ▶</button>
-          </div>
-        </div>
-        
-        <div class="ia-preview-container">
-          <!-- Renderização ao vivo do slide selecionado -->
-          <div id="ia-live-slide-render" class="ia-live-slide-render">
-            <div class="detail-preview-empty" style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:.3; color:var(--bone);">
-              <div class="em" style="font-size:48px;">🤖</div>
-              <p style="font-family:var(--fm); font-size:11px; letter-spacing:2px; text-transform:uppercase;">AGUARDANDO IA...</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="ia-preview-footer">
-          <div style="display:flex;gap:8px;margin-bottom:8px;">
-            <button class="btn-pub" id="btn-ia-salvar" onclick="salvarCriativoIA()" disabled style="flex:1;">💾 SALVAR E EXPORTAR CRIATIVO</button>
-            <button class="btn-outline" onclick="abrirModalPreview()" title="Ampliar preview do slide" style="padding:0 14px;font-size:11px;">⛶ AMPLIAR</button>
-          </div>
-          <div id="ia-status-log" class="pub-status"></div>
         </div>
       </div>
     </div>
@@ -2146,10 +2189,12 @@ function renderGallery() {
     const pl = PLATFORM_LABELS[c.platform] || PLATFORM_LABELS.carousel;
     const fmts = c.formats.map(f => `<span class="tag tag-${c.platform}">${f.label || f.class}</span>`).join('');
     const exportedBadge = c.exportedSlides > 0 ? `<div class="card-exported">${c.exportedSlides} slides</div>` : '';
+    // Mock de performance para o redesign
+    const perfNum = (c.id.charCodeAt(0) % 50) + 40; // entre 40 e 90
     return `
     <div class="card" id="card-${c.id}" onclick="selectCreative('${c.id}')">
       <div class="card-preview">
-        <div class="card-preview-placeholder">${pl.icon}</div>
+        <iframe src="/api/preview/${c.id}?format=${c.formats[0].class}" loading="lazy"></iframe>
       </div>
       ${exportedBadge}
       <div class="card-body">
@@ -2157,6 +2202,17 @@ function renderGallery() {
         <div class="card-meta">
           <span class="tag tag-${c.platform}">${pl.label}</span>
           ${fmts}
+        </div>
+        <!-- Barra de performance visual -->
+        <div style="margin-top:10px; display:flex; align-items:center; gap:6px;">
+          <div style="flex:1; height:4px; background:var(--iron); border-radius:2px; overflow:hidden;">
+            <div style="height:100%; width:${perfNum}%; background:var(--gold);"></div>
+          </div>
+          <span style="font-family:var(--fb); font-size:9px; color:var(--muted);">${perfNum}% CTR</span>
+        </div>
+        <div style="margin-top:10px; display:flex; gap:6px;">
+           <button class="btn-ia-action" style="flex:1; font-size:9px;" id="btn-edit-creative" onclick="editCreative('${c.id}')">Editar</button>
+           <button class="btn-ia-action" style="flex:1; font-size:9px; color:var(--gold); border-color:var(--gold);" id="btn-pub-creative" onclick="publicarCreative('${c.id}')">Publicar</button>
         </div>
       </div>
     </div>`;
@@ -2187,7 +2243,11 @@ async function selectCreative(id) {
 
   // Enable buttons
   document.getElementById('btn-export').disabled = false;
-  document.getElementById('btn-export').textContent = '⬇ EXPORTAR SLIDES';
+  document.getElementById('btn-export').textContent = '↓ GERAR ARQUIVOS';
+  const editBtn = document.getElementById('btn-edit-creative');
+  if(editBtn) editBtn.disabled = false;
+  const pubBtn = document.getElementById('btn-pub-creative');
+  if(pubBtn) pubBtn.disabled = false;
   document.getElementById('btn-folder').disabled = selected.exportedSlides === 0;
 
   // Reset progress
@@ -2677,6 +2737,14 @@ function removeAttachedImage(idx) {
   renderAttachedImages();
 }
 
+function usarSugestao(texto) {
+  const input = document.getElementById('ia-chat-input');
+  input.value = texto;
+  input.style.height = 'auto';
+  input.style.height = Math.min(input.scrollHeight, 80) + 'px';
+  input.focus();
+}
+
 async function enviarMensagemIA() {
   const input = document.getElementById('ia-chat-input');
   const message = input.value.trim();
@@ -2707,6 +2775,7 @@ async function enviarMensagemIA() {
   chatMessages.innerHTML += userMsgHtml;
   chatMessages.scrollTop = chatMessages.scrollHeight;
   input.value = '';
+  input.style.height = 'auto';
 
   // Indicador de digitação animado
   const loadingEl = document.createElement('div');
@@ -3157,7 +3226,7 @@ function renderIASlidePreview() {
   renderEl.innerHTML = html;
 
   // Aplica cor de destaque personalizada via CSS variable
-  const slideEl = renderEl.querySelector('.slide');
+  const slideEl = renderEl.querySelector('.slide, .yt-thumb, .ad-square, .ad-portrait, .ad-story, .banner, .logo-asset');
   if (slideEl) {
     const accentMap = { fire: '#C8391A', gold: '#B8922A', neon: '#E1306C', bone: '#F0EBE0' };
     const accent = accentMap[s.accentColor] || accentMap.fire;
@@ -3274,6 +3343,53 @@ async function salvarCriativoIA() {
 
 window.addEventListener('resize', resizeIAPreview);
 
+// --- RESIZE LOGIC ---
+const iaWrap = document.querySelector('.ia-wrap');
+const mainResizer = document.getElementById('ia-main-resizer');
+let isResizingIA = false;
+
+if (mainResizer) {
+  mainResizer.addEventListener('mousedown', (e) => {
+    isResizingIA = true;
+    mainResizer.classList.add('active');
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none'; // Evita selecionar texto ao arrastar
+    document.body.classList.add('is-resizing');
+  });
+}
+
+document.addEventListener('mousemove', (e) => {
+  if (!isResizingIA) return;
+  
+  const wrapRect = iaWrap.getBoundingClientRect();
+  // Calcula nova largura do painel direito baseada na posição do mouse
+  let newWidth = wrapRect.right - e.clientX;
+  
+  // Limites min/max
+  if (newWidth < 300) newWidth = 300;
+  if (newWidth > wrapRect.width - 300) newWidth = wrapRect.width - 300;
+  
+  iaWrap.style.setProperty('--ia-right-w', `${newWidth}px`);
+  
+  resizeIAPreview();
+});
+
+document.addEventListener('mouseup', () => {
+  if (isResizingIA) {
+    isResizingIA = false;
+    if (mainResizer) mainResizer.classList.remove('active');
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+    document.body.classList.remove('is-resizing');
+  }
+});
+
+function toggleEditorMode() {
+  const wrap = document.querySelector('.ia-wrap');
+  wrap.classList.toggle('editor-expanded');
+  setTimeout(resizeIAPreview, 50);
+}
+
 function reiniciarTudo() {
   if (iaSlides.length === 0 && iaHistory.length === 0) return;
   if (!confirm('Isso vai apagar todos os slides criados e o histórico do chat. Deseja continuar?')) return;
@@ -3334,14 +3450,7 @@ function deletarSlide(idx) {
 
 // ── IA INNER TABS (chat / editor) ─────────────────────────────────────────
 function switchIATab(name) {
-  ['chat', 'editor'].forEach(t => {
-    document.getElementById('tab-panel-' + t).classList.toggle('active', t === name);
-    document.getElementById('tab-btn-' + t).classList.toggle('active', t === name);
-  });
-  if (name === 'editor') {
-    const badge = document.getElementById('tab-slides-badge');
-    if (badge) badge.style.display = 'none';
-  }
+  // Tabs foram removidas e unificadas no layout lado a lado
 }
 
 // ── RICH TEXT EDITOR ───────────────────────────────────────────────────────
@@ -3504,12 +3613,21 @@ function renderPubCreatives() {
     list.innerHTML = `<div style="font-family:var(--fm);font-size:10px;color:var(--muted);">Nenhum criativo Instagram/Meta encontrado. Exporte primeiro na aba Studio.</div>`;
     return;
   }
-  list.innerHTML = ig.map(c => `
+  list.innerHTML = ig.map(c => {
+    const isReady = c.exportedSlides > 0;
+    const badgeText = isReady ? 'PRONTO PARA POSTAR' : 'PENDENTE EXPORTAÇÃO';
+    const badgeColor = isReady ? 'var(--gold)' : 'var(--muted)';
+    const badgeBg = isReady ? 'rgba(184,146,42,0.1)' : 'rgba(255,255,255,0.05)';
+    return `
     <div class="pub-creative-item ${pubSelected?.id===c.id?'sel':''}" onclick="selectPubCreative('${c.id}')">
       <span style="font-size:16px;">📸</span>
-      <span>${c.name}</span>
+      <div style="display:flex; flex-direction:column; gap:4px;">
+        <span>${c.name}</span>
+        <span style="font-family:var(--fm);font-size:8px;color:${badgeColor};background:${badgeBg};padding:2px 6px;border-radius:4px;width:fit-content;letter-spacing:0.5px;">${badgeText}</span>
+      </div>
       <span style="margin-left:auto;font-family:var(--fm);font-size:9px;color:var(--muted);">${c.exportedSlides} slides</span>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 async function selectPubCreative(id) {
