@@ -709,31 +709,33 @@ Quando o usuário enviar uma imagem com dados (gráfico, tabela do Semrush, Goog
 1. ANALISE os dados visíveis: valores, percentuais, labels, tendências, palavras-chave
 2. RECONSTRUA os dados como componente HTML brutalista nativo no campo "body" (custom-chart, vs-container ou step-list)
 3. NUNCA use a imagem como "bg" (fundo). Sempre bg:"" para slides com dados. Layout recomendado: "technical-sheet" ou "neon-accent"
-4. Se quiser exibir a imagem original dentro do slide SEM distorção como referência visual, use o campo "contentIma  const structureRules = brandId === 'tgsr' ? \`REGRAS DE ESTRUTURA DOS SLIDES:
-1. Capa (Slide 1): Título corporativo e tecnológico (Bebas Neue, use <em> para destacar em neon, ex: "COMO ESCALAR COM<br><em>DADOS</em>") + Subtítulo curto. Use "neon-accent" ou "technical-sheet".
+4. Se quiser exibir a imagem original dentro do slide SEM distorção como referência visual, use o campo "contentImage" (passando a url da imagem/base64 original).` : '';
+
+  const structureRules = brandId === 'tgsr' ? `REGRAS DE ESTRUTURA DOS SLIDES:
+1. Capa (Slide 1): Título corporativo e tecnológico (Bebas Neue, use <em> para destacar em neon, ex: "COMO ESCALAR COM<br><em>DADOS</em>") + Subtítulo curto. Use "neon-accent" ou "technical-sheet". Para YouTube, use "clean-youtube-thumb". Para Banners, use "mesh-banner-widescreen".
 2. Slides Internos: Varie os layouts a cada slide para manter a leitura viva. Foque nos layouts "neon-accent", "technical-sheet" e "bento-metrics".
 3. Slide de Métrica/Destaque: Ótimo usar layout "giant-number" (ex: número "48% ROI" ou "3.4M" no título).
 4. Slide de Explicação: Use "split-screen" ou "split-list" para explicar tecnologia ou fluxos.
-5. Slide CTA Final: Ação clara e corporativa. Use "neon-accent".\`
-  : \`REGRAS DE ESTRUTURA DOS SLIDES:
-1. Capa (Slide 1): Título impactante (Bebas Neue, use <em> para destacar em vermelho/fluorescente, ex: "3 LIÇÕES DO<br><em>JIU-JITSU</em>") + Subtítulo curto de apoio. A tag deve ser o tema central (ex: "GROWTH NÚMEROS"). Use "split-screen" ou "editorial-focus".
-2. Slides Internos: Varie os layouts a cada slide para manter a leitura viva. Use os novos layouts "neon-accent" e "technical-sheet" alternados com os tradicionais.
-3. Slide de Métrica/Destaque: Ótimo usar layout "giant-number" (ex: número "48%" ou "3.4M" no título e texto curto no corpo).
-4. Slide de Depoimento/Tweet: Use layout "social-proof" se quiser simular um tweet/depoimento direto seu sobre o tema do carrossel.
-5. Slide CTA Final: Ação clara e firme. Use "split-screen", "impact-quote" ou "neon-accent" com sua foto no bg.\`;
+5. Slide CTA Final: Ação clara e corporativa. Use "neon-accent".`
+  : `REGRAS DE ESTRUTURA DOS SLIDES:
+1. Capa (Slide 1): Título impactante (Bebas Neue, use <em> para destacar em vermelho/fluorescente, ex: "3 LIÇÕES DO<br><em>JIU-JITSU</em>") + Subtítulo curto de apoio. A tag deve ser o tema central (ex: "GROWTH NÚMEROS"). Use "split-screen", "editorial-focus" ou "cover-top-heavy".
+2. Capas Específicas: Para Capas de YouTube use "clean-youtube-thumb". Para Stories ultra-premium use "modern-glass-story". Para Banners (linkedin/yt/site) use "mesh-banner-widescreen".
+3. Meta Ads: Para o feed quadrado ou vertical de anúncios, priorize "bento-modern-ad" para mostrar múltiplos benefícios de forma cristalina.
+4. Slides Internos de Carrossel: Varie os layouts a cada slide para manter a leitura viva. Use os novos layouts "neon-accent" e "technical-sheet" alternados com os tradicionais.
+5. Slide CTA Final: Ação clara e firme. Use "split-screen", "impact-quote" ou "neon-accent" com sua foto no bg.`;
 
-  const systemInstruction = editModeContext + \`Você é o co-criador oficial de criativos do Studio.
+  const systemInstruction = editModeContext + `Você é o co-criador oficial de criativos do Studio.
 Seu objetivo é gerar a copy e estrutura de slides de um criativo brutalista/moderno de alta conversão.
 
-FORMATO DO CRIATIVO SOLICITADO: "\${format}"
+FORMATO DO CRIATIVO SOLICITADO: "${format}"
 Considere as diretrizes do formato solicitado para compor títulos e copys:
 - "carousel" ou "linkedin-carousel": Carrossel (1080x1350px). Média de 5 a 10 slides. Texto fluido, bem sequenciado.
-- "square": Meta Ads Estático 1:1 (1080x1080px). Anúncio único de alto impacto. Copy extremamente direta, headline curtíssima, CTA visível. Pensado para feed pago do Instagram/Facebook.
-- "meta-portrait": Meta Ads Feed 4:5 (1080x1350px). Anúncio único vertical. Mais espaço que o quadrado — use para copy um pouco mais desenvolvida com imagem de fundo impactante e CTA forte. Ideal para tráfego pago.
-- "vertical": Meta Ads Stories / Reels (1080x1920px). Proporção 9:16. Máximo 1 slide ultra impactante para story patrocinado, ou sequência de 3 slides rápidos. Copy curtíssima, visual cinematográfico.
-- "horizontal" ou "banner-horizontal" ou "youtube-thumb": Proporção horizontal/paisagem. Títulos bem amplos em uma linha e parágrafos distribuídos horizontalmente.
+- "square" ou "meta-portrait": Meta Ads Estático (1080x1080 ou 4:5). Copy extremamente direta, headline curtíssima, focado em benefícios múltiplos. LAYOUT RECOMENDADO: "bento-modern-ad".
+- "vertical": Meta Ads Stories / Reels (1080x1920px). Máximo 1 slide ultra impactante para story, layout super elegante, vertical. LAYOUT RECOMENDADO: "modern-glass-story".
+- "horizontal" ou "banner-horizontal": Banner largo (1920x1080px). Um único slide de capa muito largo. Texto único. LAYOUT RECOMENDADO: "mesh-banner-widescreen".
+- "youtube-thumb": Capa de YouTube (1280x720). Título super massivo (máx 5 palavras fortes), foco em clique/CTR. LAYOUT RECOMENDADO: "clean-youtube-thumb".
 
-\${brandRules}
+${brandRules}
 
 REPOSITÓRIO DE MODELOS VISUAIS (LAYOUTS):
 Escolha com extrema sabedoria e de forma variada o layout de cada slide (atribuindo a chave "layout") para evitar posts monótonos ou repetitivos. Tente variar os layouts durante a narrativa do carrossel/criativo!
@@ -977,13 +979,62 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
     
     let isSocialProof = s.layout === 'social-proof';
     let isGiantNumber = s.layout === 'giant-number';
+    let isModernGlassStory = s.layout === 'modern-glass-story';
+    let isCleanYoutubeThumb = s.layout === 'clean-youtube-thumb';
+    let isBentoModernAd = s.layout === 'bento-modern-ad';
+    let isMeshBannerWidescreen = s.layout === 'mesh-banner-widescreen';
     let isCapa = s.type === 'capa';
     let isCta = s.type === 'cta';
     let isQuote = s.type === 'quote';
 
     slidesHtml += `\n<!-- SLIDE ${idx + 1}: ${s.type.toUpperCase()} -->\n`;
     
-    if (isSocialProof) {
+    if (isModernGlassStory) {
+      slidesHtml += `<div class="slide ${slideClass} ${layoutClass}" id="slide-${idx + 1}">
+  ${bgUrl ? `<div class="photo-bg" style="position: absolute; inset: 0; background-image: url('${bgUrl}'); background-size: cover; background-position: center;"></div>` : ''}
+  <div class="cw">
+    <div class="mono-tag" style="margin-bottom: 32px; color: rgba(255,255,255,0.6);">${s.tag || 'DESTAQUE'}</div>
+    <div class="disp-large" style="font-size: 88px; line-height: 1.0; margin-bottom: 40px; color: #FFF;">
+      ${s.title}
+    </div>
+    <div class="body-copy" style="font-size: 38px; line-height: 1.4;">
+      ${s.body}
+    </div>
+  </div>
+</div>\n<div class="sep"></div>\n`;
+    } else if (isCleanYoutubeThumb) {
+      slidesHtml += `<div class="slide ${slideClass} ${layoutClass}" id="slide-${idx + 1}">
+  ${bgUrl ? `<div class="photo-bg" style="position: absolute; inset: 0; background-image: url('${bgUrl}'); background-size: cover; background-position: center;"></div>` : ''}
+  <div class="cw">
+    <div class="disp-large">
+      ${s.title}
+    </div>
+  </div>
+</div>\n<div class="sep"></div>\n`;
+    } else if (isBentoModernAd) {
+      slidesHtml += `<div class="slide ${slideClass} ${layoutClass}" id="slide-${idx + 1}">
+  <div class="cw">
+    <div>
+      <div class="mono-tag" style="margin-bottom: 24px; background: rgba(0,0,0,0.05); color: #333; padding: 8px 16px; border-radius: 8px; width: fit-content; border: none;">${s.tag || 'GROWTH'}</div>
+      <div class="disp-large" style="line-height: 1.1;">
+        ${s.title}
+      </div>
+    </div>
+    <div class="body-copy" style="font-size: 32px; line-height: 1.5; color: #555; padding-top: 32px; border-top: 1px solid rgba(0,0,0,0.1);">
+      ${s.body}
+    </div>
+  </div>
+</div>\n<div class="sep"></div>\n`;
+    } else if (isMeshBannerWidescreen) {
+      slidesHtml += `<div class="slide ${slideClass} ${layoutClass}" id="slide-${idx + 1}">
+  <div class="cw">
+    <div class="disp-large" style="line-height: 1.0;">
+      ${s.title}
+    </div>
+    ${s.body ? `<div class="body-copy" style="font-size: 36px; margin-top: 40px; color: rgba(255,255,255,0.8); max-width: 1200px; margin-left: auto; margin-right: auto;">${s.body}</div>` : ''}
+  </div>
+</div>\n<div class="sep"></div>\n`;
+    } else if (isSocialProof) {
       slidesHtml += `<div class="slide ${slideClass} ${layoutClass}" id="slide-${idx + 1}" style="background: var(--carbon);">
   <div class="grain"></div>
   <div class="tape-v tape-v-fire"></div>
@@ -1158,7 +1209,7 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
 <meta charset="UTF-8">
 <title>${name}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
 
@@ -1167,6 +1218,7 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
   --fc: 'Barlow Condensed', sans-serif;
   --fb: 'Barlow', sans-serif;
   --fm: 'Space Mono', monospace;
+  --fi: 'Inter', sans-serif;
 }
 
 body {
@@ -1847,6 +1899,125 @@ body {
   justify-content: flex-start !important;
   padding: 60px 80px !important;
 }
+
+/* 16. Modern Glass Story (modern-glass-story) */
+.slide.layout-modern-glass-story {
+  background: radial-gradient(circle at top left, #2a2a2a, #000) !important;
+}
+.slide.layout-modern-glass-story .photo-bg {
+  filter: blur(20px) saturate(1.5) !important;
+  opacity: 0.6 !important;
+}
+.slide.layout-modern-glass-story .cw {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(40px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 32px !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+  margin: 40px !important;
+  width: calc(100% - 80px) !important;
+  height: auto !important;
+  padding: 60px 40px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+.slide.layout-modern-glass-story .disp-large {
+  font-family: var(--fi) !important;
+  font-weight: 700 !important;
+  letter-spacing: -1px !important;
+  text-transform: none !important;
+}
+.slide.layout-modern-glass-story .body-copy {
+  font-family: var(--fi) !important;
+  font-weight: 300 !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  border: none !important;
+}
+
+/* 17. Clean YouTube Thumb (clean-youtube-thumb) */
+.slide.layout-clean-youtube-thumb {
+  background: #FFFFFF !important;
+  color: #111111 !important;
+}
+.slide.layout-clean-youtube-thumb .cw {
+  align-items: flex-start !important;
+  justify-content: center !important;
+  padding: 80px 120px !important;
+  width: 60% !important;
+  z-index: 10 !important;
+}
+.slide.layout-clean-youtube-thumb .photo-bg {
+  width: 50% !important;
+  left: auto !important;
+  right: 0 !important;
+  filter: drop-shadow(-20px 0 40px rgba(0,0,0,0.1)) !important;
+  border-left: none !important;
+}
+.slide.layout-clean-youtube-thumb .disp-large {
+  font-family: var(--fi) !important;
+  font-weight: 800 !important;
+  font-size: 100px !important;
+  line-height: 1.1 !important;
+  letter-spacing: -3px !important;
+  text-transform: none !important;
+  color: #111111 !important;
+  text-shadow: none !important;
+}
+.slide.layout-clean-youtube-thumb .h-line {
+  background: #333333 !important;
+  margin-bottom: 30px !important;
+}
+
+/* 18. Bento Modern Ad (bento-modern-ad) */
+.slide.layout-bento-modern-ad {
+  background: #F7F7F7 !important;
+  color: #111111 !important;
+  padding: 40px !important;
+}
+.slide.layout-bento-modern-ad .cw {
+  background: #FFFFFF !important;
+  border-radius: 24px !important;
+  border: 1px solid rgba(0,0,0,0.05) !important;
+  box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05) !important;
+  padding: 60px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  height: 100% !important;
+}
+.slide.layout-bento-modern-ad .disp-large {
+  font-family: var(--fi) !important;
+  font-weight: 700 !important;
+  font-size: 72px !important;
+  letter-spacing: -2px !important;
+  text-transform: none !important;
+  color: #111111 !important;
+}
+
+/* 19. Mesh Banner Widescreen (mesh-banner-widescreen) */
+.slide.layout-mesh-banner-widescreen {
+  background: radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+              radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+              radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+  background-color: #111111 !important;
+  color: #FFFFFF !important;
+}
+.slide.layout-mesh-banner-widescreen .photo-bg { display: none !important; }
+.slide.layout-mesh-banner-widescreen .cw {
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+.slide.layout-mesh-banner-widescreen .disp-large {
+  font-family: var(--fi) !important;
+  font-weight: 500 !important;
+  letter-spacing: -2px !important;
+  font-size: 110px !important;
+  text-transform: none !important;
+  text-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+}
+.slide.layout-mesh-banner-widescreen .h-line { display: none !important; }
 
 /* Componentes de Dados Brutalistas Dinâmicos */
 .custom-chart {

@@ -73,5 +73,25 @@
     "id": "cover-top-heavy",
     "nome": "Capa: Peso Superior (Imagem em Cima, Texto Embaixo)",
     "descricao": "Fotografia principal achatada ocupando toda a metade SUPERIOR da capa. Metade INFERIOR reservada para um fundo sólido com o título principal. Estilo editorial."
+  },
+  {
+    "id": "modern-glass-story",
+    "nome": "Story Vertical (Glassmorphism)",
+    "descricao": "Layout vertical para stories. Fundo com gradiente/imagem suave e um cartão translúcido de vidro (glassmorphism) contendo o conteúdo. Elegante e moderno."
+  },
+  {
+    "id": "clean-youtube-thumb",
+    "nome": "Capa YouTube Limpa",
+    "descricao": "Thumbnail 16:9 ultra-limpa e minimalista. Texto elegantemente alinhado, sombras super suaves e generoso espaço em branco. Excelente para vídeo corporativo premium."
+  },
+  {
+    "id": "bento-modern-ad",
+    "nome": "Ad Bento Grid Moderno",
+    "descricao": "Grid com cantos arredondados, bordas de 1px super finas translúcidas, estilo Apple/widgets. Ideal para Meta Ads destacando benefícios múltiplos de forma premium."
+  },
+  {
+    "id": "mesh-banner-widescreen",
+    "nome": "Banner Widescreen (Mesh Gradient)",
+    "descricao": "Banner horizontal (16:9) usando gradiente de malha suave. Foco puramente em um título forte com visual etéreo e elegante."
   }
 ]

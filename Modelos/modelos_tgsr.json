@@ -38,5 +38,25 @@
     "id": "highlight-card",
     "nome": "Card de Feature (Destaque Central)",
     "descricao": "Fundo escuro e limpo com um cartão central tech contendo um benefício chave de inovação ou integração da TagServer."
+  },
+  {
+    "id": "modern-glass-story",
+    "nome": "Story Vertical (Glassmorphism)",
+    "descricao": "Layout vertical para stories. Fundo com gradiente/imagem suave e um cartão translúcido de vidro (glassmorphism) contendo o conteúdo. Elegante e moderno."
+  },
+  {
+    "id": "clean-youtube-thumb",
+    "nome": "Capa YouTube Limpa",
+    "descricao": "Thumbnail 16:9 ultra-limpa e minimalista. Texto elegantemente alinhado, sombras super suaves e generoso espaço em branco. Excelente para vídeo corporativo premium."
+  },
+  {
+    "id": "bento-modern-ad",
+    "nome": "Ad Bento Grid Moderno",
+    "descricao": "Grid com cantos arredondados, bordas de 1px super finas translúcidas, estilo Apple/widgets. Ideal para Meta Ads destacando benefícios múltiplos de forma premium."
+  },
+  {
+    "id": "mesh-banner-widescreen",
+    "nome": "Banner Widescreen (Mesh Gradient)",
+    "descricao": "Banner horizontal (16:9) usando gradiente de malha suave. Foco puramente em um título forte com visual etéreo e elegante."
   }
 ]
