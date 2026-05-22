@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Carrossel TagServer — Instagram</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+:root {
+  --void:   #0e1217;
+  --carbon: #151b23;
+  --iron:   #1e2631;
+  --steel:  #2d3748;
+  --fire:   #b8e92b;
+  --gold:   #b8e92b;
+  --bone:   #f8f9fa;
+  --muted:  #718096;
+  --text:   #e2e8f0;
+  --sub:    #a0aec0;
+  --fd: 'Bebas Neue', sans-serif;
+  --fc: 'Barlow Condensed', sans-serif;
+  --fb: 'Barlow', sans-serif;
+  --fm: 'Space Mono', monospace;
+}
+
+body {
+  background: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 24px;
+}
+
+.preview-info {
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #444;
+  text-align: center;
+  margin-bottom: 32px;
+  text-transform: uppercase;
+}
+
+.slide {
+  width: 1080px;
+  height: 1350px;
+  background: var(--void);
+  position: relative;
+  flex-shrink: 0;
+  transform: scale(0.38);
+  transform-origin: top center;
+  margin-bottom: -838px;
+  overflow: hidden;
+  border: 1px solid #222;
+}
+
+.sep { width: 411px; height: 2px; background: #222; margin: 0 auto; position: relative; z-index: 99; }
+
+.grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.7;
+  mix-blend-mode: overlay;
+}
+
+.tape-v { position: absolute; left: 0; top: 0; bottom: 0; width: 5px; z-index: 10; }
+.tape-v-fire { background: var(--fire); }
+
+.tape-h { position: absolute; left: 0; right: 0; height: 4px; z-index: 10; }
+.tape-h-top { top: 0; }
+.tape-h-bottom { bottom: 0; }
+.tape-h-fire { background: var(--fire); }
+
+.cw {
+  position: relative;
+  z-index: 30;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 88px 88px 80px 92px;
+}
+
+.slide-no {
+  position: absolute;
+  top: 64px; right: 72px;
+  font-family: var(--fm);
+  font-size: 18px;
+  color: var(--steel);
+  letter-spacing: 2px;
+  z-index: 40;
+}
+
+.mono-tag {
+  font-family: var(--fm);
+  font-size: 18px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--fire);
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.mono-tag::before { content: '//'; color: var(--steel); }
+
+.h-line { width: 64px; height: 4px; margin-bottom: 40px; }
+.h-line-fire { background: var(--fire); }
+
+.disp-large {
+  font-family: var(--fd);
+  font-size: 108px;
+  line-height: 0.92;
+  letter-spacing: 2px;
+  color: var(--bone);
+  margin-bottom: 40px;
+}
+.disp-large em { color: var(--fire); font-style: normal; }
+
+.disp-medium {
+  font-family: var(--fd);
+  font-size: 88px;
+  line-height: 0.93;
+  letter-spacing: 2px;
+  color: var(--bone);
+  margin-bottom: 36px;
+}
+.disp-medium em { color: var(--fire); font-style: normal; }
+
+.body-copy {
+  font-family: var(--fb);
+  font-size: 38px;
+  font-weight: 300;
+  color: var(--sub);
+  line-height: 1.6;
+  max-width: 880px;
+}
+.body-copy strong { color: var(--text); font-weight: 500; }
+
+.quote-mark { font-family: var(--fd); font-size: 160px; color: var(--fire); line-height: 0.7; opacity: 0.22; margin-left: -16px; }
+.quote-text { font-family: var(--fd); font-size: 80px; line-height: 0.96; letter-spacing: 1px; color: var(--bone); }
+
+/* Layout Minimal Void */
+.layout-minimal-void {
+  background: #0e1217 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+.layout-minimal-void .mono-tag {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  justify-content: center !important;
+}
+.layout-minimal-void .h-line {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Layout Split Screen */
+.layout-split-screen .split-bg {
+  position: absolute !important;
+  top: 0 !important; right: 0 !important; bottom: 0 !important;
+  width: 50% !important;
+  background-size: cover !important;
+  background-position: center top !important;
+  z-index: 1 !important;
+  border-left: 2px solid var(--steel) !important;
+}
+.layout-split-screen .split-gradient {
+  position: absolute !important;
+  top: 0 !important; right: 0 !important; bottom: 0 !important;
+  width: 50% !important;
+  background: linear-gradient(to right, var(--void) 0%, rgba(14,18,23,0) 25%) !important;
+  z-index: 2 !important;
+}
+.layout-split-screen .split-gradient-bottom {
+  position: absolute !important;
+  bottom: 0 !important; right: 0 !important; width: 50% !important; height: 50% !important;
+  background: linear-gradient(to bottom, rgba(14,18,23,0) 0%, var(--void) 100%) !important;
+  z-index: 3 !important;
+}
+
+/* Layout Giant Number */
+.layout-giant-number {
+  position: relative !important;
+}
+.layout-giant-number .giant-number-bg {
+  position: absolute !important;
+  top: 50px !important;
+  right: -50px !important;
+  font-family: var(--fd) !important;
+  font-size: 800px !important;
+  color: var(--carbon) !important;
+  opacity: 0.4 !important;
+  line-height: 0.8 !important;
+  z-index: 5 !important;
+  pointer-events: none !important;
+}
+
+@media print {
+  @page { size: 1080px 1350px; margin: 0; }
+  body { background: var(--void) !important; padding: 0 !important; display: block !important; }
+  .slide { transform: none !important; margin: 0 !important; page-break-after: always; break-after: page; border: none !important; }
+  .slide:last-of-type { page-break-after: auto; break-after: auto; }
+}
+</style>
+</head>
+<body>
+
+<div class="preview-info">Carrossel TagServer (TGSR) — Instagram — 3 Slides</div>
+
+<!-- SLIDE 1: CAPA (SPLIT SCREEN) -->
+<div class="slide layout-split-screen">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="tape-h tape-h-top tape-h-fire"></div>
+
+  <div class="split-bg" style="background-image: url('../WhatsApp Image 2026-02-18 at 08.29.48.jpeg'); filter: grayscale(10%) contrast(1.1) brightness(0.6);"></div>
+  <div class="split-gradient"></div>
+  <div class="split-gradient-bottom"></div>
+
+  <div class="slide-no">01/03</div>
+
+  <div class="cw" style="width: 55%; padding-right: 0; justify-content: flex-end; padding-bottom: 140px; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 40px;">INFRAESTRUTURA AVANÇADA</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-large" style="font-size: 116px; line-height: 0.88; margin-bottom: 44px;">
+      COMO O<br><em>CAPI</em><br>PODE SALVAR<br>SUAS VENDAS.
+    </div>
+
+    <div class="body-copy" style="font-size: 34px;">
+      O que não é medido, não pode ser otimizado. O TagServer garante que 100% das suas conversões sejam computadas.
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 2: NÚMERO GIGANTE -->
+<div class="slide layout-giant-number" style="background: var(--carbon);">
+  <div class="grain"></div>
+  <div class="giant-number-bg">1</div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">02/03</div>
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 48px;">PRIMEIRO PASSO</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-medium" style="font-size: 96px; line-height: 0.94; margin-bottom: 48px;">
+      O FIM DO<br><em>CLIENT-SIDE.</em>
+    </div>
+
+    <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
+      A Apple limitou os cookies, o Google está limitando o rastreamento, e os usuários bloqueiam anúncios.<br><br>
+      A única forma de contornar isso é com uma <strong>API de Conversões</strong> rodando do lado do servidor (Server-Side Tracking).
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 3: MINIMAL VOID CTA -->
+<div class="slide layout-minimal-void">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="tape-h tape-h-bottom tape-h-fire"></div>
+
+  <div class="slide-no" style="color: var(--steel);">03/03</div>
+
+  <div class="cw" style="padding-top: 0; padding-bottom: 0;">
+    <div class="mono-tag" style="margin-bottom: 32px;">O JOGO DE VERDADE</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-medium" style="margin-bottom: 48px; font-size: 104px;">
+      BLINDAGEM<br>DE <em>DADOS.</em>
+    </div>
+
+    <div class="body-copy" style="font-size: 42px;">
+      Você está pronto para recuperar até 40% de rastreamento de compras que hoje você perde no limbo do tráfego?<br><br>
+      Acesse <strong style="color: var(--fire);">tgsr.br</strong>
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+</body>
+</html>

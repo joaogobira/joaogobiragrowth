@@ -2925,6 +2925,10 @@ function renderIASlidesEditor() {
             <label class="pub-label">Modelo do Layout</label>
             <select class="pub-input" onchange="updateIASlideData(${idx}, 'layout', this.value)">
               <option value="split-screen" ${(!s.layout || s.layout === 'split-screen') ? 'selected' : ''}>Divisão Brutalista</option>
+              <option value="modern-glass-story" ${s.layout === 'modern-glass-story' ? 'selected' : ''}>Story Glassmorphism (Premium)</option>
+              <option value="clean-youtube-thumb" ${s.layout === 'clean-youtube-thumb' ? 'selected' : ''}>Capa YouTube Minimalista</option>
+              <option value="bento-modern-ad" ${s.layout === 'bento-modern-ad' ? 'selected' : ''}>Bento Moderno (Anúncio)</option>
+              <option value="mesh-banner-widescreen" ${s.layout === 'mesh-banner-widescreen' ? 'selected' : ''}>Banner Widescreen Mesh</option>
               <option value="bento-metrics" ${s.layout === 'bento-metrics' ? 'selected' : ''}>Grade Bento</option>
               <option value="minimal-void" ${s.layout === 'minimal-void' ? 'selected' : ''}>Vácuo Brutal</option>
               <option value="editorial-focus" ${s.layout === 'editorial-focus' ? 'selected' : ''}>Foco Editorial</option>

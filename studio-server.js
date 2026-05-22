@@ -735,7 +735,7 @@ Considere as diretrizes do formato solicitado para compor títulos e copys:
 - "horizontal" ou "banner-horizontal": Banner largo (1920x1080px). Um único slide de capa muito largo. Texto único. LAYOUT RECOMENDADO: "mesh-banner-widescreen".
 - "youtube-thumb": Capa de YouTube (1280x720). Título super massivo (máx 5 palavras fortes), foco em clique/CTR. LAYOUT RECOMENDADO: "clean-youtube-thumb".
 
-${brandRules}
+${structureRules}
 
 REPOSITÓRIO DE MODELOS VISUAIS (LAYOUTS):
 Escolha com extrema sabedoria e de forma variada o layout de cada slide (atribuindo a chave "layout") para evitar posts monótonos ou repetitivos. Tente variar os layouts durante a narrativa do carrossel/criativo!

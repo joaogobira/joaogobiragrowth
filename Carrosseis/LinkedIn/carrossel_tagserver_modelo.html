@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Carrossel Modelo — Identidade TagServer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+:root {
+  --void:   #0e1217;
+  --carbon: #151b23;
+  --iron:   #1e2631;
+  --steel:  #2d3748;
+  --fire:   #b8e92b;
+  --gold:   #b8e92b;
+  --bone:   #f8f9fa;
+  --muted:  #718096;
+  --text:   #e2e8f0;
+  --sub:    #a0aec0;
+  --fd: 'Bebas Neue', sans-serif;
+  --fc: 'Barlow Condensed', sans-serif;
+  --fb: 'Barlow', sans-serif;
+  --fm: 'Space Mono', monospace;
+}
+
+body {
+  background: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 24px;
+}
+
+.preview-info {
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #444;
+  text-align: center;
+  margin-bottom: 32px;
+  text-transform: uppercase;
+}
+
+.slide {
+  width: 1080px;
+  height: 1350px;
+  background: var(--void);
+  position: relative;
+  flex-shrink: 0;
+  transform: scale(0.38);
+  transform-origin: top center;
+  margin-bottom: -838px;
+  overflow: hidden;
+  border: 1px solid #222;
+}
+
+.sep { width: 411px; height: 2px; background: #222; margin: 0 auto; position: relative; z-index: 99; }
+
+.grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.7;
+  mix-blend-mode: overlay;
+}
+
+.tape-v { position: absolute; left: 0; top: 0; bottom: 0; width: 5px; z-index: 10; }
+.tape-v-fire { background: var(--fire); }
+
+.tape-h { position: absolute; left: 0; right: 0; height: 4px; z-index: 10; }
+.tape-h-top { top: 0; }
+.tape-h-bottom { bottom: 0; }
+.tape-h-fire { background: var(--fire); }
+
+.cw {
+  position: relative;
+  z-index: 30;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 88px 88px 80px 92px;
+}
+
+.slide-no {
+  position: absolute;
+  top: 64px; right: 72px;
+  font-family: var(--fm);
+  font-size: 18px;
+  color: var(--steel);
+  letter-spacing: 2px;
+  z-index: 40;
+}
+
+.mono-tag {
+  font-family: var(--fm);
+  font-size: 18px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--fire);
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.mono-tag::before { content: '//'; color: var(--steel); }
+
+.h-line { width: 64px; height: 4px; margin-bottom: 40px; }
+.h-line-fire { background: var(--fire); }
+
+.disp-large {
+  font-family: var(--fd);
+  font-size: 108px;
+  line-height: 0.92;
+  letter-spacing: 2px;
+  color: var(--bone);
+  margin-bottom: 40px;
+}
+.disp-large em { color: var(--fire); font-style: normal; }
+
+.disp-medium {
+  font-family: var(--fd);
+  font-size: 88px;
+  line-height: 0.93;
+  letter-spacing: 2px;
+  color: var(--bone);
+  margin-bottom: 36px;
+}
+.disp-medium em { color: var(--fire); font-style: normal; }
+
+.body-copy {
+  font-family: var(--fb);
+  font-size: 38px;
+  font-weight: 300;
+  color: var(--sub);
+  line-height: 1.6;
+  max-width: 880px;
+}
+.body-copy strong { color: var(--text); font-weight: 500; }
+
+.quote-mark { font-family: var(--fd); font-size: 160px; color: var(--fire); line-height: 0.7; opacity: 0.22; margin-left: -16px; }
+.quote-text { font-family: var(--fd); font-size: 80px; line-height: 0.96; letter-spacing: 1px; color: var(--bone); }
+
+/* Layout Destaque Neon */
+.layout-neon-accent {
+  background: #0e1217 !important;
+  background-image: radial-gradient(rgba(184, 233, 43, 0.08) 1px, transparent 0) !important;
+  background-size: 24px 24px !important;
+}
+.layout-neon-accent .tape-v-fire {
+  box-shadow: 0 0 10px var(--fire) !important;
+}
+.layout-neon-accent .mono-tag {
+  text-shadow: 0 0 5px rgba(184, 233, 43, 0.3) !important;
+}
+.layout-neon-accent .h-line-fire {
+  box-shadow: 0 0 8px var(--fire) !important;
+}
+.layout-neon-accent .disp-large em, .layout-neon-accent .disp-medium em {
+  text-shadow: 0 0 10px rgba(184, 233, 43, 0.6) !important;
+}
+
+/* Layout Technical Sheet */
+.layout-technical-sheet {
+  background: #F4F0E6 !important;
+  color: #111111 !important;
+}
+.layout-technical-sheet .tape-v { background: #111111 !important; width: 6px !important; }
+.layout-technical-sheet .mono-tag { color: #111111 !important; font-weight: 700 !important; }
+.layout-technical-sheet .mono-tag::before { color: var(--fire) !important; }
+.layout-technical-sheet .h-line { background: #111111 !important; height: 2px !important; width: 100% !important; margin-bottom: 30px !important; }
+.layout-technical-sheet .h-line::after { content: '' !important; display: block !important; height: 2px !important; background: #111111 !important; margin-top: 4px !important; }
+.layout-technical-sheet .disp-medium, .layout-technical-sheet .disp-large { color: #111111 !important; font-family: var(--fm) !important; font-size: 72px !important; font-weight: 700 !important; letter-spacing: -1px !important; line-height: 1.0 !important; }
+.layout-technical-sheet .body-copy { color: #333333 !important; font-family: var(--fm) !important; font-size: 28px !important; border-top: 1px solid #111111 !important; padding-top: 30px !important; }
+
+/* Custom Chart */
+.custom-chart { background: var(--carbon); padding: 32px; border: 1px solid var(--iron); width: 100%; margin-top: 30px; }
+.chart-header { display: flex; justify-content: space-between; border-bottom: 1px solid var(--steel); padding-bottom: 16px; margin-bottom: 24px; }
+.chart-title { font-family: var(--fc); color: var(--bone); font-size: 24px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+.chart-legend { display: flex; gap: 24px; font-family: var(--fm); font-size: 14px; color: var(--sub); }
+.legend-item { display: flex; align-items: center; gap: 8px; }
+.legend-color { width: 12px; height: 12px; }
+.legend-color.off { background: var(--steel); }
+.legend-color.on { background: var(--fire); box-shadow: 0 0 5px var(--fire); }
+.chart-row { display: flex; align-items: center; margin-bottom: 24px; }
+.chart-label { width: 180px; font-family: var(--fb); font-weight: 500; font-size: 22px; color: var(--text); text-align: right; padding-right: 24px; }
+.chart-bars { flex: 1; border-left: 2px dashed var(--steel); padding-left: 24px; display: flex; flex-direction: column; gap: 12px; }
+.bar { height: 32px; }
+.bar.off { background: var(--steel); }
+.bar.on { background: var(--fire); box-shadow: 0 0 5px var(--fire); }
+
+/* VS Container */
+.vs-container { display: flex; gap: 32px; width: 100%; margin-top: 30px; }
+.vs-col { flex: 1; background: var(--carbon); border: 1px solid var(--iron); padding: 30px; display: flex; flex-direction: column; gap: 16px; }
+.vs-col.winner { border-color: var(--fire); background: rgba(184, 233, 43, 0.03); }
+.vs-title { font-family: var(--fc); font-size: 26px; font-weight: 800; text-transform: uppercase; color: var(--bone); border-bottom: 2px solid var(--steel); padding-bottom: 12px; }
+.vs-col.winner .vs-title { color: var(--fire); }
+.vs-item { font-family: var(--fb); font-size: 22px; color: var(--sub); line-height: 1.4; padding-left: 20px; position: relative; }
+.vs-item::before { content: '▪'; position: absolute; left: 0; color: var(--muted); }
+.vs-col.winner .vs-item::before { color: var(--fire); }
+
+@media print {
+  @page { size: 1080px 1350px; margin: 0; }
+  body { background: var(--void) !important; padding: 0 !important; display: block !important; }
+  .slide { transform: none !important; margin: 0 !important; page-break-after: always; break-after: page; border: none !important; }
+  .slide:last-of-type { page-break-after: auto; break-after: auto; }
+}
+</style>
+</head>
+<body>
+
+<div class="preview-info">Carrossel Modelo TagServer (TGSR) — 1080x1350 — 4 Slides</div>
+
+<!-- SLIDE 1: CAPA (NEON ACCENT) -->
+<div class="slide layout-neon-accent">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="tape-h tape-h-top tape-h-fire"></div>
+
+  <div class="slide-no">01/04</div>
+
+  <div class="cw" style="justify-content: center; text-align: center; align-items: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 40px; margin-left: auto; margin-right: auto;">DATA DRIVEN GROWTH</div>
+    
+    <div class="disp-large" style="font-size: 116px; line-height: 0.88; margin-bottom: 44px;">
+      O QUE O <br><em>TAGSERVER</em><br>FAZ PELO SEU ROI
+    </div>
+
+    <div class="body-copy" style="font-size: 34px; text-align: center; border-top: 2px solid rgba(184, 233, 43, 0.2); padding-top: 30px;">
+      Integração Server-Side blindada contra bloqueios do navegador.
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 2: DADOS (BENTO METRICS/CUSTOM CHART) -->
+<div class="slide" style="background: var(--carbon);">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no">02/04</div>
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 40px;">DESAFIO TÉCNICO</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-medium" style="font-size: 88px; line-height: 0.94; margin-bottom: 48px;">
+      PERDA DE DADOS<br>NOS EVENTOS.
+    </div>
+
+    <div class="body-copy" style="font-size: 32px;">
+      O iOS14 e adblockers estão descartando 30% a 40% dos eventos Client-Side.<br>Veja a diferença da captura:
+    </div>
+
+    <div class="custom-chart">
+      <div class="chart-header">
+        <div class="chart-title">Eventos de Purchase (30 Dias)</div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-color off"></div><span>Pixel Padrão</span></div>
+          <div class="legend-item"><div class="legend-color on"></div><span>TagServer API</span></div>
+        </div>
+      </div>
+      <div class="chart-row">
+        <div class="chart-label">Eventos Reais</div>
+        <div class="chart-bars">
+          <div class="bar off" style="width: 65%;"></div>
+          <div class="bar on" style="width: 98%;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 3: COMPARAÇÃO (TECHNICAL SHEET) -->
+<div class="slide layout-technical-sheet">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="slide-no" style="color: #666;">03/04</div>
+
+  <div class="cw" style="justify-content: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 40px;">INFRAESTRUTURA</div>
+    <div class="h-line h-line-fire"></div>
+
+    <div class="disp-medium" style="margin-bottom: 48px;">
+      <em>CLIENT</em>-SIDE VS<br><em>SERVER</em>-SIDE
+    </div>
+
+    <div class="body-copy">
+      Sem a arquitetura correta, o tráfego se perde. O TagServer atua na camada de servidor.
+    </div>
+
+    <div class="vs-container" style="margin-top: 40px;">
+      <div class="vs-col" style="background: #EAE5D9; border-color: #CCC;">
+        <div class="vs-title" style="color: #111; border-color: #CCC;">Pixel (Client)</div>
+        <div class="vs-item" style="color: #333;">Bloqueado por AdBlockers</div>
+        <div class="vs-item" style="color: #333;">Depende de Cookies Third-Party</div>
+        <div class="vs-item" style="color: #333;">Latência na página</div>
+      </div>
+      <div class="vs-col winner" style="background: #F4F0E6; border-color: #111;">
+        <div class="vs-title" style="color: #111; border-color: #111;">API (Server)</div>
+        <div class="vs-item" style="color: #111;">Imune a AdBlockers</div>
+        <div class="vs-item" style="color: #111;">Controle total dos dados</div>
+        <div class="vs-item" style="color: #111;">Maior performance no site</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- SLIDE 4: CTA (NEON ACCENT) -->
+<div class="slide layout-neon-accent">
+  <div class="grain"></div>
+  <div class="tape-v tape-v-fire"></div>
+  <div class="tape-h tape-h-bottom tape-h-fire"></div>
+
+  <div class="slide-no">04/04</div>
+
+  <div class="cw" style="justify-content: center; text-align: center; align-items: center; gap: 0;">
+    <div class="mono-tag" style="margin-bottom: 40px; margin-left: auto; margin-right: auto;">ATUALIZE SUA ESTRUTURA</div>
+    
+    <div class="disp-medium" style="font-size: 96px; margin-bottom: 44px; line-height: 0.92;">
+      BLINDE O SEU<br><em>TRAQUEAMENTO</em>
+    </div>
+
+    <div class="body-copy" style="text-align: center; max-width: 800px; color: var(--bone);">
+      Agende um setup assistido e evite jogar dinheiro fora em campanhas sem atribuição.<br><br>
+      <strong style="color: var(--fire);">Acesse tgsr.br</strong>
+    </div>
+  </div>
+</div>
+<div class="sep"></div>
+
+</body>
+</html>
