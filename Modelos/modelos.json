@@ -93,5 +93,125 @@
     "id": "mesh-banner-widescreen",
     "nome": "Banner Widescreen (Mesh Gradient)",
     "descricao": "Banner horizontal (16:9) usando gradiente de malha suave. Foco puramente em um título forte com visual etéreo e elegante."
+  },
+  {
+    "id": "bento-grid",
+    "nome": "BENTO GRID",
+    "descricao": "Layout brutalista BENTO GRID. Requer envio de HTML estruturado no s.body."
+  },
+  {
+    "id": "numbered-list",
+    "nome": "NUMBERED LIST",
+    "descricao": "Layout brutalista NUMBERED LIST. Requer envio de HTML estruturado no s.body."
+  },
+  {
+    "id": "score-progress",
+    "nome": "SCORE PROGRESS",
+    "descricao": "Layout brutalista SCORE PROGRESS. Requer envio de HTML estruturado no s.body."
+  },
+  {
+    "id": "testimonial-stack",
+    "nome": "TESTIMONIAL STACK",
+    "descricao": "Layout brutalista TESTIMONIAL STACK. Requer envio de HTML estruturado no s.body."
+  },
+  {
+    "id": "checklist",
+    "nome": "CHECKLIST",
+    "descricao": "Layout brutalista CHECKLIST. Requer envio de HTML estruturado no s.body."
+  },
+  {
+    "id": "timeline",
+    "nome": "TIMELINE",
+    "descricao": "Layout brutalista TIMELINE. Requer envio de HTML estruturado no s.body."
+  },
+  {
+    "id": "dark-quote-pull",
+    "nome": "DARK QUOTE PULL",
+    "descricao": "Layout brutalista DARK QUOTE PULL. Requer envio de texto no s.body."
+  },
+  {
+    "id": "dark-icon-grid-2-2",
+    "nome": "DARK ICON GRID 2 2",
+    "descricao": "Layout brutalista DARK ICON GRID 2 2. Requer envio de HTML estruturado no s.body."
+  },
+  {
+    "id": "light-editorial-capa",
+    "nome": "LIGHT EDITORIAL CAPA",
+    "descricao": "Layout brutalista LIGHT EDITORIAL CAPA. Requer envio de texto no s.body."
+  },
+  {
+    "id": "light-editorial-dados",
+    "nome": "LIGHT EDITORIAL DADOS",
+    "descricao": "Layout brutalista LIGHT EDITORIAL DADOS. Requer envio de texto no s.body."
+  },
+  {
+    "id": "story-a-capa-glow",
+    "nome": "STORY A CAPA GLOW",
+    "descricao": "Layout brutalista STORY A CAPA GLOW. Requer envio de texto no s.body."
+  },
+  {
+    "id": "story-b-n-mero-gigante",
+    "nome": "STORY B N MERO GIGANTE",
+    "descricao": "Layout brutalista STORY B N MERO GIGANTE. Requer envio de texto no s.body."
+  },
+  {
+    "id": "story-c-tech-code",
+    "nome": "STORY C TECH CODE",
+    "descricao": "Layout brutalista STORY C TECH CODE. Requer envio de texto no s.body."
+  },
+  {
+    "id": "story-d-light-editorial",
+    "nome": "STORY D LIGHT EDITORIAL",
+    "descricao": "Layout brutalista STORY D LIGHT EDITORIAL. Requer envio de texto no s.body."
+  },
+  {
+    "id": "story-e-price-oferta",
+    "nome": "STORY E PRICE OFERTA",
+    "descricao": "Layout brutalista STORY E PRICE OFERTA. Requer envio de HTML estruturado no s.body."
+  },
+  {
+    "id": "banner-a-dark-split-cta",
+    "nome": "BANNER A DARK SPLIT CTA",
+    "descricao": "Layout brutalista BANNER A DARK SPLIT CTA. Requer envio de texto no s.body."
+  },
+  {
+    "id": "banner-b-tech-lime-produto",
+    "nome": "BANNER B TECH LIME PRODUTO",
+    "descricao": "Layout brutalista BANNER B TECH LIME PRODUTO. Requer envio de HTML estruturado no s.body."
+  },
+  {
+    "id": "banner-c-light-editorial-awareness",
+    "nome": "BANNER C LIGHT EDITORIAL AWARENESS",
+    "descricao": "Layout brutalista BANNER C LIGHT EDITORIAL AWARENESS. Requer envio de HTML estruturado no s.body."
+  },
+  {
+    "id": "banner-d-youtube-thumbnail-style",
+    "nome": "BANNER D YOUTUBE THUMBNAIL STYLE",
+    "descricao": "Layout brutalista BANNER D YOUTUBE THUMBNAIL STYLE. Requer envio de texto no s.body."
+  },
+  {
+    "id": "midnight-capa-premium",
+    "nome": "MIDNIGHT CAPA PREMIUM",
+    "descricao": "Layout brutalista MIDNIGHT CAPA PREMIUM. Requer envio de texto no s.body."
+  },
+  {
+    "id": "midnight-social-proof",
+    "nome": "MIDNIGHT SOCIAL PROOF",
+    "descricao": "Layout brutalista MIDNIGHT SOCIAL PROOF. Requer envio de HTML estruturado no s.body."
+  },
+  {
+    "id": "midnight-tabela-compara-o",
+    "nome": "MIDNIGHT TABELA COMPARA O",
+    "descricao": "Layout brutalista MIDNIGHT TABELA COMPARA O. Requer envio de HTML estruturado no s.body."
+  },
+  {
+    "id": "lead-form-dark",
+    "nome": "LEAD FORM DARK",
+    "descricao": "Layout brutalista LEAD FORM DARK. Requer envio de texto no s.body."
+  },
+  {
+    "id": "social-proof-cta-direto",
+    "nome": "SOCIAL PROOF CTA DIRETO",
+    "descricao": "Layout brutalista SOCIAL PROOF CTA DIRETO. Requer envio de HTML estruturado no s.body."
   }
 ]

@@ -791,6 +791,91 @@ Estrutura exata:
   </div>
 </div>
 
+
+NOVOS LAYOUTS COMPLEXOS (Se usar esses layouts, envie o HTML correspondente no s.body):
+
+PARA O LAYOUT "bento-grid", envie no campo "body" esta estrutura HTML:
+<div class="bento bento-2x2" style="height: 640px;">
+              <div class="bento-cell bento-big" style="background: var(--iron); justify-content: flex-start; gap: 0; padding: 40px;">
+                <div class="mtag lime" style="font-size: 16px; margin-bottom: 16px;">${s.tag || 'DESTAQUE'}</div>
+                <div class="bento-n" style="font-size: 120px; color: var(--fire);">+165K</div>
+                <div class="bento-lbl">eventos de compra em 30 dias</div>
+              </div>
+              <div class="bento-cell" style="background: var(--carbon);">
+                <div class="bento-n gold">47%</div>
+                <div class="bento-lbl">VENDAS REAIS</div>
+              </div>
+              <div class="bento-cell" style="background: var(--iron); border-left: 3px solid var(--fire);">
+                <div class="bento-n" style="font-size: 72px;">0,8x</div>
+                <div class="bento-lbl">CPA MANTIDO</div>
+              </div>
+            </div>
+    
+
+PARA O LAYOUT "testimonial-stack", envie no campo "body" esta estrutura HTML:
+<div class="testimonial-card">
+            <div class="testimonial-stars">
+              <div class="star"></div><div class="star"></div><div class="star"></div>
+              <div class="star"></div><div class="star"></div>
+            </div>
+            <div class="testimonial-text">
+              "Depois de 3 semanas com o TagServer, nosso CPA caiu 28% e as campanhas passaram a otimizar de verdade. O algoritmo finalmente tinha dados para trabalhar."
+            </div>
+            <div class="testimonial-author">Carlos Mendes</div>
+            <div class="testimonial-company">// Head de Performance · E-commerce</div>
+          </div>
+    
+
+PARA O LAYOUT "story-e-price-oferta", envie no campo "body" esta estrutura HTML:
+<div class="price-block" style="margin-bottom: 56px;">
+            <div class="price-from">de R$ 1.997</div>
+            <div class="price-main">R$997</div>
+            <div class="price-period">// pagamento único</div>
+            <div class="price-features">
+              <div class="price-feat">Implementação completa CAPI</div>
+              <div class="price-feat">Configuração Server-Side</div>
+              <div class="price-feat">Score de qualidade ≥ 8.0</div>
+              <div class="price-feat">Suporte 30 dias incluso</div>
+            </div>
+          </div>
+    
+
+PARA O LAYOUT "banner-c-light-editorial-awareness", envie no campo "body" esta estrutura HTML:
+<div style="position:absolute; right:0; top:0; width:48%; height:100%; padding: 52px 72px 52px 56px; display:flex; flex-direction:column; justify-content:center; z-index:10;">
+          <div style="font-family: var(--fd); font-size: 52px; color: var(--bone); line-height: 1; letter-spacing: 2px; margin-bottom: 16px;">JOÃO GOBIRA</div>
+          <div style="font-family: var(--fb); font-size: 26px; font-weight: 300; color: rgba(240,235,224,0.6); line-height: 1.5;">12 anos construindo máquinas de Growth com dados reais.</div>
+        </div>
+    
+
+PARA O LAYOUT "midnight-social-proof", envie no campo "body" esta estrutura HTML:
+<div class="sp-row" style="border-color: rgba(108,92,231,0.2);">
+            <div class="sp-item">
+              <div class="sp-num" style="color: var(--mid-acc);">R$2M+</div>
+              <div class="sp-lbl">Em vendas atribuídas</div>
+            </div>
+            <div class="sp-item">
+              <div class="sp-num" style="color: var(--mid-gold);">87</div>
+              <div class="sp-lbl">Clientes ativos</div>
+            </div>
+            <div class="sp-item">
+              <div class="sp-num" style="color: rgba(248,249,250,0.8);">4.9★</div>
+              <div class="sp-lbl">Avaliação média</div>
+            </div>
+          </div>
+    
+
+PARA O LAYOUT "social-proof-cta-direto", envie no campo "body" esta estrutura HTML:
+<div class="sp-row" style="padding: 32px 0; border-color: var(--iron);">
+            <div class="sp-item">
+              <div class="sp-num gold" style="font-size: 96px;">+47%</div>
+              <div class="sp-lbl">Vendas reais</div>
+            </div>
+            <div class="sp-item">
+              <div class="sp-num" style="font-size: 96px; color: var(--bone);">165K</div>
+              <div class="sp-lbl">Eventos recuperados</div>
+            </div>
+          </div>
+    
 3. ROADMAP / LISTA DE PASSOS (usar "step-list"):
 Use para ilustrar planos de ação, cronogramas ou sequências práticas.
 Estrutura exata:
@@ -1147,7 +1232,588 @@ app.post('/api/ia/salvar-criativo', (req, res) => {
     </div>
   </div>
 </div>\n<div class="sep"></div>\n`;
+        } else if (s.layout === 'bento-grid') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-portrait" id="slide-${idx + 1}" style="background: var(--void);">
+        
+        <div class="grain"></div>
+        <div class="tape-l c-fire"></div>
+        <div class="tape-t c-fire"></div>
+        <div class="sn">01/06</div>
+        <div class="cw" style="padding: 100px 88px 80px 96px; justify-content: space-between;">
+          <div>
+            <div class="mtag" style="margin-bottom: 36px;">${s.tag || 'DESTAQUE'}</div>
+            <div class="hl hl-md c-fire" style="margin-bottom: 36px;"></div>
+            <div class="disp" style="font-size: 100px; margin-bottom: 48px; line-height: 0.88;">
+      ${s.title}
+    </div>
+          </div>
+          <div>
+            
+      ${s.body}
+    
+          </div>
+        </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'numbered-list') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-portrait" id="slide-${idx + 1}" style="background: var(--carbon);">
+        
+        <div class="grain"></div>
+        <div class="tape-l c-gold"></div>
+        <div class="sn" style="color: var(--steel);">02/06</div>
+        <div class="cw" style="padding: 100px 88px 80px 96px; justify-content: center; gap: 0;">
+          <div class="mtag gold" style="margin-bottom: 32px;">${s.tag || 'DESTAQUE'}</div>
+          <div class="hl hl-md c-gold" style="margin-bottom: 40px;"></div>
+          <div class="disp" style="font-size: 88px; margin-bottom: 56px; line-height: 0.9;">
+      ${s.title}
+    </div>
+          
+      ${s.body}
+    
+        </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'score-progress') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-portrait" id="slide-${idx + 1}" style="background: var(--void);">
+        
+        <div class="grain"></div>
+        <div class="tape-l c-fire"></div>
+        <div class="sn">03/06</div>
+        <div class="cw" style="padding: 100px 88px 80px 96px; justify-content: center; gap: 0;">
+          <div class="mtag" style="margin-bottom: 32px;">${s.tag || 'DESTAQUE'}</div>
+          <div class="hl hl-md c-fire" style="margin-bottom: 40px;"></div>
+          <div class="disp" style="font-size: 88px; margin-bottom: 56px;">
+      ${s.title}
+    </div>
+          
+      ${s.body}
+    
+          <div class="div-line" style="margin-top: 56px;"></div>
+          <div class="body" style="font-size: 30px; margin-top: 32px;">Operação blindada começa com <strong>medição perfeita.</strong></div>
+        </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'testimonial-stack') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-portrait" id="slide-${idx + 1}" style="background: var(--carbon);">
+        
+        <div class="grain"></div>
+        <div class="tape-l c-fire"></div>
+        <div class="tape-b c-fire"></div>
+        <div class="sn">04/06</div>
+        <div class="cw" style="padding: 100px 88px 80px 96px; justify-content: center; gap: 0;">
+          <div class="mtag" style="margin-bottom: 48px;">${s.tag || 'DESTAQUE'}</div>
+          <div class="disp" style="font-size: 72px; margin-bottom: 64px; line-height: 0.95;">
+      ${s.title}
+    </div>
+          
+          
+        
+      ${s.body}
+    </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'checklist') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-portrait" id="slide-${idx + 1}" style="background: var(--void);">
+        
+        <div class="grain"></div>
+        <div class="tape-l c-fire"></div>
+        <div class="sn">05/06</div>
+        <div class="cw" style="padding: 100px 88px 80px 96px; justify-content: center; gap: 0;">
+          <div class="mtag" style="margin-bottom: 32px;">${s.tag || 'DESTAQUE'}</div>
+          <div class="hl hl-md c-fire" style="margin-bottom: 40px;"></div>
+          <div class="disp" style="font-size: 88px; margin-bottom: 48px;">
+      ${s.title}
+    </div>
+          
+      ${s.body}
+    
+          <div class="body" style="font-size: 30px; margin-top: 48px; padding-top: 32px; border-top: 2px solid var(--iron);">
+            Itens em branco custam <strong style="color: var(--fire);">dinheiro real</strong> todos os dias.
+          </div>
+        </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'timeline') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-portrait" id="slide-${idx + 1}" style="background: var(--carbon);">
+        
+        <div class="grain"></div>
+        <div class="tape-l c-gold"></div>
+        <div class="sn" style="color: var(--steel);">06/06</div>
+        <div class="cw" style="padding: 100px 88px 80px 96px; justify-content: center; gap: 0;">
+          <div class="mtag gold" style="margin-bottom: 32px;">${s.tag || 'DESTAQUE'}</div>
+          <div class="hl hl-md c-gold" style="margin-bottom: 40px;"></div>
+          <div class="disp" style="font-size: 80px; margin-bottom: 56px;">
+      ${s.title}
+    </div>
+          
+      ${s.body}
+    
+        </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'dark-quote-pull') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-square" id="slide-${idx + 1}" style="background: var(--void);">
+        
+        <div class="grain"></div>
+        <div class="tape-l c-fire"></div>
+        <div class="sn">01/04</div>
+        <div class="cw" style="padding: 100px 100px 100px 108px; justify-content: center;">
+          <div class="quote-big" style="padding: 60px 60px 60px 80px;">
+            <div class="quote-bg-mark">"</div>
+            <div class="mtag" style="margin-bottom: 40px; position: relative; z-index: 2;">${s.tag || 'DESTAQUE'}</div>
+            <div class="disp" style="font-size: 96px; margin-bottom: 40px; position: relative; z-index: 2; line-height: 0.9;">
+      ${s.title}
+    </div>
+            
+      ${s.body}
+    
+          </div>
+        </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'dark-icon-grid-2-2') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-square" id="slide-${idx + 1}" style="background: var(--carbon);">
+        
+        <div class="grain"></div>
+        <div class="tape-l c-fire"></div>
+        <div class="tape-t c-fire"></div>
+        <div class="sn">02/04</div>
+        <div class="cw" style="padding: 88px 88px 80px 96px; justify-content: space-between;">
+          <div>
+            <div class="mtag" style="margin-bottom: 28px;">${s.tag || 'DESTAQUE'}</div>
+            <div class="disp" style="font-size: 84px; margin-bottom: 0; line-height: 0.9;">
+      ${s.title}
+    </div>
+          </div>
+          
+      ${s.body}
+    
+        </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'light-editorial-capa') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-square paper-bg" id="slide-${idx + 1}" style="position: relative;">
+        
+        <div class="grain-light"></div>
+        <div class="tape-l c-ink"></div>
+        <div class="tape-t c-ink"></div>
+        <!-- Red accent block top-right -->
+        <div style="position:absolute; top:0; right:0; width:280px; height:280px; background:var(--fire); z-index:2;"></div>
+        <div class="sn" style="color: rgba(0,0,0,0.2); z-index: 45;">01/05</div>
+        <div class="cw" style="padding: 88px 88px 80px 96px; justify-content: flex-end; gap: 0; position: relative; z-index: 30;">
+          <div class="mtag ink" style="margin-bottom: 32px;">${s.tag || 'DESTAQUE'}</div>
+          <div class="hl hl-md c-ink" style="margin-bottom: 36px;"></div>
+          <div style="font-family: var(--fd); font-size: 96px; color: var(--ink); line-height: 0.88; margin-bottom: 32px; letter-spacing: 2px;">
+      ${s.title}
+    </div>
+          <div style="font-family: var(--fb); font-size: 34px; font-weight: 300; color: #555; line-height: 1.55; border-top: 2px solid var(--ink); padding-top: 32px;">
+            Como líderes de performance tomam decisões melhores com rastreamento preciso.
+          </div>
+        
+      ${s.body}
+    </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'light-editorial-dados') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-square paper-bg" id="slide-${idx + 1}" style="position: relative;">
+        
+        <div class="grain-light"></div>
+        <div class="tape-l c-ink"></div>
+        <div class="tape-b" style="background: var(--fire); height: 8px;"></div>
+        <div class="sn" style="color: rgba(0,0,0,0.2);">03/05</div>
+        <div class="cw" style="padding: 88px 88px 80px 96px; justify-content: center; gap: 0;">
+          <div class="mtag ink" style="margin-bottom: 32px;">${s.tag || 'DESTAQUE'}</div>
+          <div class="hl hl-md c-ink" style="margin-bottom: 40px;"></div>
+          <div style="font-family: var(--fd); font-size: 80px; color: var(--ink); line-height: 0.9; margin-bottom: 56px; letter-spacing: 2px;">
+      ${s.title}
+    </div>
+          <!-- Comparison bars light -->
+          <div style="display:flex; flex-direction:column; gap:24px;">
+            <div>
+              <div style="display:flex; justify-content:space-between; font-family:var(--fm); font-size:16px; color:#666; letter-spacing:2px; margin-bottom:8px;">
+                <span>PIXEL PADRÃO</span><span>62%</span>
+              </div>
+              <div style="height: 12px; background: #DDD; width: 100%;">
+                <div style="height:100%; width:62%; background:#999;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-family:var(--fm); font-size:16px; color:var(--fire); letter-spacing:2px; margin-bottom:8px;">
+                <span style="font-weight:700;">TAGSERVER (API)</span><span style="font-weight:700;">98%</span>
+              </div>
+              <div style="height: 12px; background: #DDD; width: 100%;">
+                <div style="height:100%; width:98%; background:var(--fire);"></div>
+              </div>
+            </div>
+          </div>
+          <div style="font-family: var(--fb); font-size: 28px; color: #444; line-height: 1.5; margin-top: 40px; padding-top: 32px; border-top: 2px solid #CCC;">
+            A diferença entre lucro e <strong style="color:var(--ink);">dinheiro jogado fora.</strong>
+          </div>
+        
+      ${s.body}
+    </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'story-a-capa-glow') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-story" id="slide-${idx + 1}" style="background: var(--void);">
+        
+        <div class="grain"></div>
+        <!-- Glow blobs -->
+        <div class="glow-blob" style="width:800px; height:800px; background:var(--fire); opacity:0.07; top:-200px; left:-300px;"></div>
+        <div class="glow-blob" style="width:600px; height:600px; background:var(--gold); opacity:0.05; bottom:100px; right:-200px;"></div>
+        <div class="tape-l c-fire"></div>
+        <div class="tape-t c-fire"></div>
+        <div class="tape-b c-fire"></div>
+        <!-- Progress bar top -->
+        <div style="position:absolute; top:16px; left:16px; right:16px; height:4px; background:rgba(255,255,255,0.15); z-index:60;">
+          <div style="height:100%; width:30%; background:white;"></div>
+        </div>
+        <div class="cw" style="padding: 120px 88px 100px 96px; justify-content: flex-end; gap: 0;">
+          <div class="mtag" style="margin-bottom: 40px; font-size: 24px;">${s.tag || 'DESTAQUE'}</div>
+          <div class="hl hl-md c-fire" style="margin-bottom: 40px;"></div>
+          <div class="disp" style="font-size: 140px; margin-bottom: 48px; line-height: 0.86;">
+      ${s.title}
+    </div>
+          <div class="body" style="font-size: 46px; margin-bottom: 64px; border-top: 2px solid var(--iron); padding-top: 40px;">
+      ${s.body}
+    </div>
+          <div class="badge">
+            <div class="badge-av"></div>
+            <div>
+              <div class="badge-name" style="font-size: 40px;">JOÃO GOBIRA</div>
+              <div class="badge-role" style="font-size: 16px;">// Growth · Gestão</div>
+            </div>
+          </div>
+          <!-- Swipe up indicator -->
+          <div style="margin-top: 64px; display:flex; flex-direction:column; align-items:center; gap:12px;">
+            <div style="font-family: var(--fm); font-size: 20px; letter-spacing: 3px; color: rgba(240,235,224,0.5); text-transform: uppercase;">Deslize para ver</div>
+            <div style="width:2px; height:60px; background: linear-gradient(to bottom, var(--fire), transparent);"></div>
+          </div>
+        </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'story-b-n-mero-gigante') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-story" id="slide-${idx + 1}" style="background: var(--fire);">
+        
+        <div class="grain" style="opacity:0.3;"></div>
+        <div class="tape-l c-bone"></div>
+        <!-- Giant BG number -->
+        <div style="position:absolute; bottom:-100px; right:-120px; font-family: var(--fd); font-size: 900px; color:rgba(0,0,0,0.12); line-height:0.8; pointer-events:none; z-index:2;">
+      ${s.title}
+    </div>
+        <div class="cw" style="padding: 140px 88px 100px 96px; justify-content: center; gap: 0; position:relative; z-index:10;">
+          <div class="mtag bone" style="margin-bottom: 48px; font-size: 24px;">${s.tag || 'DESTAQUE'}</div>
+          
+      ${s.body}
+    
+          <div style="font-family: var(--fd); font-size: 88px; color: rgba(240,235,224,0.9); line-height: 0.9; letter-spacing: 2px; margin-top: 24px;">VENDAS REAIS<br>SEM AUMENTAR<br>O BUDGET.</div>
+          <div class="div-line" style="border-color: rgba(240,235,224,0.3); margin: 64px 0;"></div>
+          <div style="font-family: var(--fb); font-size: 40px; font-weight: 300; color: rgba(240,235,224,0.8); line-height: 1.55;">
+            Parque Aquático SP · 30 dias após ativar TagServer.
+          </div>
+        </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'story-c-tech-code') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-story" id="slide-${idx + 1}" style="background: var(--ts-bg); background-image: radial-gradient(rgba(184,233,43,0.10) 1px, transparent 0); background-size: 32px 32px;">
+        
+        <div class="tape-l c-lime"></div>
+        <div class="tape-t c-lime"></div>
+        <!-- Progress -->
+        <div style="position:absolute; top:16px; left:16px; right:16px; height:3px; background:rgba(184,233,43,0.2); z-index:60;">
+          <div style="height:100%; width:66%; background:var(--ts-lime);"></div>
+        </div>
+        <div class="cw" style="padding: 120px 88px 100px 96px; justify-content: space-between; gap: 0;">
+          <div>
+            <div class="mtag lime" style="margin-bottom: 40px; font-size: 22px;">${s.tag || 'DESTAQUE'}</div>
+            <div style="font-family: var(--fd); font-size: 120px; color: var(--bone); line-height: 0.88; letter-spacing: 2px; margin-bottom: 48px;">
+      ${s.title}
+    </div>
+            
+      ${s.body}
+    
+          </div>
+          <div>
+            <div style="font-family: var(--fb); font-size: 40px; font-weight: 300; color: var(--sub); line-height: 1.5; border-top: 2px solid var(--ts-edge); padding-top: 48px;">
+              Acesse <strong style="color: var(--ts-lime);">tgsr.br</strong> e ative hoje.
+            </div>
+          </div>
+        </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'story-d-light-editorial') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-story paper-bg" id="slide-${idx + 1}" style="">
+        
+        <div class="grain-light"></div>
+        <div class="tape-l c-ink"></div>
+        <!-- Red stripe diagonal -->
+        <div style="position:absolute; top:0; right:0; width:200px; height:100%; background:var(--fire); clip-path:polygon(40% 0, 100% 0, 100% 100%, 0 100%); z-index:2; opacity:1;"></div>
+        <div class="cw" style="padding: 120px 260px 100px 96px; justify-content: center; gap: 0; position: relative; z-index: 10;">
+          <div class="mtag ink" style="margin-bottom: 40px; font-size: 22px;">${s.tag || 'DESTAQUE'}</div>
+          <div style="font-family: var(--fd); font-size: 110px; color: var(--ink); line-height: 0.88; letter-spacing: 2px; margin-bottom: 48px;">
+      ${s.title}
+    </div>
+          <div style="width: 80px; height: 5px; background: var(--ink); margin-bottom: 48px;"></div>
+          <div style="font-family: var(--fb); font-size: 40px; font-weight: 300; color: #444; line-height: 1.6; margin-bottom: 64px;">
+            Quando o orçamento estourou e a meta sumiu, eu aprendi o que separa um líder de um gestor.<br><br>
+            <strong style="color: var(--ink);">A técnica.</strong>
+          </div>
+          <!-- author light -->
+          
+      ${s.body}
+    
+        </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'story-e-price-oferta') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-story" id="slide-${idx + 1}" style="background: var(--carbon);">
+        
+        <div class="grain"></div>
+        <div class="tape-l c-gold"></div>
+        <div class="tape-b c-gold"></div>
+        <div class="cw" style="padding: 120px 88px 100px 96px; justify-content: center; gap: 0;">
+          <div class="mtag gold" style="margin-bottom: 40px; font-size: 22px;">${s.tag || 'DESTAQUE'}</div>
+          <div class="hl hl-md c-gold" style="margin-bottom: 48px;"></div>
+          <div class="disp" style="font-size: 110px; margin-bottom: 48px; line-height: 0.88;">
+      ${s.title}
+    </div>
+          
+      ${s.body}
+    
+          <div class="btn-solid" style="text-align:center; font-size: 56px; padding: 40px 80px;">
+            ATIVAR AGORA ↗
+          </div>
+          <div style="font-family: var(--fm); font-size: 18px; color: var(--muted); letter-spacing: 2px; text-align: center; margin-top: 24px;">
+            tgsr.br · vagas limitadas
+          </div>
+        </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'banner-a-dark-split-cta') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-banner" id="slide-${idx + 1}" style="background: var(--void); display:flex;">
+        
+        <div class="grain"></div>
+        <div class="tape-t c-fire"></div>
+        <div class="tape-b c-fire"></div>
+        <!-- Left: text block -->
+        <div style="width:58%; height:100%; padding: 64px 72px 56px 80px; display:flex; flex-direction:column; justify-content:center; position:relative; z-index:30;">
+          <div class="mtag" style="margin-bottom: 24px; font-size: 20px;">${s.tag || 'DESTAQUE'}</div>
+          <div class="disp" style="font-size: 96px; line-height: 0.88; margin-bottom: 24px;">
+      ${s.title}
+    </div>
+          <div class="body" style="font-size: 28px; max-width: 500px;">
+      ${s.body}
+    </div>
+        </div>
+        <!-- Right: stat block -->
+        <div style="width:42%; height:100%; background:var(--fire); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; position:relative; z-index:30; clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);">
+          <div class="grain" style="opacity:0.2;"></div>
+          <div style="font-family: var(--fd); font-size: 160px; color: rgba(0,0,0,0.8); line-height: 0.8; position:relative; z-index:2;">165K</div>
+          <div style="font-family: var(--fm); font-size: 22px; color: rgba(240,235,224,0.8); letter-spacing: 3px; text-transform: uppercase; position:relative; z-index:2;">EVENTOS RECUPERADOS</div>
+          <div style="font-family: var(--fd); font-size: 44px; color: rgba(0,0,0,0.7); position:relative; z-index:2; margin-top:8px;">EM 30 DIAS</div>
+        </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'banner-b-tech-lime-produto') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-banner" id="slide-${idx + 1}" style="background: var(--ts-bg); background-image: radial-gradient(rgba(184,233,43,0.1) 1px, transparent 0); background-size: 28px 28px;">
+        
+        <div class="tape-t c-lime"></div>
+        <div class="tape-b c-lime"></div>
+        <div style="position:absolute; inset:0; z-index:5; display:flex; flex-direction:row;">
+          <!-- Left -->
+          <div style="width:55%; padding: 56px 72px 56px 80px; display:flex; flex-direction:column; justify-content:center;">
+            <div class="mtag lime" style="margin-bottom: 20px; font-size: 18px;">${s.tag || 'DESTAQUE'}</div>
+            <div style="font-family: var(--fd); font-size: 88px; color: var(--bone); line-height: 0.88; letter-spacing: 2px; margin-bottom: 20px;">
+      ${s.title}
+    </div>
+            <div style="font-family: var(--fm); font-size: 20px; color: var(--ts-lime); letter-spacing: 3px; text-transform: uppercase; margin-top: 8px;">↗ tgsr.br</div>
+          </div>
+          <!-- Right: features -->
+          
+      ${s.body}
+    
+        </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'banner-c-light-editorial-awareness') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-banner paper-bg" id="slide-${idx + 1}" style="position:relative;">
+        
+        <div class="grain-light"></div>
+        <div style="position:absolute; top:0; right:0; width:48%; height:100%; background:var(--ink); z-index:2;"></div>
+        <div style="position:absolute; top:0; right:48%; width:50px; height:100%; background:var(--fire); z-index:3; clip-path: polygon(0 0, 100% 0, 60% 100%, 0 100%);"></div>
+        <!-- Left text -->
+        <div style="position:absolute; left:0; top:0; width:50%; height:100%; padding: 52px 40px 52px 72px; display:flex; flex-direction:column; justify-content:center; z-index:10;">
+          <div style="font-family: var(--fm); font-size: 14px; letter-spacing: 3px; color: #666; text-transform:uppercase; margin-bottom: 16px;">// MÉTODO</div>
+          <div style="font-family: var(--fd); font-size: 80px; color: var(--ink); line-height: 0.88; letter-spacing: 2px;">
+      ${s.title}
+    </div>
+        </div>
+        <!-- Right text -->
+        
+      ${s.body}
+    
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'banner-d-youtube-thumbnail-style') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-banner" id="slide-${idx + 1}" style="background: var(--carbon);">
+        
+        <div class="grain"></div>
+        <div class="tape-t c-fire" style="height: 8px;"></div>
+        <!-- Photo slot left -->
+        <div style="position:absolute; left:0; top:0; bottom:0; width:44%; z-index:1;">
+          <div style="width:100%; height:100%; background: linear-gradient(135deg, var(--iron), var(--steel)); display:flex; align-items:center; justify-content:center;">
+            <div style="font-family: var(--fm); font-size: 14px; color: var(--steel); letter-spacing: 2px; text-transform: uppercase;">FOTO AQUI</div>
+          </div>
+          <div style="position:absolute; inset:0; background: linear-gradient(to right, transparent 60%, var(--carbon) 100%);"></div>
+        </div>
+        <!-- Text -->
+        <div style="position:absolute; right:0; top:0; width:58%; height:100%; padding: 48px 64px 48px 40px; display:flex; flex-direction:column; justify-content:center; z-index:30;">
+          <!-- Reaction emojis YT style -->
+          
+      ${s.body}
+    
+          <div class="disp" style="font-size: 80px; line-height: 0.88; margin-bottom: 20px;">
+      ${s.title}
+    </div>
+          <div style="font-family: var(--fm); font-size: 16px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase;">Como resolvemos · Caso real</div>
+        </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'midnight-capa-premium') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-portrait" id="slide-${idx + 1}" style="background: var(--mid-bg);">
+        
+        <div class="grain"></div>
+        <!-- Purple glow -->
+        <div class="glow-blob" style="width:900px; height:900px; background:var(--mid-acc); opacity:0.12; top:-300px; right:-300px;"></div>
+        <div class="glow-blob" style="width:600px; height:600px; background:var(--mid-gold); opacity:0.06; bottom:-100px; left:-200px;"></div>
+        <div class="tape-l" style="background: var(--mid-acc);"></div>
+        <div class="tape-t" style="background: linear-gradient(to right, var(--mid-acc), var(--mid-gold));"></div>
+        <div class="sn">01/05</div>
+        <!-- Inset frame -->
+        <div style="position:absolute; inset:24px; border:1px solid rgba(108,92,231,0.2); z-index:5; pointer-events:none;"></div>
+        <div class="cw" style="padding: 100px 88px 80px 96px; justify-content: flex-end; gap: 0;">
+          <div style="font-family: var(--fm); font-size: 18px; letter-spacing: 3px; color: var(--mid-acc); display:flex; align-items:center; gap:12px; margin-bottom: 40px;">
+            <span style="color: rgba(108,92,231,0.4);">//</span> ELITE GROWTH
+          </div>
+          <div style="width: 64px; height: 3px; background: linear-gradient(to right, var(--mid-acc), var(--mid-gold)); margin-bottom: 40px;"></div>
+          <div style="font-family: var(--fd); font-size: 108px; color: rgba(248,249,250,0.92); line-height: 0.88; letter-spacing: 2px; margin-bottom: 48px;">
+      ${s.title}
+    </div>
+          <div style="font-family: var(--fb); font-size: 36px; font-weight: 300; color: rgba(160,174,192,0.9); line-height: 1.55; border-top: 1px solid rgba(108,92,231,0.25); padding-top: 36px;">
+            O que separa quem fatura 8 dígitos de quem fica sonhando com o próximo hack.
+          </div>
+        
+      ${s.body}
+    </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'midnight-social-proof') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-portrait" id="slide-${idx + 1}" style="background: var(--mid-card);">
+        
+        <div class="grain"></div>
+        <div class="glow-blob" style="width:700px; height:700px; background:var(--mid-acc); opacity:0.08; top:100px; left:-200px;"></div>
+        <div class="tape-l" style="background: var(--mid-gold);"></div>
+        <div class="sn">03/05</div>
+        <div class="cw" style="padding: 100px 88px 80px 96px; justify-content: center; gap: 0;">
+          <div style="font-family: var(--fm); font-size: 18px; letter-spacing: 3px; color: var(--mid-gold); display:flex; align-items:center; gap:12px; margin-bottom: 32px;">
+            <span style="color: rgba(212,175,55,0.4);">//</span> PROVA SOCIAL
+          </div>
+          <div style="width: 64px; height: 3px; background: var(--mid-gold); margin-bottom: 40px;"></div>
+          <div style="font-family: var(--fd); font-size: 88px; color: rgba(248,249,250,0.92); line-height: 0.9; letter-spacing: 2px; margin-bottom: 56px;">
+      ${s.title}
+    </div>
+          <!-- Social proof row midnight -->
+          
+      ${s.body}
+    
+          <div style="font-family: var(--fb); font-size: 34px; font-weight: 300; color: rgba(160,174,192,0.8); line-height: 1.55; margin-top: 48px;">
+            Empresas que confiam em dados reais para escalar não voltam mais para o pixel padrão.
+          </div>
+        </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'midnight-tabela-compara-o') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-portrait" id="slide-${idx + 1}" style="background: var(--mid-bg);">
+        
+        <div class="grain"></div>
+        <div class="tape-l" style="background: var(--mid-acc);"></div>
+        <div class="sn">04/05</div>
+        <div class="cw" style="padding: 100px 88px 80px 96px; justify-content: center; gap: 0;">
+          <div style="font-family: var(--fm); font-size: 18px; letter-spacing: 3px; color: var(--mid-acc); display:flex; align-items:center; gap:12px; margin-bottom: 32px;">
+            <span style="color: rgba(108,92,231,0.4);">//</span> INFRAESTRUTURA
+          </div>
+          <div style="width: 64px; height: 3px; background: var(--mid-acc); margin-bottom: 40px;"></div>
+          <div style="font-family: var(--fd); font-size: 88px; color: rgba(248,249,250,0.92); line-height: 0.9; letter-spacing: 2px; margin-bottom: 48px;">
+      ${s.title}
+    </div>
+          
+      ${s.body}
+    
+        </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'lead-form-dark') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-square" id="slide-${idx + 1}" style="background: var(--void);">
+        
+        <div class="grain"></div>
+        <div class="tape-l c-fire"></div>
+        <div class="tape-b c-fire"></div>
+        <div class="cw" style="padding: 80px 100px 80px 108px; justify-content: center; gap: 0;">
+          <div class="mtag" style="margin-bottom: 28px;">${s.tag || 'DESTAQUE'}</div>
+          <div class="hl hl-md c-fire" style="margin-bottom: 36px;"></div>
+          <div class="disp" style="font-size: 96px; margin-bottom: 48px; line-height: 0.88;">
+      ${s.title}
+    </div>
+          <div class="dark-form">
+            <div class="form-field">
+              <div class="form-label">Seu nome</div>
+              <div class="form-input filled">João Gobira</div>
+            </div>
+            <div class="form-field">
+              <div class="form-label">Budget mensal em ads</div>
+              <div class="form-input">R\$ _______________</div>
+            </div>
+            <div class="form-field">
+              <div class="form-label">Plataforma principal</div>
+              <div class="form-input">Meta Ads / Google Ads</div>
+            </div>
+          </div>
+          <div class="btn-solid" style="margin-top: 48px; text-align: center; font-size: 48px;">
+            CALCULAR AGORA ↗
+          </div>
+        
+      ${s.body}
+    </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+    } else if (s.layout === 'social-proof-cta-direto') {
+      slidesHtml += `<div class="slide ${slideClass} fmt-square" id="slide-${idx + 1}" style="background: var(--carbon);">
+        
+        <div class="grain"></div>
+        <div class="tape-l c-gold"></div>
+        <div class="tape-t c-gold"></div>
+        <div class="cw" style="padding: 80px 100px 80px 108px; justify-content: space-between; gap: 0;">
+          <div>
+            <div class="mtag gold" style="margin-bottom: 28px;">${s.tag || 'DESTAQUE'}</div>
+            <div class="disp" style="font-size: 76px; margin-bottom: 0; line-height: 0.9;">
+      ${s.title}
+    </div>
+          </div>
+          
+      ${s.body}
+    
+          <div class="body" style="font-size: 30px; border-top: 2px solid var(--iron); padding-top: 28px;">
+            Parque Aquático SP · 30 dias após implantação do TagServer. <strong>Sem aumentar budget.</strong>
+          </div>
+          <div class="btn-outline" style="text-align: center; font-size: 44px; padding: 28px 64px; margin-top: 8px;">
+            QUERO ESSE RESULTADO
+          </div>
+        </div>
+      
+      </div>\n<div class="sep"></div>\n`;
+
     } else {
+
       const isGold = s.type === 'metrica' || s.type === 'solucao';
       const tapeClass = isGold ? 'tape-v-gold' : 'tape-v-fire';
       const lineClass = isGold ? 'h-line-gold' : 'h-line-fire';
