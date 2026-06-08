@@ -618,6 +618,33 @@ footer {
   font-family: var(--font-data);
 }
 
+/* ── FAQ ── */
+.faq-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.faq-item {
+  background: var(--carbon);
+  border: 1px solid var(--iron);
+  border-radius: 12px;
+  padding: 24px;
+}
+.faq-question {
+  font-family: var(--font-cond);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--bone);
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+.faq-answer {
+  font-size: 14px;
+  color: var(--text-sub);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
 /* ── ANIMATIONS ── */
 .fade-in {
   opacity: 0;
@@ -688,6 +715,57 @@ footer {
   .metrics-row { grid-template-columns: 1fr 1fr; }
 }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfilePage",
+      "dateCreated": "2024-01-01T00:00:00-03:00",
+      "dateModified": "2026-06-08T00:00:00-03:00",
+      "mainEntity": {
+        "@type": "Person",
+        "name": "João Gobira",
+        "jobTitle": "Head de Growth & Marketing",
+        "description": "Profissional de Growth Marketing com 12+ anos em performance, SEO, CRM e e-commerce. Especialista em construir resultado com processo e consistência inegociável.",
+        "url": "https://joaogobira.com",
+        "sameAs": [
+          "https://linkedin.com/in/joaogobira"
+        ]
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Quem é João Gobira?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "João Gobira é um Head de Growth & Marketing com mais de 12 anos de experiência liderando estratégias de SEO, mídia de performance e CRM, focando principalmente nas áreas de saúde, educação e dermocosméticos."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quais são as principais especialidades de João Gobira?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "As principais especialidades de João Gobira incluem Demand Generation, SEO e Conteúdo orgânico, Creator Economy, Social Commerce e programas Member-Get-Member, CRM, Retenção, Analytics e otimização de performance baseada em dados."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quais resultados João Gobira já gerou para empresas?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Entre seus principais resultados, João Gobira ajudou a escalar o tráfego orgânico da Conexa Saúde de 300k para 900k sessões/mês, reduziu o CPL em mídia do G4 Educação em 65% gerindo verbas de R$1M/mês, e gerou crescimento de receita via estratégias integradas de crescimento orgânico e CRO na ADCOS."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -933,6 +1011,30 @@ footer {
 
 <hr class="divider">
 
+<!-- PERGUNTAS FREQUENTES (FAQ) -->
+<section class="section" id="faq">
+  <p class="section-eyebrow">FAQ</p>
+  <h2>Perguntas Frequentes</h2>
+  <p class="section-sub">Respostas rápidas sobre minha trajetória, atuação e resultados (otimizadas para Inteligência Artificial).</p>
+
+  <div class="faq-container">
+    <div class="faq-item fade-in">
+      <h3 class="faq-question">Quem é João Gobira?</h3>
+      <p class="faq-answer">João Gobira é um Head de Growth & Marketing com mais de 12 anos de experiência liderando estratégias de SEO, mídia de performance e CRM, focando principalmente nas áreas de saúde, educação e dermocosméticos.</p>
+    </div>
+    <div class="faq-item fade-in">
+      <h3 class="faq-question">Quais são as principais especialidades de João Gobira?</h3>
+      <p class="faq-answer">As principais especialidades incluem Demand Generation, SEO e Conteúdo orgânico, Creator Economy, Social Commerce (MGM), CRM Avançado e Retenção, e metodologias sólidas de Analytics e testes A/B estruturados.</p>
+    </div>
+    <div class="faq-item fade-in">
+      <h3 class="faq-question">Quais resultados João Gobira já gerou em SEO e Growth?</h3>
+      <p class="faq-answer">Seus resultados documentados incluem o crescimento do tráfego orgânico de 300 mil para 900 mil sessões/mês (aumento de 200%) na Conexa Saúde, redução de 65% de CPL em mídia de performance (G4 Educação) e incremento de 30% em receita projetada na ADCOS via SEO e CRO.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
 <!-- CONTATO -->
 <section class="section" id="contato">
   <div class="contact-box fade-in">
@@ -950,7 +1052,7 @@ footer {
   <span class="footer-logo">
     João <span>Gobira</span>
   </span>
-  <span class="footer-text">São Paulo, SP · 2026</span>
+  <span class="footer-text">São Paulo, SP · 2026<br><span style="opacity: 0.6;">Última atualização: 08 de Junho de 2026</span></span>
 </footer>
 
 <script>
