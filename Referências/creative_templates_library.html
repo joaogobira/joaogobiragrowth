@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Biblioteca de Templates Criativos — Sistema Completo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+/* ════════════════════════════════════════════════════════════
+   DESIGN TOKENS — BASE SYSTEM
+════════════════════════════════════════════════════════════ */
+:root {
+  /* Dark Brutalista (padrão João Gobira) */
+  --void:    #080808;
+  --carbon:  #101010;
+  --iron:    #1A1A1A;
+  --steel:   #272727;
+  --fire:    #C8391A;
+  --ember:   #E04B27;
+  --gold:    #B8922A;
+  --bone:    #F0EBE0;
+  --muted:   #7A746C;
+  --text:    #EDE8E0;
+  --sub:     #9A9490;
+
+  /* TagServer Tech */
+  --ts-bg:   #0e1217;
+  --ts-card: #151b23;
+  --ts-edge: #1e2631;
+  --ts-line: #2d3748;
+  --ts-lime: #b8e92b;
+
+  /* Light Editorial */
+  --paper:   #F7F3EC;
+  --ink:     #111111;
+  --cream:   #E8E2D6;
+  --rouge:   #C8391A;
+
+  /* Midnight Premium */
+  --mid-bg:  #07060A;
+  --mid-card:#0F0E14;
+  --mid-acc: #6C5CE7;
+  --mid-gold:#D4AF37;
+
+  /* Typography */
+  --fd: 'Bebas Neue', sans-serif;
+  --fc: 'Barlow Condensed', sans-serif;
+  --fb: 'Barlow', sans-serif;
+  --fm: 'Space Mono', monospace;
+}
+
+/* ════════════════════════════════════════════════════════════
+   PAGE SHELL
+════════════════════════════════════════════════════════════ */
+body {
+  background: #0d0d0d;
+  font-family: var(--fb);
+  padding: 48px 32px 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  align-items: center;
+}
+
+.page-header {
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #333;
+  text-align: center;
+  margin-bottom: 64px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #1e1e1e;
+  width: 100%;
+  max-width: 1400px;
+}
+.page-header h1 { font-family: var(--fd); font-size: 48px; color: #555; letter-spacing: 3px; margin-bottom: 8px; }
+
+.section-block {
+  width: 100%;
+  max-width: 1400px;
+  margin-bottom: 96px;
+}
+
+.section-label {
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--fire);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-label::before { content: '▸'; }
+
+.section-title {
+  font-family: var(--fd);
+  font-size: 32px;
+  letter-spacing: 2px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.section-meta {
+  font-family: var(--fm);
+  font-size: 10px;
+  color: #333;
+  letter-spacing: 2px;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.templates-row {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.template-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.template-label {
+  font-family: var(--fm);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #333;
+  text-align: center;
+}
+
+/* ════════════════════════════════════════════════════════════
+   CONTAINER SIZES (scaled)
+════════════════════════════════════════════════════════════ */
+
+/* 1:1  1080×1080  scale 0.26 → 281×281 */
+.fmt-square {
+  width: 1080px; height: 1080px;
+  transform: scale(0.26);
+  transform-origin: top left;
+  margin-right: calc(1080px * 0.26 - 1080px);
+  margin-bottom: calc(1080px * 0.26 - 1080px);
+  flex-shrink: 0; overflow: hidden;
+  position: relative; border: 1px solid #1e1e1e;
+}
+
+/* 4:5  1080×1350  scale 0.22 → 238×297 */
+.fmt-portrait {
+  width: 1080px; height: 1350px;
+  transform: scale(0.22);
+  transform-origin: top left;
+  margin-right: calc(1080px * 0.22 - 1080px);
+  margin-bottom: calc(1350px * 0.22 - 1350px);
+  flex-shrink: 0; overflow: hidden;
+  position: relative; border: 1px solid #1e1e1e;
+}
+
+/* 9:16  1080×1920  scale 0.175 → 189×336 */
+.fmt-story {
+  width: 1080px; height: 1920px;
+  transform: scale(0.175);
+  transform-origin: top left;
+  margin-right: calc(1080px * 0.175 - 1080px);
+  margin-bottom: calc(1920px * 0.175 - 1920px);
+  flex-shrink: 0; overflow: hidden;
+  position: relative; border: 1px solid #1e1e1e;
+}
+
+/* 16:9  1920×1080  scale 0.2 → 384×216 */
+.fmt-landscape {
+  width: 1920px; height: 1080px;
+  transform: scale(0.2);
+  transform-origin: top left;
+  margin-right: calc(1920px * 0.2 - 1920px);
+  margin-bottom: calc(1080px * 0.2 - 1080px);
+  flex-shrink: 0; overflow: hidden;
+  position: relative; border: 1px solid #1e1e1e;
+}
+
+/* Banner 1200×628 scale 0.3 → 360×188 */
+.fmt-banner {
+  width: 1200px; height: 628px;
+  transform: scale(0.3);
+  transform-origin: top left;
+  margin-right: calc(1200px * 0.3 - 1200px);
+  margin-bottom: calc(628px * 0.3 - 628px);
+  flex-shrink: 0; overflow: hidden;
+  position: relative; border: 1px solid #1e1e1e;
+}
+
+/* ════════════════════════════════════════════════════════════
+   SHARED DESIGN ATOMS
+════════════════════════════════════════════════════════════ */
+.grain {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 50; opacity: 0.7; mix-blend-mode: overlay;
+}
+.grain-light {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 50; opacity: 0.4; mix-blend-mode: multiply;
+}
+
+.tape-l { position: absolute; left: 0; top: 0; bottom: 0; width: 6px; z-index: 10; }
+.tape-t { position: absolute; top: 0; left: 0; right: 0; height: 5px; z-index: 10; }
+.tape-b { position: absolute; bottom: 0; left: 0; right: 0; height: 5px; z-index: 10; }
+.tape-r { position: absolute; right: 0; top: 0; bottom: 0; width: 6px; z-index: 10; }
+
+.c-fire { background: var(--fire); }
+.c-gold  { background: var(--gold);  }
+.c-lime  { background: var(--ts-lime); }
+.c-bone  { background: rgba(240,235,224,0.4); }
+.c-ink   { background: var(--ink); }
+
+.cw {
+  position: relative; z-index: 30;
+  height: 100%; display: flex; flex-direction: column;
+}
+
+/* slide number */
+.sn {
+  position: absolute; top: 64px; right: 72px;
+  font-family: var(--fm); font-size: 20px;
+  color: var(--steel); letter-spacing: 2px; z-index: 40;
+}
+
+/* mono tag */
+.mtag {
+  font-family: var(--fm); font-size: 18px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--fire);
+  display: flex; align-items: center; gap: 12px;
+}
+.mtag::before { content: '//'; color: var(--steel); }
+.mtag.lg { font-size: 24px; }
+.mtag.gold { color: var(--gold); }
+.mtag.lime { color: var(--ts-lime); }
+.mtag.bone { color: rgba(240,235,224,0.6); }
+.mtag.ink  { color: var(--ink); }
+.mtag.ink::before  { color: #aaa; }
+
+/* h-line accent */
+.hl { height: 4px; }
+.hl-sm { width: 48px; }
+.hl-md { width: 80px; }
+.hl-full { width: 100%; }
+
+/* display type */
+.disp { font-family: var(--fd); letter-spacing: 2px; color: var(--bone); line-height: 0.9; }
+.disp em { font-style: normal; color: var(--fire); }
+.disp .gold { color: var(--gold); }
+.disp .lime { color: var(--ts-lime); }
+.disp .ink  { color: var(--ink); }
+
+/* body type */
+.body {
+  font-family: var(--fb); font-weight: 300;
+  color: var(--sub); line-height: 1.55;
+}
+.body strong { color: var(--text); font-weight: 500; }
+.body em { font-style: normal; color: var(--fire); }
+
+/* author badge */
+.badge {
+  display: flex; align-items: center; gap: 24px;
+  padding: 20px 36px 20px 20px;
+  background: rgba(26,26,26,0.9);
+  border: 2px solid var(--steel); width: fit-content;
+}
+.badge-av {
+  width: 80px; height: 80px; border-radius: 50%;
+  border: 3px solid var(--fire); object-fit: cover;
+  background: var(--steel); flex-shrink: 0;
+}
+.badge-name { font-family: var(--fd); font-size: 34px; color: var(--bone); letter-spacing: 1px; }
+.badge-role { font-family: var(--fm); font-size: 13px; color: var(--fire); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+
+/* stat */
+.stat-num { font-family: var(--fd); color: var(--fire); line-height: 0.85; }
+
+/* tag pill */
+.pill {
+  display: inline-block; padding: 14px 36px;
+  font-family: var(--fc); font-size: 28px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 2px; color: var(--bone);
+}
+
+/* divider */
+.div-line { width: 100%; border: none; border-top: 2px solid var(--iron); }
+.div-dashed { width: 100%; border: none; border-top: 2px dashed var(--steel); }
+
+
+/* ════════════════════════════════════════════════════════════
+   LAYOUT PRESETS
+════════════════════════════════════════════════════════════ */
+
+/* ── A: CAPA DIAGONAL CUT ── */
+.layout-diagonal::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--fire);
+  clip-path: polygon(0 0, 45% 0, 60% 100%, 0 100%);
+  z-index: 2;
+}
+
+/* ── B: GRID DOTS (tech) ── */
+.layout-grid-dots {
+  background-image: radial-gradient(rgba(184,233,43,0.12) 1px, transparent 0) !important;
+  background-size: 32px 32px !important;
+}
+
+/* ── C: STRIPE ANGLED ── */
+.layout-stripe::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 380px; height: 100%;
+  background: var(--iron);
+  clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%);
+  z-index: 1;
+}
+
+/* ── D: INSET FRAME ── */
+.layout-inset::before {
+  content: '';
+  position: absolute;
+  inset: 32px;
+  border: 2px solid var(--steel);
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* ── E: GLOW BG ── */
+.glow-blob {
+  position: absolute; border-radius: 50%;
+  pointer-events: none; z-index: 2; filter: blur(180px);
+}
+
+/* ── F: PAPER TEXTURE ── */
+.paper-bg { background: var(--paper) !important; }
+.paper-bg .grain-light { opacity: 0.9; mix-blend-mode: multiply !important; }
+
+/* ── G: CODE BLOCK ── */
+.code-block {
+  background: var(--ts-edge); border: 1px solid var(--ts-line);
+  padding: 32px 40px; font-family: var(--fm); font-size: 26px;
+  color: var(--ts-lime); line-height: 1.7;
+}
+.code-block .cm { color: var(--muted); }
+.code-block .ck { color: #7dd3fc; }
+.code-block .cv { color: #f9a8d4; }
+.code-block .cs { color: var(--ts-lime); }
+
+/* ── H: COMPARISON TABLE ── */
+.comp-table { width: 100%; border-collapse: collapse; }
+.comp-table th {
+  font-family: var(--fc); font-size: 26px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 1px;
+  padding: 24px 32px; text-align: left;
+  border-bottom: 3px solid var(--iron);
+}
+.comp-table td {
+  font-family: var(--fb); font-size: 26px; font-weight: 300;
+  padding: 22px 32px; color: var(--sub);
+  border-bottom: 1px solid var(--iron);
+}
+.comp-table .yes { color: var(--fire); font-weight: 600; }
+.comp-table .no  { color: var(--steel); }
+.comp-table tr.highlight td { background: rgba(200,57,26,0.06); }
+
+/* ── I: NUMBERED LIST ── */
+.num-list { display: flex; flex-direction: column; gap: 0; }
+.num-item { display: flex; align-items: flex-start; gap: 32px; padding: 36px 0; border-bottom: 1px solid var(--iron); }
+.num-item:last-child { border-bottom: none; }
+.num-n { font-family: var(--fd); font-size: 72px; color: var(--steel); line-height: 0.85; min-width: 80px; }
+.num-n.fire { color: var(--fire); }
+.num-body { flex: 1; }
+.num-title { font-family: var(--fc); font-size: 42px; font-weight: 800; color: var(--bone); letter-spacing: 1px; margin-bottom: 8px; }
+.num-sub { font-family: var(--fb); font-size: 28px; font-weight: 300; color: var(--sub); line-height: 1.5; }
+
+/* ── J: PROGRESS/SCORE ── */
+.score-bar-wrap { width: 100%; display: flex; flex-direction: column; gap: 28px; }
+.score-row { display: flex; flex-direction: column; gap: 10px; }
+.score-label-row { display: flex; justify-content: space-between; }
+.score-lbl { font-family: var(--fm); font-size: 18px; color: var(--sub); letter-spacing: 2px; text-transform: uppercase; }
+.score-val { font-family: var(--fd); font-size: 28px; color: var(--bone); letter-spacing: 1px; }
+.score-track { width: 100%; height: 8px; background: var(--iron); position: relative; }
+.score-fill { height: 100%; background: var(--fire); }
+.score-fill.gold { background: var(--gold); }
+.score-fill.lime { background: var(--ts-lime); }
+
+/* ── K: BENTO GRID ── */
+.bento { display: grid; gap: 16px; }
+.bento-2x2 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+.bento-cell {
+  background: var(--iron); padding: 36px 40px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.bento-big { grid-column: span 2; }
+.bento-n { font-family: var(--fd); font-size: 96px; color: var(--fire); line-height: 0.85; }
+.bento-n.gold { color: var(--gold); }
+.bento-n.lime { color: var(--ts-lime); }
+.bento-lbl { font-family: var(--fm); font-size: 18px; color: var(--sub); letter-spacing: 2px; margin-top: 8px; }
+
+/* ── L: QUOTE PULL ── */
+.quote-big { position: relative; padding: 60px 80px; border-left: 8px solid var(--fire); }
+.quote-bg-mark {
+  position: absolute; top: -40px; left: 40px;
+  font-family: var(--fd); font-size: 400px; color: var(--fire);
+  opacity: 0.06; line-height: 1; pointer-events: none; z-index: 1;
+}
+
+/* ── M: TESTIMONIAL ── */
+.testimonial-card {
+  background: var(--iron); border: 1px solid var(--steel);
+  padding: 48px 56px;
+}
+.testimonial-stars { display: flex; gap: 8px; margin-bottom: 24px; }
+.star { width: 28px; height: 28px; background: var(--gold); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+.testimonial-text { font-family: var(--fb); font-size: 34px; font-weight: 300; color: var(--text); line-height: 1.6; margin-bottom: 32px; }
+.testimonial-author { font-family: var(--fm); font-size: 16px; color: var(--fire); letter-spacing: 2px; text-transform: uppercase; }
+.testimonial-company { font-family: var(--fm); font-size: 14px; color: var(--muted); letter-spacing: 2px; margin-top: 4px; }
+
+/* ── N: TIMELINE ── */
+.timeline { display: flex; flex-direction: column; }
+.tl-item { display: flex; gap: 48px; position: relative; padding-bottom: 48px; }
+.tl-item:last-child { padding-bottom: 0; }
+.tl-left { display: flex; flex-direction: column; align-items: center; }
+.tl-dot { width: 20px; height: 20px; border-radius: 50%; background: var(--fire); flex-shrink: 0; }
+.tl-line { flex: 1; width: 2px; background: var(--steel); margin-top: 8px; }
+.tl-year { font-family: var(--fd); font-size: 36px; color: var(--fire); white-space: nowrap; margin-top: 2px; }
+.tl-body { padding-top: 2px; }
+.tl-title { font-family: var(--fc); font-size: 44px; font-weight: 800; color: var(--bone); letter-spacing: 1px; }
+.tl-desc { font-family: var(--fb); font-size: 28px; font-weight: 300; color: var(--sub); line-height: 1.5; margin-top: 8px; }
+
+/* ── O: CHECKLIST ── */
+.checklist { display: flex; flex-direction: column; gap: 0; }
+.check-item { display: flex; align-items: center; gap: 32px; padding: 28px 0; border-bottom: 1px solid var(--iron); }
+.check-icon { width: 44px; height: 44px; border: 2px solid var(--fire); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.check-icon.checked { background: var(--fire); }
+.check-icon svg { width: 22px; height: 22px; }
+.check-text { font-family: var(--fb); font-size: 34px; font-weight: 300; color: var(--text); }
+.check-text.done { color: var(--sub); text-decoration: line-through; }
+
+/* ── P: PRICE/OFFER BLOCK ── */
+.price-block {
+  background: var(--iron); border: 2px solid var(--fire);
+  padding: 48px 56px; display: flex; flex-direction: column; gap: 16px;
+}
+.price-from { font-family: var(--fm); font-size: 18px; color: var(--muted); letter-spacing: 2px; text-decoration: line-through; }
+.price-main { font-family: var(--fd); font-size: 120px; color: var(--bone); line-height: 0.85; }
+.price-period { font-family: var(--fm); font-size: 22px; color: var(--sub); letter-spacing: 2px; }
+.price-features { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; border-top: 1px solid var(--steel); padding-top: 24px; }
+.price-feat { font-family: var(--fb); font-size: 28px; font-weight: 400; color: var(--text); display: flex; gap: 16px; align-items: center; }
+.price-feat::before { content: '✓'; color: var(--fire); font-weight: 700; }
+
+/* ── Q: CTA BTN VARIANTS ── */
+.btn-solid { display: inline-block; padding: 36px 80px; background: var(--fire); color: var(--bone); font-family: var(--fd); font-size: 52px; letter-spacing: 3px; text-transform: uppercase; }
+.btn-outline { display: inline-block; padding: 34px 80px; border: 3px solid var(--fire); color: var(--fire); font-family: var(--fd); font-size: 52px; letter-spacing: 3px; text-transform: uppercase; }
+.btn-ghost { display: inline-block; padding: 34px 80px; border: 3px solid rgba(240,235,224,0.3); color: var(--bone); font-family: var(--fd); font-size: 52px; letter-spacing: 3px; text-transform: uppercase; }
+
+/* ── R: SOCIAL PROOF ROW ── */
+.sp-row { display: flex; gap: 48px; padding: 40px 0; border-top: 2px solid var(--iron); border-bottom: 2px solid var(--iron); }
+.sp-item { text-align: center; flex: 1; }
+.sp-num { font-family: var(--fd); font-size: 80px; color: var(--fire); line-height: 0.85; }
+.sp-num.gold { color: var(--gold); }
+.sp-lbl { font-family: var(--fm); font-size: 15px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 8px; }
+
+/* ── S: DARK FORM ── */
+.dark-form { display: flex; flex-direction: column; gap: 20px; }
+.form-field { border-bottom: 2px solid var(--steel); padding-bottom: 16px; display: flex; flex-direction: column; gap: 8px; }
+.form-label { font-family: var(--fm); font-size: 16px; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; }
+.form-input { font-family: var(--fb); font-size: 36px; font-weight: 300; color: var(--text); }
+.form-input.filled { color: var(--bone); }
+
+/* ── T: ICON + TEXT GRID ── */
+.icon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.icon-cell { background: var(--iron); padding: 48px 48px 40px; display: flex; flex-direction: column; gap: 20px; }
+.icon-sym { font-size: 64px; line-height: 1; }
+.icon-title { font-family: var(--fc); font-size: 38px; font-weight: 800; color: var(--bone); letter-spacing: 1px; }
+.icon-desc { font-family: var(--fb); font-size: 26px; font-weight: 300; color: var(--sub); line-height: 1.4; }
+
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>BIBLIOTECA DE TEMPLATES CRIATIVOS</h1>
+  <div>Sistema Completo · Todos os Formatos · Todas as Paletas</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     SEÇÃO 1 — CARROSSEL 4:5 (1080×1350) — TEMA BRUTALISTA ESCURO
+════════════════════════════════════════════════════════════ -->
+<div class="section-block">
+  <div class="section-label">Seção 01</div>
+  <div class="section-title">CARROSSEL 4:5 — BRUTALISTA ESCURO</div>
+  <div class="section-meta">1080 × 1350px · Tema João Gobira · Novos layouts</div>
+
+  <div class="templates-row">
+
+    <!-- LAYOUT: BENTO GRID -->
+    <div class="template-card">
+      <div class="fmt-portrait" style="background: var(--void);">
+        <div class="grain"></div>
+        <div class="tape-l c-fire"></div>
+        <div class="tape-t c-fire"></div>
+        <div class="sn">01/06</div>
+        <div class="cw" style="padding: 100px 88px 80px 96px; justify-content: space-between;">
+          <div>
+            <div class="mtag" style="margin-bottom: 36px;">RESULTADOS 2025</div>
+            <div class="hl hl-md c-fire" style="margin-bottom: 36px;"></div>
+            <div class="disp" style="font-size: 100px; margin-bottom: 48px; line-height: 0.88;">
+              OS NÚMEROS<br>QUE <em>IMPORTAM.</em>
+            </div>
+          </div>
+          <div>
+            <div class="bento bento-2x2" style="height: 640px;">
+              <div class="bento-cell bento-big" style="background: var(--iron); justify-content: flex-start; gap: 0; padding: 40px;">
+                <div class="mtag lime" style="font-size: 16px; margin-bottom: 16px;">CONVERSÕES RECUPERADAS</div>
+                <div class="bento-n" style="font-size: 120px; color: var(--fire);">+165K</div>
+                <div class="bento-lbl">eventos de compra em 30 dias</div>
+              </div>
+              <div class="bento-cell" style="background: var(--carbon);">
+                <div class="bento-n gold">47%</div>
+                <div class="bento-lbl">VENDAS REAIS</div>
+              </div>
+              <div class="bento-cell" style="background: var(--iron); border-left: 3px solid var(--fire);">
+                <div class="bento-n" style="font-size: 72px;">0,8x</div>
+                <div class="bento-lbl">CPA MANTIDO</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="template-label">Layout: Bento Grid</div>
+    </div>
+
+    <!-- LAYOUT: NUMBERED LIST -->
+    <div class="template-card">
+      <div class="fmt-portrait" style="background: var(--carbon);">
+        <div class="grain"></div>
+        <div class="tape-l c-gold"></div>
+        <div class="sn" style="color: var(--steel);">02/06</div>
+        <div class="cw" style="padding: 100px 88px 80px 96px; justify-content: center; gap: 0;">
+          <div class="mtag gold" style="margin-bottom: 32px;">3 ERROS FATAIS</div>
+          <div class="hl hl-md c-gold" style="margin-bottom: 40px;"></div>
+          <div class="disp" style="font-size: 88px; margin-bottom: 56px; line-height: 0.9;">
+            POR QUE SEU<br>PIXEL ESTÁ <span class="gold">CEGO.</span>
+          </div>
+          <div class="num-list">
+            <div class="num-item">
+              <div class="num-n fire">01</div>
+              <div class="num-body">
+                <div class="num-title">iOS / Safari Bloqueado</div>
+                <div class="num-sub">Apple corta 40% dos eventos antes de chegarem ao seu servidor.</div>
+              </div>
+            </div>
+            <div class="num-item">
+              <div class="num-n fire">02</div>
+              <div class="num-body">
+                <div class="num-title">AdBlockers Ativos</div>
+                <div class="num-sub">35% dos usuários premium bloqueiam tracking client-side.</div>
+              </div>
+            </div>
+            <div class="num-item">
+              <div class="num-n fire">03</div>
+              <div class="num-body">
+                <div class="num-title">Algoritmo no Escuro</div>
+                <div class="num-sub">Sem dados completos, a IA otimiza para o público errado.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="template-label">Layout: Numbered List</div>
+    </div>
+
+    <!-- LAYOUT: SCORE/PROGRESS BARS -->
+    <div class="template-card">
+      <div class="fmt-portrait" style="background: var(--void);">
+        <div class="grain"></div>
+        <div class="tape-l c-fire"></div>
+        <div class="sn">03/06</div>
+        <div class="cw" style="padding: 100px 88px 80px 96px; justify-content: center; gap: 0;">
+          <div class="mtag" style="margin-bottom: 32px;">DIAGNÓSTICO</div>
+          <div class="hl hl-md c-fire" style="margin-bottom: 40px;"></div>
+          <div class="disp" style="font-size: 88px; margin-bottom: 56px;">
+            SUA OPERAÇÃO<br>VALE <em>QUANTO?</em>
+          </div>
+          <div class="score-bar-wrap">
+            <div class="score-row">
+              <div class="score-label-row">
+                <span class="score-lbl">Rastreamento</span>
+                <span class="score-val">62%</span>
+              </div>
+              <div class="score-track"><div class="score-fill" style="width:62%;"></div></div>
+            </div>
+            <div class="score-row">
+              <div class="score-label-row">
+                <span class="score-lbl">Atribuição Real</span>
+                <span class="score-val">45%</span>
+              </div>
+              <div class="score-track"><div class="score-fill" style="width:45%;"></div></div>
+            </div>
+            <div class="score-row">
+              <div class="score-label-row">
+                <span class="score-lbl">Eficiência do Algo.</span>
+                <span class="score-val">38%</span>
+              </div>
+              <div class="score-track"><div class="score-fill" style="width:38%;"></div></div>
+            </div>
+            <div class="score-row" style="margin-top: 16px;">
+              <div class="score-label-row">
+                <span class="score-lbl" style="color: var(--ts-lime);">Com TagServer</span>
+                <span class="score-val" style="color: var(--ts-lime);">98%</span>
+              </div>
+              <div class="score-track"><div class="score-fill lime" style="width:98%;"></div></div>
+            </div>
+          </div>
+          <div class="div-line" style="margin-top: 56px;"></div>
+          <div class="body" style="font-size: 30px; margin-top: 32px;">Operação blindada começa com <strong>medição perfeita.</strong></div>
+        </div>
+      </div>
+      <div class="template-label">Layout: Score / Progress</div>
+    </div>
+
+    <!-- LAYOUT: TESTIMONIAL -->
+    <div class="template-card">
+      <div class="fmt-portrait" style="background: var(--carbon);">
+        <div class="grain"></div>
+        <div class="tape-l c-fire"></div>
+        <div class="tape-b c-fire"></div>
+        <div class="sn">04/06</div>
+        <div class="cw" style="padding: 100px 88px 80px 96px; justify-content: center; gap: 0;">
+          <div class="mtag" style="margin-bottom: 48px;">PROVA SOCIAL</div>
+          <div class="disp" style="font-size: 72px; margin-bottom: 64px; line-height: 0.95;">
+            O QUE DIZEM OS<br>CLIENTES QUE<br><em>CONFIARAM.</em>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-stars">
+              <div class="star"></div><div class="star"></div><div class="star"></div>
+              <div class="star"></div><div class="star"></div>
+            </div>
+            <div class="testimonial-text">
+              "Depois de 3 semanas com o TagServer, nosso CPA caiu 28% e as campanhas passaram a otimizar de verdade. O algoritmo finalmente tinha dados para trabalhar."
+            </div>
+            <div class="testimonial-author">Carlos Mendes</div>
+            <div class="testimonial-company">// Head de Performance · E-commerce</div>
+          </div>
+          <div class="testimonial-card" style="margin-top: 16px;">
+            <div class="testimonial-stars">
+              <div class="star"></div><div class="star"></div><div class="star"></div>
+              <div class="star"></div><div class="star"></div>
+            </div>
+            <div class="testimonial-text">
+              "165 mil eventos recuperados em 30 dias. Parece exagero até você ver no dashboard."
+            </div>
+            <div class="testimonial-author">Ana Lima</div>
+            <div class="testimonial-company">// CMO · Parque Aquático SP</div>
+          </div>
+        </div>
+      </div>
+      <div class="template-label">Layout: Testimonial Stack</div>
+    </div>
+
+    <!-- LAYOUT: CHECKLIST -->
+    <div class="template-card">
+      <div class="fmt-portrait" style="background: var(--void);">
+        <div class="grain"></div>
+        <div class="tape-l c-fire"></div>
+        <div class="sn">05/06</div>
+        <div class="cw" style="padding: 100px 88px 80px 96px; justify-content: center; gap: 0;">
+          <div class="mtag" style="margin-bottom: 32px;">AUDITORIA RÁPIDA</div>
+          <div class="hl hl-md c-fire" style="margin-bottom: 40px;"></div>
+          <div class="disp" style="font-size: 88px; margin-bottom: 48px;">
+            SUA ESTRUTURA<br>ESTÁ <em>PRONTA?</em>
+          </div>
+          <div class="checklist">
+            <div class="check-item">
+              <div class="check-icon checked">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20,6 9,17 4,12"/></svg>
+              </div>
+              <span class="check-text done">Pixel instalado no site</span>
+            </div>
+            <div class="check-item">
+              <div class="check-icon checked">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20,6 9,17 4,12"/></svg>
+              </div>
+              <span class="check-text done">Eventos configurados</span>
+            </div>
+            <div class="check-item">
+              <div class="check-icon" style="border-color: var(--steel);">
+              </div>
+              <span class="check-text">API de Conversões (CAPI)</span>
+            </div>
+            <div class="check-item">
+              <div class="check-icon" style="border-color: var(--steel);">
+              </div>
+              <span class="check-text">Server-Side TagServer</span>
+            </div>
+            <div class="check-item">
+              <div class="check-icon" style="border-color: var(--steel);">
+              </div>
+              <span class="check-text">Score de qualidade ≥ 7.0</span>
+            </div>
+          </div>
+          <div class="body" style="font-size: 30px; margin-top: 48px; padding-top: 32px; border-top: 2px solid var(--iron);">
+            Itens em branco custam <strong style="color: var(--fire);">dinheiro real</strong> todos os dias.
+          </div>
+        </div>
+      </div>
+      <div class="template-label">Layout: Checklist</div>
+    </div>
+
+    <!-- LAYOUT: TIMELINE -->
+    <div class="template-card">
+      <div class="fmt-portrait" style="background: var(--carbon);">
+        <div class="grain"></div>
+        <div class="tape-l c-gold"></div>
+        <div class="sn" style="color: var(--steel);">06/06</div>
+        <div class="cw" style="padding: 100px 88px 80px 96px; justify-content: center; gap: 0;">
+          <div class="mtag gold" style="margin-bottom: 32px;">JORNADA</div>
+          <div class="hl hl-md c-gold" style="margin-bottom: 40px;"></div>
+          <div class="disp" style="font-size: 80px; margin-bottom: 56px;">
+            DE ZERO AO<br><span class="gold">PRIMEIRO CLIENTE</span><br>EM 14 DIAS.
+          </div>
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-left">
+                <div class="tl-dot"></div>
+                <div class="tl-line"></div>
+              </div>
+              <div>
+                <div class="tl-year">DIA 01</div>
+                <div class="tl-title">Diagnóstico</div>
+                <div class="tl-desc">Auditoria completa do rastreamento atual.</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-left">
+                <div class="tl-dot" style="background: var(--gold);"></div>
+                <div class="tl-line"></div>
+              </div>
+              <div>
+                <div class="tl-year" style="color: var(--gold);">DIA 03</div>
+                <div class="tl-title">Implementação</div>
+                <div class="tl-desc">TagServer ativo, CAPI configurada, dados fluindo.</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-left">
+                <div class="tl-dot" style="background: var(--gold);"></div>
+                <div class="tl-line"></div>
+              </div>
+              <div>
+                <div class="tl-year" style="color: var(--gold);">DIA 07</div>
+                <div class="tl-title">Algoritmo aprende</div>
+                <div class="tl-desc">Volume de dados suficiente para otimização real.</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-left">
+                <div class="tl-dot" style="background: var(--fire);"></div>
+              </div>
+              <div>
+                <div class="tl-year">DIA 14</div>
+                <div class="tl-title">Resultado visível</div>
+                <div class="tl-desc">CPA cai, ROAS sobe. Dados reais, crescimento real.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="template-label">Layout: Timeline</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     SEÇÃO 2 — CARROSSEL 1:1 (1080×1080) — DARK + LIGHT EDITORIAL
+════════════════════════════════════════════════════════════ -->
+<div class="section-block">
+  <div class="section-label">Seção 02</div>
+  <div class="section-title">CARROSSEL 1:1 — QUADRADO</div>
+  <div class="section-meta">1080 × 1080px · Dois temas: Dark Brutalista + Light Editorial</div>
+
+  <div class="templates-row">
+
+    <!-- DARK: QUOTE PULL -->
+    <div class="template-card">
+      <div class="fmt-square" style="background: var(--void);">
+        <div class="grain"></div>
+        <div class="tape-l c-fire"></div>
+        <div class="sn">01/04</div>
+        <div class="cw" style="padding: 100px 100px 100px 108px; justify-content: center;">
+          <div class="quote-big" style="padding: 60px 60px 60px 80px;">
+            <div class="quote-bg-mark">"</div>
+            <div class="mtag" style="margin-bottom: 40px; position: relative; z-index: 2;">MENTALIDADE</div>
+            <div class="disp" style="font-size: 96px; margin-bottom: 40px; position: relative; z-index: 2; line-height: 0.9;">
+              VOCÊ NÃO SOBE AO<br>NÍVEL DAS METAS.<br>VOCÊ CAI AO NÍVEL<br>DO SEU <em>SISTEMA.</em>
+            </div>
+            <div class="badge" style="position: relative; z-index: 2;">
+              <div class="badge-av"></div>
+              <div>
+                <div class="badge-name">JOÃO GOBIRA</div>
+                <div class="badge-role">// Growth · Gestão</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="template-label">Dark: Quote Pull</div>
+    </div>
+
+    <!-- DARK: ICON GRID -->
+    <div class="template-card">
+      <div class="fmt-square" style="background: var(--carbon);">
+        <div class="grain"></div>
+        <div class="tape-l c-fire"></div>
+        <div class="tape-t c-fire"></div>
+        <div class="sn">02/04</div>
+        <div class="cw" style="padding: 88px 88px 80px 96px; justify-content: space-between;">
+          <div>
+            <div class="mtag" style="margin-bottom: 28px;">4 PILARES</div>
+            <div class="disp" style="font-size: 84px; margin-bottom: 0; line-height: 0.9;">
+              O QUE TODO<br>GESTOR DE<br>PERFORMANCE<br>PRECISA <em>DOMINAR.</em>
+            </div>
+          </div>
+          <div class="icon-grid">
+            <div class="icon-cell">
+              <div class="icon-sym">📡</div>
+              <div class="icon-title">Rastreamento</div>
+              <div class="icon-desc">Dados perfeitos do servidor</div>
+            </div>
+            <div class="icon-cell" style="border-left: 2px solid var(--fire);">
+              <div class="icon-sym">🧠</div>
+              <div class="icon-title">Atribuição</div>
+              <div class="icon-desc">Saber de onde vem cada venda</div>
+            </div>
+            <div class="icon-cell" style="border-top: 2px solid var(--iron);">
+              <div class="icon-sym">⚡</div>
+              <div class="icon-title">Otimização</div>
+              <div class="icon-desc">IA com dados para trabalhar</div>
+            </div>
+            <div class="icon-cell" style="border-top: 2px solid var(--iron); border-left: 2px solid var(--fire);">
+              <div class="icon-sym">💰</div>
+              <div class="icon-title">Escala</div>
+              <div class="icon-desc">Mais receita, mesmo CPA</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="template-label">Dark: Icon Grid 2×2</div>
+    </div>
+
+    <!-- LIGHT EDITORIAL: CAPA -->
+    <div class="template-card">
+      <div class="fmt-square paper-bg" style="position: relative;">
+        <div class="grain-light"></div>
+        <div class="tape-l c-ink"></div>
+        <div class="tape-t c-ink"></div>
+        <!-- Red accent block top-right -->
+        <div style="position:absolute; top:0; right:0; width:280px; height:280px; background:var(--fire); z-index:2;"></div>
+        <div class="sn" style="color: rgba(0,0,0,0.2); z-index: 45;">01/05</div>
+        <div class="cw" style="padding: 88px 88px 80px 96px; justify-content: flex-end; gap: 0; position: relative; z-index: 30;">
+          <div class="mtag ink" style="margin-bottom: 32px;">ANÁLISE EDITORIAL</div>
+          <div class="hl hl-md c-ink" style="margin-bottom: 36px;"></div>
+          <div style="font-family: var(--fd); font-size: 96px; color: var(--ink); line-height: 0.88; margin-bottom: 32px; letter-spacing: 2px;">
+            O GESTOR<br>QUE DECIDE<br>COM <span style="color: var(--fire);">DADOS.</span>
+          </div>
+          <div style="font-family: var(--fb); font-size: 34px; font-weight: 300; color: #555; line-height: 1.55; border-top: 2px solid var(--ink); padding-top: 32px;">
+            Como líderes de performance tomam decisões melhores com rastreamento preciso.
+          </div>
+        </div>
+      </div>
+      <div class="template-label">Light Editorial: Capa</div>
+    </div>
+
+    <!-- LIGHT EDITORIAL: DADO COMPARAÇÃO -->
+    <div class="template-card">
+      <div class="fmt-square paper-bg" style="position: relative;">
+        <div class="grain-light"></div>
+        <div class="tape-l c-ink"></div>
+        <div class="tape-b" style="background: var(--fire); height: 8px;"></div>
+        <div class="sn" style="color: rgba(0,0,0,0.2);">03/05</div>
+        <div class="cw" style="padding: 88px 88px 80px 96px; justify-content: center; gap: 0;">
+          <div class="mtag ink" style="margin-bottom: 32px;">COMPARAÇÃO</div>
+          <div class="hl hl-md c-ink" style="margin-bottom: 40px;"></div>
+          <div style="font-family: var(--fd); font-size: 80px; color: var(--ink); line-height: 0.9; margin-bottom: 56px; letter-spacing: 2px;">
+            ANTES <span style="color: var(--fire);">VS.</span><br>DEPOIS DO<br>SERVER-SIDE.
+          </div>
+          <!-- Comparison bars light -->
+          <div style="display:flex; flex-direction:column; gap:24px;">
+            <div>
+              <div style="display:flex; justify-content:space-between; font-family:var(--fm); font-size:16px; color:#666; letter-spacing:2px; margin-bottom:8px;">
+                <span>PIXEL PADRÃO</span><span>62%</span>
+              </div>
+              <div style="height: 12px; background: #DDD; width: 100%;">
+                <div style="height:100%; width:62%; background:#999;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-family:var(--fm); font-size:16px; color:var(--fire); letter-spacing:2px; margin-bottom:8px;">
+                <span style="font-weight:700;">TAGSERVER (API)</span><span style="font-weight:700;">98%</span>
+              </div>
+              <div style="height: 12px; background: #DDD; width: 100%;">
+                <div style="height:100%; width:98%; background:var(--fire);"></div>
+              </div>
+            </div>
+          </div>
+          <div style="font-family: var(--fb); font-size: 28px; color: #444; line-height: 1.5; margin-top: 40px; padding-top: 32px; border-top: 2px solid #CCC;">
+            A diferença entre lucro e <strong style="color:var(--ink);">dinheiro jogado fora.</strong>
+          </div>
+        </div>
+      </div>
+      <div class="template-label">Light Editorial: Dados</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     SEÇÃO 3 — STORY / REELS (1080×1920)
+════════════════════════════════════════════════════════════ -->
+<div class="section-block">
+  <div class="section-label">Seção 03</div>
+  <div class="section-title">STORY / REELS 9:16</div>
+  <div class="section-meta">1080 × 1920px · 5 layouts distintos</div>
+
+  <div class="templates-row">
+
+    <!-- STORY A: CAPA COM GLOW -->
+    <div class="template-card">
+      <div class="fmt-story" style="background: var(--void);">
+        <div class="grain"></div>
+        <!-- Glow blobs -->
+        <div class="glow-blob" style="width:800px; height:800px; background:var(--fire); opacity:0.07; top:-200px; left:-300px;"></div>
+        <div class="glow-blob" style="width:600px; height:600px; background:var(--gold); opacity:0.05; bottom:100px; right:-200px;"></div>
+        <div class="tape-l c-fire"></div>
+        <div class="tape-t c-fire"></div>
+        <div class="tape-b c-fire"></div>
+        <!-- Progress bar top -->
+        <div style="position:absolute; top:16px; left:16px; right:16px; height:4px; background:rgba(255,255,255,0.15); z-index:60;">
+          <div style="height:100%; width:30%; background:white;"></div>
+        </div>
+        <div class="cw" style="padding: 120px 88px 100px 96px; justify-content: flex-end; gap: 0;">
+          <div class="mtag" style="margin-bottom: 40px; font-size: 24px;">GROWTH · GESTÃO</div>
+          <div class="hl hl-md c-fire" style="margin-bottom: 40px;"></div>
+          <div class="disp" style="font-size: 140px; margin-bottom: 48px; line-height: 0.86;">
+            O DADO<br>QUE<br>MUDOU<br><em>TUDO.</em>
+          </div>
+          <div class="body" style="font-size: 46px; margin-bottom: 64px; border-top: 2px solid var(--iron); padding-top: 40px;">
+            Como um único ajuste técnico trouxe <strong>+47% de vendas atribuídas</strong> ao maior parque aquático de SP.
+          </div>
+          <div class="badge">
+            <div class="badge-av"></div>
+            <div>
+              <div class="badge-name" style="font-size: 40px;">JOÃO GOBIRA</div>
+              <div class="badge-role" style="font-size: 16px;">// Growth · Gestão</div>
+            </div>
+          </div>
+          <!-- Swipe up indicator -->
+          <div style="margin-top: 64px; display:flex; flex-direction:column; align-items:center; gap:12px;">
+            <div style="font-family: var(--fm); font-size: 20px; letter-spacing: 3px; color: rgba(240,235,224,0.5); text-transform: uppercase;">Deslize para ver</div>
+            <div style="width:2px; height:60px; background: linear-gradient(to bottom, var(--fire), transparent);"></div>
+          </div>
+        </div>
+      </div>
+      <div class="template-label">Story A: Capa Glow</div>
+    </div>
+
+    <!-- STORY B: NÚMERO GIGANTE -->
+    <div class="template-card">
+      <div class="fmt-story" style="background: var(--fire);">
+        <div class="grain" style="opacity:0.3;"></div>
+        <div class="tape-l c-bone"></div>
+        <!-- Giant BG number -->
+        <div style="position:absolute; bottom:-100px; right:-120px; font-family: var(--fd); font-size: 900px; color:rgba(0,0,0,0.12); line-height:0.8; pointer-events:none; z-index:2;">47</div>
+        <div class="cw" style="padding: 140px 88px 100px 96px; justify-content: center; gap: 0; position:relative; z-index:10;">
+          <div class="mtag bone" style="margin-bottom: 48px; font-size: 24px;">RESULTADO REAL</div>
+          <div style="font-family: var(--fd); font-size: 320px; color: rgba(0,0,0,0.85); line-height: 0.82; letter-spacing: 2px;">+47%</div>
+          <div style="font-family: var(--fd); font-size: 88px; color: rgba(240,235,224,0.9); line-height: 0.9; letter-spacing: 2px; margin-top: 24px;">VENDAS REAIS<br>SEM AUMENTAR<br>O BUDGET.</div>
+          <div class="div-line" style="border-color: rgba(240,235,224,0.3); margin: 64px 0;"></div>
+          <div style="font-family: var(--fb); font-size: 40px; font-weight: 300; color: rgba(240,235,224,0.8); line-height: 1.55;">
+            Parque Aquático SP · 30 dias após ativar TagServer.
+          </div>
+        </div>
+      </div>
+      <div class="template-label">Story B: Número Gigante</div>
+    </div>
+
+    <!-- STORY C: TECH / GRID DOTS -->
+    <div class="template-card">
+      <div class="fmt-story" style="background: var(--ts-bg); background-image: radial-gradient(rgba(184,233,43,0.10) 1px, transparent 0); background-size: 32px 32px;">
+        <div class="tape-l c-lime"></div>
+        <div class="tape-t c-lime"></div>
+        <!-- Progress -->
+        <div style="position:absolute; top:16px; left:16px; right:16px; height:3px; background:rgba(184,233,43,0.2); z-index:60;">
+          <div style="height:100%; width:66%; background:var(--ts-lime);"></div>
+        </div>
+        <div class="cw" style="padding: 120px 88px 100px 96px; justify-content: space-between; gap: 0;">
+          <div>
+            <div class="mtag lime" style="margin-bottom: 40px; font-size: 22px;">INFRAESTRUTURA</div>
+            <div style="font-family: var(--fd); font-size: 120px; color: var(--bone); line-height: 0.88; letter-spacing: 2px; margin-bottom: 48px;">
+              O FIM DO<br>CLIENT-<span style="color: var(--ts-lime);">SIDE.</span>
+            </div>
+            <div class="code-block" style="font-size: 28px;">
+              <div class="cm">// Antes: browser envia evento</div>
+              <div>fbq(<span class="ck">'track'</span>, <span class="cs">'Purchase'</span>);</div>
+              <div style="color: var(--fire);">// ❌ Bloqueado pelo iOS</div>
+              <div style="margin-top: 24px;" class="cm">// Depois: servidor envia evento</div>
+              <div><span class="ck">server</span>.<span class="cv">sendEvent</span>({</div>
+              <div>&nbsp;&nbsp;<span class="cs">event</span>: <span class="ck">'Purchase'</span>,</div>
+              <div>&nbsp;&nbsp;<span class="cs">source</span>: <span class="ck">'tagserver'</span></div>
+              <div>});</div>
+              <div style="color: var(--ts-lime);">// ✓ Imune. Sempre.</div>
+            </div>
+          </div>
+          <div>
+            <div style="font-family: var(--fb); font-size: 40px; font-weight: 300; color: var(--sub); line-height: 1.5; border-top: 2px solid var(--ts-edge); padding-top: 48px;">
+              Acesse <strong style="color: var(--ts-lime);">tgsr.br</strong> e ative hoje.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="template-label">Story C: Tech / Code</div>
+    </div>
+
+    <!-- STORY D: LIGHT EDITORIAL -->
+    <div class="template-card">
+      <div class="fmt-story paper-bg">
+        <div class="grain-light"></div>
+        <div class="tape-l c-ink"></div>
+        <!-- Red stripe diagonal -->
+        <div style="position:absolute; top:0; right:0; width:200px; height:100%; background:var(--fire); clip-path:polygon(40% 0, 100% 0, 100% 100%, 0 100%); z-index:2; opacity:1;"></div>
+        <div class="cw" style="padding: 120px 260px 100px 96px; justify-content: center; gap: 0; position: relative; z-index: 10;">
+          <div class="mtag ink" style="margin-bottom: 40px; font-size: 22px;">LIDERANÇA</div>
+          <div style="font-family: var(--fd); font-size: 110px; color: var(--ink); line-height: 0.88; letter-spacing: 2px; margin-bottom: 48px;">
+            DECISÃO SOB PRESSÃO<br>ABSOLUTA.
+          </div>
+          <div style="width: 80px; height: 5px; background: var(--ink); margin-bottom: 48px;"></div>
+          <div style="font-family: var(--fb); font-size: 40px; font-weight: 300; color: #444; line-height: 1.6; margin-bottom: 64px;">
+            Quando o orçamento estourou e a meta sumiu, eu aprendi o que separa um líder de um gestor.<br><br>
+            <strong style="color: var(--ink);">A técnica.</strong>
+          </div>
+          <!-- author light -->
+          <div style="display:flex; align-items:center; gap:24px; border-top: 2px solid #CCC; padding-top: 40px;">
+            <div style="width:80px; height:80px; border-radius:50%; background:#DDD; border: 3px solid var(--ink); flex-shrink:0;"></div>
+            <div>
+              <div style="font-family: var(--fd); font-size: 40px; color: var(--ink);">JOÃO GOBIRA</div>
+              <div style="font-family: var(--fm); font-size: 14px; color: #666; letter-spacing:2px;">// Growth · Gestão</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="template-label">Story D: Light Editorial</div>
+    </div>
+
+    <!-- STORY E: PRICE / OFERTA -->
+    <div class="template-card">
+      <div class="fmt-story" style="background: var(--carbon);">
+        <div class="grain"></div>
+        <div class="tape-l c-gold"></div>
+        <div class="tape-b c-gold"></div>
+        <div class="cw" style="padding: 120px 88px 100px 96px; justify-content: center; gap: 0;">
+          <div class="mtag gold" style="margin-bottom: 40px; font-size: 22px;">OFERTA ESPECIAL</div>
+          <div class="hl hl-md c-gold" style="margin-bottom: 48px;"></div>
+          <div class="disp" style="font-size: 110px; margin-bottom: 48px; line-height: 0.88;">
+            SETUP<br><em>ASSISTIDO</em><br>TAGSERVER
+          </div>
+          <div class="price-block" style="margin-bottom: 56px;">
+            <div class="price-from">de R$ 1.997</div>
+            <div class="price-main">R$997</div>
+            <div class="price-period">// pagamento único</div>
+            <div class="price-features">
+              <div class="price-feat">Implementação completa CAPI</div>
+              <div class="price-feat">Configuração Server-Side</div>
+              <div class="price-feat">Score de qualidade ≥ 8.0</div>
+              <div class="price-feat">Suporte 30 dias incluso</div>
+            </div>
+          </div>
+          <div class="btn-solid" style="text-align:center; font-size: 56px; padding: 40px 80px;">
+            ATIVAR AGORA ↗
+          </div>
+          <div style="font-family: var(--fm); font-size: 18px; color: var(--muted); letter-spacing: 2px; text-align: center; margin-top: 24px;">
+            tgsr.br · vagas limitadas
+          </div>
+        </div>
+      </div>
+      <div class="template-label">Story E: Price / Oferta</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     SEÇÃO 4 — META ADS / BANNERS (Formatos variados)
+════════════════════════════════════════════════════════════ -->
+<div class="section-block">
+  <div class="section-label">Seção 04</div>
+  <div class="section-title">META ADS — BANNERS HORIZONTAIS</div>
+  <div class="section-meta">1200 × 628px · Facebook Feed / Link Preview / YouTube Thumbnail</div>
+
+  <div class="templates-row" style="flex-direction:column; gap:24px;">
+
+    <!-- BANNER A: DARK SPLIT — CTA DIRETO -->
+    <div class="template-card" style="align-self: flex-start;">
+      <div class="fmt-banner" style="background: var(--void); display:flex;">
+        <div class="grain"></div>
+        <div class="tape-t c-fire"></div>
+        <div class="tape-b c-fire"></div>
+        <!-- Left: text block -->
+        <div style="width:58%; height:100%; padding: 64px 72px 56px 80px; display:flex; flex-direction:column; justify-content:center; position:relative; z-index:30;">
+          <div class="mtag" style="margin-bottom: 24px; font-size: 20px;">CASE REAL</div>
+          <div class="disp" style="font-size: 96px; line-height: 0.88; margin-bottom: 24px;">
+            +47% VENDAS<br><em>SEM</em> GASTAR<br>MAIS.
+          </div>
+          <div class="body" style="font-size: 28px; max-width: 500px;">
+            Como o <strong>TagServer</strong> recuperou 165K eventos e fez o algoritmo trabalhar com força bruta.
+          </div>
+        </div>
+        <!-- Right: stat block -->
+        <div style="width:42%; height:100%; background:var(--fire); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; position:relative; z-index:30; clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);">
+          <div class="grain" style="opacity:0.2;"></div>
+          <div style="font-family: var(--fd); font-size: 160px; color: rgba(0,0,0,0.8); line-height: 0.8; position:relative; z-index:2;">165K</div>
+          <div style="font-family: var(--fm); font-size: 22px; color: rgba(240,235,224,0.8); letter-spacing: 3px; text-transform: uppercase; position:relative; z-index:2;">EVENTOS RECUPERADOS</div>
+          <div style="font-family: var(--fd); font-size: 44px; color: rgba(0,0,0,0.7); position:relative; z-index:2; margin-top:8px;">EM 30 DIAS</div>
+        </div>
+      </div>
+      <div class="template-label">Banner A: Dark Split CTA</div>
+    </div>
+
+    <!-- BANNER B: TECH LIME — PRODUTO -->
+    <div class="template-card" style="align-self: flex-start;">
+      <div class="fmt-banner" style="background: var(--ts-bg); background-image: radial-gradient(rgba(184,233,43,0.1) 1px, transparent 0); background-size: 28px 28px;">
+        <div class="tape-t c-lime"></div>
+        <div class="tape-b c-lime"></div>
+        <div style="position:absolute; inset:0; z-index:5; display:flex; flex-direction:row;">
+          <!-- Left -->
+          <div style="width:55%; padding: 56px 72px 56px 80px; display:flex; flex-direction:column; justify-content:center;">
+            <div class="mtag lime" style="margin-bottom: 20px; font-size: 18px;">TAGSERVER · CAPI</div>
+            <div style="font-family: var(--fd); font-size: 88px; color: var(--bone); line-height: 0.88; letter-spacing: 2px; margin-bottom: 20px;">
+              RASTREAMENTO<br><span style="color: var(--ts-lime);">SERVER-SIDE</span><br>BLINDADO.
+            </div>
+            <div style="font-family: var(--fm); font-size: 20px; color: var(--ts-lime); letter-spacing: 3px; text-transform: uppercase; margin-top: 8px;">↗ tgsr.br</div>
+          </div>
+          <!-- Right: features -->
+          <div style="width:45%; padding: 48px 64px 48px 32px; display:flex; flex-direction:column; justify-content:center; gap:20px; border-left: 1px solid var(--ts-edge);">
+            <div style="font-family: var(--fc); font-size: 28px; font-weight: 800; color: var(--bone); letter-spacing: 1px; border-bottom: 1px solid var(--ts-edge); padding-bottom: 16px; text-transform: uppercase;">Imune a:</div>
+            <div style="font-family: var(--fb); font-size: 28px; font-weight: 300; color: var(--sub); display:flex; gap:12px; align-items:center;">
+              <span style="color: var(--ts-lime);">✓</span> iOS 14+ / Safari ITP
+            </div>
+            <div style="font-family: var(--fb); font-size: 28px; font-weight: 300; color: var(--sub); display:flex; gap:12px; align-items:center;">
+              <span style="color: var(--ts-lime);">✓</span> AdBlockers & uBlock
+            </div>
+            <div style="font-family: var(--fb); font-size: 28px; font-weight: 300; color: var(--sub); display:flex; gap:12px; align-items:center;">
+              <span style="color: var(--ts-lime);">✓</span> Chrome Privacy Sandbox
+            </div>
+            <div style="font-family: var(--fb); font-size: 28px; font-weight: 300; color: var(--sub); display:flex; gap:12px; align-items:center;">
+              <span style="color: var(--ts-lime);">✓</span> Firefox Enhanced Protection
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="template-label">Banner B: Tech Lime Produto</div>
+    </div>
+
+    <!-- BANNER C: LIGHT EDITORIAL — AWARENESS -->
+    <div class="template-card" style="align-self: flex-start;">
+      <div class="fmt-banner paper-bg" style="position:relative;">
+        <div class="grain-light"></div>
+        <div style="position:absolute; top:0; right:0; width:48%; height:100%; background:var(--ink); z-index:2;"></div>
+        <div style="position:absolute; top:0; right:48%; width:50px; height:100%; background:var(--fire); z-index:3; clip-path: polygon(0 0, 100% 0, 60% 100%, 0 100%);"></div>
+        <!-- Left text -->
+        <div style="position:absolute; left:0; top:0; width:50%; height:100%; padding: 52px 40px 52px 72px; display:flex; flex-direction:column; justify-content:center; z-index:10;">
+          <div style="font-family: var(--fm); font-size: 14px; letter-spacing: 3px; color: #666; text-transform:uppercase; margin-bottom: 16px;">// MÉTODO</div>
+          <div style="font-family: var(--fd); font-size: 80px; color: var(--ink); line-height: 0.88; letter-spacing: 2px;">
+            EXECUTE<br>COM <span style="color: var(--fire);">DADOS.</span>
+          </div>
+        </div>
+        <!-- Right text -->
+        <div style="position:absolute; right:0; top:0; width:48%; height:100%; padding: 52px 72px 52px 56px; display:flex; flex-direction:column; justify-content:center; z-index:10;">
+          <div style="font-family: var(--fd); font-size: 52px; color: var(--bone); line-height: 1; letter-spacing: 2px; margin-bottom: 16px;">JOÃO GOBIRA</div>
+          <div style="font-family: var(--fb); font-size: 26px; font-weight: 300; color: rgba(240,235,224,0.6); line-height: 1.5;">12 anos construindo máquinas de Growth com dados reais.</div>
+        </div>
+      </div>
+      <div class="template-label">Banner C: Light Editorial Awareness</div>
+    </div>
+
+    <!-- BANNER D: YOUTUBE THUMBNAIL STYLE -->
+    <div class="template-card" style="align-self: flex-start;">
+      <div class="fmt-banner" style="background: var(--carbon);">
+        <div class="grain"></div>
+        <div class="tape-t c-fire" style="height: 8px;"></div>
+        <!-- Photo slot left -->
+        <div style="position:absolute; left:0; top:0; bottom:0; width:44%; z-index:1;">
+          <div style="width:100%; height:100%; background: linear-gradient(135deg, var(--iron), var(--steel)); display:flex; align-items:center; justify-content:center;">
+            <div style="font-family: var(--fm); font-size: 14px; color: var(--steel); letter-spacing: 2px; text-transform: uppercase;">FOTO AQUI</div>
+          </div>
+          <div style="position:absolute; inset:0; background: linear-gradient(to right, transparent 60%, var(--carbon) 100%);"></div>
+        </div>
+        <!-- Text -->
+        <div style="position:absolute; right:0; top:0; width:58%; height:100%; padding: 48px 64px 48px 40px; display:flex; flex-direction:column; justify-content:center; z-index:30;">
+          <!-- Reaction emojis YT style -->
+          <div style="display:flex; gap:8px; margin-bottom:20px;">
+            <div style="background: var(--fire); padding: 8px 20px; font-family: var(--fc); font-size: 22px; font-weight: 800; color: var(--bone); text-transform: uppercase;">ABSURDO</div>
+            <div style="background: var(--gold); padding: 8px 20px; font-family: var(--fc); font-size: 22px; font-weight: 800; color: var(--void); text-transform: uppercase;">47%</div>
+          </div>
+          <div class="disp" style="font-size: 80px; line-height: 0.88; margin-bottom: 20px;">
+            PIXEL <em>CEGO</em><br>CUSTOU UMA<br>FORTUNA.
+          </div>
+          <div style="font-family: var(--fm); font-size: 16px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase;">Como resolvemos · Caso real</div>
+        </div>
+      </div>
+      <div class="template-label">Banner D: YouTube Thumbnail Style</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     SEÇÃO 5 — CARROSSEL 4:5 — MIDNIGHT PREMIUM (Nova paleta)
+════════════════════════════════════════════════════════════ -->
+<div class="section-block">
+  <div class="section-label">Seção 05</div>
+  <div class="section-title">CARROSSEL 4:5 — MIDNIGHT PREMIUM</div>
+  <div class="section-meta">1080 × 1350px · Nova paleta roxa/dourada · Posicionamento premium</div>
+
+  <div class="templates-row">
+
+    <!-- MIDNIGHT: CAPA -->
+    <div class="template-card">
+      <div class="fmt-portrait" style="background: var(--mid-bg);">
+        <div class="grain"></div>
+        <!-- Purple glow -->
+        <div class="glow-blob" style="width:900px; height:900px; background:var(--mid-acc); opacity:0.12; top:-300px; right:-300px;"></div>
+        <div class="glow-blob" style="width:600px; height:600px; background:var(--mid-gold); opacity:0.06; bottom:-100px; left:-200px;"></div>
+        <div class="tape-l" style="background: var(--mid-acc);"></div>
+        <div class="tape-t" style="background: linear-gradient(to right, var(--mid-acc), var(--mid-gold));"></div>
+        <div class="sn">01/05</div>
+        <!-- Inset frame -->
+        <div style="position:absolute; inset:24px; border:1px solid rgba(108,92,231,0.2); z-index:5; pointer-events:none;"></div>
+        <div class="cw" style="padding: 100px 88px 80px 96px; justify-content: flex-end; gap: 0;">
+          <div style="font-family: var(--fm); font-size: 18px; letter-spacing: 3px; color: var(--mid-acc); display:flex; align-items:center; gap:12px; margin-bottom: 40px;">
+            <span style="color: rgba(108,92,231,0.4);">//</span> ELITE GROWTH
+          </div>
+          <div style="width: 64px; height: 3px; background: linear-gradient(to right, var(--mid-acc), var(--mid-gold)); margin-bottom: 40px;"></div>
+          <div style="font-family: var(--fd); font-size: 108px; color: rgba(248,249,250,0.92); line-height: 0.88; letter-spacing: 2px; margin-bottom: 48px;">
+            A MENTALIDADE<br>DO <span style="color: var(--mid-acc);">1%</span><br>QUE ESCALA<br><span style="color: var(--mid-gold);">DE VERDADE.</span>
+          </div>
+          <div style="font-family: var(--fb); font-size: 36px; font-weight: 300; color: rgba(160,174,192,0.9); line-height: 1.55; border-top: 1px solid rgba(108,92,231,0.25); padding-top: 36px;">
+            O que separa quem fatura 8 dígitos de quem fica sonhando com o próximo hack.
+          </div>
+        </div>
+      </div>
+      <div class="template-label">Midnight: Capa Premium</div>
+    </div>
+
+    <!-- MIDNIGHT: SOCIAL PROOF ROW -->
+    <div class="template-card">
+      <div class="fmt-portrait" style="background: var(--mid-card);">
+        <div class="grain"></div>
+        <div class="glow-blob" style="width:700px; height:700px; background:var(--mid-acc); opacity:0.08; top:100px; left:-200px;"></div>
+        <div class="tape-l" style="background: var(--mid-gold);"></div>
+        <div class="sn">03/05</div>
+        <div class="cw" style="padding: 100px 88px 80px 96px; justify-content: center; gap: 0;">
+          <div style="font-family: var(--fm); font-size: 18px; letter-spacing: 3px; color: var(--mid-gold); display:flex; align-items:center; gap:12px; margin-bottom: 32px;">
+            <span style="color: rgba(212,175,55,0.4);">//</span> PROVA SOCIAL
+          </div>
+          <div style="width: 64px; height: 3px; background: var(--mid-gold); margin-bottom: 40px;"></div>
+          <div style="font-family: var(--fd); font-size: 88px; color: rgba(248,249,250,0.92); line-height: 0.9; letter-spacing: 2px; margin-bottom: 56px;">
+            OS NÚMEROS<br>NÃO <span style="color: var(--mid-acc);">MENTEM.</span>
+          </div>
+          <!-- Social proof row midnight -->
+          <div class="sp-row" style="border-color: rgba(108,92,231,0.2);">
+            <div class="sp-item">
+              <div class="sp-num" style="color: var(--mid-acc);">R$2M+</div>
+              <div class="sp-lbl">Em vendas atribuídas</div>
+            </div>
+            <div class="sp-item">
+              <div class="sp-num" style="color: var(--mid-gold);">87</div>
+              <div class="sp-lbl">Clientes ativos</div>
+            </div>
+            <div class="sp-item">
+              <div class="sp-num" style="color: rgba(248,249,250,0.8);">4.9★</div>
+              <div class="sp-lbl">Avaliação média</div>
+            </div>
+          </div>
+          <div style="font-family: var(--fb); font-size: 34px; font-weight: 300; color: rgba(160,174,192,0.8); line-height: 1.55; margin-top: 48px;">
+            Empresas que confiam em dados reais para escalar não voltam mais para o pixel padrão.
+          </div>
+        </div>
+      </div>
+      <div class="template-label">Midnight: Social Proof</div>
+    </div>
+
+    <!-- MIDNIGHT: COMPARAÇÃO TABELA -->
+    <div class="template-card">
+      <div class="fmt-portrait" style="background: var(--mid-bg);">
+        <div class="grain"></div>
+        <div class="tape-l" style="background: var(--mid-acc);"></div>
+        <div class="sn">04/05</div>
+        <div class="cw" style="padding: 100px 88px 80px 96px; justify-content: center; gap: 0;">
+          <div style="font-family: var(--fm); font-size: 18px; letter-spacing: 3px; color: var(--mid-acc); display:flex; align-items:center; gap:12px; margin-bottom: 32px;">
+            <span style="color: rgba(108,92,231,0.4);">//</span> INFRAESTRUTURA
+          </div>
+          <div style="width: 64px; height: 3px; background: var(--mid-acc); margin-bottom: 40px;"></div>
+          <div style="font-family: var(--fd); font-size: 88px; color: rgba(248,249,250,0.92); line-height: 0.9; letter-spacing: 2px; margin-bottom: 48px;">
+            PIXEL VS<br><span style="color: var(--mid-acc);">SERVER</span>-SIDE
+          </div>
+          <table class="comp-table" style="width:100%;">
+            <thead>
+              <tr>
+                <th style="color: rgba(160,174,192,0.7); font-size: 22px; padding-left: 0; border-color: rgba(108,92,231,0.2);">Critério</th>
+                <th style="color: rgba(160,174,192,0.7); font-size: 22px; border-color: rgba(108,92,231,0.2);">Pixel</th>
+                <th style="color: var(--mid-acc); font-size: 22px; border-color: rgba(108,92,231,0.2);">TagServer</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="padding-left:0; border-color:rgba(108,92,231,0.15); color:rgba(226,232,240,0.8); font-size:24px;">iOS 14+</td><td class="no" style="border-color:rgba(108,92,231,0.15); font-size:22px;">✗ Bloqueado</td><td class="yes" style="color:var(--mid-acc); border-color:rgba(108,92,231,0.15); font-size:22px;">✓ Imune</td></tr>
+              <tr class="highlight"><td style="padding-left:0; border-color:rgba(108,92,231,0.15); color:rgba(226,232,240,0.8); font-size:24px; background:transparent;">AdBlockers</td><td class="no" style="border-color:rgba(108,92,231,0.15); font-size:22px; background:transparent;">✗ Bloqueado</td><td class="yes" style="color:var(--mid-acc); border-color:rgba(108,92,231,0.15); font-size:22px; background:rgba(108,92,231,0.05);">✓ Imune</td></tr>
+              <tr><td style="padding-left:0; border-color:rgba(108,92,231,0.15); color:rgba(226,232,240,0.8); font-size:24px;">Precisão dados</td><td class="no" style="border-color:rgba(108,92,231,0.15); font-size:22px;">~62%</td><td class="yes" style="color:var(--mid-gold); border-color:rgba(108,92,231,0.15); font-size:22px;">98–100%</td></tr>
+              <tr><td style="padding-left:0; border-color:rgba(108,92,231,0.15); color:rgba(226,232,240,0.8); font-size:24px;">Otimização IA</td><td class="no" style="border-color:rgba(108,92,231,0.15); font-size:22px;">Parcial</td><td class="yes" style="color:var(--mid-gold); border-color:rgba(108,92,231,0.15); font-size:22px;">Máxima</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="template-label">Midnight: Tabela Comparação</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     SEÇÃO 6 — CARROSSEL 1:1 — FORMULÁRIO / LEAD ADS
+════════════════════════════════════════════════════════════ -->
+<div class="section-block">
+  <div class="section-label">Seção 06</div>
+  <div class="section-title">1:1 — LEAD ADS / FORMULÁRIO</div>
+  <div class="section-meta">1080 × 1080px · Captura de leads e formulários</div>
+
+  <div class="templates-row">
+
+    <!-- LEAD FORM DARK -->
+    <div class="template-card">
+      <div class="fmt-square" style="background: var(--void);">
+        <div class="grain"></div>
+        <div class="tape-l c-fire"></div>
+        <div class="tape-b c-fire"></div>
+        <div class="cw" style="padding: 80px 100px 80px 108px; justify-content: center; gap: 0;">
+          <div class="mtag" style="margin-bottom: 28px;">DIAGNÓSTICO GRATUITO</div>
+          <div class="hl hl-md c-fire" style="margin-bottom: 36px;"></div>
+          <div class="disp" style="font-size: 96px; margin-bottom: 48px; line-height: 0.88;">
+            QUANTO VOCÊ<br>ESTÁ <em>PERDENDO</em><br>HOJE?
+          </div>
+          <div class="dark-form">
+            <div class="form-field">
+              <div class="form-label">Seu nome</div>
+              <div class="form-input filled">João Gobira</div>
+            </div>
+            <div class="form-field">
+              <div class="form-label">Budget mensal em ads</div>
+              <div class="form-input">R$ _______________</div>
+            </div>
+            <div class="form-field">
+              <div class="form-label">Plataforma principal</div>
+              <div class="form-input">Meta Ads / Google Ads</div>
+            </div>
+          </div>
+          <div class="btn-solid" style="margin-top: 48px; text-align: center; font-size: 48px;">
+            CALCULAR AGORA ↗
+          </div>
+        </div>
+      </div>
+      <div class="template-label">Lead Form: Dark</div>
+    </div>
+
+    <!-- SOCIAL PROOF FULL DARK -->
+    <div class="template-card">
+      <div class="fmt-square" style="background: var(--carbon);">
+        <div class="grain"></div>
+        <div class="tape-l c-gold"></div>
+        <div class="tape-t c-gold"></div>
+        <div class="cw" style="padding: 80px 100px 80px 108px; justify-content: space-between; gap: 0;">
+          <div>
+            <div class="mtag gold" style="margin-bottom: 28px;">RESULTADOS REAIS</div>
+            <div class="disp" style="font-size: 76px; margin-bottom: 0; line-height: 0.9;">
+              O QUE ACONTECE<br>QUANDO O <span class="gold">ALGORITMO<br>VÊ TUDO.</span>
+            </div>
+          </div>
+          <div class="sp-row" style="padding: 32px 0; border-color: var(--iron);">
+            <div class="sp-item">
+              <div class="sp-num gold" style="font-size: 96px;">+47%</div>
+              <div class="sp-lbl">Vendas reais</div>
+            </div>
+            <div class="sp-item">
+              <div class="sp-num" style="font-size: 96px; color: var(--bone);">165K</div>
+              <div class="sp-lbl">Eventos recuperados</div>
+            </div>
+          </div>
+          <div class="body" style="font-size: 30px; border-top: 2px solid var(--iron); padding-top: 28px;">
+            Parque Aquático SP · 30 dias após implantação do TagServer. <strong>Sem aumentar budget.</strong>
+          </div>
+          <div class="btn-outline" style="text-align: center; font-size: 44px; padding: 28px 64px; margin-top: 8px;">
+            QUERO ESSE RESULTADO
+          </div>
+        </div>
+      </div>
+      <div class="template-label">Social Proof: CTA Direto</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     LEGENDA DO SISTEMA
+════════════════════════════════════════════════════════════ -->
+<div style="width: 100%; max-width: 1400px; border-top: 1px solid #1a1a1a; padding-top: 48px; margin-top: 24px;">
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;">
+    <div>
+      <div style="font-family: var(--fm); font-size: 10px; letter-spacing: 3px; color: var(--fire); margin-bottom: 16px; text-transform: uppercase;">// PALETAS</div>
+      <div style="font-family: var(--fb); font-size: 14px; color: #444; line-height: 2;">
+        Dark Brutalista (padrão)<br>
+        TagServer Tech (lime)<br>
+        Light Editorial (paper)<br>
+        Midnight Premium (roxo)
+      </div>
+    </div>
+    <div>
+      <div style="font-family: var(--fm); font-size: 10px; letter-spacing: 3px; color: var(--fire); margin-bottom: 16px; text-transform: uppercase;">// FORMATOS</div>
+      <div style="font-family: var(--fb); font-size: 14px; color: #444; line-height: 2;">
+        1:1 Square 1080×1080<br>
+        4:5 Portrait 1080×1350<br>
+        9:16 Story 1080×1920<br>
+        16:9 Banner 1200×628
+      </div>
+    </div>
+    <div>
+      <div style="font-family: var(--fm); font-size: 10px; letter-spacing: 3px; color: var(--fire); margin-bottom: 16px; text-transform: uppercase;">// NOVOS LAYOUTS</div>
+      <div style="font-family: var(--fb); font-size: 14px; color: #444; line-height: 2;">
+        Bento Grid · Numbered List<br>
+        Score/Progress Bars<br>
+        Testimonial Stack<br>
+        Checklist · Timeline<br>
+        Quote Pull · Icon Grid<br>
+        Social Proof Row<br>
+        Price/Offer Block<br>
+        Comparison Table<br>
+        Lead Form · Code Block
+      </div>
+    </div>
+    <div>
+      <div style="font-family: var(--fm); font-size: 10px; letter-spacing: 3px; color: var(--fire); margin-bottom: 16px; text-transform: uppercase;">// TOKENS NOVOS</div>
+      <div style="font-family: var(--fb); font-size: 14px; color: #444; line-height: 2;">
+        --mid-acc: #6C5CE7<br>
+        --mid-gold: #D4AF37<br>
+        --ts-lime: #b8e92b<br>
+        --paper: #F7F3EC<br>
+        --ink: #111111
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -264,6 +264,11 @@ body.is-resizing iframe {
   border-bottom: 0.5px solid rgba(255,255,255,0.07);
   background: var(--carbon);
 }
+@keyframes highlight-pulse {
+  0%   { background: var(--carbon); }
+  50%  { background: rgba(200,57,26,0.18); }
+  100% { background: var(--carbon); }
+}
 .ia-format-selector {
   display: flex;
   gap: 5px;
@@ -2799,7 +2804,7 @@ html, body { margin: 0 !important; padding: 0 !important; width: 100% !important
         <!-- Seletor de Formatos (compacto, acima dos tabs) -->
         <div class="ia-format-bar">
           <div class="ia-format-selector">
-            <button class="ia-format-btn active" data-fmt="carousel" onclick="setIAFormat('carousel')">Insta</button>
+            <button class="ia-format-btn" data-fmt="carousel" onclick="setIAFormat('carousel')">Insta</button>
             <button class="ia-format-btn" data-fmt="linkedin-carousel" onclick="setIAFormat('linkedin-carousel')">LinkedIn</button>
             <button class="ia-format-btn" data-fmt="square" onclick="setIAFormat('square')">Meta 1:1</button>
             <button class="ia-format-btn" data-fmt="meta-portrait" onclick="setIAFormat('meta-portrait')">Meta 4:5</button>
@@ -3281,7 +3286,7 @@ function switchTab(tab) {
 let iaHistory = [];
 let iaSlides = [];
 let iaCurrentSlideIdx = 0;
-let iaActiveFormat = 'carousel';
+let iaActiveFormat = null;
 let dynamicBgs = [];
 
 function setIAFormat(fmt) {
@@ -3583,6 +3588,15 @@ async function enviarMensagemIA() {
   const message = input.value.trim();
   if (!message && chatAttachedImages.length === 0) return;
 
+  if (!iaActiveFormat) {
+    const log = document.getElementById('ia-status-log');
+    if (log) { log.className = 'pub-status error'; log.textContent = '⚠ Selecione um formato antes de gerar (Insta, LinkedIn, YouTube...).'; }
+    document.querySelector('.ia-format-bar').style.animation = 'none';
+    document.querySelector('.ia-format-bar').offsetHeight;
+    document.querySelector('.ia-format-bar').style.animation = 'highlight-pulse 0.6s ease 2';
+    return;
+  }
+
   // Cria uma cópia das imagens anexadas para enviar e limpa o estado da interface
   const imagesToSend = [...chatAttachedImages];
   chatAttachedImages = [];
@@ -3681,7 +3695,11 @@ async function enviarMensagemIA() {
     const newSlides = data.slides || [];
     const targetIdx = typeof data.targetIndex === 'number' ? data.targetIndex : -1;
 
-    if (action === 'insert_after' && newSlides.length > 0) {
+    if (action === 'patch' && targetIdx >= 0 && data.patch && typeof data.patch === 'object') {
+      // Edição cirúrgica: mescla apenas os campos que mudaram, preserva o resto
+      iaSlides[targetIdx] = { ...iaSlides[targetIdx], ...data.patch };
+      iaCurrentSlideIdx = targetIdx;
+    } else if (action === 'insert_after' && newSlides.length > 0) {
       const insertAt = Math.min(targetIdx + 1, iaSlides.length);
       iaSlides.splice(insertAt, 0, ...newSlides);
       iaCurrentSlideIdx = insertAt;
@@ -3755,29 +3773,46 @@ function renderIASlidesEditor() {
         <div class="ia-slide-design-body collapsed">
         <div class="ia-slide-field-group">
           <div class="ia-slide-field">
-            <label class="pub-label">Modelo do Layout</label>
-            <select class="pub-input" onchange="updateIASlideData(${idx}, 'layout', this.value)">
-              <option value="split-screen" ${(!s.layout || s.layout === 'split-screen') ? 'selected' : ''}>Divisão Brutalista</option>
-              <option value="modern-glass-story" ${s.layout === 'modern-glass-story' ? 'selected' : ''}>Story Glassmorphism (Premium)</option>
-              <option value="clean-youtube-thumb" ${s.layout === 'clean-youtube-thumb' ? 'selected' : ''}>Capa YouTube Minimalista</option>
-              <option value="bento-modern-ad" ${s.layout === 'bento-modern-ad' ? 'selected' : ''}>Bento Moderno (Anúncio)</option>
-              <option value="mesh-banner-widescreen" ${s.layout === 'mesh-banner-widescreen' ? 'selected' : ''}>Banner Widescreen Mesh</option>
-              <option value="bento-metrics" ${s.layout === 'bento-metrics' ? 'selected' : ''}>Grade Bento</option>
-              <option value="minimal-void" ${s.layout === 'minimal-void' ? 'selected' : ''}>Vácuo Brutal</option>
-              <option value="editorial-focus" ${s.layout === 'editorial-focus' ? 'selected' : ''}>Foco Editorial</option>
-              <option value="impact-quote" ${s.layout === 'impact-quote' ? 'selected' : ''}>Citação Massiva</option>
-              <option value="giant-number" ${s.layout === 'giant-number' ? 'selected' : ''}>Número Gigante</option>
-              <option value="social-proof" ${s.layout === 'social-proof' ? 'selected' : ''}>Post Social / Tweet</option>
-              <option value="technical-sheet" ${s.layout === 'technical-sheet' ? 'selected' : ''}>Folha Editorial Técnica</option>
-              <option value="neon-accent" ${s.layout === 'neon-accent' ? 'selected' : ''}>Destaque Neon</option>
-              <option value="split-list" ${s.layout === 'split-list' ? 'selected' : ''}>Lista Brutalista</option>
-              <option value="center-texture" ${s.layout === 'center-texture' ? 'selected' : ''}>Centro Texturizado</option>
-              <option value="highlight-card" ${s.layout === 'highlight-card' ? 'selected' : ''}>Cartão Flutuante</option>
-              <option value="cover-split-reverse" ${s.layout === 'cover-split-reverse' ? 'selected' : ''}>Capa: Divisão Invertida</option>
-              <option value="cover-minimal-void" ${s.layout === 'cover-minimal-void' ? 'selected' : ''}>Capa: Vazio Absoluto</option>
-              <option value="cover-top-heavy" ${s.layout === 'cover-top-heavy' ? 'selected' : ''}>Capa: Peso Superior</option>
+            <label class="pub-label">Layout</label>
+            <select class="pub-input" onchange="updateIASlideData(${idx}, 'layout', this.value); renderIASlidesEditor();">
+              <optgroup label="── CARROSSEL ──">
+                <option value="capa"                      ${s.layout === 'capa' ? 'selected' : ''}>Capa Paramétrica</option>
+                <option value="minimal-void"              ${s.layout === 'minimal-void' ? 'selected' : ''}>Minimal Void (Impacto Textual)</option>
+                <option value="bento-grid"                ${s.layout === 'bento-grid' ? 'selected' : ''}>Bento Grid (Métricas)</option>
+                <option value="numbered-list"             ${s.layout === 'numbered-list' ? 'selected' : ''}>Numbered List (Passos)</option>
+                <option value="dark-quote-pull"           ${s.layout === 'dark-quote-pull' ? 'selected' : ''}>Quote Pull (Citação)</option>
+                <option value="midnight-tabela-compara-o" ${s.layout === 'midnight-tabela-compara-o' ? 'selected' : ''}>Tabela Comparação</option>
+                <option value="testimonial-stack"         ${s.layout === 'testimonial-stack' ? 'selected' : ''}>Testimonial (Prova Social)</option>
+                <option value="social-proof-cta-direto"   ${s.layout === 'social-proof-cta-direto' ? 'selected' : ''}>Social Proof CTA (Fechamento)</option>
+              </optgroup>
+              <optgroup label="── FORMATO ESPECÍFICO ──">
+                <option value="clean-youtube-thumb"  ${s.layout === 'clean-youtube-thumb' ? 'selected' : ''}>YouTube Thumbnail</option>
+                <option value="story-a-capa-glow"    ${s.layout === 'story-a-capa-glow' ? 'selected' : ''}>Story Vertical (9:16)</option>
+                <option value="bento-modern-ad"      ${s.layout === 'bento-modern-ad' ? 'selected' : ''}>Meta Ads (1:1)</option>
+                <option value="banner-a-dark-split-cta" ${s.layout === 'banner-a-dark-split-cta' ? 'selected' : ''}>Banner Horizontal (16:9)</option>
+              </optgroup>
             </select>
           </div>
+          ${s.layout === 'capa' ? `
+          <div class="ia-slide-field">
+            <label class="pub-label">Variante da Capa</label>
+            <select class="pub-input" onchange="updateIASlideParams(${idx}, 'variant', this.value)">
+              <option value="split-left"  ${(s.params||{}).variant === 'split-left'  || !(s.params||{}).variant ? 'selected' : ''}>Split Esquerda (foto direita)</option>
+              <option value="split-right" ${(s.params||{}).variant === 'split-right' ? 'selected' : ''}>Split Direita (foto esquerda)</option>
+              <option value="top-photo"   ${(s.params||{}).variant === 'top-photo'   ? 'selected' : ''}>Foto Superior</option>
+              <option value="blur-hero"   ${(s.params||{}).variant === 'blur-hero'   ? 'selected' : ''}>Blur Hero (fullscreen)</option>
+            </select>
+          </div>
+          <div class="ia-slide-field">
+            <label class="pub-label">Badge Autor</label>
+            <select class="pub-input" onchange="updateIASlideParams(${idx}, 'badge', this.value)">
+              <option value="bl" ${(s.params||{}).badge === 'bl' || !(s.params||{}).badge ? 'selected' : ''}>Canto inf-esq</option>
+              <option value="br" ${(s.params||{}).badge === 'br' ? 'selected' : ''}>Canto inf-dir</option>
+              <option value="tl" ${(s.params||{}).badge === 'tl' ? 'selected' : ''}>Canto sup-esq</option>
+              <option value="tr" ${(s.params||{}).badge === 'tr' ? 'selected' : ''}>Canto sup-dir</option>
+              <option value="none" ${(s.params||{}).badge === 'none' ? 'selected' : ''}>Sem badge</option>
+            </select>
+          </div>` : ''}
           <div class="ia-slide-field">
             <label class="pub-label">Foto de Fundo <span style="color:var(--muted);font-size:8px;">(cobre o slide inteiro)</span></label>
             <select class="pub-input" onchange="updateIASlideData(${idx}, 'bg', this.value)">
@@ -3869,6 +3904,14 @@ function renderIASlidesEditor() {
   }
 }
 
+function updateIASlideParams(idx, key, value) {
+  if (iaSlides[idx]) {
+    if (!iaSlides[idx].params || typeof iaSlides[idx].params !== 'object') iaSlides[idx].params = {};
+    iaSlides[idx].params[key] = value;
+    if (idx === iaCurrentSlideIdx) renderIASlidePreview();
+  }
+}
+
 function updateIASlideData(idx, field, value) {
   if (iaSlides[idx]) {
     iaSlides[idx][field] = value;
@@ -3878,214 +3921,84 @@ function updateIASlideData(idx, field, value) {
   }
 }
 
-function renderIASlidePreview() {
+let _iaPreviewIframe = null;
+
+function _getIAPreviewIframe() {
+  const container = document.getElementById('ia-live-slide-render');
+  if (!_iaPreviewIframe || !container.contains(_iaPreviewIframe)) {
+    container.innerHTML = '';
+    _iaPreviewIframe = document.createElement('iframe');
+    _iaPreviewIframe.style.cssText = 'width:100%;height:100%;border:none;display:block;';
+    _iaPreviewIframe.setAttribute('scrolling', 'no');
+    container.appendChild(_iaPreviewIframe);
+  }
+  return _iaPreviewIframe;
+}
+
+function _scrollIAPreviewToSlide(idx) {
+  const iframe = _iaPreviewIframe;
+  if (!iframe || !iframe.contentDocument) return false;
+  const target = iframe.contentDocument.getElementById('slide-' + (idx + 1));
+  if (!target) return false;
+  iframe.contentDocument.documentElement.scrollTop = target.offsetTop;
+  iframe.contentDocument.body.scrollTop = target.offsetTop;
+  return true;
+}
+
+function updateIANavControls() {
+  const infoEl = document.getElementById('ia-preview-info');
+  const prevBtn = document.getElementById('btn-ia-prev');
+  const nextBtn = document.getElementById('btn-ia-next');
+  if (infoEl) infoEl.textContent = `SLIDE ${iaCurrentSlideIdx + 1} / ${iaSlides.length}`;
+  if (prevBtn) prevBtn.disabled = iaCurrentSlideIdx === 0;
+  if (nextBtn) nextBtn.disabled = iaCurrentSlideIdx === iaSlides.length - 1;
+}
+
+async function renderIASlidePreview() {
   if (iaSlides.length === 0) return;
-  const s = iaSlides[iaCurrentSlideIdx];
-  const renderEl = document.getElementById('ia-live-slide-render');
-  const slideNo = `${String(iaCurrentSlideIdx + 1).padStart(2, '0')}/${String(iaSlides.length).padStart(2, '0')}`;
-  const bgUrl = s.bg ? `./Carrosseis/${s.bg}` : '';
-  const layoutClass = `layout-${s.layout || 'split-screen'}`;
-
-  let isSocialProof = s.layout === 'social-proof';
-  let isGiantNumber = s.layout === 'giant-number';
-  let isTechnicalSheet = s.layout === 'technical-sheet';
-  let isNeonAccent = s.layout === 'neon-accent';
-  let isCapa = s.type === 'capa';
-  let isCta = s.type === 'cta';
-  let isQuote = s.type === 'quote';
-  
-  let html = '';
-
-  if (isSocialProof) {
-    html = `
-      <div class="slide ${layoutClass}" style="background: var(--carbon);">
-        <div class="grain"></div>
-        <div class="tape-v tape-v-fire"></div>
-        <div class="slide-no">${slideNo}</div>
-        <div class="cw" style="justify-content: center; align-items: center; padding-top: 100px;">
-          <div class="mono-tag" style="margin-bottom: 24px;">${s.tag || 'PROVA SOCIAL'}</div>
-          <div class="tweet-card">
-            <div class="tweet-header">
-              <img class="tweet-avatar" src="./Carrosseis/${window.currentBrandId === 'tgsr' ? 'tgsr-logo.png' : 'joao-gobira.JPG'}" onerror="this.src='./joao-gobira.JPG'">
-              <div class="tweet-user-info">
-                <div class="tweet-name">${window.currentBrandId === 'tgsr' ? 'TagServer' : 'João Gobira'} <span class="tweet-verified">✓</span></div>
-                <div class="tweet-handle">@${window.currentBrandId === 'tgsr' ? 'tagserver.br' : 'joaogobira'}</div>
-              </div>
-            </div>
-            <div class="tweet-body">
-              ${s.body || s.title}
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-  } else if (isGiantNumber) {
-    html = `
-      <div class="slide ${layoutClass}">
-        <div class="grain"></div>
-        <div class="tape-v tape-v-fire"></div>
-        <div class="slide-no">${slideNo}</div>
-        <div class="cw" style="justify-content: center; gap: 0;">
-          <div class="mono-tag" style="margin-bottom: 24px;">${s.tag || 'GROWTH MÉTRICAS'}</div>
-          <div class="disp-large" style="font-size: 220px; line-height: 0.75; color: var(--fire); margin-bottom: 24px; font-weight: 900;">
-            ${s.title}
-          </div>
-          <div class="body-copy" style="font-size: 40px; border-top: 3px solid var(--steel); padding-top: 24px; color: var(--sub);">
-            ${s.body}
-          </div>
-        </div>
-      </div>
-    `;
-
-  } else if (isCapa) {
-    html = `
-      <div class="slide ${layoutClass}">
-        <div class="grain"></div>
-        <div class="tape-v tape-v-fire"></div>
-        <div class="tape-h tape-h-top tape-h-fire"></div>
-
-        ${s.bg ? `<div class="split-bg" style="background-image: url('${bgUrl}'); filter: grayscale(30%) contrast(1.1) brightness(0.9);"></div><div class="split-gradient"></div><div class="split-gradient-bottom"></div>` : ''}
-
-        <div class="slide-no">${slideNo}</div>
-
-        <div class="cw" ${(!s.layout || s.layout === 'split-screen') ? 'style="width: 55%; padding-right: 0; justify-content: flex-end; padding-bottom: 140px; gap: 0;"' : ''}>
-          <div class="mono-tag" style="margin-bottom: 40px;">${s.tag || 'GROWTH EXECUÇÃO'}</div>
-          <div class="h-line h-line-fire"></div>
-
-          <div class="disp-large" ${(!s.layout || s.layout === 'split-screen') ? 'style="font-size: 116px; line-height: 0.88; margin-bottom: 44px;"' : 'style="margin-bottom: 44px;"'}>
-            ${s.title}
-          </div>
-
-          <div class="body-copy" ${(!s.layout || s.layout === 'split-screen') ? 'style="font-size: 34px;"' : ''}>
-            ${s.body}
-          </div>
-        </div>
-      </div>
-    `;
-  } else if (isCta) {
-    html = `
-      <div class="slide ${layoutClass}" style="background: var(--void);">
-        <div class="grain"></div>
-        <div class="tape-v tape-v-fire"></div>
-        <div class="tape-h tape-h-bottom tape-h-fire"></div>
-
-        <div class="photo-bg" style="background-image: url('${bgUrl || (window.currentBrandId === 'tgsr' ? '' : './Carrosseis/joao-gobira.JPG')}'); background-position: center 10%; filter: grayscale(20%) brightness(0.35);"></div>
-        <div class="photo-overlay"></div>
-
-        <div class="slide-no">${slideNo}</div>
-
-        <div class="cw" style="justify-content: center; text-align: center; align-items: center; padding-top: 160px; gap: 0;">
-          <div class="mono-tag" style="margin-bottom: 40px;">${s.tag || 'O JOGO DA EXECUÇÃO'}</div>
-          
-          <div class="disp-medium" style="font-size: 96px; margin-bottom: 44px; line-height: 0.92;">
-            ${s.title}
-          </div>
-
-          <div class="body-copy" style="text-align: center; max-width: 800px; color: var(--bone);">
-            ${s.body}
-          </div>
-        </div>
-      </div>
-    `;
-  } else if (isQuote) {
-    html = `
-      <div class="slide ${layoutClass}" style="background: var(--carbon);">
-        <div class="grain"></div>
-        <div class="tape-v tape-v-fire"></div>
-        <div class="slide-no">${slideNo}</div>
-
-        <div class="cw" style="justify-content: center; gap: 0;">
-          <div class="mono-tag" style="margin-bottom: 48px;">${s.tag || 'CITAÇÃO'}</div>
-          <div class="h-line h-line-fire"></div>
-
-          <div style="margin-bottom: 32px;"><div class="quote-mark">"</div></div>
-
-          <div class="quote-text" style="font-size: 80px; line-height: 0.94; margin-bottom: 48px;">
-            ${s.title}
-          </div>
-
-          <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
-            ${s.body}
-          </div>
-        </div>
-      </div>
-    `;
-  } else {
-    const isGold = s.type === 'metrica' || s.type === 'solucao';
-    const tapeClass = isGold ? 'tape-v-gold' : 'tape-v-fire';
-    const lineClass = isGold ? 'h-line-gold' : 'h-line-fire';
-    const tagClass = isGold ? 'mono-tag gold' : 'mono-tag';
-    const contentImgUrl = s.contentImage ? `./Carrosseis/${s.contentImage}` : '';
-
-    html = `
-      <div class="slide ${layoutClass}" style="background: ${s.bg ? 'transparent' : 'var(--void)'};">
-        <div class="grain"></div>
-        <div class="tape-v ${tapeClass}"></div>
-        <div class="slide-no">${slideNo}</div>
-
-        ${s.bg ? `<div class="photo-bg" style="background-image: url('${bgUrl}'); filter: grayscale(40%) contrast(1.1) brightness(0.45);"></div><div class="photo-overlay-mid"></div>` : ''}
-
-        <div class="cw" style="justify-content: center; gap: 0;">
-          <div class="${tagClass}" style="margin-bottom: 32px;">${s.tag || s.type.toUpperCase()}</div>
-          <div class="h-line ${lineClass}"></div>
-
-          <div class="disp-medium" style="margin-bottom: ${contentImgUrl ? '20px' : '48px'};">
-            ${s.title}
-          </div>
-
-          ${contentImgUrl ? `<img src="${contentImgUrl}" style="max-width:100%; max-height:320px; object-fit:contain; margin: 0 auto 24px; display:block; border: 1px solid rgba(255,255,255,0.08);">` : ''}
-
-          <div class="body-copy" style="font-size: 42px; border-top: 2px solid var(--iron); padding-top: 40px;">
-            ${s.body}
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  let width = 1080;
-  let height = 1350;
-  let slideClass = 'slide';
-  if (iaActiveFormat === 'linkedin-carousel') { width = 1080; height = 1350; slideClass = 'slide'; }
-  else if (iaActiveFormat === 'youtube-thumb') { width = 1280; height = 720; slideClass = 'yt-thumb'; }
-  else if (iaActiveFormat === 'brand-logo') { width = 800; height = 800; slideClass = 'logo-asset'; }
-  else if (iaActiveFormat === 'banner-horizontal') { width = 1920; height = 1080; slideClass = 'banner'; }
-  else if (iaActiveFormat === 'square') { width = 1080; height = 1080; slideClass = 'ad-square'; }
-  else if (iaActiveFormat === 'vertical') { width = 1080; height = 1920; slideClass = 'ad-story'; }
-  else if (iaActiveFormat === 'horizontal') { width = 1920; height = 1080; slideClass = 'banner'; }
-  else if (iaActiveFormat === 'meta-portrait') { width = 1080; height = 1350; slideClass = 'ad-portrait'; }
-
-  html = html.replace(`class="slide ${layoutClass}"`, `class="${slideClass} ${layoutClass}" style="width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
-  html = html.replace(`class="slide ${layoutClass}" style="background: var(--void);"`, `class="${slideClass} ${layoutClass}" style="background: var(--void); width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
-  html = html.replace(`class="slide ${layoutClass}" style="background: var(--carbon);"`, `class="${slideClass} ${layoutClass}" style="background: var(--carbon); width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
-  html = html.replace(`class="slide ${layoutClass}" style="background: transparent;"`, `class="${slideClass} ${layoutClass}" style="background: transparent; width: ${width}px; height: ${height}px; transform: none; margin-bottom: 0;"`);
-
-  renderEl.innerHTML = html;
-
-  // Aplica cor de destaque personalizada via CSS variable
-  const slideEl = renderEl.querySelector('.slide, .yt-thumb, .ad-square, .ad-portrait, .ad-story, .banner, .logo-asset');
-  if (slideEl) {
-    const accentMap = window.currentBrandId === 'tgsr' 
-      ? { fire: '#b8e92b', gold: '#b8e92b', neon: '#b8e92b', bone: '#f8f9fa' }
-      : { fire: '#C8391A', gold: '#B8922A', neon: '#E1306C', bone: '#F0EBE0' };
-    const accent = accentMap[s.accentColor] || accentMap.fire;
-    slideEl.style.setProperty('--fire', accent);
-  }
-
-  // Atualiza controles de navegação
-  document.getElementById('ia-preview-info').textContent = `SLIDE ${iaCurrentSlideIdx + 1} / ${iaSlides.length}`;
-  document.getElementById('btn-ia-prev').disabled = iaCurrentSlideIdx === 0;
-  document.getElementById('btn-ia-next').disabled = iaCurrentSlideIdx === iaSlides.length - 1;
-
-  // Ajusta escala
-  resizeIAPreview();
+  updateIANavControls();
+  clearTimeout(renderIASlidePreview._t);
+  renderIASlidePreview._t = setTimeout(async () => {
+    try {
+      const resp = await fetch('/api/ia/salvar-criativo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: '__preview__',
+          slides: iaSlides,
+          format: iaActiveFormat || 'carousel',
+          brandId: window.currentBrandId || 'jg',
+          preview: true
+        })
+      });
+      if (!resp.ok) throw new Error('preview ' + resp.status);
+      const html = await resp.text();
+      const iframe = _getIAPreviewIframe();
+      const targetIdx = iaCurrentSlideIdx;
+      iframe.onload = () => {
+        const el = iframe.contentDocument && iframe.contentDocument.getElementById('slide-' + (targetIdx + 1));
+        if (el) {
+          iframe.contentDocument.documentElement.scrollTop = el.offsetTop;
+          iframe.contentDocument.body.scrollTop = el.offsetTop;
+        }
+        resizeIAPreview();
+      };
+      iframe.srcdoc = html;
+    } catch (e) {
+      console.error('[preview]', e);
+    }
+  }, 300);
 }
 
 function navIASlide(dir) {
   const newIdx = iaCurrentSlideIdx + dir;
   if (newIdx >= 0 && newIdx < iaSlides.length) {
     iaCurrentSlideIdx = newIdx;
-    renderIASlidePreview();
+    if (!_scrollIAPreviewToSlide(iaCurrentSlideIdx)) {
+      renderIASlidePreview();
+    } else {
+      updateIANavControls();
+    }
   }
 }
 
@@ -4103,7 +4016,10 @@ function resizeIAPreview() {
   else if (iaActiveFormat === 'square') { width = 1080; height = 1080; }
   else if (iaActiveFormat === 'vertical') { width = 1080; height = 1920; }
   else if (iaActiveFormat === 'horizontal') { width = 1920; height = 1080; }
+  else if (iaActiveFormat === 'meta-portrait') { width = 1080; height = 1350; }
 
+  wrapper.style.width = width + 'px';
+  wrapper.style.height = height + 'px';
   const containerWidth = container.clientWidth - 40;
   const containerHeight = container.clientHeight - 40;
   const scaleX = containerWidth / width;
@@ -4251,11 +4167,9 @@ function reiniciarTudo() {
   document.getElementById('btn-ia-salvar').textContent = '💾 SALVAR E EXPORTAR CRIATIVO';
   document.getElementById('ia-status-log').className = 'pub-status';
   document.getElementById('ia-status-log').textContent = '';
-  document.getElementById('ia-live-slide-render').innerHTML = `
-    <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;opacity:.3;color:var(--bone);">
-      <div style="font-size:48px;">🤖</div>
-      <p style="font-family:var(--fm);font-size:11px;letter-spacing:2px;text-transform:uppercase;">AGUARDANDO IA...</p>
-    </div>`;
+  const _rElReset = document.getElementById('ia-live-slide-render');
+  _rElReset.innerHTML = `<div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;opacity:.3;color:var(--bone);"><div style="font-size:48px;">🤖</div><p style="font-family:var(--fm);font-size:11px;letter-spacing:2px;text-transform:uppercase;">AGUARDANDO IA...</p></div>`;
+  _iaPreviewIframe = null;
   document.getElementById('ia-preview-info').textContent = 'SLIDE 1 / 1';
   document.getElementById('btn-ia-prev').disabled = true;
   document.getElementById('btn-ia-next').disabled = true;
@@ -4295,7 +4209,24 @@ function switchIATab(name) {
 // ── RICH TEXT EDITOR ───────────────────────────────────────────────────────
 function rteChangeFontSize(multiplier) {
   const sel = window.getSelection();
-  if (!sel || sel.rangeCount === 0 || sel.isCollapsed) return;
+  if (!sel || sel.rangeCount === 0) return;
+  
+  if (sel.isCollapsed) {
+    const node = sel.anchorNode;
+    if (node) {
+      let el = node.nodeType === 3 ? node.parentNode : node;
+      const ce = el.closest('[contenteditable="true"]');
+      if (ce) {
+        let currentSize = window.getComputedStyle(ce).fontSize;
+        let px = parseFloat(currentSize);
+        if (!isNaN(px)) {
+          ce.style.fontSize = (px * multiplier) + 'px';
+        }
+      }
+    }
+    return;
+  }
+  
   const range = sel.getRangeAt(0);
   const span = document.createElement('span');
   span.style.fontSize = multiplier + 'em';
@@ -4307,6 +4238,13 @@ function rteChangeFontSize(multiplier) {
     range.insertNode(span);
   }
 }
+
+// Previne perda de foco ao clicar nos botões do editor
+document.addEventListener('mousedown', e => {
+  if (e.target.closest('.rte-btn')) {
+    e.preventDefault();
+  }
+});
 
 // ── FULLSCREEN PREVIEW MODAL ───────────────────────────────────────────────
 function abrirModalPreview() {
@@ -4332,53 +4270,68 @@ function modalNavSlide(dir) {
   const newIdx = iaCurrentSlideIdx + dir;
   if (newIdx < 0 || newIdx >= iaSlides.length) return;
   iaCurrentSlideIdx = newIdx;
-  renderModalSlide();
-  renderIASlidePreview();
+  const modalRender = document.getElementById('slide-modal-render');
+  const mf = modalRender && modalRender.querySelector('iframe');
+  if (mf && mf.contentDocument) {
+    const el = mf.contentDocument.getElementById('slide-' + (iaCurrentSlideIdx + 1));
+    if (el) {
+      mf.contentDocument.documentElement.scrollTop = el.offsetTop;
+      mf.contentDocument.body.scrollTop = el.offsetTop;
+    }
+  }
+  const counter = document.getElementById('modal-slide-counter');
+  if (counter) counter.textContent = `${String(iaCurrentSlideIdx + 1).padStart(2,'0')} / ${String(iaSlides.length).padStart(2,'0')}`;
+  _scrollIAPreviewToSlide(iaCurrentSlideIdx);
+  updateIANavControls();
 }
 
 function renderModalSlide() {
   if (iaSlides.length === 0) return;
   const modalRender = document.getElementById('slide-modal-render');
-
-  // Garante que o preview ao vivo esteja atualizado antes de clonar
-  renderIASlidePreview();
-
-  // Aguarda um frame para o DOM atualizar, depois clona o HTML
-  requestAnimationFrame(() => {
-    const liveRender = document.getElementById('ia-live-slide-render');
-    modalRender.innerHTML = liveRender.innerHTML;
-
-    // Size and scale to fit viewport
-    const vw = window.innerWidth - 80;
-    const vh = window.innerHeight - 140;
-    let w = 1080, h = 1350;
-    if (iaActiveFormat === 'linkedin-carousel') { w = 1080; h = 1350; }
-    else if (iaActiveFormat === 'youtube-thumb') { w = 1280; h = 720; }
-    else if (iaActiveFormat === 'brand-logo') { w = 800; h = 800; }
-    else if (iaActiveFormat === 'banner-horizontal') { w = 1920; h = 1080; }
-    else if (iaActiveFormat === 'square') { w = 1080; h = 1080; }
-    else if (iaActiveFormat === 'meta-portrait') { w = 1080; h = 1350; }
-    else if (iaActiveFormat === 'vertical') { w = 1080; h = 1920; }
-    else if (iaActiveFormat === 'horizontal') { w = 1920; h = 1080; }
-
-    modalRender.style.width = w + 'px';
-    modalRender.style.height = h + 'px';
-    const scale = Math.min(vw / w, vh / h, 1);
-    modalRender.style.transform = `scale(${scale})`;
-    modalRender.style.transformOrigin = 'top center';
-
-    // Aplica cor de destaque no modal também
-    const slideEl = modalRender.querySelector('.slide, .yt-thumb, .ad-square, .ad-portrait, .ad-story, .banner, .logo-asset');
-    if (slideEl) {
-      const accentMap = { fire: '#C8391A', gold: '#B8922A', neon: '#E1306C', bone: '#F0EBE0' };
-      const s = iaSlides[iaCurrentSlideIdx];
-      const accent = accentMap[s.accentColor] || accentMap.fire;
-      slideEl.style.setProperty('--fire', accent);
+  const vw = window.innerWidth - 80;
+  const vh = window.innerHeight - 140;
+  let w = 1080, h = 1350;
+  if (iaActiveFormat === 'linkedin-carousel') { w = 1080; h = 1350; }
+  else if (iaActiveFormat === 'youtube-thumb') { w = 1280; h = 720; }
+  else if (iaActiveFormat === 'brand-logo') { w = 800; h = 800; }
+  else if (iaActiveFormat === 'banner-horizontal') { w = 1920; h = 1080; }
+  else if (iaActiveFormat === 'square') { w = 1080; h = 1080; }
+  else if (iaActiveFormat === 'meta-portrait') { w = 1080; h = 1350; }
+  else if (iaActiveFormat === 'vertical') { w = 1080; h = 1920; }
+  else if (iaActiveFormat === 'horizontal') { w = 1920; h = 1080; }
+  const scale = Math.min(vw / w, vh / h, 1);
+  modalRender.style.width = w + 'px';
+  modalRender.style.height = h + 'px';
+  modalRender.style.transform = `scale(${scale})`;
+  modalRender.style.transformOrigin = 'top center';
+  const targetIdx = iaCurrentSlideIdx;
+  const srcdoc = _iaPreviewIframe && _iaPreviewIframe.srcdoc;
+  if (!srcdoc) return;
+  const existingIframe = modalRender.querySelector('iframe');
+  if (existingIframe && existingIframe.getAttribute('data-src-len') === String(srcdoc.length)) {
+    const el = existingIframe.contentDocument && existingIframe.contentDocument.getElementById('slide-' + (targetIdx + 1));
+    if (el) {
+      existingIframe.contentDocument.documentElement.scrollTop = el.offsetTop;
+      existingIframe.contentDocument.body.scrollTop = el.offsetTop;
     }
-
-    const counter = document.getElementById('modal-slide-counter');
-    counter.textContent = `${String(iaCurrentSlideIdx + 1).padStart(2,'0')} / ${String(iaSlides.length).padStart(2,'0')}`;
-  });
+  } else {
+    modalRender.innerHTML = '';
+    const mf = document.createElement('iframe');
+    mf.style.cssText = 'width:100%;height:100%;border:none;display:block;';
+    mf.setAttribute('scrolling', 'no');
+    mf.setAttribute('data-src-len', String(srcdoc.length));
+    mf.onload = () => {
+      const el = mf.contentDocument && mf.contentDocument.getElementById('slide-' + (targetIdx + 1));
+      if (el) {
+        mf.contentDocument.documentElement.scrollTop = el.offsetTop;
+        mf.contentDocument.body.scrollTop = el.offsetTop;
+      }
+    };
+    mf.srcdoc = srcdoc;
+    modalRender.appendChild(mf);
+  }
+  const counter = document.getElementById('modal-slide-counter');
+  if (counter) counter.textContent = `${String(iaCurrentSlideIdx + 1).padStart(2,'0')} / ${String(iaSlides.length).padStart(2,'0')}`;
 }
 
 // ── IMPORTAR DE URL ────────────────────────────────────────────────────────

@@ -1,217 +1,62 @@
 [
   {
-    "id": "split-screen",
-    "nome": "Divisão Brutalista (Split-Screen)",
-    "descricao": "Metade com foto nítida/desfocada na direita e metade com tipografia brutalista gigante na esquerda. Perfeito para capas e slides de impacto de autoridade."
-  },
-  {
-    "id": "bento-metrics",
-    "nome": "Grade Bento (Cards de Destaque)",
-    "descricao": "Fundo creme/claro com cartões retangulares de borda preta grossa contendo dados, métricas, ícones ou chamadas cruciais. Muito moderno, com alta legibilidade."
+    "id": "capa",
+    "nome": "Capa Paramétrica (4 variantes)",
+    "descricao": "Capa flexível com 4 configurações visuais controladas pelo campo params. Envie params:{variant, badge} no slide. variant: 'split-left' (foto direita, texto esquerda — padrão), 'split-right' (foto esquerda, texto direita), 'top-photo' (foto superior, headline inferior), 'blur-hero' (foto fullscreen com overlay, texto centrado-baixo). badge: 'bl' (canto inf-esq), 'br' (canto inf-dir), 'tl' (canto sup-esq), 'tr' (canto sup-dir), 'none' (sem badge). Sempre use bg com foto do João."
   },
   {
     "id": "minimal-void",
-    "nome": "Vácuo Brutal (Foco em Texto)",
-    "descricao": "Sem fotos. Fundo preto absoluto com tipografia gigantesca em vermelho brutalista ou branco e linhas grossas. Foco total em copywriting brutal na jugular."
-  },
-  {
-    "id": "editorial-focus",
-    "nome": "Foco Editorial (Estilo Revista)",
-    "descricao": "Foto nítida ocupando o topo do slide (50% do espaço vertical) e a copy em letras brutas e tags geométricas na metade inferior. Estilo revista de design."
-  },
-  {
-    "id": "impact-quote",
-    "nome": "Citação Massiva (Destaque)",
-    "descricao": "Fundo creme ou vermelho brutalista invertido. Aspas gigantescas no fundo com texto preto absoluto e bordas grossas. Excelente para frases de impacto."
-  },
-  {
-    "id": "giant-number",
-    "nome": "Número Gigante (Brutalista)",
-    "descricao": "Destaca estatísticas massivas de growth de forma agressiva com números gigantescos no topo."
-  },
-  {
-    "id": "social-proof",
-    "nome": "Post Social / Tweet",
-    "descricao": "Simula um depoimento do João com foto, selo de verificado e design brutalista 3D."
-  },
-  {
-    "id": "technical-sheet",
-    "nome": "Folha Editorial Técnica",
-    "descricao": "Estilo sofisticado com fundo bege (cor de papel antigo), linhas finas duplas e fontes mono."
-  },
-  {
-    "id": "neon-accent",
-    "nome": "Destaque Neon (Estilo Ric Neves)",
-    "descricao": "Fundo grafite profundo com rosa magenta neon vibrante e marca d'água de números ao fundo."
-  },
-  {
-    "id": "split-list",
-    "nome": "Lista Brutalista (Problema/Solução)",
-    "descricao": "Layout dividido em duas colunas de texto para listas de itens ou paralelos (Problema/Solução). Alto contraste tipográfico, perfeito para carrosséis instrutivos."
-  },
-  {
-    "id": "center-texture",
-    "nome": "Centro Texturizado (Foco Singular)",
-    "descricao": "Fundo com gradiente radial escuro e texturizado. O texto e a imagem ficam rigorosamente centralizados. Gera forte apelo visual, ótimo para o Instagram."
-  },
-  {
-    "id": "highlight-card",
-    "nome": "Cartão Flutuante (Destaque Central)",
-    "descricao": "Fundo limpo (sólido ou textura suave) com um gigantesco cartão central de bordas grossas pretas e sombra marcada contendo a mensagem principal."
-  },
-  {
-    "id": "cover-split-reverse",
-    "nome": "Capa: Divisão Invertida (Texto à Direita)",
-    "descricao": "Capa dividida ao meio verticalmente. Imagem/Fotografia fixada do lado ESQUERDO e tipografia brutalista do lado DIREITO. Ideal para variação de capas."
-  },
-  {
-    "id": "cover-minimal-void",
-    "nome": "Capa: Vazio Absoluto (Sem Imagem)",
-    "descricao": "Capa extremamente minimalista. Fundo totalmente sem cor (void absoluto ou textura crua), sem fotos. Foco 100% no peso e contraste da tipografia gigante."
-  },
-  {
-    "id": "cover-top-heavy",
-    "nome": "Capa: Peso Superior (Imagem em Cima, Texto Embaixo)",
-    "descricao": "Fotografia principal achatada ocupando toda a metade SUPERIOR da capa. Metade INFERIOR reservada para um fundo sólido com o título principal. Estilo editorial."
-  },
-  {
-    "id": "modern-glass-story",
-    "nome": "Story Vertical (Glassmorphism)",
-    "descricao": "Layout vertical para stories. Fundo com gradiente/imagem suave e um cartão translúcido de vidro (glassmorphism) contendo o conteúdo. Elegante e moderno."
-  },
-  {
-    "id": "clean-youtube-thumb",
-    "nome": "Capa YouTube Limpa",
-    "descricao": "Thumbnail 16:9 ultra-limpa e minimalista. Texto elegantemente alinhado, sombras super suaves e generoso espaço em branco. Excelente para vídeo corporativo premium."
-  },
-  {
-    "id": "bento-modern-ad",
-    "nome": "Ad Bento Grid Moderno",
-    "descricao": "Grid com cantos arredondados, bordas de 1px super finas translúcidas, estilo Apple/widgets. Ideal para Meta Ads destacando benefícios múltiplos de forma premium."
-  },
-  {
-    "id": "mesh-banner-widescreen",
-    "nome": "Banner Widescreen (Mesh Gradient)",
-    "descricao": "Banner horizontal (16:9) usando gradiente de malha suave. Foco puramente em um título forte com visual etéreo e elegante."
+    "nome": "Minimal Void (Impacto Textual Puro)",
+    "descricao": "Fundo preto absoluto, sem foto. Tipografia gigante em vermelho ou branco. Máximo impacto de copy. Use para provocações, dados chocantes, frases de tensão e slides de problema. O campo bg deve ser vazio."
   },
   {
     "id": "bento-grid",
-    "nome": "BENTO GRID",
-    "descricao": "Layout brutalista BENTO GRID. Requer envio de HTML estruturado no s.body."
+    "nome": "Bento Grid (Métricas e Resultados)",
+    "descricao": "Grid dark de cards com métricas numéricas gigantes. Use para slides com múltiplos resultados (ex: +165K, +47%, -38% CPA). Envie HTML bento-2x2 no s.body. bg deve ser vazio."
   },
   {
     "id": "numbered-list",
-    "nome": "NUMBERED LIST",
-    "descricao": "Layout brutalista NUMBERED LIST. Requer envio de HTML estruturado no s.body."
-  },
-  {
-    "id": "score-progress",
-    "nome": "SCORE PROGRESS",
-    "descricao": "Layout brutalista SCORE PROGRESS. Requer envio de HTML estruturado no s.body."
-  },
-  {
-    "id": "testimonial-stack",
-    "nome": "TESTIMONIAL STACK",
-    "descricao": "Layout brutalista TESTIMONIAL STACK. Requer envio de HTML estruturado no s.body."
-  },
-  {
-    "id": "checklist",
-    "nome": "CHECKLIST",
-    "descricao": "Layout brutalista CHECKLIST. Requer envio de HTML estruturado no s.body."
-  },
-  {
-    "id": "timeline",
-    "nome": "TIMELINE",
-    "descricao": "Layout brutalista TIMELINE. Requer envio de HTML estruturado no s.body."
+    "nome": "Framework List (Passos e Sequências)",
+    "descricao": "Lista numerada brutalista dark com até 4 itens. Use para frameworks, dicas, passo a passo, metodologias. Envie HTML num-list no s.body. bg deve ser vazio."
   },
   {
     "id": "dark-quote-pull",
-    "nome": "DARK QUOTE PULL",
-    "descricao": "Layout brutalista DARK QUOTE PULL. Requer envio de texto no s.body."
-  },
-  {
-    "id": "dark-icon-grid-2-2",
-    "nome": "DARK ICON GRID 2 2",
-    "descricao": "Layout brutalista DARK ICON GRID 2 2. Requer envio de HTML estruturado no s.body."
-  },
-  {
-    "id": "light-editorial-capa",
-    "nome": "LIGHT EDITORIAL CAPA",
-    "descricao": "Layout brutalista LIGHT EDITORIAL CAPA. Requer envio de texto no s.body."
-  },
-  {
-    "id": "light-editorial-dados",
-    "nome": "LIGHT EDITORIAL DADOS",
-    "descricao": "Layout brutalista LIGHT EDITORIAL DADOS. Requer envio de texto no s.body."
-  },
-  {
-    "id": "story-a-capa-glow",
-    "nome": "STORY A CAPA GLOW",
-    "descricao": "Layout brutalista STORY A CAPA GLOW. Requer envio de texto no s.body."
-  },
-  {
-    "id": "story-b-n-mero-gigante",
-    "nome": "STORY B N MERO GIGANTE",
-    "descricao": "Layout brutalista STORY B N MERO GIGANTE. Requer envio de texto no s.body."
-  },
-  {
-    "id": "story-c-tech-code",
-    "nome": "STORY C TECH CODE",
-    "descricao": "Layout brutalista STORY C TECH CODE. Requer envio de texto no s.body."
-  },
-  {
-    "id": "story-d-light-editorial",
-    "nome": "STORY D LIGHT EDITORIAL",
-    "descricao": "Layout brutalista STORY D LIGHT EDITORIAL. Requer envio de texto no s.body."
-  },
-  {
-    "id": "story-e-price-oferta",
-    "nome": "STORY E PRICE OFERTA",
-    "descricao": "Layout brutalista STORY E PRICE OFERTA. Requer envio de HTML estruturado no s.body."
-  },
-  {
-    "id": "banner-a-dark-split-cta",
-    "nome": "BANNER A DARK SPLIT CTA",
-    "descricao": "Layout brutalista BANNER A DARK SPLIT CTA. Requer envio de texto no s.body."
-  },
-  {
-    "id": "banner-b-tech-lime-produto",
-    "nome": "BANNER B TECH LIME PRODUTO",
-    "descricao": "Layout brutalista BANNER B TECH LIME PRODUTO. Requer envio de HTML estruturado no s.body."
-  },
-  {
-    "id": "banner-c-light-editorial-awareness",
-    "nome": "BANNER C LIGHT EDITORIAL AWARENESS",
-    "descricao": "Layout brutalista BANNER C LIGHT EDITORIAL AWARENESS. Requer envio de HTML estruturado no s.body."
-  },
-  {
-    "id": "banner-d-youtube-thumbnail-style",
-    "nome": "BANNER D YOUTUBE THUMBNAIL STYLE",
-    "descricao": "Layout brutalista BANNER D YOUTUBE THUMBNAIL STYLE. Requer envio de texto no s.body."
-  },
-  {
-    "id": "midnight-capa-premium",
-    "nome": "MIDNIGHT CAPA PREMIUM",
-    "descricao": "Layout brutalista MIDNIGHT CAPA PREMIUM. Requer envio de texto no s.body."
-  },
-  {
-    "id": "midnight-social-proof",
-    "nome": "MIDNIGHT SOCIAL PROOF",
-    "descricao": "Layout brutalista MIDNIGHT SOCIAL PROOF. Requer envio de HTML estruturado no s.body."
+    "nome": "Quote Pull (Citação de Impacto)",
+    "descricao": "Fundo void com aspas gigantes decorativas ao fundo. Use para frases de impacto, insights, afirmações poderosas, provocações curtas. O corpo pode conter o autor ou contexto em parágrafo simples."
   },
   {
     "id": "midnight-tabela-compara-o",
-    "nome": "MIDNIGHT TABELA COMPARA O",
-    "descricao": "Layout brutalista MIDNIGHT TABELA COMPARA O. Requer envio de HTML estruturado no s.body."
+    "nome": "Tabela Comparação (Antes vs Depois)",
+    "descricao": "Layout midnight com tabela comparativa elegante. Use para slides de objeção, diferenciação, método comum vs método correto, antes/depois. Envie HTML comp-table no s.body. bg deve ser vazio."
   },
   {
-    "id": "lead-form-dark",
-    "nome": "LEAD FORM DARK",
-    "descricao": "Layout brutalista LEAD FORM DARK. Requer envio de texto no s.body."
+    "id": "testimonial-stack",
+    "nome": "Testimonial (Prova Social)",
+    "descricao": "Card de depoimento dark com estrelas, texto e autor. Use para provas sociais, resultados de clientes, depoimentos reais. Envie HTML testimonial-card no s.body. bg deve ser vazio."
   },
   {
     "id": "social-proof-cta-direto",
-    "nome": "SOCIAL PROOF CTA DIRETO",
-    "descricao": "Layout brutalista SOCIAL PROOF CTA DIRETO. Requer envio de HTML estruturado no s.body."
+    "nome": "Social Proof CTA (Fechamento com Resultados)",
+    "descricao": "Slide de fechamento com métricas de resultado em destaque gold e CTA direto abaixo. Use SEMPRE no último slide de carrossel. Envie HTML sp-row com 2-3 números de resultado no s.body."
+  },
+  {
+    "id": "clean-youtube-thumb",
+    "nome": "YouTube Thumbnail",
+    "descricao": "Formato exclusivo para capas de YouTube (1280x720). Título super massivo (máx 5 palavras fortes), foto do João no bg. Use apenas com format:youtube-thumb."
+  },
+  {
+    "id": "story-a-capa-glow",
+    "nome": "Story Capa (Vertical 9:16)",
+    "descricao": "Formato exclusivo para stories verticais. Fundo void com glow sutil, badge do autor, indicador de swipe. Use apenas com format:vertical ou carousel de story."
+  },
+  {
+    "id": "bento-modern-ad",
+    "nome": "Meta Ads Bento (Quadrado 1:1)",
+    "descricao": "Formato exclusivo para Meta Ads estático 1:1. Copy extremamente direta, headline curtíssima. Use apenas com format:square ou meta-portrait."
+  },
+  {
+    "id": "banner-a-dark-split-cta",
+    "nome": "Banner Dark Split (Horizontal 16:9)",
+    "descricao": "Formato exclusivo para banners horizontais. Split com texto à esquerda e dado/CTA à direita em destaque. Use apenas com format:horizontal ou banner-horizontal."
   }
 ]

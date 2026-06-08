@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Templates Avançados V2 — Com Fotos + Gráficos SVG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+:root {
+  /* Paleta escura base */
+  --void:   #080808;
+  --carbon: #0e0e0e;
+  --iron:   #181818;
+  --steel:  #252525;
+  --edge:   #333333;
+  /* Acentos */
+  --fire:   #C8391A;
+  --ember:  #E04B27;
+  --gold:   #B8922A;
+  --amber:  #D4A827;
+  --lime:   #8FBF26;
+  --teal:   #1A8F8F;
+  /* Texto */
+  --bone:   #F0EBE0;
+  --cream:  #E8E2D6;
+  --text:   #EDE8E0;
+  --sub:    #9A9490;
+  --muted:  #5A5652;
+  /* Light theme */
+  --paper:  #F2EDE4;
+  --paper2: #E8E2D6;
+  --ink:    #111111;
+  --ink2:   #222222;
+  /* Fonts */
+  --fd: 'Bebas Neue', sans-serif;
+  --fc: 'Barlow Condensed', sans-serif;
+  --fb: 'Barlow', sans-serif;
+  --fm: 'Space Mono', monospace;
+}
+
+body {
+  background: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 56px 24px 120px;
+  gap: 0;
+}
+
+/* ── PAGE LABELS ── */
+.page-title {
+  font-family: var(--fd);
+  font-size: 36px;
+  color: #2a2a2a;
+  letter-spacing: 4px;
+  text-align: center;
+  margin-bottom: 8px;
+}
+.page-sub {
+  font-family: var(--fm);
+  font-size: 9px;
+  color: #222;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.section-wrap {
+  width: 100%;
+  max-width: 1500px;
+  margin-bottom: 80px;
+}
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  margin-bottom: 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #181818;
+}
+.s-num { font-family: var(--fd); font-size: 48px; color: #1e1e1e; }
+.s-title { font-family: var(--fd); font-size: 22px; color: #3a3a3a; letter-spacing: 3px; }
+.s-meta { font-family: var(--fm); font-size: 9px; color: #252525; letter-spacing: 3px; margin-left: auto; text-transform: uppercase; }
+
+.row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.card-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+.card-label {
+  font-family: var(--fm);
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: #282828;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* ── SLIDE CONTAINERS ── */
+.s4x5 {  /* 1080×1350 @ 0.24 → 259×324 */
+  width: 1080px; height: 1350px;
+  transform: scale(0.24); transform-origin: top left;
+  margin-right: calc(1080px*0.24 - 1080px);
+  margin-bottom: calc(1350px*0.24 - 1350px);
+  position: relative; overflow: hidden; flex-shrink: 0;
+  border: 1px solid #1a1a1a;
+}
+.s1x1 {  /* 1080×1080 @ 0.28 → 302×302 */
+  width: 1080px; height: 1080px;
+  transform: scale(0.28); transform-origin: top left;
+  margin-right: calc(1080px*0.28 - 1080px);
+  margin-bottom: calc(1080px*0.28 - 1080px);
+  position: relative; overflow: hidden; flex-shrink: 0;
+  border: 1px solid #1a1a1a;
+}
+.s9x16 { /* 1080×1920 @ 0.19 → 205×365 */
+  width: 1080px; height: 1920px;
+  transform: scale(0.19); transform-origin: top left;
+  margin-right: calc(1080px*0.19 - 1080px);
+  margin-bottom: calc(1920px*0.19 - 1920px);
+  position: relative; overflow: hidden; flex-shrink: 0;
+  border: 1px solid #1a1a1a;
+}
+.s16x9 { /* 1920×1080 @ 0.22 → 422×238 */
+  width: 1920px; height: 1080px;
+  transform: scale(0.22); transform-origin: top left;
+  margin-right: calc(1920px*0.22 - 1920px);
+  margin-bottom: calc(1080px*0.22 - 1080px);
+  position: relative; overflow: hidden; flex-shrink: 0;
+  border: 1px solid #1a1a1a;
+}
+
+/* ── REUSABLE ATOMS ── */
+.grain {
+  position: absolute; inset: 0; z-index: 60; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  opacity: 0.8; mix-blend-mode: overlay;
+}
+.grain-paper {
+  position: absolute; inset: 0; z-index: 60; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity: 0.5; mix-blend-mode: multiply;
+}
+
+/* photo slot placeholder */
+.photo-slot {
+  position: absolute; inset: 0;
+  background: var(--iron);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.photo-slot img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+}
+.photo-slot-label {
+  font-family: var(--fm); font-size: 18px;
+  color: var(--steel); letter-spacing: 2px;
+  text-transform: uppercase; z-index: 2;
+}
+
+/* overlay gradients */
+.ov-dark-bottom { position: absolute; inset: 0; z-index: 3;
+  background: linear-gradient(to bottom, rgba(8,8,8,0.1) 0%, rgba(8,8,8,0.5) 50%, rgba(8,8,8,0.97) 85%, #080808 100%); }
+.ov-dark-left { position: absolute; inset: 0; z-index: 3;
+  background: linear-gradient(to right, #080808 0%, rgba(8,8,8,0.85) 35%, rgba(8,8,8,0.2) 60%, transparent 100%); }
+.ov-dark-full { position: absolute; inset: 0; z-index: 3;
+  background: rgba(8,8,8,0.62); }
+.ov-dark-mid { position: absolute; inset: 0; z-index: 3;
+  background: linear-gradient(to bottom, rgba(8,8,8,0.4) 0%, rgba(8,8,8,0.2) 40%, rgba(8,8,8,0.88) 75%, #080808 100%); }
+.ov-fire-tint { position: absolute; inset: 0; z-index: 3;
+  background: linear-gradient(135deg, rgba(200,57,26,0.18) 0%, transparent 60%); }
+.ov-paper-bottom { position: absolute; inset: 0; z-index: 3;
+  background: linear-gradient(to bottom, transparent 0%, transparent 45%, var(--paper) 75%, var(--paper) 100%); }
+
+/* tape bars */
+.tape-l { position: absolute; left: 0; top: 0; bottom: 0; width: 6px; z-index: 20; }
+.tape-r { position: absolute; right: 0; top: 0; bottom: 0; width: 6px; z-index: 20; }
+.tape-t { position: absolute; top: 0; left: 0; right: 0; height: 5px; z-index: 20; }
+.tape-b { position: absolute; bottom: 0; left: 0; right: 0; height: 5px; z-index: 20; }
+.fire { background: var(--fire); }
+.gold { background: var(--gold); }
+.bone-c { background: rgba(240,235,224,0.35); }
+.lime-c { background: var(--lime); }
+.ink-c  { background: var(--ink); }
+
+/* content wrapper */
+.cw { position: relative; z-index: 30; height: 100%; display: flex; flex-direction: column; }
+
+/* slide number */
+.sn { position: absolute; top: 60px; right: 68px;
+  font-family: var(--fm); font-size: 18px; color: var(--steel); letter-spacing: 2px; z-index: 40; }
+
+/* mono tag */
+.mt { font-family: var(--fm); font-size: 18px; letter-spacing: 3px;
+  text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
+.mt::before { content: '//'; color: var(--steel); }
+.mt.fire { color: var(--fire); }
+.mt.gold { color: var(--gold); }
+.mt.lime { color: var(--lime); }
+.mt.bone { color: rgba(240,235,224,0.55); }
+.mt.ink  { color: var(--ink2); }
+.mt.ink::before { color: #888; }
+.mt.lg { font-size: 22px; }
+
+/* accent line */
+.al { height: 4px; }
+.al.fire { background: var(--fire); }
+.al.gold { background: var(--gold); }
+.al.ink  { background: var(--ink); }
+.al.full { width: 100%; }
+.al.sm   { width: 56px; }
+.al.md   { width: 80px; }
+
+/* display type */
+.disp { font-family: var(--fd); letter-spacing: 2px; color: var(--bone); line-height: 0.88; }
+.disp em { font-style: normal; color: var(--fire); }
+.disp .g { color: var(--gold); }
+.disp .l { color: var(--lime); }
+.disp .i { color: var(--ink); }
+
+/* condensed bold heading */
+.hd { font-family: var(--fc); font-weight: 900; color: var(--bone); line-height: 1; letter-spacing: 1px; text-transform: uppercase; }
+.hd em { color: var(--fire); font-style: normal; }
+.hd.ink-t { color: var(--ink); }
+.hd.ink-t em { color: var(--fire); }
+
+/* body */
+.bd { font-family: var(--fb); font-weight: 300; color: var(--sub); line-height: 1.55; }
+.bd strong { color: var(--text); font-weight: 500; }
+.bd em { color: var(--fire); font-style: normal; }
+.bd.ink-t { color: #444; }
+.bd.ink-t strong { color: var(--ink); }
+
+/* divider */
+.dv { width: 100%; border: none; border-top: 1px solid var(--iron); }
+.dv.thick { border-top-width: 2px; }
+.dv.fire  { border-color: var(--fire); }
+.dv.paper { border-color: #CCC; }
+
+/* badge */
+.badge { display: flex; align-items: center; gap: 20px;
+  padding: 18px 32px 18px 18px;
+  background: rgba(18,18,18,0.9); border: 1px solid var(--steel); width: fit-content; }
+.badge-av { width: 76px; height: 76px; border-radius: 50%; object-fit: cover;
+  border: 3px solid var(--fire); flex-shrink: 0; background: var(--steel); overflow: hidden; }
+.badge-av img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.badge-name { font-family: var(--fd); font-size: 32px; color: var(--bone); letter-spacing: 1px; }
+.badge-role { font-family: var(--fm); font-size: 12px; color: var(--fire); letter-spacing: 2px; text-transform: uppercase; margin-top: 3px; }
+
+/* icon row */
+.icon-row { display: flex; gap: 0; width: 100%; }
+.icon-cell { flex: 1; padding: 40px 36px; background: var(--iron); display: flex; flex-direction: column; gap: 16px; border-right: 1px solid var(--steel); }
+.icon-cell:last-child { border-right: none; }
+.icon-sym { font-size: 52px; line-height: 1; }
+.icon-ttl { font-family: var(--fc); font-size: 32px; font-weight: 800; color: var(--bone); text-transform: uppercase; }
+.icon-txt { font-family: var(--fb); font-size: 24px; font-weight: 300; color: var(--sub); line-height: 1.4; }
+
+/* numbered list dark */
+.nlist { display: flex; flex-direction: column; }
+.ni { display: flex; gap: 0; border-bottom: 1px solid var(--iron); }
+.ni:last-child { border-bottom: none; }
+.ni-num { font-family: var(--fd); font-size: 64px; color: var(--fire); min-width: 90px;
+  padding: 28px 24px 28px 0; line-height: 0.85; }
+.ni-body { padding: 28px 0; flex: 1; }
+.ni-title { font-family: var(--fc); font-size: 38px; font-weight: 800; color: var(--bone); text-transform: uppercase; margin-bottom: 6px; }
+.ni-sub { font-family: var(--fb); font-size: 26px; font-weight: 300; color: var(--sub); line-height: 1.4; }
+
+/* numbered list paper */
+.ni-paper { display: flex; align-items: flex-start; gap: 0; background: var(--ink); margin-bottom: 4px; border-left: 5px solid var(--fire); }
+.ni-paper-num { font-family: var(--fd); font-size: 48px; color: var(--fire); min-width: 80px; padding: 24px 20px; line-height: 0.85; }
+.ni-paper-body { padding: 24px 32px 24px 0; }
+.ni-paper-title { font-family: var(--fc); font-size: 30px; font-weight: 800; color: var(--bone); text-transform: uppercase; display: inline; }
+.ni-paper-sub { font-family: var(--fb); font-size: 26px; font-weight: 300; color: rgba(240,235,224,0.65); line-height: 1.4; margin-top: 4px; }
+
+/* stat big */
+.stat-huge { font-family: var(--fd); color: var(--fire); line-height: 0.82; }
+.stat-lbl { font-family: var(--fm); font-size: 18px; color: var(--sub); letter-spacing: 2px; text-transform: uppercase; margin-top: 8px; }
+
+/* button */
+.btn { display: inline-block; font-family: var(--fd); text-transform: uppercase; letter-spacing: 3px; }
+.btn.solid { background: var(--fire); color: var(--bone); padding: 32px 72px; font-size: 48px; }
+.btn.outline { border: 3px solid var(--fire); color: var(--fire); padding: 30px 72px; font-size: 48px; }
+.btn.ghost { border: 2px solid rgba(240,235,224,0.25); color: var(--bone); padding: 28px 64px; font-size: 40px; }
+.btn.ink-solid { background: var(--ink); color: var(--bone); padding: 32px 72px; font-size: 48px; }
+
+/* tag pill */
+.pill { display: inline-block; font-family: var(--fc); font-size: 28px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 2px; padding: 10px 28px; }
+.pill.fire { background: var(--fire); color: var(--bone); }
+.pill.gold { background: var(--gold); color: var(--void); }
+.pill.bone { background: var(--bone); color: var(--void); }
+.pill.ink  { background: var(--ink); color: var(--bone); }
+
+/* bento grid */
+.bento { display: grid; gap: 8px; }
+.bc { background: var(--iron); display: flex; flex-direction: column; justify-content: flex-end; padding: 32px 36px; }
+.bc.highlight { background: var(--fire); }
+.bc.border { border: 1px solid var(--fire); background: transparent; }
+.bc-n { font-family: var(--fd); color: var(--fire); line-height: 0.82; }
+.bc-n.gold { color: var(--gold); }
+.bc-n.bone { color: var(--bone); }
+.bc-l { font-family: var(--fm); font-size: 16px; color: var(--sub); letter-spacing: 2px; text-transform: uppercase; margin-top: 6px; }
+
+/* horizontal bar chart */
+.hbar-chart { display: flex; flex-direction: column; gap: 0; }
+.hbar-row { display: flex; align-items: center; gap: 0; }
+.hbar-label { font-family: var(--fb); font-size: 24px; font-weight: 400; color: var(--sub); text-align: right; padding-right: 20px; }
+.hbar-track { flex: 1; height: 36px; background: rgba(255,255,255,0.04); position: relative; }
+.hbar-fill { height: 100%; }
+.hbar-val { font-family: var(--fd); font-size: 28px; color: var(--bone); padding-left: 16px; min-width: 100px; }
+
+/* callout box */
+.callout { padding: 36px 44px; border-left: 6px solid var(--fire); background: rgba(200,57,26,0.06); }
+.callout.gold { border-color: var(--gold); background: rgba(184,146,42,0.06); }
+.callout.paper { border-color: var(--ink); background: rgba(0,0,0,0.04); }
+
+/* vs split */
+.vs-wrap { display: flex; gap: 8px; }
+.vs-col { flex: 1; padding: 32px 36px; display: flex; flex-direction: column; gap: 16px; }
+.vs-col.bad { background: var(--iron); }
+.vs-col.good { background: var(--iron); border: 2px solid var(--fire); }
+.vs-ttl { font-family: var(--fc); font-size: 26px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--sub); border-bottom: 1px solid var(--steel); padding-bottom: 12px; }
+.vs-col.good .vs-ttl { color: var(--fire); }
+.vs-item { font-family: var(--fb); font-size: 24px; font-weight: 300; color: var(--sub); line-height: 1.35; padding-left: 18px; position: relative; }
+.vs-item::before { content: '▸'; position: absolute; left: 0; color: var(--muted); font-size: 18px; top: 2px; }
+.vs-col.good .vs-item::before { color: var(--fire); }
+
+/* testimonial */
+.testi { background: var(--iron); border: 1px solid var(--steel); padding: 40px 48px; }
+.testi-stars { display: flex; gap: 6px; margin-bottom: 20px; }
+.star { width: 26px; height: 26px; background: var(--gold);
+  clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%); }
+.testi-text { font-family: var(--fb); font-size: 30px; font-weight: 300; color: var(--text); line-height: 1.6; margin-bottom: 24px; }
+.testi-who { font-family: var(--fm); font-size: 14px; color: var(--fire); letter-spacing: 2px; text-transform: uppercase; }
+.testi-co { font-family: var(--fm); font-size: 13px; color: var(--muted); letter-spacing: 1px; margin-top: 4px; }
+
+/* progress skill bars */
+.skill-bars { display: flex; flex-direction: column; gap: 28px; }
+.sk-row { display: flex; flex-direction: column; gap: 10px; }
+.sk-top { display: flex; justify-content: space-between; align-items: baseline; }
+.sk-name { font-family: var(--fm); font-size: 17px; color: var(--sub); letter-spacing: 2px; text-transform: uppercase; }
+.sk-pct { font-family: var(--fd); font-size: 28px; color: var(--bone); }
+.sk-track { width: 100%; height: 6px; background: var(--steel); }
+.sk-fill { height: 100%; }
+.sk-fill.fire { background: var(--fire); }
+.sk-fill.gold { background: var(--gold); }
+.sk-fill.bone { background: var(--bone); }
+
+/* glow blobs */
+.gblob { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(200px); z-index: 2; }
+
+/* inset border */
+.inset-frame { position: absolute; inset: 24px; border: 1px solid rgba(255,255,255,0.06); z-index: 25; pointer-events: none; }
+</style>
+</head>
+<body>
+
+<div class="page-title">TEMPLATES AVANÇADOS V2</div>
+<div class="page-sub">Com fotos reais · Gráficos SVG · Layouts modernos · Todos os formatos</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SÉRIE A — CARROSSEL 4:5 COM FOTOS REAIS
+     Tema: CRESCIMENTO ESTRATÉGICO · João Gobira
+═══════════════════════════════════════════════════════ -->
+<div class="section-wrap">
+  <div class="section-head">
+    <div class="s-num">A</div>
+    <div class="s-title">CARROSSEL 4:5 — SÉRIE FOTO SPLIT MODERNA</div>
+    <div class="s-meta">1080×1350 · 6 slides · Usa fotos IMG_7386/7392/7397</div>
+  </div>
+  <div class="row">
+
+    <!-- A1: CAPA — foto ocupando 55% direita, texto à esquerda embaixo -->
+    <div class="card-wrap">
+      <div class="s4x5" style="background: var(--void);">
+        <div class="grain"></div>
+        <div class="tape-l fire"></div>
+        <div class="tape-t fire"></div>
+        <!-- foto -->
+        <div class="photo-slot" style="left:42%; right:0; top:0; bottom:0; position:absolute; z-index:1;">
+          <img src="../uploads/IMG_7386.JPG" alt="foto" style="object-position: center 15%;">
+        </div>
+        <div style="position:absolute; left:42%; right:0; top:0; bottom:0; z-index:2;
+          background: linear-gradient(to right, var(--void) 0%, transparent 30%);"></div>
+        <div style="position:absolute; left:42%; right:0; bottom:0; height:50%; z-index:2;
+          background: linear-gradient(to bottom, transparent, var(--void));"></div>
+        <!-- glow fire canto superior esquerdo -->
+        <div class="gblob" style="width:500px;height:500px;background:var(--fire);opacity:0.06;top:-150px;left:-100px;"></div>
+        <div class="sn">01/06</div>
+        <div class="cw" style="padding: 96px 0 96px 92px; justify-content: flex-end; width: 56%;">
+          <div class="mt fire" style="margin-bottom: 36px; font-size: 20px;">CRESCIMENTO ESTRATÉGICO</div>
+          <div class="al fire sm" style="margin-bottom: 36px;"></div>
+          <div class="disp" style="font-size: 112px; margin-bottom: 36px; line-height: 0.86;">
+            A ORDEM<br>QUE <em>MULTI-<br>PLICA.</em>
+          </div>
+          <div class="bd" style="font-size: 34px; margin-bottom: 48px; max-width: 500px;">
+            Sem estrutura, não há escalada. O campo de batalha exige método e dados.
+          </div>
+          <div class="badge">
+            <div class="badge-av"><img src="../uploads/IMG_7386.JPG" alt="JG" style="object-position: center 5%;"></div>
+            <div>
+              <div class="badge-name">JOÃO GOBIRA</div>
+              <div class="badge-role">// Growth · Gestão</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-label">A1: Capa Split Vertical Moderno</div>
+    </div>
+
+    <!-- A2: DADO GRANDE + GRÁFICO SVG HORIZONTAL -->
+    <div class="card-wrap">
+      <div class="s4x5" style="background: var(--carbon);">
+        <div class="grain"></div>
+        <div class="tape-l fire"></div>
+        <div class="sn">02/06</div>
+        <!-- faixa lareal fire no fundo -->
+        <div style="position:absolute; top:0; right:0; width:8px; height:100%; background: linear-gradient(to bottom, var(--fire), transparent); z-index:5; opacity:0.4;"></div>
+        <div class="cw" style="padding: 96px 88px 80px 96px; justify-content: center; gap: 0;">
+          <div class="mt fire" style="margin-bottom: 32px;">ROI DA ORDEM</div>
+          <div class="al fire md" style="margin-bottom: 40px;"></div>
+          <!-- STAT HUGE -->
+          <div class="stat-huge" style="font-size: 220px; margin-bottom: 0; color: var(--fire);">47%</div>
+          <div class="hd" style="font-size: 88px; color: var(--bone); margin-bottom: 40px; line-height: 0.9;">MAIS <em>FOCO.</em></div>
+          <div class="dv thick" style="margin-bottom: 40px;"></div>
+          <!-- GRÁFICO SVG BARRAS HORIZONTAL -->
+          <div style="background: var(--iron); padding: 36px 40px; width: 100%;">
+            <div class="mt bone" style="font-size: 15px; margin-bottom: 28px;">INTERESSE EM JIU-JITSU NO BRASIL</div>
+            <svg viewBox="0 0 820 260" xmlns="http://www.w3.org/2000/svg" style="width:100%; display:block;">
+              <!-- Grid lines -->
+              <line x1="180" y1="0" x2="180" y2="240" stroke="#2a2a2a" stroke-width="1"/>
+              <line x1="180" y1="60" x2="820" y2="60" stroke="#1e1e1e" stroke-width="1"/>
+              <line x1="180" y1="120" x2="820" y2="120" stroke="#1e1e1e" stroke-width="1"/>
+              <line x1="180" y1="180" x2="820" y2="180" stroke="#1e1e1e" stroke-width="1"/>
+              <!-- Labels Y -->
+              <text x="170" y="244" text-anchor="end" fill="#333" font-family="Space Mono" font-size="18">2022</text>
+              <text x="170" y="184" text-anchor="end" fill="#333" font-family="Space Mono" font-size="18">2024</text>
+              <text x="170" y="124" text-anchor="end" fill="#333" font-family="Space Mono" font-size="18">2025</text>
+              <text x="170" y="64" text-anchor="end" fill="#C8391A" font-family="Space Mono" font-size="18" font-weight="bold">2026</text>
+              <!-- Bars -->
+              <rect x="184" y="210" width="260" height="30" fill="#2a2a2a" rx="2"/>
+              <rect x="184" y="150" width="380" height="30" fill="#2a2a2a" rx="2"/>
+              <rect x="184" y="90" width="490" height="30" fill="#333" rx="2"/>
+              <rect x="184" y="30" width="620" height="30" fill="#C8391A" rx="2"/>
+              <!-- Values -->
+              <text x="452" y="230" fill="#555" font-family="Space Mono" font-size="18">40</text>
+              <text x="572" y="170" fill="#555" font-family="Space Mono" font-size="18">55</text>
+              <text x="682" y="110" fill="#666" font-family="Space Mono" font-size="18">72</text>
+              <text x="812" y="50" fill="#C8391A" font-family="Space Mono" font-size="18" font-weight="bold">100</text>
+            </svg>
+            <div class="bd" style="font-size: 22px; color: var(--muted); margin-top: 12px;">Índice Google Trends · Brasil · 5 anos</div>
+          </div>
+          <div class="bd" style="font-size: 32px; margin-top: 40px;">
+            Líderes com sistemas claros reportam <strong>quase 50% mais tempo produtivo</strong> e menos interrupções.
+          </div>
+        </div>
+      </div>
+      <div class="card-label">A2: Dado + Gráfico SVG Barras</div>
+    </div>
+
+    <!-- A3: FOTO HALF TOP + TEXTO HALF BOTTOM (light) -->
+    <div class="card-wrap">
+      <div class="s4x5" style="background: var(--paper); display:flex; flex-direction:column;">
+        <div class="grain-paper"></div>
+        <div class="tape-l ink-c"></div>
+        <div class="sn" style="color: rgba(0,0,0,0.18);">03/06</div>
+        <!-- TOP: foto 45% -->
+        <div style="height: 48%; position: relative; overflow: hidden; flex-shrink: 0;">
+          <img src="../uploads/IMG_7392.JPG" alt="foto" style="width:100%; height:100%; object-fit:cover; object-position: center 20%; filter: grayscale(20%) brightness(0.9);">
+          <!-- overlay bottom da foto -->
+          <div style="position:absolute; bottom:0; left:0; right:0; height:50%;
+            background: linear-gradient(to bottom, transparent, var(--paper));"></div>
+          <!-- linha separadora fire -->
+          <div style="position:absolute; bottom:0; left:0; right:0; height:4px; background: var(--fire);"></div>
+        </div>
+        <!-- BOTTOM: texto -->
+        <div style="flex: 1; padding: 56px 80px 72px 88px; display:flex; flex-direction:column; justify-content: center; position: relative; z-index: 30;">
+          <div class="mt ink" style="margin-bottom: 28px; font-size: 18px;">DISCIPLINA DE ELITE</div>
+          <div class="al ink sm" style="margin-bottom: 32px;"></div>
+          <div style="font-family: var(--fd); font-size: 96px; color: var(--ink); line-height: 0.88; letter-spacing: 2px; margin-bottom: 36px;">
+            SUA CARREIRA:<br>UM <span style="color: var(--fire);">TATAME.</span>
+          </div>
+          <div class="dv paper" style="margin-bottom: 36px;"></div>
+          <div class="bd ink-t" style="font-size: 34px; line-height: 1.6;">
+            No tatame, cada movimento é calculado. Na sua carreira, cada decisão desorganizada é uma brecha. A disciplina é sua guarda.
+          </div>
+        </div>
+      </div>
+      <div class="card-label">A3: Foto Half-Top · Light Paper</div>
+    </div>
+
+    <!-- A4: COLUNA DUPLA — VS LAYOUT COM FOTO FUNDO ESCURO -->
+    <div class="card-wrap">
+      <div class="s4x5" style="background: var(--void);">
+        <div class="grain"></div>
+        <div class="tape-l fire"></div>
+        <div class="tape-b fire"></div>
+        <div class="sn">04/06</div>
+        <!-- foto fundo com overlay escuro -->
+        <div class="photo-slot" style="top:0; left:0; right:0; height:42%; z-index:1;">
+          <img src="../uploads/IMG_7397.JPG" alt="foto" style="object-position: center 30%; filter: grayscale(30%) brightness(0.5);">
+        </div>
+        <div style="position:absolute; top:0; left:0; right:0; height:42%; z-index:2;
+          background: linear-gradient(to bottom, rgba(8,8,8,0.3) 0%, var(--void) 100%);"></div>
+        <!-- linha separadora -->
+        <div style="position:absolute; top:calc(42% - 2px); left:0; right:0; height:2px; background: var(--fire); z-index:5;"></div>
+        <div class="cw" style="padding: 56px 80px 64px 88px; justify-content: flex-end;">
+          <div class="mt fire" style="margin-bottom: 24px;">O CUSTO DO ATRASO</div>
+          <div style="font-family: var(--fd); font-size: 88px; color: var(--bone); line-height: 0.88; letter-spacing: 2px; margin-bottom: 36px;">
+            O PREÇO DO <em>CAOS.</em>
+          </div>
+          <div class="dv thick" style="margin-bottom: 36px;"></div>
+          <div class="vs-wrap" style="margin-bottom: 0;">
+            <div class="vs-col bad">
+              <div class="vs-ttl">A ARMADILHA</div>
+              <div class="vs-item">Reuniões sem decisão</div>
+              <div class="vs-item">Projetos que não decolam</div>
+              <div class="vs-item">Burnout antes da chegada</div>
+            </div>
+            <div class="vs-col good">
+              <div class="vs-ttl">O EFEITO ORG.</div>
+              <div class="vs-item">Decisões rápidas, execução cirúrgica</div>
+              <div class="vs-item">Entregas consistentes</div>
+              <div class="vs-item">Foco na estratégia</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-label">A4: Foto Topo + VS Split</div>
+    </div>
+
+    <!-- A5: FOTO FUNDO FULL + TEXTO CENTRALIZADO (estilo impacto) -->
+    <div class="card-wrap">
+      <div class="s4x5" style="background: var(--void);">
+        <div class="grain"></div>
+        <div class="tape-l fire"></div>
+        <!-- foto full fundo -->
+        <div class="photo-slot" style="z-index:1;">
+          <img src="../uploads/IMG_7386.JPG" alt="foto" style="object-position: center 10%; filter: grayscale(15%) brightness(0.3);">
+        </div>
+        <div class="ov-fire-tint"></div>
+        <div class="sn">05/06</div>
+        <div class="cw" style="padding: 96px 88px 80px 96px; justify-content: flex-end; gap: 0;">
+          <!-- citação grande centralizada no terço inferior -->
+          <div style="margin-bottom: 24px;">
+            <div style="font-family: var(--fd); font-size: 200px; color: var(--fire); opacity: 0.12; line-height: 0.8; margin-left: -20px;">"</div>
+          </div>
+          <div style="font-family: var(--fd); font-size: 96px; color: var(--bone); line-height: 0.88; letter-spacing: 2px; margin-bottom: 32px;">
+            NINGUÉM ESCALA<br>NO <em>IMPROVISO.</em>
+          </div>
+          <div class="dv thick" style="margin-bottom: 32px;"></div>
+          <div class="bd" style="font-size: 34px; margin-bottom: 48px;">
+            Estrutura não é burocracia. É a arma que transforma esforço em resultado composto.
+          </div>
+          <div class="badge" style="background: rgba(8,8,8,0.7);">
+            <div class="badge-av"><img src="../uploads/IMG_7386.JPG" alt="JG" style="object-position: center 5%;"></div>
+            <div>
+              <div class="badge-name">JOÃO GOBIRA</div>
+              <div class="badge-role">// Growth · Gestão</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-label">A5: Foto Full + Quote Impacto</div>
+    </div>
+
+    <!-- A6: CTA — SPLIT VERTICAL (foto esquerda, CTA direita) -->
+    <div class="card-wrap">
+      <div class="s4x5" style="background: var(--iron); display:flex; flex-direction:row;">
+        <div class="grain"></div>
+        <div class="tape-t fire"></div>
+        <div class="tape-b fire"></div>
+        <!-- foto esquerda 45% -->
+        <div style="width:45%; height:100%; position: relative; overflow:hidden; flex-shrink:0; z-index:1;">
+          <img src="../uploads/IMG_7392.JPG" alt="foto" style="width:100%; height:100%; object-fit:cover; object-position: center 15%; filter: grayscale(20%) brightness(0.7);">
+          <div style="position:absolute; inset:0; background: linear-gradient(to right, transparent 60%, var(--iron) 100%);"></div>
+        </div>
+        <!-- conteúdo direita -->
+        <div style="flex:1; height:100%; padding: 88px 72px 80px 48px; display:flex; flex-direction:column; justify-content: center; position: relative; z-index: 30;">
+          <div class="sn" style="position:relative; top:auto; right:auto; margin-bottom: 48px;">06/06</div>
+          <div class="mt fire" style="margin-bottom: 32px; font-size: 16px;">PRÓXIMO NÍVEL</div>
+          <div style="font-family: var(--fd); font-size: 88px; color: var(--bone); line-height: 0.88; letter-spacing: 2px; margin-bottom: 36px;">
+            PRONTO PARA<br><span style="color: var(--fire);">DOMINAR</span><br>O CAOS?
+          </div>
+          <div class="dv" style="margin-bottom: 32px;"></div>
+          <div class="bd" style="font-size: 28px; margin-bottom: 48px; line-height: 1.6;">
+            Chega de improviso. Vamos mapear a sua estratégia.
+          </div>
+          <div class="btn solid" style="text-align:center; font-size: 40px; padding: 28px 0;">LINK NA BIO ↗</div>
+        </div>
+      </div>
+      <div class="card-label">A6: CTA Split Horizontal</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SÉRIE B — CARROSSEL 4:5 LIGHT PAPER (Jiu-Jitsu / Conteúdo)
+═══════════════════════════════════════════════════════ -->
+<div class="section-wrap">
+  <div class="section-head">
+    <div class="s-num">B</div>
+    <div class="s-title">CARROSSEL 4:5 — SÉRIE PAPER EDITORIAL MODERNA</div>
+    <div class="s-meta">1080×1350 · Light theme evolução · Dados + Fotos reais</div>
+  </div>
+  <div class="row">
+
+    <!-- B1: CAPA PAPER COM FOTO E BLOCO FIRE -->
+    <div class="card-wrap">
+      <div class="s4x5" style="background: var(--paper);">
+        <div class="grain-paper"></div>
+        <div class="tape-l ink-c"></div>
+        <div class="tape-t ink-c"></div>
+        <!-- bloco fire top-right -->
+        <div style="position:absolute; top:0; right:0; width:240px; height:280px; background: var(--fire); z-index:2;"></div>
+        <!-- slide number dentro do bloco -->
+        <div style="position:absolute; top:32px; right:32px; font-family: var(--fm); font-size: 16px; color: rgba(0,0,0,0.4); letter-spacing: 2px; z-index: 45;">01/08</div>
+        <div class="cw" style="padding: 72px 88px 80px 96px; justify-content: flex-end; gap: 0; position: relative; z-index: 30;">
+          <!-- foto pequena inset -->
+          <div style="width: 280px; height: 280px; border-radius: 50%; overflow: hidden; border: 6px solid var(--ink); margin-bottom: 48px; position: relative; z-index: 3;">
+            <img src="../uploads/IMG_7386.JPG" alt="foto" style="width:100%; height:100%; object-fit:cover; object-position: center 5%; filter: grayscale(15%);">
+          </div>
+          <div class="mt ink" style="margin-bottom: 24px; font-size: 18px;">ESTILO DE VIDA</div>
+          <div class="al ink sm" style="margin-bottom: 28px;"></div>
+          <div style="font-family: var(--fd); font-size: 104px; color: var(--ink); line-height: 0.88; letter-spacing: 2px; margin-bottom: 32px;">
+            SE VOCÊ NÃO FAZ<br><span style="color: var(--fire);">JIU-JITSU,</span><br>ESTÁ POR FORA.
+          </div>
+          <div class="bd ink-t" style="font-size: 34px; line-height: 1.55;">
+            A arte suave é o maior filtro de caráter e estilo de vida moderno.
+          </div>
+        </div>
+      </div>
+      <div class="card-label">B1: Capa Paper + Círculo Foto</div>
+    </div>
+
+    <!-- B2: DADOS KEYWORDS — LIGHT COM CHART SVG MODERNO -->
+    <div class="card-wrap">
+      <div class="s4x5" style="background: var(--paper);">
+        <div class="grain-paper"></div>
+        <div class="tape-l ink-c"></div>
+        <div class="sn" style="color: rgba(0,0,0,0.18);">02/08</div>
+        <div class="cw" style="padding: 96px 80px 72px 96px; justify-content: flex-start; gap: 0;">
+          <div class="mt ink" style="margin-bottom: 24px; font-size: 18px;">DADOS REAIS</div>
+          <div class="al ink sm" style="margin-bottom: 28px;"></div>
+          <!-- Headline -->
+          <div style="font-family: var(--fd); font-size: 80px; color: var(--ink); line-height: 0.9; letter-spacing: 2px; margin-bottom: 16px;">
+            QUASE 2 MILHÕES<br>DE BUSCAS<br>NO GOOGLE.
+          </div>
+          <!-- dupla linha -->
+          <div style="width:100%; height: 3px; background: var(--ink); margin-bottom: 4px;"></div>
+          <div style="width:100%; height: 1px; background: var(--ink); margin-bottom: 40px;"></div>
+          <!-- CHART SVG BARRAS PAPER (dark container) -->
+          <div style="background: var(--ink); padding: 36px 40px 40px; width: 100%; margin-bottom: 32px;">
+            <div style="font-family: var(--fc); font-size: 22px; font-weight: 800; color: var(--bone); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;">
+              VOLUME TOTAL: 1.865.410 BUSCAS/MÊS
+            </div>
+            <!-- SVG barras horizontais -->
+            <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" style="width:100%; display:block;">
+              <!-- jiu jitsu -->
+              <text x="160" y="34" text-anchor="end" fill="#9A9490" font-family="Barlow,sans-serif" font-size="20" font-weight="300">jiu jitsu</text>
+              <rect x="168" y="14" width="480" height="28" fill="#C8391A" rx="2"/>
+              <text x="656" y="34" fill="#C8391A" font-family="Space Mono,monospace" font-size="18">110.000</text>
+              <!-- kimono jiu jitsu -->
+              <text x="160" y="90" text-anchor="end" fill="#9A9490" font-family="Barlow,sans-serif" font-size="20" font-weight="300">kimono jiu jitsu</text>
+              <rect x="168" y="70" width="266" height="28" fill="#2a2a2a" rx="2"/>
+              <text x="440" y="90" fill="#555" font-family="Space Mono,monospace" font-size="18">60.500</text>
+              <!-- faixas -->
+              <text x="160" y="146" text-anchor="end" fill="#9A9490" font-family="Barlow,sans-serif" font-size="20" font-weight="300">faixas jiu jitsu</text>
+              <rect x="168" y="126" width="99" height="28" fill="#252525" rx="2"/>
+              <text x="274" y="146" fill="#444" font-family="Space Mono,monospace" font-size="18">22.200</text>
+            </svg>
+          </div>
+          <div class="bd ink-t" style="font-size: 30px; line-height: 1.6;">
+            Mercado aquecido, demanda real. <strong style="color:var(--ink);">Quem estiver posicionado agora colherá nos próximos 3 anos.</strong>
+          </div>
+        </div>
+      </div>
+      <div class="card-label">B2: Paper + SVG Chart Keywords</div>
+    </div>
+
+    <!-- B3: CRESCIMENTO — SVG LINHA TENDÊNCIA + FOTO -->
+    <div class="card-wrap">
+      <div class="s4x5" style="background: var(--void);">
+        <div class="grain"></div>
+        <div class="tape-l fire"></div>
+        <div class="sn">03/08</div>
+        <div class="cw" style="padding: 96px 88px 80px 96px; justify-content: center; gap: 0;">
+          <div class="mt fire" style="margin-bottom: 32px;">CRESCIMENTO EXPONENCIAL</div>
+          <div class="al fire md" style="margin-bottom: 36px;"></div>
+          <div class="disp" style="font-size: 96px; margin-bottom: 48px;">
+            A CURVA DE <em>INTERESSE.</em>
+          </div>
+          <!-- SVG LINE CHART moderno -->
+          <div style="background: var(--iron); padding: 40px 44px; width: 100%; margin-bottom: 40px;">
+            <svg viewBox="0 0 780 300" xmlns="http://www.w3.org/2000/svg" style="width:100%; display:block;">
+              <defs>
+                <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#C8391A" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#C8391A" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <!-- Grid horizontal -->
+              <line x1="60" y1="240" x2="760" y2="240" stroke="#222" stroke-width="1"/>
+              <line x1="60" y1="180" x2="760" y2="180" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="4,4"/>
+              <line x1="60" y1="120" x2="760" y2="120" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="4,4"/>
+              <line x1="60" y1="60" x2="760" y2="60" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="4,4"/>
+              <!-- X labels -->
+              <text x="60" y="270" text-anchor="middle" fill="#333" font-family="Space Mono" font-size="16">2021</text>
+              <text x="200" y="270" text-anchor="middle" fill="#333" font-family="Space Mono" font-size="16">2022</text>
+              <text x="340" y="270" text-anchor="middle" fill="#333" font-family="Space Mono" font-size="16">2023</text>
+              <text x="480" y="270" text-anchor="middle" fill="#333" font-family="Space Mono" font-size="16">2024</text>
+              <text x="620" y="270" text-anchor="middle" fill="#333" font-family="Space Mono" font-size="16">2025</text>
+              <text x="760" y="270" text-anchor="middle" fill="#C8391A" font-family="Space Mono" font-size="16" font-weight="bold">2026</text>
+              <!-- Y labels -->
+              <text x="50" y="244" text-anchor="end" fill="#333" font-family="Space Mono" font-size="14">20</text>
+              <text x="50" y="184" text-anchor="end" fill="#333" font-family="Space Mono" font-size="14">40</text>
+              <text x="50" y="124" text-anchor="end" fill="#333" font-family="Space Mono" font-size="14">70</text>
+              <text x="50" y="64" text-anchor="end" fill="#C8391A" font-family="Space Mono" font-size="14">100</text>
+              <!-- Area fill -->
+              <polygon points="60,210 200,200 340,185 480,165 550,150 620,120 690,80 760,40 760,240 60,240"
+                fill="url(#lineGrad)"/>
+              <!-- Line -->
+              <polyline points="60,210 200,200 340,185 480,165 550,150 620,120 690,80 760,40"
+                fill="none" stroke="#C8391A" stroke-width="3" stroke-linejoin="round"/>
+              <!-- Dots -->
+              <circle cx="60" cy="210" r="5" fill="#C8391A"/>
+              <circle cx="200" cy="200" r="5" fill="#C8391A"/>
+              <circle cx="340" cy="185" r="5" fill="#C8391A"/>
+              <circle cx="480" cy="165" r="5" fill="#C8391A"/>
+              <circle cx="620" cy="120" r="5" fill="#C8391A"/>
+              <!-- Dot pico -->
+              <circle cx="760" cy="40" r="8" fill="#C8391A" stroke="#080808" stroke-width="3"/>
+              <text x="760" y="28" text-anchor="middle" fill="#C8391A" font-family="Space Mono" font-size="16" font-weight="bold">PICO</text>
+            </svg>
+          </div>
+          <div class="bd" style="font-size: 32px;">
+            Interesse no Brasil em <strong>pico histórico</strong> em 2026. A janela está aberta — e quem hesitar vai chegar tarde.
+          </div>
+        </div>
+      </div>
+      <div class="card-label">B3: SVG Line Chart Trend</div>
+    </div>
+
+    <!-- B4: LIÇÕES — PAPER COM NUMERAÇÃO DARK (Jiu-jitsu) -->
+    <div class="card-wrap">
+      <div class="s4x5" style="background: var(--paper);">
+        <div class="grain-paper"></div>
+        <div class="tape-l ink-c"></div>
+        <div class="sn" style="color: rgba(0,0,0,0.18);">05/08</div>
+        <div class="cw" style="padding: 96px 80px 72px 96px; justify-content: center; gap: 0;">
+          <div style="background: var(--ink); padding: 14px 24px; width: fit-content; margin-bottom: 4px;">
+            <div style="font-family: var(--fm); font-size: 15px; color: var(--fire); letter-spacing: 3px; text-transform: uppercase;">// LIÇÕES PRÁTICAS</div>
+          </div>
+          <div style="width: 64px; height: 3px; background: var(--fire); margin-bottom: 36px; margin-top: 28px;"></div>
+          <div style="font-family: var(--fd); font-size: 88px; color: var(--ink); line-height: 0.9; letter-spacing: 2px; margin-bottom: 48px;">
+            O RITO E A RESISTÊNCIA
+          </div>
+          <!-- numeração paper modernizada -->
+          <div style="display:flex; flex-direction:column; gap: 6px;">
+            <div class="ni-paper">
+              <div class="ni-paper-num">01</div>
+              <div class="ni-paper-body">
+                <div class="ni-paper-title">Hierarquia:</div>
+                <div class="ni-paper-sub">Existe um rito claro do momento em que você pisa no tatame até o fim da aula.</div>
+              </div>
+            </div>
+            <div class="ni-paper">
+              <div class="ni-paper-num">02</div>
+              <div class="ni-paper-body">
+                <div class="ni-paper-title">Resiliência:</div>
+                <div class="ni-paper-sub">Você vai ser amassado, vai faltar o ar e vai aprender a manter a calma no pior cenário.</div>
+              </div>
+            </div>
+            <div class="ni-paper">
+              <div class="ni-paper-num">03</div>
+              <div class="ni-paper-body">
+                <div class="ni-paper-title">Esforço:</div>
+                <div class="ni-paper-sub">Sem atalhos. Seu nível técnico depende unicamente das horas de suor entregues no chão.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-label">B4: Paper + Numeração Dark Moderna</div>
+    </div>
+
+    <!-- B5: SLIDE FIRE SÓLIDO — CITAÇÃO IMPACTO -->
+    <div class="card-wrap">
+      <div class="s4x5" style="background: var(--fire);">
+        <div class="grain" style="opacity:0.25;"></div>
+        <div class="tape-l bone-c"></div>
+        <!-- número gigante bg -->
+        <div style="position:absolute; bottom:-80px; right:-60px; font-family: var(--fd); font-size: 700px; color: rgba(0,0,0,0.1); line-height: 0.8; pointer-events: none; z-index: 3;">5</div>
+        <div class="sn" style="color: rgba(0,0,0,0.2);">07/08</div>
+        <div class="cw" style="padding: 96px 88px 80px 96px; justify-content: center; gap: 0; position: relative; z-index: 10;">
+          <div style="background: var(--ink); padding: 10px 20px; width: fit-content; margin-bottom: 32px;">
+            <div style="font-family: var(--fm); font-size: 15px; color: var(--fire); letter-spacing: 3px; text-transform: uppercase;">// BÔNUS ESPECIAL</div>
+          </div>
+          <div style="width: 64px; height: 3px; background: rgba(0,0,0,0.3); margin-bottom: 40px;"></div>
+          <div style="font-family: var(--fd); font-size: 108px; color: rgba(0,0,0,0.85); line-height: 0.88; letter-spacing: 2px; margin-bottom: 36px;">
+            "SÓ 5 MINUTINHOS<br>SEM PERDER<br>A AMIZADE"
+          </div>
+          <div style="width: 100%; height: 2px; background: rgba(0,0,0,0.2); margin-bottom: 36px;"></div>
+          <div style="font-family: var(--fb); font-size: 40px; font-weight: 300; color: rgba(0,0,0,0.7); line-height: 1.6;">
+            Quem diz isso não faz ideia de que 5 minutos de soltinho sob pressão parecem uma eternidade inteira de sobrevivência.
+          </div>
+        </div>
+      </div>
+      <div class="card-label">B5: Fire Sólido + Citação</div>
+    </div>
+
+    <!-- B6: CTA FOTO + PERGUNTA ENGAJAMENTO -->
+    <div class="card-wrap">
+      <div class="s4x5" style="background: var(--void);">
+        <div class="grain"></div>
+        <div class="tape-l fire"></div>
+        <div class="tape-b fire"></div>
+        <!-- foto fundo escuro -->
+        <div class="photo-slot" style="z-index:1;">
+          <img src="../uploads/IMG_7392.JPG" alt="foto" style="object-position: center 20%; filter: grayscale(15%) brightness(0.25);">
+        </div>
+        <div class="ov-dark-bottom"></div>
+        <div class="sn">08/08</div>
+        <div class="cw" style="padding: 96px 88px 96px 96px; justify-content: flex-end; gap: 0; text-align: center; align-items: center;">
+          <div class="mt fire" style="margin-bottom: 48px; font-size: 20px; justify-content: center;">ENTRE NO TATAME</div>
+          <div class="disp" style="font-size: 104px; margin-bottom: 36px; text-align: center; line-height: 0.88;">
+            VAI CONTINUAR<br><em>ASSISTINDO?</em>
+          </div>
+          <div class="dv thick" style="margin-bottom: 36px;"></div>
+          <div class="bd" style="font-size: 34px; text-align: center; color: var(--bone); max-width: 750px;">
+            Comente aqui qual dessas lições você mais precisa aplicar na sua rotina hoje.
+          </div>
+        </div>
+      </div>
+      <div class="card-label">B6: CTA Engajamento Foto Full</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SÉRIE C — STORIES/REELS 9:16 COM FOTOS + GRÁFICOS
+═══════════════════════════════════════════════════════ -->
+<div class="section-wrap">
+  <div class="section-head">
+    <div class="s-num">C</div>
+    <div class="s-title">STORIES / REELS 9:16 — COM FOTOS + GRÁFICOS</div>
+    <div class="s-meta">1080×1920 · 5 variações distintas</div>
+  </div>
+  <div class="row">
+
+    <!-- C1: STORY CAPA FOTO FULL — TEXTO BOLD FUNDO -->
+    <div class="card-wrap">
+      <div class="s9x16" style="background: var(--void);">
+        <div class="grain"></div>
+        <div class="tape-l fire"></div>
+        <div class="tape-t fire"></div>
+        <div class="tape-b fire"></div>
+        <!-- foto full -->
+        <div class="photo-slot" style="z-index:1;">
+          <img src="../uploads/IMG_7386.JPG" alt="foto" style="object-position: center 8%; filter: grayscale(10%) brightness(0.45);">
+        </div>
+        <!-- gradiente forte na base -->
+        <div style="position:absolute; bottom:0; left:0; right:0; height:65%; z-index:3;
+          background: linear-gradient(to bottom, transparent, rgba(8,8,8,0.98) 70%);"></div>
+        <div class="ov-fire-tint"></div>
+        <!-- progress bar stories -->
+        <div style="position:absolute; top:20px; left:20px; right:20px; height:4px; z-index:70;
+          background: rgba(255,255,255,0.15);">
+          <div style="height:100%; width:25%; background:white;"></div>
+        </div>
+        <div class="cw" style="padding: 120px 88px 96px 96px; justify-content: flex-end; gap: 0; position: relative; z-index: 10;">
+          <div class="pill fire" style="margin-bottom: 28px; font-size: 24px;">GROWTH · GESTÃO</div>
+          <div class="al fire md" style="margin-bottom: 32px;"></div>
+          <div class="disp" style="font-size: 148px; margin-bottom: 40px; line-height: 0.84;">
+            A ORDEM<br>QUE<br><em>MULTI-<br>PLICA.</em>
+          </div>
+          <div class="bd" style="font-size: 44px; margin-bottom: 56px; border-top: 2px solid var(--iron); padding-top: 40px;">
+            Sem estrutura, não há escalada. O campo de batalha exige <strong>método e dados.</strong>
+          </div>
+          <!-- swipe indicator -->
+          <div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
+            <div style="font-family: var(--fm); font-size: 18px; color: rgba(240,235,224,0.4); letter-spacing: 3px; text-transform: uppercase;">deslize para ver</div>
+            <svg width="30" height="40" viewBox="0 0 30 40"><line x1="15" y1="0" x2="15" y2="35" stroke="#C8391A" stroke-width="2"/>
+            <polyline points="7,28 15,38 23,28" fill="none" stroke="#C8391A" stroke-width="2"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="card-label">C1: Story Foto Full Impacto</div>
+    </div>
+
+    <!-- C2: STORY STAT CENTRAL — NÚMERO GIGANTE FUNDO -->
+    <div class="card-wrap">
+      <div class="s9x16" style="background: var(--fire);">
+        <div class="grain" style="opacity:0.2;"></div>
+        <div class="tape-l bone-c"></div>
+        <!-- número de fundo -->
+        <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; z-index:2; overflow:hidden;">
+          <div style="font-family: var(--fd); font-size: 900px; color: rgba(0,0,0,0.1); line-height: 1; user-select:none;">47</div>
+        </div>
+        <!-- progress -->
+        <div style="position:absolute; top:20px; left:20px; right:20px; height:4px; z-index:70; background: rgba(0,0,0,0.15);">
+          <div style="height:100%; width:50%; background: rgba(0,0,0,0.4);"></div>
+        </div>
+        <div class="cw" style="padding: 120px 88px 100px 96px; justify-content: center; gap: 0; position: relative; z-index: 10;">
+          <div style="font-family: var(--fm); font-size: 22px; letter-spacing: 4px; color: rgba(0,0,0,0.5); text-transform: uppercase; margin-bottom: 24px;">// RESULTADO REAL</div>
+          <div style="font-family: var(--fd); font-size: 340px; color: rgba(0,0,0,0.82); line-height: 0.8; letter-spacing: 2px; margin-bottom: 0;">+47%</div>
+          <div style="font-family: var(--fd); font-size: 96px; color: rgba(240,235,224,0.9); line-height: 0.9; letter-spacing: 2px; margin-bottom: 32px;">VENDAS REAIS<br>SEM GASTAR<br>MAIS.</div>
+          <div style="width: 100%; height: 2px; background: rgba(0,0,0,0.2); margin-bottom: 40px;"></div>
+          <!-- mini bento stats -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 56px;">
+            <div style="background: rgba(0,0,0,0.2); padding: 28px 24px;">
+              <div style="font-family: var(--fd); font-size: 72px; color: rgba(240,235,224,0.9); line-height: 0.85;">165K</div>
+              <div style="font-family: var(--fm); font-size: 16px; color: rgba(0,0,0,0.5); letter-spacing: 2px; text-transform: uppercase; margin-top: 6px;">Eventos</div>
+            </div>
+            <div style="background: rgba(0,0,0,0.2); padding: 28px 24px;">
+              <div style="font-family: var(--fd); font-size: 72px; color: rgba(240,235,224,0.9); line-height: 0.85;">30d</div>
+              <div style="font-family: var(--fm); font-size: 16px; color: rgba(0,0,0,0.5); letter-spacing: 2px; text-transform: uppercase; margin-top: 6px;">Após setup</div>
+            </div>
+          </div>
+          <div style="font-family: var(--fb); font-size: 38px; font-weight: 300; color: rgba(0,0,0,0.65); line-height: 1.55;">
+            Parque Aquático SP · após ativar TagServer.
+          </div>
+        </div>
+      </div>
+      <div class="card-label">C2: Story Fire + Número Gigante</div>
+    </div>
+
+    <!-- C3: STORY PAPER LIGHT — CHECKLIST + FOTO CÍRCULO -->
+    <div class="card-wrap">
+      <div class="s9x16" style="background: var(--paper);">
+        <div class="grain-paper"></div>
+        <div class="tape-l ink-c"></div>
+        <div class="tape-b" style="background: var(--fire); height:8px;"></div>
+        <!-- progress -->
+        <div style="position:absolute; top:20px; left:20px; right:20px; height:4px; z-index:70; background: rgba(0,0,0,0.1);">
+          <div style="height:100%; width:75%; background: var(--ink);"></div>
+        </div>
+        <div class="cw" style="padding: 120px 80px 100px 96px; justify-content: space-between; gap: 0;">
+          <div>
+            <div class="mt ink" style="margin-bottom: 32px; font-size: 20px;">AUDITORIA RÁPIDA</div>
+            <div style="width: 64px; height: 3px; background: var(--ink); margin-bottom: 36px;"></div>
+            <div style="font-family: var(--fd); font-size: 104px; color: var(--ink); line-height: 0.88; letter-spacing: 2px; margin-bottom: 48px;">
+              SUA ESTRUTURA<br>ESTÁ <span style="color: var(--fire);">PRONTA?</span>
+            </div>
+            <!-- checklist moderno -->
+            <div style="display: flex; flex-direction:column; gap: 0;">
+              <div style="display:flex; align-items:center; gap: 28px; padding: 32px 0; border-bottom: 1px solid #CCC;">
+                <div style="width:48px; height:48px; background:var(--ink); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><polyline points="18,5 8,15 4,11" stroke="white" stroke-width="2.5"/></svg>
+                </div>
+                <span style="font-family: var(--fb); font-size: 36px; color: var(--ink2); text-decoration: line-through; color: #888;">Pixel instalado</span>
+              </div>
+              <div style="display:flex; align-items:center; gap: 28px; padding: 32px 0; border-bottom: 1px solid #CCC;">
+                <div style="width:48px; height:48px; background:var(--ink); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><polyline points="18,5 8,15 4,11" stroke="white" stroke-width="2.5"/></svg>
+                </div>
+                <span style="font-family: var(--fb); font-size: 36px; color: #888; text-decoration: line-through;">Eventos configurados</span>
+              </div>
+              <div style="display:flex; align-items:center; gap: 28px; padding: 32px 0; border-bottom: 1px solid #CCC;">
+                <div style="width:48px; height:48px; border: 2px solid #CCC; flex-shrink:0;"></div>
+                <span style="font-family: var(--fb); font-size: 36px; color: var(--ink);">CAPI Server-Side</span>
+              </div>
+              <div style="display:flex; align-items:center; gap: 28px; padding: 32px 0; border-bottom: 1px solid #CCC;">
+                <div style="width:48px; height:48px; border: 2px solid #CCC; flex-shrink:0;"></div>
+                <span style="font-family: var(--fb); font-size: 36px; color: var(--ink);">TagServer Ativo</span>
+              </div>
+              <div style="display:flex; align-items:center; gap: 28px; padding: 32px 0;">
+                <div style="width:48px; height:48px; border: 2px solid #CCC; flex-shrink:0;"></div>
+                <span style="font-family: var(--fb); font-size: 36px; color: var(--ink);">Score ≥ 7.0</span>
+              </div>
+            </div>
+          </div>
+          <div style="font-family: var(--fb); font-size: 36px; color: #444; line-height: 1.55; border-top: 2px solid #CCC; padding-top: 36px;">
+            Itens em branco custam <strong style="color:var(--ink);">dinheiro real</strong> todos os dias.
+          </div>
+        </div>
+      </div>
+      <div class="card-label">C3: Story Paper Checklist</div>
+    </div>
+
+    <!-- C4: STORY FOTO SPLIT LATERAL -->
+    <div class="card-wrap">
+      <div class="s9x16" style="background: var(--carbon); display:flex; flex-direction:row;">
+        <div class="grain"></div>
+        <div class="tape-t fire"></div>
+        <div class="tape-b fire"></div>
+        <!-- foto 45% esquerda -->
+        <div style="width:45%; height:100%; position:relative; overflow:hidden; flex-shrink:0; z-index:1;">
+          <img src="../uploads/IMG_7392.JPG" alt="foto" style="width:100%; height:100%; object-fit:cover; object-position: center 15%; filter: grayscale(20%) brightness(0.7);">
+          <div style="position:absolute; inset:0; background: linear-gradient(to right, transparent 50%, var(--carbon) 100%);"></div>
+          <!-- linha fire vertical -->
+          <div style="position:absolute; right:0; top:0; bottom:0; width:4px; background: var(--fire); z-index:3;"></div>
+        </div>
+        <!-- texto 55% -->
+        <div style="flex:1; padding: 100px 72px 80px 48px; display:flex; flex-direction:column; justify-content:center; position:relative; z-index:30;">
+          <!-- progress -->
+          <div style="position:absolute; top:20px; left:0; right:20px; height:4px; z-index:70; background: rgba(255,255,255,0.1);">
+            <div style="height:100%; width:65%; background: var(--fire);"></div>
+          </div>
+          <div class="mt fire" style="margin-bottom: 32px; font-size: 18px;">LIDERANÇA</div>
+          <div style="font-family: var(--fd); font-size: 100px; color: var(--bone); line-height: 0.88; letter-spacing: 2px; margin-bottom: 32px;">
+            DECISÃO SOB PRESSÃO<br><span style="color: var(--fire);">ABSOLUTA.</span>
+          </div>
+          <div style="width: 56px; height: 4px; background: var(--fire); margin-bottom: 36px;"></div>
+          <div class="bd" style="font-size: 38px; margin-bottom: 48px; line-height: 1.55;">
+            Quando o orçamento estourou e a meta sumiu, aprendi o que separa um líder de um gestor.<br><br>
+            <strong>A técnica.</strong>
+          </div>
+          <!-- badge compact -->
+          <div style="display:flex; align-items:center; gap:16px; border-top: 1px solid var(--steel); padding-top: 32px;">
+            <div style="width:60px; height:60px; border-radius:50%; overflow:hidden; border: 2px solid var(--fire); flex-shrink:0;">
+              <img src="../uploads/IMG_7386.JPG" alt="JG" style="width:100%; height:100%; object-fit:cover; object-position: center 5%;">
+            </div>
+            <div>
+              <div style="font-family: var(--fd); font-size: 32px; color: var(--bone);">JOÃO GOBIRA</div>
+              <div style="font-family: var(--fm); font-size: 12px; color: var(--fire); letter-spacing: 2px;">// Growth · Gestão</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-label">C4: Story Foto Split Lateral</div>
+    </div>
+
+    <!-- C5: STORY DARK TECH + GRÁFICO PIZZA SVG -->
+    <div class="card-wrap">
+      <div class="s9x16" style="background: #0e1217; background-image: radial-gradient(rgba(143,191,38,0.08) 1px, transparent 0); background-size: 28px 28px;">
+        <div class="tape-l lime-c"></div>
+        <div class="tape-t lime-c"></div>
+        <!-- progress -->
+        <div style="position:absolute; top:20px; left:20px; right:20px; height:3px; z-index:70; background: rgba(143,191,38,0.15);">
+          <div style="height:100%; width:90%; background: var(--lime);"></div>
+        </div>
+        <div class="cw" style="padding: 120px 88px 100px 96px; justify-content: space-between; gap: 0;">
+          <div>
+            <div class="mt lime" style="margin-bottom: 32px; font-size: 20px;">INFRAESTRUTURA</div>
+            <div style="width: 56px; height: 4px; background: var(--lime); margin-bottom: 36px;"></div>
+            <div style="font-family: var(--fd); font-size: 108px; color: var(--bone); line-height: 0.88; letter-spacing: 2px; margin-bottom: 48px;">
+              ONDE VÃO<br>SUAS <span style="color: var(--lime);">CONVERSÕES.</span>
+            </div>
+            <!-- GRÁFICO PIE SVG -->
+            <div style="background: #151b23; border: 1px solid #1e2631; padding: 40px 44px; width: 100%;">
+              <svg viewBox="0 0 500 320" xmlns="http://www.w3.org/2000/svg" style="width:100%; display:block;">
+                <!-- Donut chart -->
+                <circle cx="170" cy="160" r="110" fill="none" stroke="#1e2631" stroke-width="44"/>
+                <!-- slice: pixel (62%) fire-ish -->
+                <circle cx="170" cy="160" r="110" fill="none" stroke="#333" stroke-width="44"
+                  stroke-dasharray="429 692" stroke-dashoffset="0"/>
+                <!-- slice: lost (38%) dark -->
+                <circle cx="170" cy="160" r="110" fill="none" stroke="#8FBF26" stroke-width="44"
+                  stroke-dasharray="263 692" stroke-dashoffset="-429"/>
+                <!-- center label -->
+                <text x="170" y="150" text-anchor="middle" fill="#f8f9fa" font-family="Bebas Neue" font-size="44">38%</text>
+                <text x="170" y="180" text-anchor="middle" fill="#a0aec0" font-family="Space Mono" font-size="14">PERDIDO</text>
+                <!-- legend -->
+                <rect x="320" y="110" width="18" height="18" fill="#333" rx="2"/>
+                <text x="346" y="124" fill="#718096" font-family="Barlow" font-size="20" font-weight="300">Pixel Client (62%)</text>
+                <rect x="320" y="148" width="18" height="18" fill="#8FBF26" rx="2"/>
+                <text x="346" y="162" fill="#f8f9fa" font-family="Barlow" font-size="20" font-weight="300">TagServer API (38%+)</text>
+                <text x="346" y="186" fill="#8FBF26" font-family="Space Mono" font-size="14">recuperado</text>
+              </svg>
+            </div>
+          </div>
+          <div style="font-family: var(--fb); font-size: 38px; font-weight: 300; color: #a0aec0; line-height: 1.5; border-top: 1px solid #1e2631; padding-top: 40px;">
+            Acesse <strong style="color: var(--lime);">tgsr.br</strong> e recupere o que você está perdendo hoje.
+          </div>
+        </div>
+      </div>
+      <div class="card-label">C5: Story Tech + SVG Donut Chart</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SÉRIE D — 1:1 SQUARE MODERNO (LinkedIn / Feed)
+═══════════════════════════════════════════════════════ -->
+<div class="section-wrap">
+  <div class="section-head">
+    <div class="s-num">D</div>
+    <div class="s-title">CARROSSEL 1:1 SQUARE — FEED MODERNO</div>
+    <div class="s-meta">1080×1080 · 5 variações · LinkedIn + Instagram Feed</div>
+  </div>
+  <div class="row">
+
+    <!-- D1: CAPA FOTO FULL DIAGONAL CUT -->
+    <div class="card-wrap">
+      <div class="s1x1" style="background: var(--void);">
+        <div class="grain"></div>
+        <div class="tape-l fire"></div>
+        <div class="tape-t fire"></div>
+        <!-- foto full -->
+        <div class="photo-slot" style="z-index:1;">
+          <img src="../uploads/IMG_7397.JPG" alt="foto" style="object-position: center 20%; filter: grayscale(15%) brightness(0.5);">
+        </div>
+        <!-- diagonal cut escuro no canto inferior esquerdo -->
+        <div style="position:absolute; inset:0; z-index:3;
+          background: linear-gradient(135deg, rgba(8,8,8,0.96) 0%, rgba(8,8,8,0.85) 35%, transparent 60%);"></div>
+        <div class="sn">01/05</div>
+        <div class="cw" style="padding: 80px 0 80px 88px; justify-content: flex-end; width: 58%;">
+          <div class="mt fire" style="margin-bottom: 24px; font-size: 20px;">MÉTODO JG</div>
+          <div class="al fire sm" style="margin-bottom: 28px;"></div>
+          <div class="disp" style="font-size: 100px; margin-bottom: 28px; line-height: 0.86;">
+            3 PILARES DA<br>ORG. <em>BRUTA-<br>LISTA.</em>
+          </div>
+          <div class="bd" style="font-size: 30px;">
+            O que separa quem executa de quem só planeja.
+          </div>
+        </div>
+      </div>
+      <div class="card-label">D1: 1:1 Foto Diagonal Cut</div>
+    </div>
+
+    <!-- D2: LIGHT EDITORIAL MODERNO -->
+    <div class="card-wrap">
+      <div class="s1x1" style="background: var(--paper);">
+        <div class="grain-paper"></div>
+        <div class="tape-l ink-c"></div>
+        <div class="tape-t ink-c"></div>
+        <!-- bloco preto top-right -->
+        <div style="position:absolute; top:0; right:0; width:50%; height:50%; background: var(--ink); z-index:2;">
+          <div style="padding: 56px 48px;">
+            <div style="font-family: var(--fd); font-size: 88px; color: var(--fire); line-height: 0.82; letter-spacing: 2px;">02/05</div>
+          </div>
+        </div>
+        <!-- linha diagonal separadora -->
+        <div style="position:absolute; top:0; right:50%; width:3px; height:50%; background: var(--fire); z-index:5;"></div>
+        <div style="position:absolute; top:50%; left:0; right:0; height:2px; background: var(--ink); z-index:5;"></div>
+        <div class="cw" style="padding: 72px 72px 72px 88px; justify-content: flex-end;">
+          <div class="mt ink" style="margin-bottom: 24px; font-size: 18px;">PRIORIZAÇÃO</div>
+          <div style="width: 56px; height: 3px; background: var(--fire); margin-bottom: 28px;"></div>
+          <div style="font-family: var(--fd); font-size: 88px; color: var(--ink); line-height: 0.88; letter-spacing: 2px; margin-bottom: 28px;">
+            O QUE TRAZ<br>RESULTADO <span style="color:var(--fire);">AGORA?</span>
+          </div>
+          <div class="bd ink-t" style="font-size: 28px; line-height: 1.55;">
+            Defina. Execute. Inspecione o que importa.
+          </div>
+        </div>
+      </div>
+      <div class="card-label">D2: 1:1 Light Block Diagonal</div>
+    </div>
+
+    <!-- D3: DARK BENTO MODERNO COM DADOS -->
+    <div class="card-wrap">
+      <div class="s1x1" style="background: var(--carbon);">
+        <div class="grain"></div>
+        <div class="tape-l gold"></div>
+        <div class="sn" style="color: var(--steel);">03/05</div>
+        <div class="cw" style="padding: 80px 80px 72px 88px; justify-content: space-between;">
+          <div>
+            <div class="mt gold" style="margin-bottom: 24px;">RESULTADOS REAIS</div>
+            <div class="al gold sm" style="margin-bottom: 28px;"></div>
+            <div class="disp" style="font-size: 80px; margin-bottom: 0; line-height: 0.88;">
+              OS NÚMEROS<br>QUE NÃO <span class="g">MENTEM.</span>
+            </div>
+          </div>
+          <!-- BENTO GRID 2x2 -->
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%;">
+            <div style="background: var(--iron); padding: 32px 32px 28px; display:flex; flex-direction:column; justify-content:flex-end; grid-column: span 2;">
+              <div style="font-family: var(--fm); font-size: 14px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;">CONVERSÕES RECUPERADAS</div>
+              <div style="font-family: var(--fd); font-size: 96px; color: var(--fire); line-height: 0.82;">+165K</div>
+              <div style="font-family: var(--fm); font-size: 15px; color: var(--muted); letter-spacing: 2px; margin-top: 6px; text-transform: uppercase;">eventos · 30 dias</div>
+            </div>
+            <div style="background: var(--iron); padding: 28px 32px; display:flex; flex-direction:column; justify-content:flex-end;">
+              <div style="font-family: var(--fd); font-size: 72px; color: var(--gold); line-height: 0.82;">+47%</div>
+              <div style="font-family: var(--fm); font-size: 13px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 6px;">Vendas reais</div>
+            </div>
+            <div style="background: var(--iron); padding: 28px 32px; border: 1px solid var(--gold); display:flex; flex-direction:column; justify-content:flex-end;">
+              <div style="font-family: var(--fd); font-size: 72px; color: var(--bone); line-height: 0.82;">0,8x</div>
+              <div style="font-family: var(--fm); font-size: 13px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 6px;">CPA mantido</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-label">D3: 1:1 Bento Grid Dados</div>
+    </div>
+
+    <!-- D4: FOTO CIRCULAR + QUOTE GRANDE -->
+    <div class="card-wrap">
+      <div class="s1x1" style="background: var(--void);">
+        <div class="grain"></div>
+        <div class="tape-l fire"></div>
+        <!-- glow fundo -->
+        <div class="gblob" style="width:700px; height:700px; background:var(--fire); opacity:0.05; top:200px; right:-200px;"></div>
+        <div class="sn">04/05</div>
+        <div class="inset-frame"></div>
+        <div class="cw" style="padding: 80px 88px 80px 96px; justify-content: center; gap: 0; align-items: center; text-align: center;">
+          <!-- foto circular grande -->
+          <div style="width: 320px; height: 320px; border-radius: 50%; overflow: hidden; border: 4px solid var(--fire); margin-bottom: 48px; position: relative; z-index: 3; flex-shrink: 0;">
+            <img src="../uploads/IMG_7392.JPG" alt="foto" style="width:100%; height:100%; object-fit:cover; object-position: center 15%; filter: grayscale(15%);">
+          </div>
+          <!-- quote mark grande -->
+          <div style="font-family: var(--fd); font-size: 120px; color: var(--fire); opacity: 0.15; line-height: 0.7; margin-bottom: -40px;">"</div>
+          <div class="disp" style="font-size: 68px; line-height: 0.92; margin-bottom: 32px; text-align: center; position: relative; z-index: 2;">
+            VOCÊ NÃO LIDERA<br>COM DISCURSOS.<br>VOCÊ LIDERA SENDO<br>O <em>PRIMEIRO</em> A CHEGAR.
+          </div>
+          <div style="font-family: var(--fd); font-size: 28px; color: var(--sub); letter-spacing: 2px;">— JOÃO GOBIRA</div>
+        </div>
+      </div>
+      <div class="card-label">D4: 1:1 Foto Círculo + Quote</div>
+    </div>
+
+    <!-- D5: LIGHT PAPER ORGANIZADO -->
+    <div class="card-wrap">
+      <div class="s1x1" style="background: var(--paper);">
+        <div class="grain-paper"></div>
+        <div class="tape-l ink-c"></div>
+        <div class="tape-b" style="background: var(--fire); height: 8px;"></div>
+        <div class="sn" style="color: rgba(0,0,0,0.15);">05/05</div>
+        <div class="cw" style="padding: 72px 72px 72px 88px; justify-content: space-between;">
+          <div>
+            <div class="mt ink" style="margin-bottom: 20px; font-size: 16px;">3 PILARES · MÉTODO JG</div>
+            <div style="width: 56px; height: 3px; background: var(--ink); margin-bottom: 28px;"></div>
+            <div style="font-family: var(--fd); font-size: 76px; color: var(--ink); line-height: 0.88; letter-spacing: 2px; margin-bottom: 36px;">
+              ORG. BRUTALISTA.
+            </div>
+            <div style="width: 100%; height: 2px; background: var(--ink); margin-bottom: 3px;"></div>
+            <div style="width: 100%; height: 1px; background: rgba(0,0,0,0.3); margin-bottom: 32px;"></div>
+          </div>
+          <!-- lista numerada paper compacta -->
+          <div style="display: flex; flex-direction:column; gap: 5px; flex:1;">
+            <div style="display:flex; gap: 0; background: var(--ink);">
+              <div style="min-width: 72px; padding: 20px 16px; border-left: 5px solid var(--fire); display:flex; align-items:center; justify-content:center;">
+                <div style="font-family: var(--fd); font-size: 40px; color: var(--fire); line-height: 1;">01</div>
+              </div>
+              <div style="padding: 20px 28px; flex:1;">
+                <div style="font-family: var(--fc); font-size: 26px; font-weight: 800; color: var(--bone); text-transform: uppercase;">Priorização de Ataque</div>
+                <div style="font-family: var(--fb); font-size: 22px; font-weight: 300; color: rgba(240,235,224,0.55); margin-top: 4px;">O que traz mais resultado agora?</div>
+              </div>
+            </div>
+            <div style="display:flex; gap: 0; background: var(--ink);">
+              <div style="min-width: 72px; padding: 20px 16px; border-left: 5px solid var(--fire); display:flex; align-items:center; justify-content:center;">
+                <div style="font-family: var(--fd); font-size: 40px; color: var(--fire); line-height: 1;">02</div>
+              </div>
+              <div style="padding: 20px 28px; flex:1;">
+                <div style="font-family: var(--fc); font-size: 26px; font-weight: 800; color: var(--bone); text-transform: uppercase;">Sistemas Anti-Caos</div>
+                <div style="font-family: var(--fb); font-size: 22px; font-weight: 300; color: rgba(240,235,224,0.55); margin-top: 4px;">Ferramentas que blindam a operação.</div>
+              </div>
+            </div>
+            <div style="display:flex; gap: 0; background: var(--ink);">
+              <div style="min-width: 72px; padding: 20px 16px; border-left: 5px solid var(--fire); display:flex; align-items:center; justify-content:center;">
+                <div style="font-family: var(--fd); font-size: 40px; color: var(--fire); line-height: 1;">03</div>
+              </div>
+              <div style="padding: 20px 28px; flex:1;">
+                <div style="font-family: var(--fc); font-size: 26px; font-weight: 800; color: var(--bone); text-transform: uppercase;">Delegação com Foco</div>
+                <div style="font-family: var(--fb); font-size: 22px; font-weight: 300; color: rgba(240,235,224,0.55); margin-top: 4px;">Confie, mas inspecione o que importa.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-label">D5: 1:1 Paper + Lista Compacta Dark</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SÉRIE E — BANNERS / YOUTUBE THUMBS (16:9 + 1200×628)
+═══════════════════════════════════════════════════════ -->
+<div class="section-wrap">
+  <div class="section-head">
+    <div class="s-num">E</div>
+    <div class="s-title">BANNERS 16:9 — YOUTUBE THUMBNAIL / META ADS</div>
+    <div class="s-meta">1920×1080 · 3 variações com foto + SVG</div>
+  </div>
+  <div class="row" style="flex-direction:column; gap:20px;">
+
+    <!-- E1: YOUTUBE THUMB — FOTO + TEXTO IMPACTO + BADGE COLORIDO -->
+    <div class="card-wrap" style="align-self:flex-start;">
+      <div class="s16x9" style="background: var(--void); display:flex; flex-direction:row;">
+        <div class="grain"></div>
+        <div class="tape-t fire" style="height: 8px;"></div>
+        <div class="tape-b fire" style="height: 8px;"></div>
+        <!-- foto 45% esquerda -->
+        <div style="width:44%; height:100%; position:relative; overflow:hidden; flex-shrink:0; z-index:1;">
+          <img src="../uploads/IMG_7386.JPG" alt="foto" style="width:100%; height:100%; object-fit:cover; object-position: center 8%; filter: brightness(0.75);">
+          <div style="position:absolute; inset:0; background: linear-gradient(to right, transparent 55%, var(--void) 100%);"></div>
+        </div>
+        <!-- conteúdo direita -->
+        <div style="flex:1; padding: 72px 88px 64px 56px; display:flex; flex-direction:column; justify-content:center; position:relative; z-index:30; gap: 16px;">
+          <!-- badges pilha -->
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <div class="pill fire" style="font-size: 26px; padding: 10px 24px;">ABSURDO</div>
+            <div class="pill gold" style="font-size: 26px; padding: 10px 24px;">47%</div>
+          </div>
+          <div style="font-family: var(--fd); font-size: 120px; color: var(--bone); line-height: 0.84; letter-spacing: 2px;">
+            PIXEL <span style="color: var(--fire);">CEGO</span><br>CUSTOU UMA<br>FORTUNA.
+          </div>
+          <div style="font-family: var(--fm); font-size: 18px; color: var(--sub); letter-spacing: 2px; text-transform: uppercase;">Case real · Como resolvemos</div>
+        </div>
+      </div>
+      <div class="card-label">E1: YouTube Thumbnail Foto + Impacto</div>
+    </div>
+
+    <!-- E2: BANNER META ADS SPLIT DARK + STAT -->
+    <div class="card-wrap" style="align-self:flex-start;">
+      <div class="s16x9" style="background: var(--void); display:flex; flex-direction:row;">
+        <div class="grain"></div>
+        <div class="tape-t fire"></div>
+        <div class="tape-b fire"></div>
+        <!-- esquerda: texto -->
+        <div style="width:55%; padding: 64px 56px 56px 88px; display:flex; flex-direction:column; justify-content:center; position:relative; z-index:30;">
+          <div class="mt fire" style="margin-bottom: 20px; font-size: 20px;">CASE REAL</div>
+          <div style="font-family: var(--fd); font-size: 108px; color: var(--bone); line-height: 0.84; letter-spacing: 2px; margin-bottom: 20px;">
+            +47% VENDAS<br><span style="color: var(--fire);">SEM</span> GASTAR<br>MAIS.
+          </div>
+          <div class="bd" style="font-size: 30px; max-width: 580px;">
+            Como o <strong>TagServer</strong> recuperou 165K eventos e fez o algoritmo trabalhar com força bruta.
+          </div>
+        </div>
+        <!-- direita: stat block fire -->
+        <div style="width:45%; height:100%; background: var(--fire); position:relative; z-index:30;
+          clip-path: polygon(6% 0, 100% 0, 100% 100%, 0 100%);
+          display:flex; flex-direction:column; align-items:center; justify-content:center; gap: 8px; padding-left: 40px;">
+          <div class="grain" style="opacity:0.2;"></div>
+          <div style="font-family: var(--fd); font-size: 180px; color: rgba(0,0,0,0.8); line-height: 0.8; position:relative; z-index:2;">165K</div>
+          <div style="font-family: var(--fm); font-size: 22px; color: rgba(240,235,224,0.75); letter-spacing: 3px; text-transform: uppercase; position:relative; z-index:2; text-align:center;">EVENTOS RECUPERADOS</div>
+          <div style="font-family: var(--fd); font-size: 52px; color: rgba(0,0,0,0.65); position:relative; z-index:2;">EM 30 DIAS</div>
+        </div>
+      </div>
+      <div class="card-label">E2: Banner Meta Ads Split</div>
+    </div>
+
+    <!-- E3: BANNER PAPER — LIGHT AWARENESS COM FOTO -->
+    <div class="card-wrap" style="align-self:flex-start;">
+      <div class="s16x9" style="background: var(--paper); position:relative; display:flex;">
+        <div class="grain-paper"></div>
+        <!-- foto direita 50% -->
+        <div style="position:absolute; right:0; top:0; bottom:0; width:50%; z-index:1; overflow:hidden;">
+          <img src="../uploads/IMG_7392.JPG" alt="foto" style="width:100%; height:100%; object-fit:cover; object-position: center 20%; filter: grayscale(20%) brightness(0.8);">
+          <div style="position:absolute; inset:0; background: linear-gradient(to right, var(--paper) 0%, transparent 30%);"></div>
+        </div>
+        <!-- linha fire vertical -->
+        <div style="position:absolute; left:50%; top:0; bottom:0; width:3px; background: var(--fire); z-index:5;"></div>
+        <!-- texto esquerda -->
+        <div style="width:52%; padding: 60px 56px 60px 88px; display:flex; flex-direction:column; justify-content:center; position:relative; z-index:30; gap: 16px;">
+          <div class="mt ink" style="font-size: 18px;">// MÉTODO</div>
+          <div style="font-family: var(--fd); font-size: 96px; color: var(--ink); line-height: 0.84; letter-spacing: 2px;">
+            EXECUTE COM<br><span style="color: var(--fire);">DADOS.</span>
+          </div>
+          <div style="font-family: var(--fb); font-size: 28px; color: #444; font-weight: 300; line-height: 1.5;">
+            12 anos construindo máquinas de Growth com rastreamento real.
+          </div>
+          <div style="font-family: var(--fd); font-size: 40px; color: var(--ink); letter-spacing: 2px;">JOÃO GOBIRA</div>
+        </div>
+      </div>
+      <div class="card-label">E3: Banner Paper Light + Foto</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     LEGENDA DO SISTEMA VISUAL
+═══════════════════════════════════════════════════════ -->
+<div style="width: 100%; max-width: 1500px; border-top: 1px solid #141414; padding-top: 56px; margin-top: 24px;">
+  <div style="font-family: var(--fd); font-size: 20px; color: #1e1e1e; letter-spacing: 4px; margin-bottom: 36px; text-align: center;">
+    LEGENDA DO SISTEMA — VARIÁVEIS DE CONSTRUÇÃO
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px;">
+    <div>
+      <div style="font-family: var(--fm); font-size: 9px; color: var(--fire); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px;">// FOTOS DISPONÍVEIS</div>
+      <div style="font-family: var(--fb); font-size: 12px; color: #2a2a2a; line-height: 2;">
+        IMG_7386.JPG → retrato câmera, sorriso, sem boneco<br>
+        IMG_7392.JPG → retrato câmera, sorriso, sem boneco<br>
+        IMG_7397.JPG → retrato câmera com boneco azul
+      </div>
+    </div>
+    <div>
+      <div style="font-family: var(--fm); font-size: 9px; color: var(--fire); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px;">// TEMAS</div>
+      <div style="font-family: var(--fb); font-size: 12px; color: #2a2a2a; line-height: 2;">
+        Dark Brutalista → --void / --carbon<br>
+        Light Paper → --paper / --ink<br>
+        Fire Sólido → --fire bg<br>
+        Tech Lime → #0e1217 / #8FBF26<br>
+        Gold Premium → --carbon / --gold
+      </div>
+    </div>
+    <div>
+      <div style="font-family: var(--fm); font-size: 9px; color: var(--fire); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px;">// GRÁFICOS SVG</div>
+      <div style="font-family: var(--fb); font-size: 12px; color: #2a2a2a; line-height: 2;">
+        Barras horizontais (dark / paper)<br>
+        Linha de tendência + área fill<br>
+        Donut / pizza chart<br>
+        Progress bars skill<br>
+        Bento grid numérico
+      </div>
+    </div>
+    <div>
+      <div style="font-family: var(--fm); font-size: 9px; color: var(--fire); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px;">// LAYOUTS DE FOTO</div>
+      <div style="font-family: var(--fb); font-size: 12px; color: #2a2a2a; line-height: 2;">
+        Split vertical 45/55%<br>
+        Split horizontal 45/55%<br>
+        Círculo recortado<br>
+        Full fundo com overlay<br>
+        Half top / half bottom<br>
+        Bloco topo + texto base
+      </div>
+    </div>
+    <div>
+      <div style="font-family: var(--fm); font-size: 9px; color: var(--fire); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px;">// NOVOS COMPONENTES</div>
+      <div style="font-family: var(--fb); font-size: 12px; color: #2a2a2a; line-height: 2;">
+        Checklist moderno<br>
+        Donut SVG<br>
+        Diagonal cut overlay<br>
+        Foto circular + border<br>
+        VS cols bordered<br>
+        Progress bar stories<br>
+        Swipe indicator<br>
+        Badge foto real embed
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
