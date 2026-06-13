@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>João Gobira — Head de Growth & Marketing</title>
-<meta name="description" content="Profissional de Growth Marketing com 12+ anos em performance, SEO, CRM e e-commerce. Especialista em construir resultado com processo e consistência inegociável.">
+<title>João Gobira  -  Head de Growth & Marketing</title>
+<meta name="description" content="Sagacidade, determinacao e criatividade. 12+ anos em performance, SEO, CRM e e-commerce. Entrego +200% de trafego, reduzo CPL em 65% e resolvo o que os outros nao conseguem.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -296,6 +296,80 @@ h2 {
   line-height: 1.75;
   margin-bottom: 48px;
   font-weight: 300;
+}
+
+/* ── FILOSOFIA ── */
+.filosofia-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+}
+
+.filosofia-card {
+  background: var(--carbon);
+  border: 1px solid var(--iron);
+  border-radius: 12px;
+  padding: 32px;
+  transition: border-color 0.25s, transform 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.filosofia-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--fire), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.filosofia-card:hover { border-color: rgba(200,57,26,0.35); transform: translateY(-2px); }
+.filosofia-card:hover::before { opacity: 1; }
+
+.filosofia-num {
+  font-family: var(--font-disp);
+  font-size: 48px;
+  color: var(--fire);
+  opacity: 0.15;
+  line-height: 1;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+}
+
+.filosofia-title {
+  font-family: var(--font-cond);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--bone);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.filosofia-desc {
+  font-size: 13px;
+  color: var(--text-sub);
+  line-height: 1.7;
+  font-weight: 300;
+  margin-bottom: 16px;
+}
+
+.filosofia-example {
+  background: var(--void);
+  border: 1px solid var(--iron);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.filosofia-example strong {
+  color: var(--gold-lt);
+  font-weight: 500;
 }
 
 /* ── DIVIDER ── */
@@ -702,6 +776,7 @@ footer {
   .metrics-row { grid-template-columns: repeat(2, 1fr); }
   .cases-grid { grid-template-columns: 1fr; }
   .case-card.featured { grid-column: 1; display: block; }
+  .filosofia-grid { grid-template-columns: 1fr; }
   .skills-grid { grid-template-columns: 1fr 1fr; }
   .contact-box { padding: 36px 24px; }
   footer { flex-direction: column; gap: 8px; text-align: center; }
@@ -727,7 +802,7 @@ footer {
         "@type": "Person",
         "name": "João Gobira",
         "jobTitle": "Head de Growth & Marketing",
-        "description": "Profissional de Growth Marketing com 12+ anos em performance, SEO, CRM e e-commerce. Especialista em construir resultado com processo e consistência inegociável.",
+        "description": "Head de Growth & Marketing. Sagacidade, determinacao e criatividade para transformar marketing em resultado. Mestre da gambiarra bem feita.",
         "url": "https://joaogobira.com",
         "sameAs": [
           "https://linkedin.com/in/joaogobira"
@@ -742,15 +817,15 @@ footer {
           "name": "Quem é João Gobira?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "João Gobira é um Head de Growth & Marketing com mais de 12 anos de experiência liderando estratégias de SEO, mídia de performance e CRM, focando principalmente nas áreas de saúde, educação e dermocosméticos."
+            "text": "João Gobira é um Head de Growth & Marketing com mais de 12 anos de experiência. Seu diferencial é sagacidade para enxergar onde ninguém olha, determinação para executar todo dia e criatividade para resolver qualquer problema com o que tem em mãos. O mestre da gambiarra bem feita."
           }
         },
         {
           "@type": "Question",
-          "name": "Quais são as principais especialidades de João Gobira?",
+          "name": "O que significa mestre da gambiarra?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "As principais especialidades de João Gobira incluem Demand Generation, SEO e Conteúdo orgânico, Creator Economy, Social Commerce e programas Member-Get-Member, CRM, Retenção, Analytics e otimização de performance baseada em dados."
+            "text": "Transformar limitação em solução. Com orçamento curto, prazo apertado e ferramentas limitadas, João sempre deu um jeito de entregar resultado. Não espera a estrutura ideal - constrói com o que existe e melhora no caminho."
           }
         },
         {
@@ -758,7 +833,7 @@ footer {
           "name": "Quais resultados João Gobira já gerou para empresas?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Entre seus principais resultados, João Gobira ajudou a escalar o tráfego orgânico da Conexa Saúde de 300k para 900k sessões/mês, reduziu o CPL em mídia do G4 Educação em 65% gerindo verbas de R$1M/mês, e gerou crescimento de receita via estratégias integradas de crescimento orgânico e CRO na ADCOS."
+            "text": "Entre seus principais resultados: tráfego orgânico de 300k para 900k sessões/mês na Conexa Saúde, redução de 65% de CPL gerindo R$1M/mês no G4 Educação, e incremento de 30% em receita projetada na ADCOS via SEO e CRO."
           }
         }
       ]
@@ -797,12 +872,12 @@ footer {
     Disponível para novas oportunidades
   </div>
   <h1>
-    O goleiro<br>
-    que também<br>
-    cobra <span class="accent">falta.</span>
+    Sagacidade.<br>
+    Determinação.<br>
+    <span class="accent">Gambiarra.</span>
   </h1>
   <p class="hero-sub" style="font-family: var(--font-body); font-weight: 300; font-size: 17px;">
-    Não vim do lugar certo. Não tive o começo fácil. Luto com TDAH até hoje. Em 12 anos, aprendi a fazer o trabalho sujo que transforma time em campeão — em Growth, em SEO, em e-commerce, em performance. Ainda em campo.
+    Não vim do lugar certo. Não tive orçamento infinito. Luto com TDAH até hoje. Meu diferencial sempre foi resolver o que os outros não conseguem com criatividade, consistência e uma boa dose de gambiarra bem executada. Em 12 anos, entreguei +200% de tráfego, reduzi CPL em 65% e gerenciei R$1M/mês em mídia. Sem fórmula mágica. Com suor, sagacidade e processo.
   </p>
   <div class="hero-actions">
     <a href="#cases" class="btn-primary">Ver meus cases →</a>
@@ -850,11 +925,51 @@ footer {
 
 <hr class="divider">
 
+<!-- COMO EU PENSO -->
+<section class="section" id="filosofia">
+  <p class="section-eyebrow">Como eu penso</p>
+  <h2>Meu jeito<br>de fazer</h2>
+  <p class="section-sub">Três características que me definem como profissional e explicam os resultados que entrego.</p>
+
+  <div class="filosofia-grid">
+
+    <div class="filosofia-card fade-in">
+      <div class="filosofia-num">01</div>
+      <h3 class="filosofia-title">Sagacidade</h3>
+      <p class="filosofia-desc">Enxergar onde ninguém está olhando. Em vez de competir no óbvio, encontro o ângulo que ninguém explorou. Seja um cluster de conteúdo que o concorrente ignorou, um público mal segmentado ou um criativo com linguagem que ninguém testou. Onde todo mundo olha para o mesmo lugar, eu procuro a fresta.</p>
+      <div class="filosofia-example">
+        <strong>Na prática:</strong> Enquanto todo mundo disputava palavra-chave genérica, criei clusters de conteúdo de cauda longa que triplicaram o tráfego orgânico da Conexa Saúde sem gastar um centavo em mídia.
+      </div>
+    </div>
+
+    <div class="filosofia-card fade-in">
+      <div class="filosofia-num">02</div>
+      <h3 class="filosofia-title">Determinação</h3>
+      <p class="filosofia-desc">Consistência cega até dar certo. Não existe atalho que substitua aparecer todo dia. Acordo 5h da manhã, treino, trabalho, cuido da família e entrego resultado. Não porque sou especial. Porque não paro. Enquanto outros esperam o insight genial, eu estou na execução, testando, ajustando, repetindo.</p>
+      <div class="filosofia-example">
+        <strong>Na prática:</strong> Foram 11 meses de auditoria semanal, ajuste fino de campanhas e otimização contínua para reduzir o CPL de R$20 para R$7 no G4 Educação. Resultado não cai do céu. É construído todo santo dia.
+      </div>
+    </div>
+
+    <div class="filosofia-card fade-in">
+      <div class="filosofia-num">03</div>
+      <h3 class="filosofia-title">Criatividade (& Gambiarra)</h3>
+      <p class="filosofia-desc">Sou o mestre da gambiarra bem feita. Com orçamento curto, prazo apertado e ferramentas limitadas, sempre dei um jeito. Transformo o que tem na frente em solução que funciona. Não espero a estrutura ideal. Construo com o que existe e vou melhorando no caminho. Criatividade sem execução é só ideia. Gambiarra sem processo é caos. Meu negócio é o meio do caminho.</p>
+      <div class="filosofia-example">
+        <strong>Na prática:</strong> Sem orçamento para ferramenta cara de automação? Usei o que tinha, montei um sistema com APIs abertas e planilhas inteligentes, e entreguei o mesmo resultado que um time com R$50k/mês em ferramentas. É gambiarra. Mas é gambiarra que funciona.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
 <!-- CASES -->
 <section class="section" id="cases">
   <p class="section-eyebrow">Cases</p>
   <h2>Projetos<br>que construí</h2>
-  <p class="section-sub">Resultados reais em categorias que exigem credibilidade — saúde, nutrição, bem-estar e dermocosmética.</p>
+  <p class="section-sub">Resultados reais em categorias que exigem credibilidade - saúde, nutrição, bem-estar e dermocosmética.</p>
 
   <div class="cases-grid">
 
@@ -875,7 +990,7 @@ footer {
     <a href="#" class="case-card fade-in">
       <span class="case-tag tag-perf">Performance · Mídia</span>
       <p class="case-title">R$1M/mês com CPL reduzido em 65%</p>
-      <p class="case-desc">Gestão de mídia paga no G4 Educação com otimização contínua de criativos, segmentação e estrutura de campanhas — de R$20 para R$7 por lead qualificado.</p>
+      <p class="case-desc">Gestão de mídia paga no G4 Educação com otimização contínua de criativos, segmentação e estrutura de campanhas  -  de R$20 para R$7 por lead qualificado.</p>
       <div class="case-stats">
         <div class="case-stat"><strong>−65%</strong><span>CPL</span></div>
         <div class="case-stat"><strong>R$1M</strong><span>Verba/mês</span></div>
@@ -885,7 +1000,7 @@ footer {
     <a href="#" class="case-card fade-in">
       <span class="case-tag tag-growth">Growth · Prescritores</span>
       <p class="case-title">+100% em consultas via ativação de nutricionistas</p>
-      <p class="case-desc">Estratégia integrada de Meta Ads, conteúdo e ativação ética de prescritores em categoria regulada — criando demanda sustentável por nutrição na Conexa Saúde.</p>
+      <p class="case-desc">Estratégia integrada de Meta Ads, conteúdo e ativação ética de prescritores em categoria regulada  -  criando demanda sustentável por nutrição na Conexa Saúde.</p>
       <div class="case-stats">
         <div class="case-stat"><strong>+100%</strong><span>Consultas</span></div>
         <div class="case-stat"><strong>Compliance</strong><span>Categoria regulada</span></div>
@@ -907,7 +1022,7 @@ footer {
         <div>
           <span class="case-tag tag-brand">SEO · CRO · Branding</span>
           <p class="case-title">+44% de tráfego e +30% de receita em dermocosméticos</p>
-          <p class="case-desc">Estratégia de SEO e CRO para a ADCOS com dupla de keywords no Top 3 e projeção de receita via testes A/B em PDPs — categoria com exigência científica alta e interface direta com regulatório.</p>
+          <p class="case-desc">Estratégia de SEO e CRO para a ADCOS com dupla de keywords no Top 3 e projeção de receita via testes A/B em PDPs  -  categoria com exigência científica alta e interface direta com regulatório.</p>
           <div class="case-stats">
             <div class="case-stat"><strong>+44%</strong><span>Tráfego</span></div>
             <div class="case-stat"><strong>+30%</strong><span>Receita projetada</span></div>
@@ -927,7 +1042,7 @@ footer {
 <section class="section" id="expertise">
   <p class="section-eyebrow">Expertise</p>
   <h2>O que eu faço</h2>
-  <p class="section-sub">Combinação rara de estratégia de marca, execução de performance e domínio técnico em ambientes regulados.</p>
+  <p class="section-sub">Nao vendo ferramenta cara. Nao prometo milagre. Entrego estrategia, execucao e resultado - em saude, educacao, cosmeticos e qualquer mercado que exija mais do que palpite.</p>
 
   <div class="skills-grid">
     <div class="skill-item fade-in">
@@ -982,7 +1097,7 @@ footer {
     <div class="tl-item fade-in">
       <div class="tl-dot"></div>
       <p class="tl-period">Set/2024 – Ago/2025</p>
-      <p class="tl-role">Growth Hacker Analyst — Saúde & Nutrição</p>
+      <p class="tl-role">Growth Hacker Analyst  -  Saúde & Nutrição</p>
       <p class="tl-company">Conexa Saúde</p>
       <p class="tl-text">+100% em consultas de nutrição, tráfego orgânico de 300k → 900k sessões/mês, programa MGM e orquestração de creators em categoria regulada.</p>
     </div>
@@ -1021,15 +1136,15 @@ footer {
   <div class="faq-container">
     <div class="faq-item fade-in">
       <h3 class="faq-question">Quem é João Gobira?</h3>
-      <p class="faq-answer">João Gobira é um Head de Growth & Marketing com mais de 12 anos de experiência liderando estratégias de SEO, mídia de performance e CRM, focando principalmente nas áreas de saúde, educação e dermocosméticos.</p>
+      <p class="faq-answer">João Gobira e um Head de Growth & Marketing com mais de 12 anos de experiencia. Seu diferencial nao e ferramenta cara ou orcamento infinito - e sagacidade para enxergar onde ninguem olha, determinacao para executar todo santo dia e criatividade pra resolver qualquer problema com o que tem na mao. O mestre da gambiarra bem feita.</p>
     </div>
     <div class="faq-item fade-in">
-      <h3 class="faq-question">Quais são as principais especialidades de João Gobira?</h3>
-      <p class="faq-answer">As principais especialidades incluem Demand Generation, SEO e Conteúdo orgânico, Creator Economy, Social Commerce (MGM), CRM Avançado e Retenção, e metodologias sólidas de Analytics e testes A/B estruturados.</p>
+      <h3 class="faq-question">O que significa "mestre da gambiarra"?</h3>
+      <p class="faq-answer">Gambiarra no bom sentido: transformar limitacao em solucao. Com orcamento curto, prazo apertado e ferramentas limitadas, Joao sempre deu um jeito de entregar resultado. Nao espera a estrutura ideal - constroi com o que existe e melhora no caminho. Foi assim que reduziu CPL em 65% no G4 Educacao e triplicou o trafego da Conexa Saude.</p>
     </div>
     <div class="faq-item fade-in">
       <h3 class="faq-question">Quais resultados João Gobira já gerou em SEO e Growth?</h3>
-      <p class="faq-answer">Seus resultados documentados incluem o crescimento do tráfego orgânico de 300 mil para 900 mil sessões/mês (aumento de 200%) na Conexa Saúde, redução de 65% de CPL em mídia de performance (G4 Educação) e incremento de 30% em receita projetada na ADCOS via SEO e CRO.</p>
+      <p class="faq-answer">Resultados documentados: crescimento do trafego orgânico de 300k para 900k sessoes/mes (+200%) na Conexa Saude, reducao de 65% de CPL em midia de performance gerindo R$1M/mes no G4 Educacao e incremento de 30% em receita projetada na ADCOS via SEO e CRO. Tudo isso com consistencia, dados e uma boa dose de criatividade.</p>
     </div>
   </div>
 </section>
@@ -1039,8 +1154,8 @@ footer {
 <!-- CONTATO -->
 <section class="section" id="contato">
   <div class="contact-box fade-in">
-    <h3>Vamos conversar?</h3>
-    <p>Aberto para posições de Head de Marketing, Growth ou projetos de consultoria.</p>
+    <h3>Me usa na sua empresa</h3>
+    <p>Sagacidade, determinação e criatividade para transformar seu marketing em resultado. Head de Growth, consultoria ou projeto pontual - o que tiver de desafiador, eu topo.</p>
     <div class="contact-links">
       <a href="mailto:gobira.joao@gmail.com" class="contact-link primary">✉ gobira.joao@gmail.com</a>
       <a href="https://linkedin.com/in/joaogobira" target="_blank" class="contact-link">💼 LinkedIn</a>
