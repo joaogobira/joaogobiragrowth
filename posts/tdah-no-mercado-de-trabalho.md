@@ -6,11 +6,11 @@ TDAH não é superpoder. Não é "déficit de atenção com bonus de criatividad
 
 É uma condição real que, se não for gerenciada, **destrói carreira**.
 
-Fui diagnosticado tarde. Passei anos achando que era preguiçoso, desorganizado, que não me esforçava o suficiente. A culpada era a tal da força de vontade — que nunca era suficiente.
+Fui diagnosticado tarde. Passei anos achando que era preguiçoso, desorganizado, que não me esforçava o suficiente. A culpada era a tal da força de vontade - que nunca era suficiente.
 
 Hoje, depois de muito tratamento, terapia e construção de sistemas, aprendi a conviver. Não "curei". Não "transformei em vantagem competitiva". Aprendi a **gerenciar**.
 
-E quero compartilhar o que funciona — e o que não funciona — para quem vive com TDAH no mercado de trabalho.
+E quero compartilhar o que funciona - e o que não funciona - para quem vive com TDAH no mercado de trabalho.
 
 ---
 
@@ -20,7 +20,7 @@ E quero compartilhar o que funciona — e o que não funciona — para quem vive
 
 Muita gente romantiza o hiperfoco do TDAH. "Você consegue ficar horas focado em algo que te interessa!"
 
-Pois é. Horas. Em algo que me interessa. Que pode ser o relatório mais complexo de SEO da empresa — e também pode ser um vídeo aleatório no YouTube sobre como funciona um motor a combustão.
+Pois é. Horas. Em algo que me interessa. Que pode ser o relatório mais complexo de SEO da empresa - e também pode ser um vídeo aleatório no YouTube sobre como funciona um motor a combustão.
 
 O hiperfoco não é uma ferramenta que você controla. É uma correnteza que te leva. E ela não pergunta se você tem reunião daqui 30 minutos.
 
@@ -30,7 +30,7 @@ Antes do diagnóstico, eu ouvia:
 
 - "O Gobira é bom, mas vive atrasando entregas"
 - "Ele precisa de mais foco"
-- "Prometo que esse mês vou me organizar melhor" — e não me organizava
+- "Prometo que esse mês vou me organizar melhor" - e não me organizava
 
 A pior parte? Você acredita nisso também. Acha que é questão de "tentar mais forte". Mas tentar mais forte com TDAH é como pedir para alguém com miopia "olhar com mais vontade".
 
@@ -71,6 +71,8 @@ Troquei lista por **blocos de tempo**:
 
 Dentro de cada bloco, faço o que é possível. Se termina o bloco e não acabou, passou para amanhã ou para o bloco de reserva.
 
+**Imagem sugerida:** Um grid visual da agenda diária dividido em blocos coloridos. Bloco "Trabalho Profundo" em azul escuro (sem distrações), "Reuniões" em laranja, "Execução" em verde, "Reserva" em cinza. Cada bloco com o horário e uma breve descrição.
+
 ### Sistema 3: Gatilhos físicos
 
 TDAH faz você perder a noção do tempo com facilidade. Uso gatilhos físicos para marcar transições:
@@ -85,20 +87,20 @@ Não é bonito. Não é high-tech. Funciona.
 
 ## O que NÃO funciona
 
-### ❌ Força de vontade
+### 1. Força de vontade
 Não adianta. TDAH não é falta de disciplina. É um funcionamento neuroquímico diferente. Tentar "forçar o foco" é como tentar segurar uma onda com as mãos.
 
-### ❌ Multitarefa
+### 2. Multitarefa
 Para quem tem TDAH, multitarefa não é produtividade. É **fracasso múltiplo simultâneo**. Cada interrupção custa muito mais para retomar.
 
-### ❌ Vergonha como motivador
-"Vou me obrigar a fazer isso senão vou me sentir mal" — essa lógica só gera ansiedade e paralisia. Não entrega.
+### 3. Vergonha como motivador
+"Vou me obrigar a fazer isso senão vou me sentir mal" - essa lógica só gera ansiedade e paralisia. Não entrega.
 
 ---
 
 ## Como transformei TDAH em um diferencial (sem romantizar)
 
-Sim, existe um lado positivo — mas ele só aparece **depois** que você gerencia o lado negativo.
+Sim, existe um lado positivo - mas ele só aparece **depois** que você gerencia o lado negativo.
 
 Quando os sistemas estão funcionando:
 
@@ -108,7 +110,7 @@ Quando os sistemas estão funcionando:
 
 Foi assim que, em vez de ser "o cara que atrasa entrega", virei "o cara que enxerga onde ninguém está olhando".
 
-Mas isso só foi possível depois de tratamento, terapia e — principalmente — **honestidade** sobre minha condição.
+Mas isso só foi possível depois de tratamento, terapia e - principalmente - **honestidade** sobre minha condição.
 
 ---
 

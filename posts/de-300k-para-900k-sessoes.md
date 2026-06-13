@@ -21,6 +21,8 @@ Antes de qualquer ação, passamos 3 semanas só entendendo o cenário:
 
 Esse diagnóstico virou nosso roadmap para os próximos 11 meses.
 
+**Imagem sugerida:** Um "raio-x" visual de 4 portais separados com setas quebradas entre eles. Mostrando conteúdo duplicado entre os portais (mesmo ícone de artigo aparecendo em dois lugares). Um diagnóstico visual da desorganização inicial.
+
 ---
 
 ## Fase 1: Consolidação (Meses 1-3)
@@ -43,6 +45,8 @@ Criamos uma arquitetura de informação baseada em **jornada do paciente**:
 
 Cada categoria virou um **cluster de conteúdo**.
 
+**Gráfico sugerido:** Diagrama de árvore mostrando a nova arquitetura. Raiz = domínio único. 4 galhos principais (Condições, Tratamentos, Especialidades, Guias). Cada galho com sub-ramos representando os clusters de conteúdo.
+
 ---
 
 ## Fase 2: Clusterização (Meses 4-7)
@@ -50,7 +54,7 @@ Cada categoria virou um **cluster de conteúdo**.
 Com a base consolidada, começamos a estruturar os clusters:
 
 ### Pillar pages
-Para cada tema principal, criamos uma **pilar page** completa — conteúdo aprofundado de 3.000-5.000 palavras cobrindo o tema em visão geral.
+Para cada tema principal, criamos uma **pilar page** completa - conteúdo aprofundado de 3.000-5.000 palavras cobrindo o tema em visão geral.
 
 ### Cluster posts
 Em torno de cada pilar, criamos de 8 a 15 posts específicos atacando **palavras-chave de cauda longa** relacionadas.
@@ -68,6 +72,7 @@ Com tráfego crescendo, o próximo passo foi consolidar autoridade de domínio.
 
 ### Link building estratégico
 Focamos em backlinks de:
+
 - Instituições de saúde
 - Universidades e centros de pesquisa
 - Portais de notícias em saúde
@@ -76,21 +81,16 @@ Focamos em backlinks de:
 Nada de links comprados. Tudo baseado em **conteúdo original e relevante** que essas instituições queriam referenciar.
 
 ### Conteúdo de topo de funil
-Começamos a produzir guias completos sobre temas de alta intenção de busca — condições que as pessoas pesquisam quando estão com sintomas, buscando entender o que têm.
+Começamos a produzir guias completos sobre temas de alta intenção de busca - condições que as pessoas pesquisam quando estão com sintomas, buscando entender o que têm.
 
 ### Otimização de featured snippets
-Identificamos 50+ oportunidades de featured snippets e otimizamos o conteúdo para responder perguntas diretas — o que nos deu visibilidade extra em posição zero.
+Identificamos 50+ oportunidades de featured snippets e otimizamos o conteúdo para responder perguntas diretas - o que nos deu visibilidade extra em posição zero.
 
 ---
 
 ## Os números que importam
 
-| Métrica | Antes | Depois | Variação |
-|---------|-------|--------|----------|
-| Sessões/mês | 300k | 900k | **+200%** |
-| Keywords Top 3 | ~80 | ~180 | **+125%** |
-| Domínios de referência | ~150 | ~450 | **+200%** |
-| Taxa de conversão orgânica | 1.8% | 2.4% | **+33%** |
+**Gráfico sugerido:** Um gráfico de linha do tempo (11 meses). Eixo X = meses (set/24 a ago/25). Eixo Y = sessões/mês (de 0 a 1M). Três fases marcadas no gráfico: Consolidação (meses 1-3), Clusterização (meses 4-7), Autoridade (meses 8-11). Curva subindo de 300k para 900k com aceleração visível na fase de Autoridade.
 
 ---
 
@@ -102,7 +102,7 @@ A gente queria crescer rápido. Mas o que desbloqueou o crescimento foi **arruma
 ### 2. Conteúdo com propósito médico exige responsabilidade
 Diferente de e-commerce, conteúdo de saúde não pode ser "qualquer coisa". Cada post passava por revisão de especialistas. Isso limitou volume, mas aumentou **profundidade e autoridade**.
 
-### 3. SEO não é sprint — mas não precisa ser maratonga
+### 3. SEO não é sprint - mas não precisa ser maratona
 11 meses para triplicar o tráfego não é "rápido" no mundo das startups. Mas é **consistente e sustentável**. O tráfego continuou crescendo depois que saí, porque a estrutura estava sólida.
 
 ---

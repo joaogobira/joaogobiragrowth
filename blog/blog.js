@@ -58,7 +58,7 @@ function renderPosts(posts) {
     const cat = CATEGORY_MAP[post.category] || { label: post.category, cssClass: 'tag-growth' };
     const isFeatured = i === 0 ? ' featured' : '';
     return `
-      <a href="post.html?post=${post.slug}" class="post-card${isFeatured} fade-in">
+      <a href="/blog/${post.slug}" class="post-card${isFeatured} fade-in">
         <span class="post-tag ${cat.cssClass}">${cat.label}</span>
         <p class="post-title">${post.title}</p>
         <p class="post-excerpt">${post.excerpt}</p>
@@ -105,7 +105,12 @@ async function loadPost() {
   if (!container) return;
 
   const params = new URLSearchParams(window.location.search);
-  const slug = params.get('post');
+  let slug = params.get('post');
+
+  if (!slug) {
+    const match = window.location.pathname.match(/^\/blog\/(.+)$/);
+    if (match) slug = match[1];
+  }
 
   if (!slug) {
     container.innerHTML = '<p>Post não encontrado.</p>';
@@ -148,8 +153,14 @@ async function loadPost() {
     // Render markdown to HTML using marked.js
     container.innerHTML = marked.parse(mdText);
 
+    // Inject lead capture form
+    injectLeadForm(container);
+
     // Inject author bio section
     injectAuthorBio(container);
+
+    // Inject Open Graph, Twitter Cards, canonical
+    injectMetaTags(postMeta);
 
     // Inject BlogPosting schema for AI-SEO
     injectPostSchema(postMeta, mdText);
@@ -157,6 +168,51 @@ async function loadPost() {
   } catch (err) {
     container.innerHTML = '<p>Erro ao carregar o post.</p>';
   }
+}
+
+function injectLeadForm(container) {
+  const form = document.createElement('div');
+  form.className = 'lead-form';
+  form.innerHTML = `
+    <div class="lead-form-inner">
+      <div class="lead-form-icon">✉</div>
+      <h3 class="lead-form-title">Receba os próximos artigos</h3>
+      <p class="lead-form-text">Growth na prática, direto na sua caixa de entrada. Sem spam. Sem teoria vazia. Só o que funciona.</p>
+      <form class="lead-form-fields" action="#" method="POST">
+        <input type="text" name="nome" placeholder="Seu nome" required class="lead-input lead-input-name" />
+        <input type="email" name="email" placeholder="Seu melhor e-mail" required class="lead-input lead-input-email" />
+        <button type="submit" class="lead-btn">Quero receber</button>
+      </form>
+      <p class="lead-form-footer">Sem spam. Descadastre-se quando quiser.</p>
+    </div>
+  `;
+  form.querySelector('form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const formEl = this;
+    const btn = formEl.querySelector('.lead-btn');
+    const originalText = btn.textContent;
+    btn.textContent = 'Enviando...';
+    btn.disabled = true;
+    try {
+      const data = { name: formEl.nome.value, email: formEl.email.value };
+      // Envia para uma API de newsletter - configure o endpoint
+      const res = await fetch(formEl.action || '/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (res.ok || res.status === 0) {
+        formEl.innerHTML = '<div class="lead-success"><span class="lead-success-icon">✓</span><p><strong>Você está dentro!</strong> Agora é só confirmar o e-mail que enviamos.</p></div>';
+      } else {
+        throw new Error('Erro no servidor');
+      }
+    } catch (err) {
+      btn.textContent = 'Erro. Tente novamente.';
+      btn.disabled = false;
+      setTimeout(() => { btn.textContent = originalText; btn.disabled = false; }, 3000);
+    }
+  });
+  container.appendChild(form);
 }
 
 function injectAuthorBio(container) {
@@ -185,6 +241,37 @@ function injectAuthorBio(container) {
   container.appendChild(bio);
 }
 
+function friendlyUrl(slug) {
+  return `/blog/${slug}`;
+}
+
+function injectMetaTags(meta) {
+  const url = friendlyUrl(meta.slug);
+  const domain = 'https://joaogobira.com';
+
+  const tags = [
+    ['link', 'canonical', domain + url],
+    ['meta', 'og:type', 'article'],
+    ['meta', 'og:url', domain + url],
+    ['meta', 'og:title', meta.title + ' — João Gobira'],
+    ['meta', 'og:description', meta.excerpt],
+    ['meta', 'og:site_name', 'João Gobira'],
+    ['meta', 'og:image', domain + '/blog/images/joao-gobira.jpg'],
+    ['meta', 'twitter:card', 'summary_large_image'],
+    ['meta', 'twitter:title', meta.title],
+    ['meta', 'twitter:description', meta.excerpt],
+    ['meta', 'twitter:image', domain + '/blog/images/joao-gobira.jpg'],
+  ];
+
+  tags.forEach(([el, prop, content]) => {
+    const tag = document.createElement(el);
+    if (el === 'link') { tag.rel = 'canonical'; tag.href = content; }
+    else if (prop.startsWith('og:')) { tag.setAttribute('property', prop); tag.content = content; }
+    else { tag.setAttribute('name', prop); tag.content = content; }
+    document.head.appendChild(tag);
+  });
+}
+
 function injectPostSchema(meta, bodyText) {
   const schema = {
     "@context": "https://schema.org",
@@ -205,7 +292,7 @@ function injectPostSchema(meta, bodyText) {
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": window.location.href
+      "@id": 'https://joaogobira.com' + friendlyUrl(meta.slug)
     },
     "wordCount": bodyText.split(/\s+/).length,
     "articleSection": meta.category

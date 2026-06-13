@@ -2,7 +2,7 @@
 
 Eu fui o goleiro. Durante 15 anos, fui o profissional que segurava o resultado.
 
-SEO, estabilidade, tráfego consistente, processo bem desenhado — tudo que eu entregava era defesa. Manter a meta. Proteger o que já tínhamos. Construir muros para o negócio não cair.
+SEO, estabilidade, tráfego consistente, processo bem desenhado - tudo que eu entregava era defesa. Manter a meta. Proteger o que já tínhamos. Construir muros para o negócio não cair.
 
 E isso funcionou por muito tempo.
 
@@ -20,7 +20,7 @@ Entregava SEO sólido, CRM bem estruturado, tráfego pago com ROAS positivo. Mas
 
 Em 2022, durante uma reunião de planejamento anual na ADCOS, o CEO virou para mim e perguntou:
 
-— Gobira, o que você faria se tivesse verba ilimitada?
+- Gobira, o que você faria se tivesse verba ilimitada?
 
 Eu travei. Não porque não sabia a resposta. Porque nunca tinham me perguntado.
 
@@ -50,11 +50,13 @@ Como o goleiro que só é notado quando toma gol. Se você só é chamado nas cr
 
 Ninguém vai te dar um assento na mesa. Você puxa a cadeira.
 
-Comecei a preparar uma slide por semana com um insight baseado em dados. Sem pedir. Sem avisar. Só enviava no slack do CEO com o título: "Insight da semana — sugestão de teste."
+Comecei a preparar uma slide por semana com um insight baseado em dados. Sem pedir. Sem avisar. Só enviava no slack do CEO com o título: "Insight da semana - sugestão de teste."
 
 Na terceira semana, ele respondeu: "Isso é interessante. Vamos marcar para discutir."
 
 Na oitava semana, eu estava no planejamento trimestral.
+
+**Gráfico sugerido:** Timeline mostrando a progressão de 8 semanas - insight semanal -> resposta do CEO -> assento no planejamento. Uma linha reta com 8 marcos, onde os primeiros 3 são "sem resposta" e a partir do 4º começa o engajamento.
 
 ### Passo 2: Aprendi a traduzir meu trabalho em impacto de negócio
 
@@ -82,7 +84,7 @@ Esse "scouting" virou meu maior ativo. Virava pauta de reunião, direcionava tes
 
 Hoje, não me vejo mais como goleiro.
 
-Não desmerecendo a posição — goleiro bom vale ouro. Mas aprendi que Growth exige um time completo. Você precisa saber defender (entregar resultado consistente) e atacar (propor, questionar, inovar).
+Não desmerecendo a posição - goleiro bom vale ouro. Mas aprendi que Growth exige um time completo. Você precisa saber defender (entregar resultado consistente) e atacar (propor, questionar, inovar).
 
 Foi essa virada de chave que me levou a escalar o tráfego orgânico da Conexa de 300k para 900k sessões, reduzir CPL em 65% no G4 Educação e gerar crescimento na ADCOS.
 

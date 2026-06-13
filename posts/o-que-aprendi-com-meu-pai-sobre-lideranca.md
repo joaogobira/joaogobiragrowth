@@ -18,7 +18,7 @@ Meu pai é pedreiro. Não assina contrato com cláusulas. Quando ele diz que vai
 
 No mercado, vivemos cercados de desculpas: "ajuste de escopo", "imprevisto", "alinhamento interno". Mas no fundo, todo mundo sabe quando uma desculpa é só desculpa.
 
-Se você disse que ia entregar na terça, entregue na terça. Não importa o que aconteça. Cumpriu? Você é confiável. Não cumpriu? Sua palavra perde valor — e recuperar confiança é 10x mais caro do que mantê-la.
+Se você disse que ia entregar na terça, entregue na terça. Não importa o que aconteça. Cumpriu? Você é confiável. Não cumpriu? Sua palavra perde valor - e recuperar confiança é 10x mais caro do que mantê-la.
 
 Hoje, quando um profissional me entrega no prazo combinado, mesmo com dificuldades, esse profissional sobe no meu conceito mais do que aquele que entrega antes mas dá desculpas depois.
 
@@ -32,11 +32,13 @@ Ele me ensinou que **liderar é absorver**:
 
 - O erro do time é seu
 - A entrega atrasada é sua responsabilidade
-- O lead que não converteu — você deveria ter treinado melhor
+- O lead que não converteu - você deveria ter treinado melhor
 
 E o contrário também vale: quando o time acerta, o mérito é deles. Seu papel como líder foi criar as condições para o acerto acontecer.
 
 Já vi gestores que jogam o time debaixo do ônibus na primeira reunião com a diretoria. Esses não duram. Times não seguem líderes que não os protegem.
+
+**Imagem sugerida:** Uma ilustração conceitual de duas cenas. Cena 1 (errado): gestor apontando dedo para o time enquanto a diretoria observa. Cena 2 (certo): gestor de frente para a diretoria, protegendo o time que está atrás dele. A ilustração comunica visualmente "absorver a bronca vs. terceirizar a culpa".
 
 ---
 
@@ -52,9 +54,11 @@ Existe **suor, suor e mais suor até dar certo**. Você faz o básico bem feito,
 
 Meu pai nunca usou a palavra "consistência". Mas viveu ela.
 
-Acordar 5h da manhã para ir para obra, 30 anos seguidos, em chuva ou sol, doente ou saudável — isso não é sorte. Não é talento. É **construção diária**.
+Acordar 5h da manhã para ir para obra, 30 anos seguidos, em chuva ou sol, doente ou saudável - isso não é sorte. Não é talento. É **construção diária**.
 
-No marketing, é a mesma coisa. O profissional que publica conteúdo todo santo dia, que testa criativo todo santo dia, que otimiza campanha todo santo dia — esse profissional não depende de "insight genial". Ele constrói resultado no tempo.
+No marketing, é a mesma coisa. O profissional que publica conteúdo todo santo dia, que testa criativo todo santo dia, que otimiza campanha todo santo dia - esse profissional não depende de "insight genial". Ele constrói resultado no tempo.
+
+**Gráfico sugerido:** Duas curvas de crescimento. Curva A (atalho): sobe rápido no início, mas estagna e cai. Curva B (consistência): sobe devagar no começo, depois acelera e ultrapassa a curva A. Eixo X = "tempo (dias/semanas)", Eixo Y = "resultado acumulado". A curva consistente vence no longo prazo.
 
 ---
 

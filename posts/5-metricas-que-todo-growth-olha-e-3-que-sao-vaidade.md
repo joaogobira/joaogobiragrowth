@@ -6,7 +6,7 @@ Depois de 12 anos gerenciando milhões em verba e liderando times de performance
 
 Dashboard cheio de gráfico não é estratégia. É decoração.
 
-Aqui vai o filtro que eu uso diariamente — 5 métricas que realmente importam e 3 que parecem importantes mas são só vaidade.
+Aqui vai o filtro que eu uso diariamente - 5 métricas que realmente importam e 3 que parecem importantes mas são só vaidade.
 
 ---
 
@@ -18,15 +18,19 @@ Não é o CAC bruto. É **quantos dias** o cliente leva para gerar receita sufic
 
 Se seu CAC payback é maior que sua diferenciação de produto, você está queimando caixa. Simples.
 
+**Calculadora sugerida:** Uma mini-calculadora interativa onde o leitor insere CAC médio, ticket médio e margem, e o resultado mostra em quantos dias o payback acontece. Abaixo, uma escala de risco: verde (< 30 dias), amarelo (30-90 dias), vermelho (> 90 dias).
+
 ### 2. Receita por Visita (RPV)
 
 Essa é minha favorita. Ela junta marketing e produto em um número só.
 
 Tráfego aumentou mas a receita não? Olhe RPV. Conversão caiu mas o tráfego subiu? Olhe RPV. Essa métrica corta o ruído e mostra se você está **crescendo com qualidade**.
 
+**Gráfico sugerido:** Um gráfico de barras verticais comparando RPV de 3 períodos (ex: jan-mar, abr-jun, jul-set). Cada barra mostra os componentes: abaixo, "Tráfego" e "Receita", com a barra representando a divisão entre os dois = RPV.
+
 ### 3. Taxa de Retenção por Coorte
 
-Acompanhar retenção agregada é enganoso. Você precisa ver por **coorte** — os clientes que entraram em janeiro vs fevereiro vs março.
+Acompanhar retenção agregada é enganoso. Você precisa ver por **coorte** - os clientes que entraram em janeiro vs fevereiro vs março.
 
 Se a retenção está caindo coorte a coorte, você está adquirindo clientes cada vez menos qualificados. Ou seu produto está piorando. Nenhum dos dois é bom.
 
@@ -34,25 +38,29 @@ Se a retenção está caindo coorte a coorte, você está adquirindo clientes ca
 
 CPL bruto é quase inútil. 10 leads a R$10 cada valem menos que 3 leads a R$30 cada, se esses 3 compram.
 
-O que importa é quanto custa o lead que **avança no funil** — não o que preencheu um formulário e nunca mais abriu e-mail.
+O que importa é quanto custa o lead que **avança no funil** - não o que preencheu um formulário e nunca mais abriu e-mail.
+
+**Gráfico sugerido:** Funil de três estágios (Topo, Meio, Fundo). Cada estágio mostra o custo do lead naquela fase e a taxa de conversão para o próximo estágio. Visual de funil invertido com valores em reais.
 
 ### 5. Share of Search (participação nas buscas)
 
 Essa é minha métrica secreta de SEO. Em vez de ficar obcecado com posições individuais, olhe sua **participação total de voz nas buscas** do seu mercado.
 
-Se seu share cresce, você está ganhando relevância. Se cai, alguém está comendo seu espaço — mesmo que algumas keywords estejam estáveis.
+Se seu share cresce, você está ganhando relevância. Se cai, alguém está comendo seu espaço - mesmo que algumas keywords estejam estáveis.
+
+**Gráfico sugerido:** Gráfico de pizza mostrando a divisão do share de busca entre concorrentes no mercado. Sua fatia destacada em laranja, as demais em tons de cinza. Ao lado, uma seta indicando a tendência de crescimento ou queda.
 
 ---
 
 ## As 3 métricas que são só vaidade
 
-### ❌ Impressões
+### 1. Impressões
 
-Impressão não paga conta. Impressionante quantas reuniões ainda começam com "tivemos 2 milhões de impressões". E daí? Impressão é o beijo no primeiro date — não significa que vai rolar um segundo.
+Impressão não paga conta. Impressionante quantas reuniões ainda começam com "tivemos 2 milhões de impressões". E daí? Impressão é o beijo no primeiro date - não significa que vai rolar um segundo.
 
 **Olhe CTR e engajamento real** no lugar de impressões.
 
-### ❌ Taxa de Abertura de E-mail
+### 2. Taxa de Abertura de E-mail
 
 É a métrica mais fraudada do marketing. Apple abriu email? Apple Mail Privacy Protection abriu sozinho. Cliente abriu? Google cortou o pixel.
 
@@ -60,7 +68,7 @@ Fora que abrir email não é ação. Se 40% abriram mas 0,5% clicaram, você tem
 
 **Olhe CTR e conversão do email**, não abertura.
 
-### ❌ Seguidores
+### 3. Seguidores
 
 Número de seguidores é o novo "hit" da internet dos anos 2000. Não significa nada se não houver engajamento, conversão ou distribuição.
 

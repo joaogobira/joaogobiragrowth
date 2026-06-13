@@ -102,12 +102,12 @@ const checkAuth = (req, res, next) => {
   const cfg = readConfig();
   const password = cfg.STUDIO_PASSWORD || 'gobira';
 
-  // Exceções de rotas livres (login, blog)
-  if (req.path === '/api/login' || req.path === '/login.html') {
+  // Exceções de rotas livres (login, blog, newsletter)
+  if (req.path === '/api/login' || req.path === '/login.html' || req.path === '/api/newsletter') {
     return next();
   }
 
-  if (req.path.startsWith('/blog/') || req.path.startsWith('/posts/')) {
+  if (req.path.startsWith('/blog/') || req.path.startsWith('/posts/') || req.path === '/sitemap.xml' || req.path === '/robots.txt') {
     return next();
   }
 
@@ -3650,6 +3650,27 @@ function serveStudio(req, res) {
 
 app.get('/', serveStudio);
 app.get('/studio.html', serveStudio);
+
+// ── Rotas amigáveis do Blog ───────────────────────────────────────────────
+app.get('/blog/:slug', (req, res) => {
+  res.sendFile(path.join(BASE_DIR, 'blog', 'post.html'));
+});
+
+// ── Newsletter / Lead Capture ─────────────────────────────────────────────
+app.post('/api/newsletter', (req, res) => {
+  const { name, email } = req.body || {};
+  if (!email) return res.status(400).json({ error: 'Email obrigatório' });
+
+  const logLine = `[${new Date().toISOString()}] ${name || 'anon'} <${email}>`;
+  try {
+    fs.appendFileSync(path.join(BASE_DIR, 'newsletter-leads.txt'), logLine + '\n', 'utf8');
+    console.log('  ✉ Novo lead:', logLine);
+    res.json({ ok: true, message: 'Inscrição registrada!' });
+  } catch (err) {
+    console.error('Erro ao salvar lead:', err);
+    res.status(500).json({ error: 'Erro ao registrar inscrição' });
+  }
+});
 
 // ── Serve arquivos estáticos (imagens, fontes, etc.) ──────────────────────
 // index: false evita que index.html do site sobrescreva a rota /

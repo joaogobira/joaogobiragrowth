@@ -22,3 +22,5 @@ Allow: /
 
 User-agent: Bingbot
 Allow: /
+
+Sitemap: https://joaogobira.com/sitemap.xml
