@@ -41,6 +41,14 @@ async function loadPostsList() {
     window._allPosts = posts;
     renderPosts(posts);
     setupFilters(posts);
+
+    // Auto-filter from URL param (e.g. ?cat=seo)
+    const params = new URLSearchParams(window.location.search);
+    const catParam = params.get('cat');
+    if (catParam) {
+      const btn = document.querySelector(`.filter-btn[data-category="${catParam}"]`);
+      if (btn) btn.click();
+    }
   } catch (err) {
     grid.innerHTML = '<div class="empty-state">Nenhum post encontrado.</div>';
   }
@@ -135,8 +143,22 @@ async function loadPost() {
     // Render header
     const headerEl = document.getElementById('post-header');
     const cat = CATEGORY_MAP[postMeta.category] || { label: postMeta.category, cssClass: 'tag-growth' };
+    const pubYear = new Date(postMeta.date + 'T12:00:00').getFullYear();
 
-    headerEl.innerHTML = `
+    // Breadcrumb
+    const breadcrumb = `
+      <div class="breadcrumb">
+        <a href="../">Home</a>
+        <span>›</span>
+        <a href="index.html">Blog</a>
+        <span>›</span>
+        <a href="index.html?cat=${postMeta.category}" class="breadcrumb-cat">${cat.label}</a>
+        <span>›</span>
+        <span>${postMeta.title.substring(0, 40)}...</span>
+      </div>
+    `;
+
+    headerEl.innerHTML = breadcrumb + `
       <a href="index.html" class="back-link">← Voltar ao Blog</a>
       <span class="post-tag ${cat.cssClass}">${cat.label}</span>
       <h1>${postMeta.title}</h1>
@@ -147,8 +169,8 @@ async function loadPost() {
       </div>
     `;
 
-    // Update page title
-    document.title = postMeta.title + ' — João Gobira Blog';
+    // Update page title with SEO-friendly format
+    document.title = postMeta.title + ' | ' + cat.label + ' | João Gobira Blog (' + pubYear + ')';
 
     // Render markdown to HTML using marked.js
     container.innerHTML = marked.parse(mdText);
@@ -159,11 +181,20 @@ async function loadPost() {
     // Inject author bio section
     injectAuthorBio(container);
 
+    // Inject related posts (same category)
+    injectRelatedPosts(container, posts, postMeta);
+
+    // Inject recent posts (last 3, excluding current)
+    injectRecentPosts(container, posts, postMeta);
+
     // Inject Open Graph, Twitter Cards, canonical
     injectMetaTags(postMeta);
 
     // Inject BlogPosting schema for AI-SEO
     injectPostSchema(postMeta, mdText);
+
+    // Inject meta description tag
+    injectMetaDescription(postMeta);
 
   } catch (err) {
     container.innerHTML = '<p>Erro ao carregar o post.</p>';
@@ -241,6 +272,70 @@ function injectAuthorBio(container) {
   container.appendChild(bio);
 }
 
+function injectRelatedPosts(container, posts, currentPost) {
+  const related = posts
+    .filter(p => p.slug !== currentPost.slug && p.category === currentPost.category)
+    .slice(0, 3);
+
+  if (related.length === 0) return;
+
+  const section = document.createElement('div');
+  section.className = 'related-posts';
+  section.innerHTML = `
+    <h3 class="related-posts-title">Leia também</h3>
+    <div class="related-posts-grid">
+      ${related.map(p => {
+        const c = CATEGORY_MAP[p.category] || { label: p.category, cssClass: 'tag-growth' };
+        return `
+          <a href="post.html?post=${p.slug}" class="related-card">
+            <span class="related-card-tag ${c.cssClass}">${c.label}</span>
+            <span class="related-card-title">${p.title}</span>
+            <span class="related-card-date">${formatDate(p.date)}</span>
+          </a>
+        `;
+      }).join('')}
+    </div>
+  `;
+  container.appendChild(section);
+}
+
+function injectRecentPosts(container, posts, currentPost) {
+  const recent = posts
+    .filter(p => p.slug !== currentPost.slug)
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, 3);
+
+  if (recent.length === 0) return;
+
+  const section = document.createElement('div');
+  section.className = 'recent-posts';
+  section.innerHTML = `
+    <h3 class="recent-posts-title">Últimos artigos</h3>
+    <div class="recent-posts-grid">
+      ${recent.map(p => {
+        const c = CATEGORY_MAP[p.category] || { label: p.category, cssClass: 'tag-growth' };
+        return `
+          <a href="post.html?post=${p.slug}" class="recent-card">
+            <span class="recent-card-tag ${c.cssClass}">${c.label}</span>
+            <span class="recent-card-title">${p.title}</span>
+            <span class="recent-card-date">${formatDate(p.date)}</span>
+          </a>
+        `;
+      }).join('')}
+    </div>
+  `;
+  container.appendChild(section);
+}
+
+function injectMetaDescription(meta) {
+  const existing = document.querySelector('meta[name="description"]');
+  if (existing) existing.remove();
+  const tag = document.createElement('meta');
+  tag.name = 'description';
+  tag.content = meta.excerpt;
+  document.head.appendChild(tag);
+}
+
 function postUrl(slug) {
   var base = window.location.pathname.replace(/\/blog\/.*$/, '');
   return base + '/blog/post.html?post=' + slug;
@@ -274,35 +369,53 @@ function injectMetaTags(meta) {
 }
 
 function injectPostSchema(meta, bodyText) {
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "headline": meta.title,
-    "description": meta.excerpt,
-    "datePublished": meta.date,
-    "dateModified": meta.date,
-    "author": {
-      "@type": "Person",
-      "name": "João Gobira",
-      "jobTitle": "Head de Growth & Marketing",
-      "url": "https://joaogobira.com"
-    },
-    "publisher": {
-      "@type": "Person",
-      "name": "João Gobira"
-    },
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": window.location.origin + postUrl(meta.slug)
-    },
-    "wordCount": bodyText.split(/\s+/).length,
-    "articleSection": meta.category
-  };
+  const origin = window.location.origin;
+  const url = origin + postUrl(meta.slug);
 
-  const script = document.createElement('script');
-  script.type = 'application/ld+json';
-  script.textContent = JSON.stringify(schema);
-  document.head.appendChild(script);
+  const schemas = [
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": meta.title,
+      "description": meta.excerpt,
+      "image": origin + "/blog/images/joao-gobira.jpg",
+      "datePublished": meta.date,
+      "dateModified": meta.date,
+      "author": {
+        "@type": "Person",
+        "name": "João Gobira",
+        "jobTitle": "Head de Growth & Marketing",
+        "url": "https://joaogobira.com"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "João Gobira"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": url
+      },
+      "wordCount": bodyText.split(/\s+/).length,
+      "articleSection": meta.category
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": origin + "/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": origin + "/blog/" },
+        { "@type": "ListItem", "position": 3, "name": meta.category, "item": origin + "/blog/?cat=" + meta.category },
+        { "@type": "ListItem", "position": 4, "name": meta.title }
+      ]
+    }
+  ];
+
+  schemas.forEach(schema => {
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(schema);
+    document.head.appendChild(script);
+  });
 }
 
 // ── Init ──

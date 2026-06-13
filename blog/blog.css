@@ -715,6 +715,102 @@ nav {
 }
 .back-link:hover { color: var(--fire); }
 
+/* ── BREADCRUMBS ── */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  font-family: var(--font-data);
+  font-size: 11px;
+  color: var(--ash);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.breadcrumb a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.breadcrumb a:hover { color: var(--fire); }
+.breadcrumb span { color: var(--text-sub); }
+
+/* ── RELATED / RECENT POSTS ── */
+.related-posts, .recent-posts {
+  margin-top: 60px;
+  padding-top: 32px;
+  border-top: 1px solid var(--iron);
+}
+.related-posts-title, .recent-posts-title {
+  font-family: var(--font-disp);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--bone);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.related-posts-grid, .recent-posts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.related-card, .recent-card {
+  background: var(--carbon);
+  border: 1px solid var(--iron);
+  border-radius: 10px;
+  padding: 20px;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.related-card::before, .recent-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--fire), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.related-card:hover, .recent-card:hover {
+  border-color: rgba(200,57,26,0.35);
+}
+.related-card:hover::before, .recent-card:hover::before { opacity: 1; }
+.related-card-tag, .recent-card-tag {
+  font-size: 9px;
+  font-weight: 600;
+  font-family: var(--font-data);
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  width: fit-content;
+}
+.related-card-title, .recent-card-title {
+  font-family: var(--font-cond);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--bone);
+  line-height: 1.25;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.related-card-date, .recent-card-date {
+  font-size: 10px;
+  color: var(--muted);
+  font-family: var(--font-data);
+}
+
+@media (max-width: 600px) {
+  .related-posts-grid, .recent-posts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ── FOOTER ── */
 footer {
   border-top: 1px solid var(--iron);
