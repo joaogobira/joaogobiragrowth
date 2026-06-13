@@ -107,7 +107,7 @@ const checkAuth = (req, res, next) => {
     return next();
   }
 
-  if (req.path.startsWith('/blog/') || req.path.startsWith('/posts/') || req.path === '/sitemap.xml' || req.path === '/robots.txt') {
+  if (req.path.startsWith('/blog/') || req.path.startsWith('/posts/') || req.path === '/sitemap.xml' || req.path === '/robots.txt' || req.path === '/404.html') {
     return next();
   }
 

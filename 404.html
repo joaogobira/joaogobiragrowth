@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redirecionando...</title>
+<style>
+  body { background: #070707; color: #EDE8E0; font-family: 'Barlow', sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; }
+  .msg { max-width: 400px; padding: 40px; }
+  h1 { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 2px; color: #C8391A; margin-bottom: 12px; }
+  p { color: #A09890; font-weight: 300; font-size: 15px; line-height: 1.65; }
+  a { color: #C8391A; text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="msg">
+  <h1>Redirecionando...</h1>
+  <p>Se o redirecionamento não acontecer automaticamente, <a href="/blog/">clique aqui</a>.</p>
+</div>
+<script>
+(function() {
+  var match = window.location.pathname.match(/^\/blog\/(.+)$/);
+  if (match) {
+    window.location.replace('/blog/post.html?post=' + encodeURIComponent(match[1]));
+  }
+})();
+</script>
+</body>
+</html>

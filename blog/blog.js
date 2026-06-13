@@ -58,7 +58,7 @@ function renderPosts(posts) {
     const cat = CATEGORY_MAP[post.category] || { label: post.category, cssClass: 'tag-growth' };
     const isFeatured = i === 0 ? ' featured' : '';
     return `
-      <a href="/blog/${post.slug}" class="post-card${isFeatured} fade-in">
+      <a href="post.html?post=${post.slug}" class="post-card${isFeatured} fade-in">
         <span class="post-tag ${cat.cssClass}">${cat.label}</span>
         <p class="post-title">${post.title}</p>
         <p class="post-excerpt">${post.excerpt}</p>
@@ -241,12 +241,12 @@ function injectAuthorBio(container) {
   container.appendChild(bio);
 }
 
-function friendlyUrl(slug) {
-  return `/blog/${slug}`;
+function postUrl(slug) {
+  return `/blog/post.html?post=${slug}`;
 }
 
 function injectMetaTags(meta) {
-  const url = friendlyUrl(meta.slug);
+  const url = postUrl(meta.slug);
   const domain = 'https://joaogobira.com';
 
   const tags = [
@@ -292,7 +292,7 @@ function injectPostSchema(meta, bodyText) {
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": 'https://joaogobira.com' + friendlyUrl(meta.slug)
+      "@id": 'https://joaogobira.com' + postUrl(meta.slug)
     },
     "wordCount": bodyText.split(/\s+/).length,
     "articleSection": meta.category
