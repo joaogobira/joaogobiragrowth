@@ -19,9 +19,13 @@
 </div>
 <script>
 (function() {
-  var match = window.location.pathname.match(/^\/blog\/(.+)$/);
+  var path = window.location.pathname;
+  var match = path.match(/\/blog\/(.+)$/);
   if (match) {
-    window.location.replace('/blog/post.html?post=' + encodeURIComponent(match[1]));
+    var slug = match[1].split('/')[0];
+    var base = path.replace(/\/blog\/.*$/, '');
+    var target = base + '/blog/post.html?post=' + encodeURIComponent(slug);
+    window.location.href = target;
   }
 })();
 </script>

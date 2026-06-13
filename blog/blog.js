@@ -108,7 +108,7 @@ async function loadPost() {
   let slug = params.get('post');
 
   if (!slug) {
-    const match = window.location.pathname.match(/^\/blog\/(.+)$/);
+    const match = window.location.pathname.match(/\/blog\/([^\/\?]+)/);
     if (match) slug = match[1];
   }
 
@@ -242,25 +242,26 @@ function injectAuthorBio(container) {
 }
 
 function postUrl(slug) {
-  return `/blog/post.html?post=${slug}`;
+  var base = window.location.pathname.replace(/\/blog\/.*$/, '');
+  return base + '/blog/post.html?post=' + slug;
 }
 
 function injectMetaTags(meta) {
   const url = postUrl(meta.slug);
-  const domain = 'https://joaogobira.com';
+  const origin = window.location.origin;
 
   const tags = [
-    ['link', 'canonical', domain + url],
+    ['link', 'canonical', origin + url],
     ['meta', 'og:type', 'article'],
-    ['meta', 'og:url', domain + url],
+    ['meta', 'og:url', origin + url],
     ['meta', 'og:title', meta.title + ' — João Gobira'],
     ['meta', 'og:description', meta.excerpt],
     ['meta', 'og:site_name', 'João Gobira'],
-    ['meta', 'og:image', domain + '/blog/images/joao-gobira.jpg'],
+    ['meta', 'og:image', origin + '/blog/images/joao-gobira.jpg'],
     ['meta', 'twitter:card', 'summary_large_image'],
     ['meta', 'twitter:title', meta.title],
     ['meta', 'twitter:description', meta.excerpt],
-    ['meta', 'twitter:image', domain + '/blog/images/joao-gobira.jpg'],
+    ['meta', 'twitter:image', origin + '/blog/images/joao-gobira.jpg'],
   ];
 
   tags.forEach(([el, prop, content]) => {
@@ -292,7 +293,7 @@ function injectPostSchema(meta, bodyText) {
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": 'https://joaogobira.com' + postUrl(meta.slug)
+      "@id": window.location.origin + postUrl(meta.slug)
     },
     "wordCount": bodyText.split(/\s+/).length,
     "articleSection": meta.category

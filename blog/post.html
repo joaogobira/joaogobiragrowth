@@ -10,6 +10,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="blog.css">
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+(function(){
+  var params = new URLSearchParams(window.location.search);
+  if (!params.get('post')) {
+    var match = window.location.pathname.match(/\/blog\/([^\/\?]+)/);
+    if (match) {
+      window.location.href = 'post.html?post=' + encodeURIComponent(match[1]);
+    }
+  }
+})();
+</script>
 </head>
 <body>
 

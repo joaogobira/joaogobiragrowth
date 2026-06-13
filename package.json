@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "exportar": "node exportar_slides.js",
-    "studio": "node studio-server.js"
+    "studio": "node studio-server.js",
+    "site": "node site-server.js",
+    "dev": "node site-server.js"
   },
   "repository": {
     "type": "git",
