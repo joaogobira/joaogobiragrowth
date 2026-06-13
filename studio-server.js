@@ -102,8 +102,12 @@ const checkAuth = (req, res, next) => {
   const cfg = readConfig();
   const password = cfg.STUDIO_PASSWORD || 'gobira';
 
-  // Exceções de rotas livres (login)
+  // Exceções de rotas livres (login, blog)
   if (req.path === '/api/login' || req.path === '/login.html') {
+    return next();
+  }
+
+  if (req.path.startsWith('/blog/') || req.path.startsWith('/posts/')) {
     return next();
   }
 
