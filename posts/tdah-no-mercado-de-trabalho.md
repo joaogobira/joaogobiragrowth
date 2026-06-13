@@ -71,7 +71,7 @@ Troquei lista por **blocos de tempo**:
 
 Dentro de cada bloco, faço o que é possível. Se termina o bloco e não acabou, passou para amanhã ou para o bloco de reserva.
 
-**Imagem sugerida:** Um grid visual da agenda diária dividido em blocos coloridos. Bloco "Trabalho Profundo" em azul escuro (sem distrações), "Reuniões" em laranja, "Execução" em verde, "Reserva" em cinza. Cada bloco com o horário e uma breve descrição.
+![Sistema de blocos de tempo: agenda dividida por tipo de atividade](images/tdah-blocos-tempo.png)
 
 ### Sistema 3: Gatilhos físicos
 

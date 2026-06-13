@@ -36,7 +36,7 @@ Hoje entendo: respeitar a hierarquia não é fraqueza. É inteligência. O cara 
 
 **No trabalho:** quando entrei no G4 Educação, eu era bom em SEO mas não entendia de lançamentos. Em vez de tentar "descobrir sozinho", perguntei para quem já tinha feito. Aprendi em 2 semanas o que levaria 6 meses para descobrir no erro.
 
-**Gráfico sugerido:** Curva de aprendizado comparativa. Eixo X = tempo (semanas), Eixo Y = conhecimento acumulado. Duas linhas: uma mostrando aprendizado solo subindo devagar (6 meses para dominar), outra mostrando aprendizado orientado subindo rápido (2 semanas). Um gráfico simples de linhas.
+![Curva de aprendizado: solo vs orientado](images/tatame-curva-aprendizado.png)
 
 ---
 

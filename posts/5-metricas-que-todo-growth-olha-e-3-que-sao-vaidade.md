@@ -26,7 +26,7 @@ Essa é minha favorita. Ela junta marketing e produto em um número só.
 
 Tráfego aumentou mas a receita não? Olhe RPV. Conversão caiu mas o tráfego subiu? Olhe RPV. Essa métrica corta o ruído e mostra se você está **crescendo com qualidade**.
 
-**Gráfico sugerido:** Um gráfico de barras verticais comparando RPV de 3 períodos (ex: jan-mar, abr-jun, jul-set). Cada barra mostra os componentes: abaixo, "Tráfego" e "Receita", com a barra representando a divisão entre os dois = RPV.
+![Receita por Visita (RPV) - crescendo com qualidade](images/metricas-rpv.png)
 
 ### 3. Taxa de Retenção por Coorte
 
@@ -40,7 +40,7 @@ CPL bruto é quase inútil. 10 leads a R$10 cada valem menos que 3 leads a R$30 
 
 O que importa é quanto custa o lead que **avança no funil** - não o que preencheu um formulário e nunca mais abriu e-mail.
 
-**Gráfico sugerido:** Funil de três estágios (Topo, Meio, Fundo). Cada estágio mostra o custo do lead naquela fase e a taxa de conversão para o próximo estágio. Visual de funil invertido com valores em reais.
+![Custo por Lead Qualificado (CPLQ) - o que realmente importa](images/metricas-funil-cplq.png)
 
 ### 5. Share of Search (participação nas buscas)
 
@@ -48,7 +48,7 @@ Essa é minha métrica secreta de SEO. Em vez de ficar obcecado com posições i
 
 Se seu share cresce, você está ganhando relevância. Se cai, alguém está comendo seu espaço - mesmo que algumas keywords estejam estáveis.
 
-**Gráfico sugerido:** Gráfico de pizza mostrando a divisão do share de busca entre concorrentes no mercado. Sua fatia destacada em laranja, as demais em tons de cinza. Ao lado, uma seta indicando a tendência de crescimento ou queda.
+![Share of Search - sua participação nas buscas do mercado](images/metricas-share-search.png)
 
 ---
 

@@ -58,7 +58,7 @@ Acordar 5h da manhã para ir para obra, 30 anos seguidos, em chuva ou sol, doent
 
 No marketing, é a mesma coisa. O profissional que publica conteúdo todo santo dia, que testa criativo todo santo dia, que otimiza campanha todo santo dia - esse profissional não depende de "insight genial". Ele constrói resultado no tempo.
 
-**Gráfico sugerido:** Duas curvas de crescimento. Curva A (atalho): sobe rápido no início, mas estagna e cai. Curva B (consistência): sobe devagar no começo, depois acelera e ultrapassa a curva A. Eixo X = "tempo (dias/semanas)", Eixo Y = "resultado acumulado". A curva consistente vence no longo prazo.
+![Atalho vs Consistência: quem vence no longo prazo](images/pai-atalho-vs-consistencia.png)
 
 ---
 

@@ -56,7 +56,7 @@ Na terceira semana, ele respondeu: "Isso é interessante. Vamos marcar para disc
 
 Na oitava semana, eu estava no planejamento trimestral.
 
-**Gráfico sugerido:** Timeline mostrando a progressão de 8 semanas - insight semanal -> resposta do CEO -> assento no planejamento. Uma linha reta com 8 marcos, onde os primeiros 3 são "sem resposta" e a partir do 4º começa o engajamento.
+![Timeline de 8 semanas: do insight ao assento na mesa](images/goleiro-timeline-8-semanas.png)
 
 ### Passo 2: Aprendi a traduzir meu trabalho em impacto de negócio
 

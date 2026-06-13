@@ -21,7 +21,7 @@ Antes de qualquer ação, passamos 3 semanas só entendendo o cenário:
 
 Esse diagnóstico virou nosso roadmap para os próximos 11 meses.
 
-**Imagem sugerida:** Um "raio-x" visual de 4 portais separados com setas quebradas entre eles. Mostrando conteúdo duplicado entre os portais (mesmo ícone de artigo aparecendo em dois lugares). Um diagnóstico visual da desorganização inicial.
+![Diagnóstico inicial: 4 portais isolados com conteúdo duplicado](images/conexa-seo-diagnostico-inicial.png)
 
 ---
 
@@ -45,7 +45,7 @@ Criamos uma arquitetura de informação baseada em **jornada do paciente**:
 
 Cada categoria virou um **cluster de conteúdo**.
 
-**Gráfico sugerido:** Diagrama de árvore mostrando a nova arquitetura. Raiz = domínio único. 4 galhos principais (Condições, Tratamentos, Especialidades, Guias). Cada galho com sub-ramos representando os clusters de conteúdo.
+![Arquitetura de clusters: domínio único com 4 categorias](images/conexa-seo-arquitetura-clusters.png)
 
 ---
 
@@ -90,7 +90,7 @@ Identificamos 50+ oportunidades de featured snippets e otimizamos o conteúdo pa
 
 ## Os números que importam
 
-**Gráfico sugerido:** Um gráfico de linha do tempo (11 meses). Eixo X = meses (set/24 a ago/25). Eixo Y = sessões/mês (de 0 a 1M). Três fases marcadas no gráfico: Consolidação (meses 1-3), Clusterização (meses 4-7), Autoridade (meses 8-11). Curva subindo de 300k para 900k com aceleração visível na fase de Autoridade.
+![Timeline 11 meses: 300k para 900k sessões/mês](images/conexa-seo-timeline-11-meses.png)
 
 ---
 

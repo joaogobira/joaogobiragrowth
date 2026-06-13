@@ -22,7 +22,7 @@ O G4 Educação operava com:
 
 O primeiro diagnóstico foi simples: estávamos gastando demais para atrair gente que não estava pronta para comprar.
 
-**Gráfico sugerido:** Um funil largo no topo com setas grossas representando todo o tráfego entrando, mas um gargalo estreito no fundo. Na entrada: "R$1M/mês - CPL R$20". Na saída: "Leads qualificados". Visual de desperdício com área grande perdida nas laterais.
+![Funil de mídia: gargalo na qualificação de leads](images/cpl-funil-desperdicio.png)
 
 ---
 
@@ -40,7 +40,7 @@ Depois, criamos 3 camadas de segmentação:
 
 Cada camada com criativo, copy e CTA diferentes. O CAC do fundo de funil era 40% menor que o do topo - mas sem o topo, o fundo secava.
 
-**Imagem sugerida:** Três blocos empilhados verticalmente (Topo, Meio, Fundo). Em cada bloco: o tipo de conteúdo (Educacional, Webinar, Oferta), o CTA correspondente e o CPL relativo (R$20, R$12, R$7). Setas conectando os blocos com taxas de conversão entre estágios.
+![Segmentação por estágio de decisão: 3 camadas](images/cpl-segmentacao-3-camadas.png)
 
 ### Alavanca 2: Criativos com linguagem nativa
 
@@ -96,7 +96,7 @@ Deixamos o Meta Ads otimizar sozinho por 2 semanas. CPL subiu 25%. Voltei para a
 
 ## O resultado final
 
-**Gráfico sugerido:** Antes e depois em formato de cards lado a lado. Card esquerdo (Antes): CPL R$20, 8k leads/mês, ROAS 3.5x. Card direito (Depois): CPL R$7, 14k leads/mês, ROAS 8.2x. Setas verdes indicando melhoria. Entre os cards, um grande "-65%" destacado.
+![Antes vs Depois: CPL, Leads e ROAS](images/cpl-antes-depois.png)
 
 ---
 
