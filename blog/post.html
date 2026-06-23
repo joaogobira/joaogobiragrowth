@@ -8,24 +8,13 @@
 <!-- Favicons -->
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#C8391A">
-<!-- Base: garante que todos os caminhos relativos resolvam a partir de /blog/ -->
+<!-- Base: caminhos relativos resolvem a partir de /blog/ -->
 <base href="/blog/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="blog.css">
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script>
-(function(){
-  var params = new URLSearchParams(window.location.search);
-  if (!params.get('post')) {
-    var match = window.location.pathname.match(/\/blog\/([^\/\?]+)/);
-    if (match) {
-      window.location.replace('/blog/post/?post=' + encodeURIComponent(match[1]));
-    }
-  }
-})();
-</script>
 </head>
 <body>
 

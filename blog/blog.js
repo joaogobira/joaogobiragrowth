@@ -66,7 +66,7 @@ function renderPosts(posts) {
     const cat = CATEGORY_MAP[post.category] || { label: post.category, cssClass: 'tag-growth' };
     const isFeatured = i === 0 ? ' featured' : '';
     return `
-      <a href="/blog/post/?post=${post.slug}" class="post-card${isFeatured} fade-in">
+      <a href="/blog/${post.slug}/" class="post-card${isFeatured} fade-in">
         <span class="post-tag ${cat.cssClass}">${cat.label}</span>
         <p class="post-title">${post.title}</p>
         <p class="post-excerpt">${post.excerpt}</p>
@@ -148,11 +148,11 @@ async function loadPost() {
     // Breadcrumb
     const breadcrumb = `
       <div class="breadcrumb">
-        <a href="../">Home</a>
+        <a href="/">Home</a>
         <span>›</span>
-        <a href="index.html">Blog</a>
+        <a href="/blog/">Blog</a>
         <span>›</span>
-        <a href="/blog/" class="breadcrumb-cat">${cat.label}</a>
+        <a href="/blog/?cat=${postMeta.category}" class="breadcrumb-cat">${cat.label}</a>
         <span>›</span>
         <span>${postMeta.title.substring(0, 40)}...</span>
       </div>
@@ -287,7 +287,7 @@ function injectRelatedPosts(container, posts, currentPost) {
       ${related.map(p => {
         const c = CATEGORY_MAP[p.category] || { label: p.category, cssClass: 'tag-growth' };
         return `
-          <a href="/blog/post/?post=${p.slug}" class="related-card">
+          <a href="/blog/${p.slug}/" class="related-card">
             <span class="related-card-tag ${c.cssClass}">${c.label}</span>
             <span class="related-card-title">${p.title}</span>
             <span class="related-card-date">${formatDate(p.date)}</span>
@@ -315,7 +315,7 @@ function injectRecentPosts(container, posts, currentPost) {
       ${recent.map(p => {
         const c = CATEGORY_MAP[p.category] || { label: p.category, cssClass: 'tag-growth' };
         return `
-          <a href="/blog/post/?post=${p.slug}" class="recent-card">
+          <a href="/blog/${p.slug}/" class="recent-card">
             <span class="recent-card-tag ${c.cssClass}">${c.label}</span>
             <span class="recent-card-title">${p.title}</span>
             <span class="recent-card-date">${formatDate(p.date)}</span>
@@ -337,7 +337,7 @@ function injectMetaDescription(meta) {
 }
 
 function postUrl(slug) {
-  return '/blog/post/?post=' + slug;
+  return '/blog/' + slug + '/';
 }
 
 function injectMetaTags(meta) {
