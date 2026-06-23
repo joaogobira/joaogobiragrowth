@@ -1,7 +1,4 @@
 {
-  "rewrites": [
-    { "source": "/blog/:slug", "destination": "/blog/post.html" }
-  ],
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": true
 }
