@@ -343,6 +343,7 @@ function postUrl(slug) {
 function injectMetaTags(meta) {
   const url = postUrl(meta.slug);
   const origin = window.location.origin;
+  const image = meta.image ? (origin + '/blog/' + meta.image) : (origin + '/blog/images/joao-gobira.jpg');
 
   const tags = [
     ['link', 'canonical', origin + url],
@@ -351,11 +352,11 @@ function injectMetaTags(meta) {
     ['meta', 'og:title', meta.title + ' — João Gobira'],
     ['meta', 'og:description', meta.excerpt],
     ['meta', 'og:site_name', 'João Gobira'],
-    ['meta', 'og:image', origin + '/blog/images/joao-gobira.jpg'],
+    ['meta', 'og:image', image],
     ['meta', 'twitter:card', 'summary_large_image'],
     ['meta', 'twitter:title', meta.title],
     ['meta', 'twitter:description', meta.excerpt],
-    ['meta', 'twitter:image', origin + '/blog/images/joao-gobira.jpg'],
+    ['meta', 'twitter:image', image],
   ];
 
   tags.forEach(([el, prop, content]) => {
@@ -370,6 +371,7 @@ function injectMetaTags(meta) {
 function injectPostSchema(meta, bodyText) {
   const origin = window.location.origin;
   const url = origin + postUrl(meta.slug);
+  const image = meta.image ? (origin + '/blog/' + meta.image) : (origin + '/blog/images/joao-gobira.jpg');
 
   const schemas = [
     {
@@ -377,18 +379,24 @@ function injectPostSchema(meta, bodyText) {
       "@type": "BlogPosting",
       "headline": meta.title,
       "description": meta.excerpt,
-      "image": origin + "/blog/images/joao-gobira.jpg",
+      "image": image,
       "datePublished": meta.date,
       "dateModified": meta.date,
       "author": {
         "@type": "Person",
         "name": "João Gobira",
         "jobTitle": "Head de Growth & Marketing",
-        "url": "https://joaogobira.com"
+        "url": "https://joaogobira.vercel.app/",
+        "image": origin + "/blog/images/joao-gobira.jpg"
       },
       "publisher": {
-        "@type": "Person",
-        "name": "João Gobira"
+        "@type": "Organization",
+        "name": "João Gobira",
+        "url": "https://joaogobira.vercel.app/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": origin + "/favicon.svg"
+        }
       },
       "mainEntityOfPage": {
         "@type": "WebPage",

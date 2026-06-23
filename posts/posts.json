@@ -5,7 +5,8 @@
     "excerpt": "Passei 15 anos sendo o profissional que executa — o goleiro que segura o resultado. Até que entendi que Growth não é defesa. É ataque. E que eu precisava aprender a marcar gol.",
     "date": "2026-06-10",
     "category": "carreira",
-    "readTime": "8 min de leitura"
+    "readTime": "8 min de leitura",
+    "image": "images/goleiro-timeline-8-semanas.png"
   },
   {
     "slug": "o-que-o-tatame-me-ensinou-sobre-lideranca",
@@ -13,7 +14,8 @@
     "excerpt": "Três faixas, duas promoções e uma certeza: o jiu-jitsu me preparou para as reuniões mais difíceis da minha carreira muito antes de eu sentar nelas.",
     "date": "2026-06-13",
     "category": "growth",
-    "readTime": "10 min de leitura"
+    "readTime": "10 min de leitura",
+    "image": "images/tatame-curva-aprendizado.png"
   },
   {
     "slug": "5-metricas-que-todo-growth-olha-e-3-que-sao-vaidade",
@@ -21,7 +23,8 @@
     "excerpt": "Depois de 12 anos gerenciando milhões em verba e liderando times de performance, aprendi na prática quais números realmente importam e quais são só enfeite de dashboard.",
     "date": "2026-06-08",
     "category": "growth",
-    "readTime": "7 min de leitura"
+    "readTime": "7 min de leitura",
+    "image": "images/metricas-rpv.png"
   },
   {
     "slug": "de-300k-para-900k-sessoes",
@@ -29,7 +32,8 @@
     "excerpt": "A história real de 11 meses de migração de portais, clusters de conteúdo e estratégia de autoridade que consolidou a Conexa como referência em saúde digital no Brasil.",
     "date": "2026-06-05",
     "category": "seo",
-    "readTime": "12 min de leitura"
+    "readTime": "12 min de leitura",
+    "image": "images/conexa-seo-timeline-11-meses.png"
   },
   {
     "slug": "cpl-reduzido-em-65-como-gerenciei-r1m-por-mes",
@@ -37,7 +41,8 @@
     "excerpt": "O processo de otimização contínua de criativos, segmentação e estrutura de campanhas que levou o G4 Educação de R$20 para R$7 por lead qualificado.",
     "date": "2026-06-01",
     "category": "performance",
-    "readTime": "9 min de leitura"
+    "readTime": "9 min de leitura",
+    "image": "images/cpl-antes-depois.png"
   },
   {
     "slug": "tdah-no-mercado-de-trabalho",
@@ -45,7 +50,8 @@
     "excerpt": "Luto com TDAH há anos. Não é um superpoder. Não é uma desculpa. É uma condição real que me obrigou a construir sistemas que hoje me tornam mais forte como profissional.",
     "date": "2026-05-28",
     "category": "carreira",
-    "readTime": "8 min de leitura"
+    "readTime": "8 min de leitura",
+    "image": "images/tdah-blocos-tempo.png"
   },
   {
     "slug": "o-que-aprendi-com-meu-pai-sobre-lideranca",
@@ -53,6 +59,7 @@
     "excerpt": "Três princípios que carrego do seu Adilson para cada reunião, cada decisão e cada liderança que exerço — e que nenhum MBA poderia ter me dado.",
     "date": "2026-05-24",
     "category": "carreira",
-    "readTime": "6 min de leitura"
+    "readTime": "6 min de leitura",
+    "image": "images/pai-atalho-vs-consistencia.png"
   }
 ]
