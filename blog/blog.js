@@ -32,7 +32,7 @@ async function loadPostsList() {
   if (!grid) return;
 
   try {
-    const res = await fetch('../posts/posts.json');
+    const res = await fetch('/posts/posts.json');
     const posts = await res.json();
 
     // Sort by date descending
@@ -66,7 +66,7 @@ function renderPosts(posts) {
     const cat = CATEGORY_MAP[post.category] || { label: post.category, cssClass: 'tag-growth' };
     const isFeatured = i === 0 ? ' featured' : '';
     return `
-      <a href="post.html?post=${post.slug}" class="post-card${isFeatured} fade-in">
+      <a href="/blog/post/?post=${post.slug}" class="post-card${isFeatured} fade-in">
         <span class="post-tag ${cat.cssClass}">${cat.label}</span>
         <p class="post-title">${post.title}</p>
         <p class="post-excerpt">${post.excerpt}</p>
@@ -127,7 +127,7 @@ async function loadPost() {
 
   try {
     // Load post metadata
-    const metaRes = await fetch('../posts/posts.json');
+    const metaRes = await fetch('/posts/posts.json');
     const posts = await metaRes.json();
     const postMeta = posts.find(p => p.slug === slug);
 
@@ -137,7 +137,7 @@ async function loadPost() {
     }
 
     // Load markdown
-    const mdRes = await fetch(`../posts/${slug}.md`);
+    const mdRes = await fetch(`/posts/${slug}.md`);
     const mdText = await mdRes.text();
 
     // Render header
@@ -152,14 +152,14 @@ async function loadPost() {
         <span>›</span>
         <a href="index.html">Blog</a>
         <span>›</span>
-        <a href="index.html?cat=${postMeta.category}" class="breadcrumb-cat">${cat.label}</a>
+        <a href="/blog/" class="breadcrumb-cat">${cat.label}</a>
         <span>›</span>
         <span>${postMeta.title.substring(0, 40)}...</span>
       </div>
     `;
 
     headerEl.innerHTML = breadcrumb + `
-      <a href="index.html" class="back-link">← Voltar ao Blog</a>
+      <a href="/blog/" class="back-link">← Voltar ao Blog</a>
       <span class="post-tag ${cat.cssClass}">${cat.label}</span>
       <h1>${postMeta.title}</h1>
       <div class="post-header-meta">
@@ -287,7 +287,7 @@ function injectRelatedPosts(container, posts, currentPost) {
       ${related.map(p => {
         const c = CATEGORY_MAP[p.category] || { label: p.category, cssClass: 'tag-growth' };
         return `
-          <a href="post.html?post=${p.slug}" class="related-card">
+          <a href="/blog/post/?post=${p.slug}" class="related-card">
             <span class="related-card-tag ${c.cssClass}">${c.label}</span>
             <span class="related-card-title">${p.title}</span>
             <span class="related-card-date">${formatDate(p.date)}</span>
@@ -315,7 +315,7 @@ function injectRecentPosts(container, posts, currentPost) {
       ${recent.map(p => {
         const c = CATEGORY_MAP[p.category] || { label: p.category, cssClass: 'tag-growth' };
         return `
-          <a href="post.html?post=${p.slug}" class="recent-card">
+          <a href="/blog/post/?post=${p.slug}" class="recent-card">
             <span class="recent-card-tag ${c.cssClass}">${c.label}</span>
             <span class="recent-card-title">${p.title}</span>
             <span class="recent-card-date">${formatDate(p.date)}</span>
@@ -337,8 +337,7 @@ function injectMetaDescription(meta) {
 }
 
 function postUrl(slug) {
-  var base = window.location.pathname.replace(/\/blog\/.*$/, '');
-  return base + '/blog/post.html?post=' + slug;
+  return '/blog/post/?post=' + slug;
 }
 
 function injectMetaTags(meta) {

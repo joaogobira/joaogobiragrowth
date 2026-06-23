@@ -8,6 +8,8 @@
 <!-- Favicons -->
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#C8391A">
+<!-- Base: garante que todos os caminhos relativos resolvam a partir de /blog/ -->
+<base href="/blog/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -19,7 +21,7 @@
   if (!params.get('post')) {
     var match = window.location.pathname.match(/\/blog\/([^\/\?]+)/);
     if (match) {
-      window.location.href = 'post.html?post=' + encodeURIComponent(match[1]);
+      window.location.replace('/blog/post/?post=' + encodeURIComponent(match[1]));
     }
   }
 })();
@@ -29,7 +31,7 @@
 
 <!-- NAV -->
 <nav>
-  <a href="index.html" class="nav-logo">
+  <a href="/blog/" class="nav-logo">
     <div class="nav-logo-mark">
       <svg width="18" height="18" viewBox="0 0 44 44" fill="none">
         <path d="M8 14h7v17c0 2.8-1.7 4.4-4 4.4s-4-1.5-4-4.4h3.5c0 .8.3 1.1.8 1.1s.7-.3.7-1.1V14z" fill="#F0EBE0"/>
@@ -39,9 +41,9 @@
     João <span>Gobira</span>
   </a>
   <ul class="nav-links">
-    <li><a href="index.html">Blog</a></li>
-    <li><a href="../">Início</a></li>
-    <li><a href="../#contato" class="nav-cta">Falar comigo</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/">Início</a></li>
+    <li><a href="/#contato" class="nav-cta">Falar comigo</a></li>
   </ul>
 </nav>
 
