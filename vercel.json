@@ -1,35 +1,7 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/newsletter.js",
-      "use": "@vercel/node"
-    }
+  "rewrites": [
+    { "source": "/blog/:slug", "destination": "/blog/post.html" }
   ],
-  "routes": [
-    {
-      "src": "/api/newsletter",
-      "dest": "/api/newsletter.js"
-    },
-    {
-      "src": "/blog/(.*)",
-      "dest": "/blog/$1"
-    },
-    {
-      "src": "/posts/(.*)",
-      "dest": "/posts/$1"
-    },
-    {
-      "src": "/(.*)\\.html",
-      "dest": "/$1.html"
-    },
-    {
-      "src": "/",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/404.html"
-    }
-  ]
+  "cleanUrls": true,
+  "trailingSlash": false
 }
