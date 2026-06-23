@@ -114,15 +114,28 @@ async function loadPost() {
 
   const params = new URLSearchParams(window.location.search);
   let slug = params.get('post');
+  let loadedFromQuery = false;
 
-  if (!slug) {
+  if (slug) {
+    loadedFromQuery = true;
+  } else {
     const match = window.location.pathname.match(/\/blog\/([^\/\?]+)/);
     if (match) slug = match[1];
+  }
+
+  if (slug === 'post') {
+    slug = null;
   }
 
   if (!slug) {
     container.innerHTML = '<p>Post não encontrado.</p>';
     return;
+  }
+
+  // Redireciona via JS silenciosamente para a URL limpa se entrou pelo link antigo (?post=)
+  if (loadedFromQuery) {
+    const cleanUrl = `/blog/${slug}/`;
+    window.history.replaceState(null, '', cleanUrl);
   }
 
   try {
