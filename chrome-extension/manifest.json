@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "Playbook JG — Analisador de Vagas",
+  "version": "1.0",
+  "description": "Captura vagas do LinkedIn, Gupy, Catho e Indeed e envia para o Playbook com análise de IA.",
+  "permissions": ["storage", "activeTab"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Playbook JG",
+    "default_icon": {
+      "16": "icon.svg",
+      "32": "icon.svg",
+      "48": "icon.svg",
+      "128": "icon.svg"
+    }
+  },
+  "icons": {
+    "16": "icon.svg",
+    "32": "icon.svg",
+    "48": "icon.svg",
+    "128": "icon.svg"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.linkedin.com/jobs/*",
+        "*://*.linkedin.com/feed/*",
+        "*://*.gupy.io/*",
+        "*://*.catho.com.br/vagas/*",
+        "*://*.indeed.com/*",
+        "*://*.infojobs.com.br/*",
+        "*://*.vagas.com.br/*",
+        "*://*.trampos.co/*",
+        "*://*.glassdoor.com.br/*"
+      ],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

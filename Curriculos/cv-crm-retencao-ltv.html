@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>João Gobira — CRM, Retenção & LTV</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f5f5f5;
+    color: #1a1a1a;
+    font-size: 10.5pt;
+    line-height: 1.5;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    background: #fff;
+    padding: 12mm 14mm 12mm 14mm;
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 3px solid #1a6b3c;
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+  }
+  .header-left h1 {
+    font-size: 22pt;
+    font-weight: 700;
+    color: #1a6b3c;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+  .header-left .tagline {
+    font-size: 11pt;
+    font-weight: 500;
+    color: #2d9e60;
+    margin-top: 3px;
+  }
+  .header-right {
+    text-align: right;
+    font-size: 9pt;
+    color: #555;
+    line-height: 1.7;
+  }
+
+  /* BADGES */
+  .badges {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .badge {
+    background: #e6f4ee;
+    color: #1a6b3c;
+    font-size: 8pt;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+    border: 1px solid #b2d9c3;
+  }
+
+  /* RESUMO */
+  .summary {
+    background: #f0faf4;
+    border-left: 4px solid #1a6b3c;
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 16px;
+    font-size: 10pt;
+    color: #222;
+    line-height: 1.6;
+  }
+
+  /* MÉTRICAS */
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .metric-card {
+    background: #1a6b3c;
+    color: #fff;
+    border-radius: 8px;
+    padding: 8px 10px;
+    text-align: center;
+  }
+  .metric-card .number {
+    font-size: 14pt;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  .metric-card .label {
+    font-size: 7.5pt;
+    opacity: 0.85;
+    margin-top: 2px;
+  }
+
+  /* SEÇÕES */
+  .section { margin-bottom: 14px; }
+  .section-title {
+    font-size: 9pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #1a6b3c;
+    border-bottom: 1.5px solid #1a6b3c;
+    padding-bottom: 3px;
+    margin-bottom: 10px;
+  }
+
+  /* EXPERIÊNCIA */
+  .job { margin-bottom: 12px; }
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2px;
+  }
+  .job-title {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #1a6b3c;
+  }
+  .job-company {
+    font-size: 10pt;
+    font-weight: 500;
+    color: #333;
+  }
+  .job-period {
+    font-size: 8.5pt;
+    color: #777;
+    white-space: nowrap;
+    margin-left: 10px;
+    padding-top: 2px;
+  }
+  .job-tag {
+    display: inline-block;
+    background: #e6f4ee;
+    color: #1a6b3c;
+    font-size: 7.5pt;
+    padding: 1px 7px;
+    border-radius: 12px;
+    margin-bottom: 5px;
+  }
+  .job ul {
+    padding-left: 14px;
+    margin-top: 4px;
+  }
+  .job ul li {
+    margin-bottom: 3px;
+    font-size: 9.5pt;
+    color: #333;
+  }
+  .job ul li strong { color: #1a6b3c; }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .skill-group h4 {
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: #1a6b3c;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .skill-tag {
+    background: #f0f7f3;
+    border: 1px solid #c3dece;
+    color: #333;
+    font-size: 8pt;
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  /* FORMAÇÃO */
+  .edu-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .edu-left .edu-degree {
+    font-size: 9.5pt;
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+  .edu-left .edu-school {
+    font-size: 9pt;
+    color: #555;
+  }
+  .edu-period {
+    font-size: 8.5pt;
+    color: #777;
+  }
+
+  .footer-note {
+    margin-top: 14px;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 8px;
+    font-size: 8pt;
+    color: #999;
+    text-align: center;
+  }
+
+  @media print {
+    body { background: #fff; }
+    .page { margin: 0; padding: 12mm 14mm; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <h1>João Gobira</h1>
+      <div class="tagline">Especialista CRM, Retenção & LTV · Marketing Automation</div>
+    </div>
+    <div class="header-right">
+      📍 São José dos Campos — SP | Remoto / Híbrido<br>
+      ✉️ [SEU EMAIL]<br>
+      📞 [SEU TELEFONE]<br>
+      🔗 linkedin.com/in/joaogobira
+    </div>
+  </div>
+
+  <!-- BADGES -->
+  <div class="badges">
+    <span class="badge">HubSpot CRM</span>
+    <span class="badge">RD Station</span>
+    <span class="badge">Marketing Automation</span>
+    <span class="badge">Email Marketing</span>
+    <span class="badge">ActiveCampaign</span>
+    <span class="badge">Lifecycle Marketing</span>
+    <span class="badge">Retenção & LTV</span>
+    <span class="badge">Churn Reduction</span>
+    <span class="badge">Behavioral Economics</span>
+    <span class="badge">Segmentação</span>
+  </div>
+
+  <!-- RESUMO -->
+  <div class="summary">
+    Especialista com 15 anos de experiência em CRM, automação de marketing e estratégias de retenção para healthtech, e-commerce e edtech. Expertise em construção de <strong>funis perpétuos no HubSpot</strong>, réguas comportamentais e segmentação avançada com foco em maximizar LTV e reduzir churn. Aplico princípios de <strong>Behavioral Economics</strong> (ancoragem, urgência, reciprocidade) em fluxos de CRM para aumentar engajamento e lealdade de forma sustentável.
+  </div>
+
+  <!-- MÉTRICAS -->
+  <div class="metrics-row">
+    <div class="metric-card">
+      <div class="number">-21%</div>
+      <div class="label">CAC em aquisição digital — Conexa</div>
+    </div>
+    <div class="metric-card">
+      <div class="number">+300K</div>
+      <div class="label">Base nutrida com automações — Conexa</div>
+    </div>
+    <div class="metric-card">
+      <div class="number">HubSpot</div>
+      <div class="label">Funis perpétuos e fluxos complexos</div>
+    </div>
+    <div class="metric-card">
+      <div class="number">15</div>
+      <div class="label">Anos em Growth & CRM</div>
+    </div>
+  </div>
+
+  <!-- EXPERIÊNCIA -->
+  <div class="section">
+    <div class="section-title">Experiência Profissional</div>
+
+    <div class="job">
+      <div class="job-header">
+        <div>
+          <div class="job-title">Especialista de CRM & Retenção</div>
+          <div class="job-company">Conexa — HealthTech · B2C & B2B</div>
+        </div>
+        <div class="job-period">2022 – 2024</div>
+      </div>
+      <span class="job-tag">HubSpot · Automação · Lifecycle · Retenção · Behavioral Economics</span>
+      <ul>
+        <li>Criou e operacionalizou <strong>funis perpétuos no HubSpot</strong> para nutrição de leads B2B e retenção de pacientes B2C, com fluxos de 12+ etapas.</li>
+        <li>Implementou régua de reativação comportamental baseada em <strong>Behavioral Economics</strong> (perda aversiva, reciprocidade), reduzindo churn de planos mensais em 18%.</li>
+        <li>Estruturou segmentação avançada por <strong>lifecycle stage + comportamento de produto</strong> (login, sessão agendada, abandono), aumentando abertura de emails em 34%.</li>
+        <li>Colaborou com CS e Produto para mapear pontos de saída (churn triggers) e criar automações de recuperação em tempo real.</li>
+        <li>Reduziu <strong>CAC em -21%</strong> integrando CRM com mídia paga via audiências personalizadas no Meta (Custom Audiences + Lookalike baseado em LTV).</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div>
+          <div class="job-title">Especialista de CRM & E-commerce</div>
+          <div class="job-company">ADCOS — E-commerce Beauty</div>
+        </div>
+        <div class="job-period">2020 – 2022</div>
+      </div>
+      <span class="job-tag">CRM · Email Marketing · LTV · Retenção · Segmentação</span>
+      <ul>
+        <li>Estruturou estratégia de <strong>email marketing lifecycle</strong> para e-commerce: pós-compra, cross-sell, reativação de inativos e upsell por categoria.</li>
+        <li>Criou régua de recuperação de carrinho abandonado com 3 touchpoints (email + WhatsApp), atingindo <strong>12% de recuperação</strong>.</li>
+        <li>Implementou análise de cohort para medir LTV por canal de aquisição, subsidiando decisões de budget de mídia.</li>
+        <li>Segmentou base por RFM (Recência, Frequência, Valor) e criou campanhas personalizadas por cluster, com uplift de 28% em recompra.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div>
+          <div class="job-title">Especialista de Growth & Automação</div>
+          <div class="job-company">StartSe — EdTech</div>
+        </div>
+        <div class="job-period">2019 – 2020</div>
+      </div>
+      <span class="job-tag">ActiveCampaign · Nurturing · Email Marketing · Funil</span>
+      <ul>
+        <li>Construiu jornada de nutrição completa para leads de cursos online: 7 etapas com personalização por interesse e nível de engajamento.</li>
+        <li>Aumentou taxa de conversão lead → matriculado em <strong>+53%</strong> via otimização de copy, timing e sequência de emails.</li>
+        <li>Integrou CRM com plataforma de eventos para reengajamento automático de ex-alunos (win-back campaigns).</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div>
+          <div class="job-title">Especialista de Performance & Automação</div>
+          <div class="job-company">Gestão 4.0 — EdTech</div>
+        </div>
+        <div class="job-period">2017 – 2019</div>
+      </div>
+      <span class="job-tag">RD Station · Leads · Automação · Funil de Vendas</span>
+      <ul>
+        <li>Configurou RD Station para automação de leads desde captação até handoff para vendas, com lead scoring personalizado.</li>
+        <li>Reduziu CPL de <strong>R$ 20 → R$ 7</strong> combinando segmentação de público com nutrição automatizada antes do evento de vendas.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="section">
+    <div class="section-title">Competências Técnicas</div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h4>CRM & Automação</h4>
+        <div class="skill-tags">
+          <span class="skill-tag">HubSpot</span>
+          <span class="skill-tag">RD Station</span>
+          <span class="skill-tag">ActiveCampaign</span>
+          <span class="skill-tag">Klaviyo</span>
+          <span class="skill-tag">Salesforce</span>
+          <span class="skill-tag">n8n</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Retenção & Dados</h4>
+        <div class="skill-tags">
+          <span class="skill-tag">Análise de Cohort</span>
+          <span class="skill-tag">RFM</span>
+          <span class="skill-tag">LTV / CAC</span>
+          <span class="skill-tag">Churn Analysis</span>
+          <span class="skill-tag">Mixpanel</span>
+          <span class="skill-tag">Amplitude</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Analytics & BI</h4>
+        <div class="skill-tags">
+          <span class="skill-tag">GA4</span>
+          <span class="skill-tag">Looker Studio</span>
+          <span class="skill-tag">Power BI</span>
+          <span class="skill-tag">BigQuery</span>
+          <span class="skill-tag">Tag Manager</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMAÇÃO -->
+  <div class="section">
+    <div class="section-title">Formação & Certificações</div>
+    <div class="edu-item">
+      <div class="edu-left">
+        <div class="edu-degree">[Seu Curso de Graduação]</div>
+        <div class="edu-school">[Instituição]</div>
+      </div>
+      <div class="edu-period">[Ano]</div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-left">
+        <div class="edu-degree">HubSpot Marketing Automation Certification</div>
+        <div class="edu-school">HubSpot Academy</div>
+      </div>
+      <div class="edu-period">Válido</div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-left">
+        <div class="edu-degree">HubSpot CRM Certification</div>
+        <div class="edu-school">HubSpot Academy</div>
+      </div>
+      <div class="edu-period">Válido</div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-left">
+        <div class="edu-degree">Email Marketing Certification</div>
+        <div class="edu-school">HubSpot Academy</div>
+      </div>
+      <div class="edu-period">Válido</div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    Este CV foi otimizado para vagas de CRM, Retenção & LTV · ATS-friendly · Versão 2 de 3
+  </div>
+
+</div>
+</body>
+</html>

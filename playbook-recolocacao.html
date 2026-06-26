@@ -1,0 +1,2987 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playbook de Recolocação · João Gobira</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* =========================================
+   VARIABLES & RESET
+   ========================================= */
+:root {
+  --bg-app: #080d18;
+  --bg-sidebar: #0c1220;
+  --bg-card: #111827;
+  --bg-card-hover: #1a2236;
+  --bg-input: #0c1220;
+  --bg-modal: #0f1828;
+  --border: rgba(255,255,255,0.06);
+  --border-hover: rgba(255,255,255,0.12);
+
+  --text-primary: #edf2f7;
+  --text-secondary: #8896a9;
+  --text-muted: #4e5f72;
+
+  --blue: #4f8ef7;
+  --blue-dim: rgba(79,142,247,0.12);
+  --green: #30d488;
+  --green-dim: rgba(48,212,136,0.12);
+  --purple: #b37af5;
+  --purple-dim: rgba(179,122,245,0.12);
+  --amber: #f5bb24;
+  --amber-dim: rgba(245,187,36,0.12);
+  --red: #f56c6c;
+  --red-dim: rgba(245,108,108,0.12);
+  --slate: #8896a9;
+  --slate-dim: rgba(136,150,169,0.12);
+
+  --r: 10px;
+  --r-sm: 6px;
+  --r-lg: 16px;
+  --sw: 240px;
+  --transition: 0.2s ease;
+}
+
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; overflow:hidden; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg-app);
+  color: var(--text-primary);
+  font-size: 13px;
+  line-height: 1.5;
+}
+a { color: inherit; text-decoration: none; }
+input, select, textarea, button { font-family: inherit; }
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+/* =========================================
+   APP SHELL
+   ========================================= */
+.app-shell {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* =========================================
+   SIDEBAR
+   ========================================= */
+.sidebar {
+  width: var(--sw);
+  min-width: var(--sw);
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebar-header {
+  padding: 20px 16px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue), var(--purple));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 14px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.profile-info { min-width: 0; }
+.profile-info h3 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.status-badge {
+  font-size: 10px;
+  color: var(--green);
+  background: var(--green-dim);
+  padding: 2px 8px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-top: 2px;
+  border: 1px solid rgba(48,212,136,0.2);
+}
+
+/* Nav */
+.sidebar-nav {
+  flex: 1;
+  padding: 12px 8px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  position: relative;
+  user-select: none;
+}
+.nav-item:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+}
+.nav-item.active {
+  background: var(--blue-dim);
+  color: var(--blue);
+  border: 1px solid rgba(79,142,247,0.2);
+}
+.nav-icon { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+.nav-item span:nth-child(2) { flex: 1; }
+
+.nav-badge {
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--blue-dim);
+  color: var(--blue);
+  border: 1px solid rgba(79,142,247,0.2);
+  border-radius: 20px;
+  padding: 1px 7px;
+  min-width: 22px;
+  text-align: center;
+}
+.nav-badge.pending {
+  background: var(--amber-dim);
+  color: var(--amber);
+  border-color: rgba(245,187,36,0.2);
+}
+.nav-badge.zero { opacity: 0; }
+
+/* Sidebar Footer */
+.sidebar-footer {
+  padding: 12px 16px 20px;
+  border-top: 1px solid var(--border);
+}
+
+.week-goal-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.week-goal-label span {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.btn-edit-meta {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: var(--transition);
+}
+.btn-edit-meta:hover { color: var(--text-primary); background: var(--bg-card-hover); }
+
+.week-goal-bar {
+  height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+.week-goal-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--blue), var(--purple));
+  transition: width 0.5s ease;
+}
+.week-goal-text {
+  font-size: 11px;
+  color: var(--text-muted);
+  display: block;
+}
+
+/* =========================================
+   MAIN CONTENT
+   ========================================= */
+.main-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-content {
+  display: none;
+  flex: 1;
+  overflow: hidden;
+  flex-direction: column;
+}
+.tab-content.active {
+  display: flex;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Page Header */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 28px 14px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.page-header-left h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.page-header-left p {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.header-actions { display: flex; gap: 8px; }
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, var(--blue), #2563eb);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+.btn-secondary {
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-hover);
+  padding: 8px 16px;
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.btn-secondary:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+
+.btn-icon {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  transition: var(--transition);
+}
+.btn-icon:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+.btn-icon.danger:hover { background: var(--red-dim); color: var(--red); }
+
+/* Scrollable area */
+.scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 28px;
+}
+
+/* =========================================
+   DASHBOARD
+   ========================================= */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px 18px;
+  transition: var(--transition);
+}
+.stat-card:hover { border-color: var(--border-hover); background: var(--bg-card-hover); }
+
+.stat-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+.stat-icon {
+  font-size: 16px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r-sm);
+}
+.stat-number {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-sub { font-size: 11px; color: var(--text-muted); }
+
+.stat-blue .stat-icon { background: var(--blue-dim); }
+.stat-blue .stat-number { color: var(--blue); }
+.stat-green .stat-icon { background: var(--green-dim); }
+.stat-green .stat-number { color: var(--green); }
+.stat-purple .stat-icon { background: var(--purple-dim); }
+.stat-purple .stat-number { color: var(--purple); }
+.stat-amber .stat-icon { background: var(--amber-dim); }
+.stat-amber .stat-number { color: var(--amber); }
+
+/* Dashboard 2-col layout */
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 16px;
+}
+
+.dash-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px 18px;
+}
+.dash-card-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Recent vagas list */
+.recent-vaga-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.recent-vaga-item:last-child { border-bottom: none; }
+.recent-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.recent-info { flex: 1; min-width: 0; }
+.recent-empresa { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+.recent-cargo { font-size: 11px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.recent-status-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 30px 20px;
+  color: var(--text-muted);
+}
+.empty-state p { font-size: 13px; margin-bottom: 12px; }
+
+/* Quick otimizações */
+.otim-quick-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+}
+.otim-quick-item:last-child { border-bottom: none; }
+.otim-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+.otim-dot.pendente { background: var(--amber); }
+.otim-dot.progress { background: var(--blue); }
+.otim-dot.feito { background: var(--green); }
+.otim-text { font-size: 12px; color: var(--text-secondary); line-height: 1.4; }
+
+/* =========================================
+   KANBAN
+   ========================================= */
+.kanban-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 28px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.kanban-filter {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 6px 12px;
+  border-radius: var(--r-sm);
+  font-size: 12px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.kanban-filter:hover, .kanban-filter.active {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: var(--blue-dim);
+}
+
+.kanban-wrapper {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 16px 20px 20px;
+}
+
+.kanban-board {
+  display: flex;
+  gap: 12px;
+  height: 100%;
+  min-width: max-content;
+}
+
+.kanban-col {
+  width: 278px;
+  min-width: 278px;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.col-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.col-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.col-name {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+}
+.col-count {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 20px;
+}
+
+.col-cards {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.empty-col {
+  text-align: center;
+  padding: 24px 10px;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Kanban Card */
+.kanban-card {
+  background: var(--bg-app);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 12px;
+  transition: var(--transition);
+  animation: cardIn 0.2s ease;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.kanban-card:hover {
+  border-color: var(--border-hover);
+  background: rgba(255,255,255,0.02);
+}
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.card-info { flex: 1; min-width: 0; }
+.card-empresa {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-cargo {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 1px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card-actions { display: flex; gap: 2px; flex-shrink: 0; }
+
+.card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.badge-cv {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 20px;
+}
+.badge-canal {
+  font-size: 10px;
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.05);
+  padding: 2px 7px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+
+.card-score {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.score-bar {
+  flex: 1;
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.score-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+.score-num {
+  font-size: 10px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-date { font-size: 10px; color: var(--text-muted); }
+.card-move-btns { display: flex; gap: 4px; }
+.btn-move {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  transition: var(--transition);
+  font-weight: 600;
+}
+.btn-move:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+.btn-move.forward {
+  background: var(--blue-dim);
+  border-color: rgba(79,142,247,0.25);
+  color: var(--blue);
+}
+.btn-move.forward:hover { background: rgba(79,142,247,0.2); }
+
+.card-notes {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-muted);
+  font-style: italic;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-link {
+  display: block;
+  margin-top: 6px;
+  font-size: 10px;
+  color: var(--blue);
+  opacity: 0.7;
+  transition: var(--transition);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-link:hover { opacity: 1; }
+
+/* =========================================
+   MATERIAIS
+   ========================================= */
+.materiais-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.material-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 20px;
+  transition: var(--transition);
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+}
+.material-card:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-card-hover);
+  transform: translateY(-2px);
+}
+.material-card-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.material-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.material-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+.material-sub { font-size: 11px; color: var(--text-muted); }
+.material-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+.material-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.material-chip {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.05);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+.material-action {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.export-guide {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px 18px;
+}
+.export-guide h4 {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+.export-steps { display: flex; gap: 12px; flex-wrap: wrap; }
+.export-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 200px;
+}
+.step-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--blue-dim);
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.step-text { font-size: 12px; color: var(--text-secondary); }
+.step-text code {
+  background: rgba(255,255,255,0.06);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--amber);
+}
+
+/* =========================================
+   OTIMIZAÇÕES
+   ========================================= */
+.otim-category { margin-bottom: 20px; }
+.otim-category-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.otim-category-icon { font-size: 16px; }
+.otim-category-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  flex: 1;
+}
+.otim-category-count {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.otim-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  margin-bottom: 6px;
+  transition: var(--transition);
+}
+.otim-item:hover { border-color: var(--border-hover); }
+.otim-item.feito {
+  background: rgba(48,212,136,0.04);
+  border-color: rgba(48,212,136,0.15);
+}
+.otim-item-text {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.otim-item.feito .otim-item-text {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.status-select {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 4px 10px;
+  border-radius: var(--r-sm);
+  font-size: 11px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.status-select:focus { outline: none; border-color: var(--blue); }
+
+/* =========================================
+   PLAYBOOK
+   ========================================= */
+.playbook-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.playbook-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 18px;
+}
+.playbook-card.full { grid-column: 1 / -1; }
+.playbook-card-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Qualification checklist */
+.qual-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+}
+.qual-item:last-child { border-bottom: none; }
+.qual-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bg-app);
+  border: 1px solid var(--border);
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.qual-text { font-size: 12px; color: var(--text-secondary); line-height: 1.4; }
+
+/* Vaga→CV table */
+.vaga-cv-table { width: 100%; border-collapse: collapse; }
+.vaga-cv-table th, .vaga-cv-table td {
+  text-align: left;
+  padding: 8px 10px;
+  font-size: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.vaga-cv-table th {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+.vaga-cv-table td { color: var(--text-secondary); }
+.vaga-cv-table tr:last-child td { border-bottom: none; }
+.vaga-cv-table .cv-pill {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+/* Interview scripts */
+.script-item { margin-bottom: 14px; }
+.script-q {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.script-a {
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: var(--bg-app);
+  border-left: 3px solid var(--blue);
+  padding: 8px 12px;
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  line-height: 1.6;
+}
+
+/* Companies table */
+.companies-table { width: 100%; border-collapse: collapse; }
+.companies-table th, .companies-table td {
+  text-align: left;
+  padding: 8px 10px;
+  font-size: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.companies-table th {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+.companies-table td { color: var(--text-secondary); }
+.companies-table tr:last-child td { border-bottom: none; }
+
+.monitor-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.monitor-dot::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--amber);
+}
+.monitor-dot.ativo::before { background: var(--green); }
+
+/* =========================================
+   MODAL
+   ========================================= */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal {
+  background: var(--bg-modal);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--r-lg);
+  padding: 24px;
+  width: 560px;
+  max-width: 95vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: scale(0.95);
+  transition: transform 0.2s ease;
+}
+.modal-overlay.open .modal { transform: scale(1); }
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.modal-header h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 18px;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+.modal-close:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group.full { grid-column: 1 / -1; }
+.form-group label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+.form-group input, .form-group select, .form-group textarea {
+  background: var(--bg-input);
+  border: 1px solid var(--border-hover);
+  color: var(--text-primary);
+  padding: 9px 12px;
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  transition: var(--transition);
+}
+.form-group input::placeholder, .form-group textarea::placeholder { color: var(--text-muted); }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  outline: none;
+  border-color: var(--blue);
+  background: rgba(79,142,247,0.05);
+}
+.form-group select option { background: #1a2236; }
+.form-group textarea { resize: vertical; min-height: 80px; }
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+/* Meta modal */
+.meta-input-wrap { display: flex; align-items: center; gap: 10px; margin: 16px 0; }
+.meta-input-wrap input {
+  width: 80px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-hover);
+  color: var(--text-primary);
+  padding: 9px 12px;
+  border-radius: var(--r-sm);
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+}
+.meta-input-wrap input:focus { outline: none; border-color: var(--blue); }
+.meta-input-wrap span { font-size: 13px; color: var(--text-muted); }
+
+/* =========================================
+   TOAST
+   ========================================= */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-hover);
+  color: var(--text-primary);
+  padding: 12px 18px;
+  border-radius: var(--r);
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 2000;
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 320px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.success { border-color: rgba(48,212,136,0.3); }
+.toast.error { border-color: rgba(245,108,108,0.3); }
+
+/* Confirm dialog */
+.confirm-dialog {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+.confirm-dialog.open { opacity: 1; pointer-events: all; }
+.confirm-box {
+  background: var(--bg-modal);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--r);
+  padding: 20px;
+  width: 320px;
+  text-align: center;
+}
+.confirm-box h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.confirm-box p { font-size: 12px; color: var(--text-secondary); margin-bottom: 16px; }
+.confirm-actions { display: flex; gap: 8px; justify-content: center; }
+
+.btn-danger {
+  background: var(--red-dim);
+  color: var(--red);
+  border: 1px solid rgba(245,108,108,0.3);
+  padding: 8px 16px;
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.btn-danger:hover { background: rgba(245,108,108,0.2); }
+
+/* Score hint */
+.score-hint {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+/* Week goal section */
+.week-goal-section { margin-bottom: 16px; }
+
+/* Progress ring (dashboard) */
+.goal-ring-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0;
+}
+.goal-ring-labels { text-align: center; margin-top: 8px; }
+.goal-ring-labels strong { font-size: 18px; font-weight: 800; color: var(--text-primary); }
+.goal-ring-labels span { display: block; font-size: 11px; color: var(--text-muted); }
+
+svg.goal-ring { transform: rotate(-90deg); }
+svg.goal-ring .ring-bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 6; }
+svg.goal-ring .ring-fill {
+  fill: none;
+  stroke: url(#ringGrad);
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s ease;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 16px 0;
+}
+
+/* Inline tag */
+.tag {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+/* =========================================
+   IA TAB
+   ========================================= */
+.ia-input-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.ia-input-hd {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px; border-bottom: 1px solid var(--border);
+}
+.ia-input-hd h3 { font-size: 14px; font-weight: 800; }
+.ia-input-hd p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.ia-textarea {
+  width: 100%; min-height: 160px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--r-sm); margin: 16px;
+  width: calc(100% - 32px);
+  color: var(--text-primary);
+  font-family: inherit; font-size: 13px; line-height: 1.7;
+  padding: 12px 14px; resize: vertical;
+  transition: border-color 0.2s ease;
+}
+.ia-textarea:focus { outline: none; border-color: var(--blue); }
+.ia-textarea::placeholder { color: var(--text-muted); }
+.ia-actions-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 18px; border-top: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+}
+.ia-hint { font-size: 11px; color: var(--text-muted); }
+.btn-ai {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: linear-gradient(135deg, #7c3aed, #4f8ef7);
+  color: #fff; border: none; border-radius: var(--r-sm);
+  padding: 9px 18px; font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s ease; font-family: inherit;
+  box-shadow: 0 4px 16px rgba(124,58,237,0.3);
+}
+.btn-ai:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(124,58,237,0.4); }
+.btn-ai:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.ia-loading {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 48px 24px; gap: 14px; margin-bottom: 20px;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r);
+}
+.ia-loading-icon { font-size: 40px; animation: ia-pulse 1.2s ease-in-out infinite; }
+@keyframes ia-pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.1);opacity:0.7} }
+.ia-loading p { font-size: 14px; color: var(--text-secondary); }
+.ia-loading small { font-size: 11px; color: var(--text-muted); }
+.ia-results { display: flex; flex-direction: column; gap: 14px; animation: fadeInUp 0.4s ease; }
+@keyframes fadeInUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.ia-results-header {
+  display: grid; grid-template-columns: 100px 1fr auto;
+  gap: 20px; align-items: center;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 20px;
+}
+.score-display-ia { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.score-svg-ia { width: 88px; height: 88px; }
+.score-track { stroke: rgba(255,255,255,0.06); fill: none; stroke-width: 8; }
+.score-arc-el { fill: none; stroke-width: 8; stroke-linecap: round;
+  transform-origin: 50% 50%; transform: rotate(-90deg);
+  transition: stroke-dashoffset 0.8s cubic-bezier(.4,0,.2,1), stroke 0.3s; }
+.score-num-ia { font-size: 24px; font-weight: 900; }
+.score-denom-ia { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+.ia-meta-company { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 4px; }
+.ia-meta-role { font-size: 14px; color: var(--text-secondary); margin-bottom: 10px; }
+.ia-meta-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.ia-cv-card {
+  background: rgba(79,142,247,0.08); border: 1px solid rgba(79,142,247,0.2);
+  border-radius: var(--r); padding: 16px 18px; min-width: 200px;
+}
+.ia-cv-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--blue); margin-bottom: 4px; }
+.ia-cv-name { font-size: 14px; font-weight: 800; margin-bottom: 4px; color: var(--blue); }
+.ia-cv-reason { font-size: 11px; color: var(--text-secondary); line-height: 1.5; }
+.ia-kw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.kw-panel {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 16px;
+}
+.kw-panel.match { border-color: rgba(48,212,136,0.2); }
+.kw-panel.gap { border-color: rgba(245,187,36,0.2); }
+.kw-panel-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+.kw-panel.match .kw-panel-title { color: var(--green); }
+.kw-panel.gap .kw-panel-title { color: var(--amber); }
+.kw-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.kw-chip { font-size: 12px; font-weight: 500; padding: 4px 11px; border-radius: 20px; border: 1px solid; }
+.kw-chip.match { background: rgba(48,212,136,0.1); color: var(--green); border-color: rgba(48,212,136,0.3); }
+.kw-chip.gap { background: rgba(245,187,36,0.1); color: var(--amber); border-color: rgba(245,187,36,0.3); }
+.ia-summary-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 16px;
+}
+.ia-summary-card h4 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 8px; }
+.ia-summary-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+.ia-alert-card {
+  background: rgba(245,187,36,0.08); border: 1px solid rgba(245,187,36,0.3);
+  border-radius: var(--r); padding: 14px 16px;
+}
+.ia-alert-card h4 { font-size: 11px; font-weight: 700; color: var(--amber); margin-bottom: 5px; }
+.ia-alert-card p { font-size: 13px; color: var(--text-secondary); }
+.ia-cta { display: flex; gap: 10px; align-items: center; }
+
+/* =========================================
+   CONFIG TAB
+   ========================================= */
+.config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.config-section {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 20px;
+}
+.config-section h3 { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
+.config-section .sub { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.6; }
+.config-field { margin-bottom: 14px; }
+.config-field label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 6px; }
+.config-input {
+  width: 100%; background: var(--bg-input); border: 1px solid var(--border-hover);
+  color: var(--text-primary); padding: 10px 12px; border-radius: var(--r-sm);
+  font-size: 13px; font-family: monospace; transition: border-color 0.2s ease;
+}
+.config-input:focus { outline: none; border-color: var(--blue); }
+.key-status {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600;
+  padding: 6px 12px; border-radius: 20px; margin-bottom: 12px;
+}
+.key-status.ok { background: rgba(48,212,136,0.12); color: var(--green); }
+.key-status.nok { background: rgba(245,108,108,0.12); color: var(--red); }
+.import-zone {
+  border: 2px dashed var(--border-hover); border-radius: var(--r);
+  padding: 24px; text-align: center; cursor: pointer;
+  transition: all 0.2s ease; margin-bottom: 12px; display: block;
+}
+.import-zone:hover { border-color: var(--blue); background: rgba(79,142,247,0.05); }
+.import-zone p { font-size: 13px; color: var(--text-secondary); margin-bottom: 4px; }
+.import-zone small { font-size: 11px; color: var(--text-muted); }
+.li-skills-wrap { display: flex; flex-wrap: wrap; gap: 6px; max-height: 100px; overflow-y: auto; }
+.li-chip { font-size: 11px; background: rgba(48,212,136,0.1); color: var(--green); border: 1px solid rgba(48,212,136,0.2); border-radius: 20px; padding: 3px 9px; }
+.bm-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, #7c3aed, #4f8ef7); color: #fff;
+  padding: 11px 20px; border-radius: var(--r-sm);
+  font-size: 13px; font-weight: 700; cursor: grab; user-select: none;
+  text-decoration: none; box-shadow: 0 4px 16px rgba(124,58,237,0.4);
+  transition: transform 0.2s ease;
+}
+.bm-link:hover { transform: translateY(-2px); }
+.bm-step { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; }
+.bm-step-num { width: 20px; height: 20px; background: rgba(79,142,247,0.15); color: var(--blue); border-radius: 50%; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ===========================
+       SIDEBAR
+       =========================== -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="avatar">JG</div>
+      <div class="profile-info">
+        <h3>João Gobira</h3>
+        <span class="status-badge">🟢 Em recolocação</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-item active" data-tab="dashboard" onclick="switchTab('dashboard')">
+        <span class="nav-icon">📊</span>
+        <span>Dashboard</span>
+      </div>
+      <div class="nav-item" data-tab="pipeline" onclick="switchTab('pipeline')">
+        <span class="nav-icon">🗂️</span>
+        <span>Pipeline de Vagas</span>
+        <span class="nav-badge zero" id="nav-badge-pipeline">0</span>
+      </div>
+      <div class="nav-item" data-tab="ia" onclick="switchTab('ia')" style="position:relative;">
+        <span class="nav-icon">🤖</span>
+        <span>Análise com IA</span>
+        <span id="nav-ai-badge" style="margin-left:auto;font-size:9px;font-weight:700;background:linear-gradient(135deg,rgba(179,122,245,0.15),rgba(79,142,247,0.15));color:#b37af5;padding:2px 7px;border-radius:20px;border:1px solid rgba(179,122,245,0.25);">Gemini</span>
+      </div>
+      <div class="nav-item" data-tab="materiais" onclick="switchTab('materiais')">
+        <span class="nav-icon">📂</span>
+        <span>Materiais</span>
+      </div>
+      <div class="nav-item" data-tab="otimizacoes" onclick="switchTab('otimizacoes')">
+        <span class="nav-icon">🔧</span>
+        <span>Otimizações</span>
+        <span class="nav-badge pending zero" id="nav-badge-otim">0</span>
+      </div>
+      <div class="nav-item" data-tab="playbook" onclick="switchTab('playbook')">
+        <span class="nav-icon">📖</span>
+        <span>Playbook</span>
+      </div>
+      <div class="nav-item" data-tab="config" onclick="switchTab('config')">
+        <span class="nav-icon">⚙️</span>
+        <span>Configurações</span>
+        <span id="api-status-dot" style="margin-left:auto;width:7px;height:7px;border-radius:50%;background:#f56c6c;box-shadow:0 0 5px #f56c6c;flex-shrink:0;"></span>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="week-goal-label">
+        <span>Meta da semana</span>
+        <button class="btn-edit-meta" onclick="openMetaModal()" title="Editar meta">✎</button>
+      </div>
+      <div class="week-goal-bar">
+        <div class="week-goal-fill" id="goal-fill" style="width:0%"></div>
+      </div>
+      <span class="week-goal-text" id="goal-text">0 / 5 candidaturas</span>
+    </div>
+  </aside>
+
+  <!-- ===========================
+       MAIN CONTENT
+       =========================== -->
+  <main class="main-content">
+
+    <!-- ── TAB: DASHBOARD ── -->
+    <section class="tab-content active" id="tab-dashboard">
+      <div class="page-header">
+        <div class="page-header-left">
+          <h2 id="dash-greeting">Bom dia, João 👋</h2>
+          <p id="dash-date"></p>
+        </div>
+        <div class="header-actions">
+          <button class="btn-primary" onclick="switchTab('pipeline'); setTimeout(()=>openModal(),100)">+ Nova Oportunidade</button>
+        </div>
+      </div>
+      <div class="scroll-area">
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card stat-blue">
+            <div class="stat-card-header">
+              <span class="stat-label">Total de Vagas</span>
+              <div class="stat-icon">📋</div>
+            </div>
+            <div class="stat-number" id="stat-total">0</div>
+            <div class="stat-sub">candidaturas registradas</div>
+          </div>
+          <div class="stat-card stat-amber">
+            <div class="stat-card-header">
+              <span class="stat-label">Em Andamento</span>
+              <div class="stat-icon">⚡</div>
+            </div>
+            <div class="stat-number" id="stat-andamento">0</div>
+            <div class="stat-sub">no funil ativo</div>
+          </div>
+          <div class="stat-card stat-purple">
+            <div class="stat-card-header">
+              <span class="stat-label">Entrevistas</span>
+              <div class="stat-icon">🎤</div>
+            </div>
+            <div class="stat-number" id="stat-entrevistas">0</div>
+            <div class="stat-sub">agendadas / propostas</div>
+          </div>
+          <div class="stat-card stat-green">
+            <div class="stat-card-header">
+              <span class="stat-label">Taxa de Resposta</span>
+              <div class="stat-icon">📈</div>
+            </div>
+            <div class="stat-number" id="stat-taxa">0%</div>
+            <div class="stat-sub">triagem + entrevistas / aplicadas</div>
+          </div>
+        </div>
+
+        <!-- 2-col grid -->
+        <div class="dash-grid">
+          <!-- Recent vagas -->
+          <div class="dash-card">
+            <div class="dash-card-title">🕐 Últimas Oportunidades</div>
+            <div id="recent-vagas"></div>
+          </div>
+
+          <!-- Right column -->
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <!-- Goal ring -->
+            <div class="dash-card">
+              <div class="dash-card-title">🎯 Meta Semanal</div>
+              <div class="goal-ring-wrap">
+                <svg class="goal-ring" width="90" height="90" viewBox="0 0 90 90">
+                  <defs>
+                    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" style="stop-color:var(--blue)"/>
+                      <stop offset="100%" style="stop-color:var(--purple)"/>
+                    </linearGradient>
+                  </defs>
+                  <circle class="ring-bg" cx="45" cy="45" r="36"/>
+                  <circle class="ring-fill" cx="45" cy="45" r="36"
+                    id="ring-fill-el"
+                    stroke-dasharray="226"
+                    stroke-dashoffset="226"/>
+                </svg>
+                <div class="goal-ring-labels">
+                  <strong id="ring-applied">0</strong>
+                  <span id="ring-label">de 5 essa semana</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pending otimizações -->
+            <div class="dash-card">
+              <div class="dash-card-title">⏳ Otimizações Pendentes</div>
+              <div id="otim-quick-list"></div>
+              <button class="btn-secondary" style="width:100%;margin-top:10px;font-size:12px;" onclick="switchTab('otimizacoes')">
+                Ver todas →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TAB: PIPELINE ── -->
+    <section class="tab-content" id="tab-pipeline">
+      <div class="page-header">
+        <div class="page-header-left">
+          <h2>Pipeline de Vagas</h2>
+          <p>Gerencie todas as oportunidades em tempo real</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn-secondary" onclick="exportCSV()">⬇ Exportar CSV</button>
+          <button class="btn-primary" onclick="openModal()">+ Nova Oportunidade</button>
+        </div>
+      </div>
+      <div class="kanban-toolbar">
+        <button class="kanban-filter active" data-filter="all" onclick="setFilter('all',this)">Todas</button>
+        <button class="kanban-filter" data-filter="1" onclick="setFilter('1',this)">CV 1 · SEO/CRO</button>
+        <button class="kanban-filter" data-filter="2" onclick="setFilter('2',this)">CV 2 · CRM</button>
+        <button class="kanban-filter" data-filter="3" onclick="setFilter('3',this)">CV 3 · Performance</button>
+        <span style="margin-left:auto;font-size:11px;color:var(--text-muted)" id="pipeline-count">0 vagas</span>
+      </div>
+      <div class="kanban-wrapper">
+        <div class="kanban-board" id="kanban-board"></div>
+      </div>
+    </section>
+
+    <!-- ── TAB: MATERIAIS ── -->
+    <section class="tab-content" id="tab-materiais">
+      <div class="page-header">
+        <div class="page-header-left">
+          <h2>Materiais de Candidatura</h2>
+          <p>CVs, LinkedIn e guias estratégicos</p>
+        </div>
+      </div>
+      <div class="scroll-area">
+        <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">📄 CVs Segmentados</p>
+        <div class="materiais-grid">
+          <a class="material-card" href="Curriculos/cv-seo-cro-senior.html" target="_blank">
+            <div class="material-card-top">
+              <div class="material-icon" style="background:rgba(79,142,247,0.12)">🔵</div>
+              <div>
+                <div class="material-title">CV 1 — SEO & CRO Sênior</div>
+                <div class="material-sub">cv-seo-cro-senior.html</div>
+              </div>
+            </div>
+            <div class="material-desc">
+              Focado em tráfego orgânico, auditorias técnicas e otimização de conversão. Destaque para +300K sessões (Conexa) e +44% crescimento (ADCOS).
+            </div>
+            <div class="material-chips">
+              <span class="material-chip">SEO Técnico</span>
+              <span class="material-chip">CRO</span>
+              <span class="material-chip">GA4</span>
+              <span class="material-chip">Screaming Frog</span>
+            </div>
+            <div class="material-action" style="color:var(--blue)">→ Abrir CV</div>
+          </a>
+
+          <a class="material-card" href="Curriculos/cv-crm-retencao-ltv.html" target="_blank">
+            <div class="material-card-top">
+              <div class="material-icon" style="background:rgba(48,212,136,0.12)">🟢</div>
+              <div>
+                <div class="material-title">CV 2 — CRM & Retenção</div>
+                <div class="material-sub">cv-crm-retencao-ltv.html</div>
+              </div>
+            </div>
+            <div class="material-desc">
+              Automação, lifecycle, HubSpot e retenção por LTV. Destaque para funis perpétuos, behavioral economics e redução de churn.
+            </div>
+            <div class="material-chips">
+              <span class="material-chip">HubSpot</span>
+              <span class="material-chip">RD Station</span>
+              <span class="material-chip">Lifecycle</span>
+              <span class="material-chip">Email Marketing</span>
+            </div>
+            <div class="material-action" style="color:var(--green)">→ Abrir CV</div>
+          </a>
+
+          <a class="material-card" href="Curriculos/cv-performance-growth.html" target="_blank">
+            <div class="material-card-top">
+              <div class="material-icon" style="background:rgba(179,122,245,0.12)">🟣</div>
+              <div>
+                <div class="material-title">CV 3 — Performance & Growth</div>
+                <div class="material-sub">cv-performance-growth.html</div>
+              </div>
+            </div>
+            <div class="material-desc">
+              Mídia paga, aquisição e tracking avançado. Diferencial: server-side tracking + API de Conversão. CPL R$20→R$7, -21% CAC.
+            </div>
+            <div class="material-chips">
+              <span class="material-chip">Meta Ads</span>
+              <span class="material-chip">Google Ads</span>
+              <span class="material-chip">Server-side</span>
+              <span class="material-chip">CAPI</span>
+            </div>
+            <div class="material-action" style="color:var(--purple)">→ Abrir CV</div>
+          </a>
+        </div>
+
+        <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">📋 Estratégia</p>
+        <div class="materiais-grid" style="grid-template-columns:1fr 1fr">
+          <a class="material-card" href="Estrategia/linkedin-otimizacao.md" target="_blank">
+            <div class="material-card-top">
+              <div class="material-icon" style="background:rgba(79,142,247,0.12)">🔗</div>
+              <div>
+                <div class="material-title">LinkedIn — Guia Completo</div>
+                <div class="material-sub">linkedin-otimizacao.md</div>
+              </div>
+            </div>
+            <div class="material-desc">Headline, About, Skills ranqueadas, palavras-chave de ATS por tipo de vaga e checklist de revisão do perfil.</div>
+            <div class="material-action" style="color:var(--blue)">→ Abrir guia</div>
+          </a>
+          <a class="material-card" href="Estrategia/sistema-candidatura.md" target="_blank">
+            <div class="material-card-top">
+              <div class="material-icon" style="background:rgba(245,187,36,0.12)">🎯</div>
+              <div>
+                <div class="material-title">Sistema de Candidatura</div>
+                <div class="material-sub">sistema-candidatura.md</div>
+              </div>
+            </div>
+            <div class="material-desc">Checklist de qualificação, ATS hack, roteiro de 15 minutos, tracker e template de mensagem para recrutador.</div>
+            <div class="material-action" style="color:var(--amber)">→ Abrir sistema</div>
+          </a>
+        </div>
+
+        <div class="export-guide">
+          <h4>🖨️ Como exportar os CVs como PDF</h4>
+          <div class="export-steps">
+            <div class="export-step">
+              <div class="step-num">1</div>
+              <div class="step-text">Clique em "Abrir CV" e aguarde abrir no navegador (Chrome)</div>
+            </div>
+            <div class="export-step">
+              <div class="step-num">2</div>
+              <div class="step-text">Pressione <code>Ctrl+P</code> → Destino: "Salvar como PDF"</div>
+            </div>
+            <div class="export-step">
+              <div class="step-num">3</div>
+              <div class="step-text">Configurar: Tamanho A4 · Margens mínimas · Escala 100%</div>
+            </div>
+            <div class="export-step">
+              <div class="step-num">4</div>
+              <div class="step-text">Antes de salvar: preencha email, telefone e graduação nos CVs!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TAB: OTIMIZAÇÕES ── -->
+    <section class="tab-content" id="tab-otimizacoes">
+      <div class="page-header">
+        <div class="page-header-left">
+          <h2>Otimizações</h2>
+          <p>Acompanhe o progresso das melhorias no seu processo de recolocação</p>
+        </div>
+        <div class="header-actions">
+          <span id="otim-progress-label" style="font-size:12px;color:var(--text-muted);align-self:center;"></span>
+          <button class="btn-secondary" onclick="resetOtimizacoes()">↺ Resetar</button>
+        </div>
+      </div>
+      <div class="scroll-area" id="otim-list"></div>
+    </section>
+
+    <!-- ── TAB: PLAYBOOK ── -->
+    <section class="tab-content" id="tab-playbook">
+      <div class="page-header">
+        <div class="page-header-left">
+          <h2>Playbook Estratégico</h2>
+          <p>Referência rápida para decisões durante a busca</p>
+        </div>
+      </div>
+      <div class="scroll-area">
+        <div class="playbook-grid">
+
+          <!-- Checklist de qualificação -->
+          <div class="playbook-card">
+            <div class="playbook-card-title">✅ Checklist: Vale candidatar?</div>
+            <p style="font-size:11px;color:var(--text-muted);margin-bottom:12px;">≥ 6 pontos = candidatar · < 4 = pular</p>
+            <div class="qual-item"><div class="qual-num">1</div><div class="qual-text">O cargo bate com um dos seus 3 perfis (SEO / CRM / Performance)?</div></div>
+            <div class="qual-item"><div class="qual-num">2</div><div class="qual-text">A vaga menciona ≥ 2 ferramentas que você domina?</div></div>
+            <div class="qual-item"><div class="qual-num">3</div><div class="qual-text">O nível é Sênior, Especialista ou Coordenador?</div></div>
+            <div class="qual-item"><div class="qual-num">4</div><div class="qual-text">Segmento entre: saúde, edtech, e-commerce, SaaS, fintech ou agência?</div></div>
+            <div class="qual-item"><div class="qual-num">5</div><div class="qual-text">Empresa com mais de 50 funcionários (estrutura de Growth)?</div></div>
+            <div class="qual-item"><div class="qual-num">6</div><div class="qual-text">A vaga pede pelo menos 1 resultado mensurável?</div></div>
+            <div class="qual-item"><div class="qual-num">7</div><div class="qual-text">Localização remota, híbrida ou dentro de 60km de SJC?</div></div>
+            <div class="qual-item"><div class="qual-num">8</div><div class="qual-text">A descrição NÃO exige habilidade crítica que você não tem?</div></div>
+            <div class="qual-item"><div class="qual-num">9</div><div class="qual-text">A empresa tem presença ativa no LinkedIn com conteúdo recente?</div></div>
+            <div class="qual-item"><div class="qual-num">10</div><div class="qual-text">A vaga tem menos de 15 dias de publicação?</div></div>
+          </div>
+
+          <!-- Vaga → CV -->
+          <div class="playbook-card">
+            <div class="playbook-card-title">🗂️ Qual CV usar?</div>
+            <table class="vaga-cv-table">
+              <thead>
+                <tr><th>Palavras na vaga</th><th>CV</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>SEO, orgânico, Core Web Vitals, Screaming Frog, CRO, conversão</td>
+                  <td><span class="cv-pill" style="background:rgba(79,142,247,0.15);color:var(--blue)">CV 1 · SEO</span></td>
+                </tr>
+                <tr>
+                  <td>CRM, HubSpot, automação, e-mail, retenção, lifecycle, LTV, churn</td>
+                  <td><span class="cv-pill" style="background:rgba(48,212,136,0.15);color:var(--green)">CV 2 · CRM</span></td>
+                </tr>
+                <tr>
+                  <td>Meta Ads, Google Ads, tráfego pago, CPL, ROAS, CAC, tracking</td>
+                  <td><span class="cv-pill" style="background:rgba(179,122,245,0.15);color:var(--purple)">CV 3 · Perf.</span></td>
+                </tr>
+                <tr>
+                  <td>Growth Manager / Lead / Head (foco amplo)</td>
+                  <td><span class="cv-pill" style="background:rgba(179,122,245,0.15);color:var(--purple)">CV 3 + adaptar</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="divider"></div>
+            <div class="playbook-card-title" style="margin-bottom:10px">💬 Scripts de Entrevista</div>
+            <div class="script-item">
+              <div class="script-q">💬 "Por que quer Especialista tendo histórico de Head?"</div>
+              <div class="script-a">"Nesse momento de carreira, quero atuar focado na execução técnica de alto impacto em [área]. Gosto de resolver problemas complexos na ponta e gerar resultados diretos em dados. Contribuidor individual de alto nível é o que gera mais valor aqui."</div>
+            </div>
+            <div class="script-item">
+              <div class="script-q">💬 "Qual seu maior resultado?"</div>
+              <div class="script-a">"Na Conexa, fui responsável por escalar o tráfego orgânico de 600K para 900K sessões/mês via SEO técnico e clusters de conteúdo. O impacto direto foi [X reais em receita ou Y% em conversão]. Fiz isso em Z meses."</div>
+            </div>
+          </div>
+
+          <!-- Empresas alvo -->
+          <div class="playbook-card full">
+            <div class="playbook-card-title">🏢 Empresas-Alvo — Monitorar a cada 3-5 dias</div>
+            <table class="companies-table">
+              <thead>
+                <tr><th>Empresa</th><th>Segmento</th><th>Perfil Alvo</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>iFood</td><td>Marketplace</td><td>Growth / CRM</td><td><span class="monitor-dot">Monitorar</span></td></tr>
+                <tr><td>Quinto Andar</td><td>Proptech</td><td>Growth / SEO</td><td><span class="monitor-dot">Monitorar</span></td></tr>
+                <tr><td>Nubank</td><td>Fintech</td><td>Growth / CRM</td><td><span class="monitor-dot">Monitorar</span></td></tr>
+                <tr><td>RD Station</td><td>SaaS MarTech</td><td>SEO / CRM</td><td><span class="monitor-dot">Monitorar</span></td></tr>
+                <tr><td>Gympass / Wellhub</td><td>HealthTech</td><td>CRM / Growth</td><td><span class="monitor-dot">Monitorar</span></td></tr>
+                <tr><td>Dasa / Hapvida</td><td>HealthTech</td><td>Growth / SEO</td><td><span class="monitor-dot">Monitorar</span></td></tr>
+                <tr><td>Vivara</td><td>E-commerce</td><td>SEO / CRO</td><td><span class="monitor-dot">Monitorar</span></td></tr>
+                <tr><td>Sympla</td><td>SaaS Eventos</td><td>Growth</td><td><span class="monitor-dot">Monitorar</span></td></tr>
+                <tr><td>Centauro / Sport</td><td>E-commerce</td><td>SEO / Performance</td><td><span class="monitor-dot">Monitorar</span></td></tr>
+                <tr><td>Resultados Digitais</td><td>SaaS</td><td>Performance</td><td><span class="monitor-dot">Monitorar</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ===========================
+     MODAL — NOVA/EDITAR VAGA
+     =========================== -->
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">Nova Oportunidade</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <form id="vaga-form" onsubmit="submitVaga(event)">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Empresa *</label>
+          <input id="f-empresa" type="text" required placeholder="Ex: iFood">
+        </div>
+        <div class="form-group">
+          <label>Cargo *</label>
+          <input id="f-cargo" type="text" required placeholder="Ex: Especialista SEO Sênior">
+        </div>
+        <div class="form-group">
+          <label>CV a Usar</label>
+          <select id="f-cv">
+            <option value="1">CV 1 · SEO & CRO</option>
+            <option value="2">CV 2 · CRM & Retenção</option>
+            <option value="3">CV 3 · Performance & Growth</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Canal</label>
+          <select id="f-canal">
+            <option>LinkedIn Easy Apply</option>
+            <option>LinkedIn — contato direto</option>
+            <option>Gupy / ATS</option>
+            <option>Referral / Indicação</option>
+            <option>Catho</option>
+            <option>Indeed</option>
+            <option>Email direto</option>
+            <option>Headhunter</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Data de Aplicação</label>
+          <input id="f-data" type="date">
+        </div>
+        <div class="form-group">
+          <label>Score da Vaga (0–10)</label>
+          <input id="f-score" type="number" min="0" max="10" placeholder="Baseado no checklist">
+          <span class="score-hint">0–4: baixa | 5–7: média | 8–10: alta prioridade</span>
+        </div>
+        <div class="form-group full">
+          <label>Link da Vaga</label>
+          <input id="f-link" type="url" placeholder="https://linkedin.com/jobs/...">
+        </div>
+        <div class="form-group full">
+          <label>Notas / Observações</label>
+          <textarea id="f-notas" placeholder="Ex: recrutadora Ana Lima · salário ~R$12k · remoto 100% · empresa em expansão..." rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="f-status">
+            <option value="identificada">🔍 Identificada</option>
+            <option value="aplicada" selected>📤 Aplicada</option>
+            <option value="triagem">⏳ Em Triagem</option>
+            <option value="entrevista">🎤 Entrevista</option>
+            <option value="proposta">🎉 Proposta</option>
+            <option value="rejeitada">❌ Rejeitada</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" onclick="closeModal()">Cancelar</button>
+        <button type="submit" class="btn-primary">💾 Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- META MODAL -->
+<div class="modal-overlay" id="meta-modal-overlay" onclick="if(event.target===this)closeMetaModal()">
+  <div class="modal" style="width:320px">
+    <div class="modal-header">
+      <h3>Meta Semanal</h3>
+      <button class="modal-close" onclick="closeMetaModal()">✕</button>
+    </div>
+    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:4px;">Quantas candidaturas por semana?</p>
+    <div class="meta-input-wrap">
+      <input id="meta-input" type="number" min="1" max="50" value="5">
+      <span>candidaturas por semana</span>
+    </div>
+    <div class="form-actions">
+      <button class="btn-secondary" onclick="closeMetaModal()">Cancelar</button>
+      <button class="btn-primary" onclick="saveMeta()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- IA TAB -->
+<section class="tab-content" id="tab-ia">
+  <div class="page-header">
+    <div class="page-header-left">
+      <h2>🤖 Análise de Vaga com IA</h2>
+      <p>Cole a descrição — Gemini calcula fit, recomenda o CV e identifica gaps de ATS</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-secondary" onclick="switchTab('config')">⚙️ API Key</button>
+    </div>
+  </div>
+  <div class="scroll-area">
+    <!-- Input -->
+    <div class="ia-input-section">
+      <div class="ia-input-hd">
+        <div>
+          <h3>📋 Descrição da Vaga</h3>
+          <p>Cole o texto completo da vaga (LinkedIn, Gupy, Catho etc.)</p>
+        </div>
+      </div>
+      <textarea class="ia-textarea" id="ia-desc" placeholder="Cole aqui a descrição completa da vaga...&#10;&#10;Inclua cargo, empresa, requisitos e responsabilidades para melhor análise."></textarea>
+      <div class="ia-actions-bar">
+        <span class="ia-hint">💡 Quanto mais completa a descrição, mais precisa a análise.</span>
+        <div style="display:flex;gap:8px;">
+          <button class="btn-secondary" onclick="clearIA()">↺ Limpar</button>
+          <button class="btn-ai" id="btn-analyze" onclick="runAIAnalysis()">🤖 Analisar com IA</button>
+        </div>
+      </div>
+    </div>
+    <!-- Loading -->
+    <div class="ia-loading" id="ia-loading" style="display:none;">
+      <div class="ia-loading-icon">🤖</div>
+      <p>Analisando compatibilidade com seu perfil...</p>
+      <small>Gemini está processando a vaga</small>
+    </div>
+    <!-- Results -->
+    <div class="ia-results" id="ia-results" style="display:none;">
+      <div class="ia-results-header">
+        <div class="score-display-ia">
+          <svg class="score-svg-ia" viewBox="0 0 100 100">
+            <circle class="score-track" cx="50" cy="50" r="40"/>
+            <circle class="score-arc-el" cx="50" cy="50" r="40" id="ia-score-arc"
+              stroke="#30d488" stroke-dasharray="251.3" stroke-dashoffset="251.3"/>
+          </svg>
+          <div style="text-align:center;margin-top:4px;">
+            <div class="score-num-ia" id="ia-score-num">–</div>
+            <div class="score-denom-ia">/10 Fit</div>
+          </div>
+        </div>
+        <div>
+          <div class="ia-meta-company" id="ia-r-company">–</div>
+          <div class="ia-meta-role" id="ia-r-role">–</div>
+          <div class="ia-meta-tags" id="ia-r-tags"></div>
+        </div>
+        <div class="ia-cv-card" id="ia-cv-card">
+          <div class="ia-cv-label">CV Recomendado</div>
+          <div class="ia-cv-name" id="ia-cv-name">–</div>
+          <div class="ia-cv-reason" id="ia-cv-reason">–</div>
+        </div>
+      </div>
+      <div class="ia-kw-grid">
+        <div class="kw-panel match">
+          <div class="kw-panel-title">✅ Keywords Match</div>
+          <div class="kw-chips" id="ia-match-chips"></div>
+        </div>
+        <div class="kw-panel gap">
+          <div class="kw-panel-title">⚠️ Gaps a Considerar</div>
+          <div class="kw-chips" id="ia-gap-chips"></div>
+        </div>
+      </div>
+      <div class="ia-summary-card">
+        <h4>📋 O que a empresa busca</h4>
+        <p id="ia-summary">–</p>
+      </div>
+      <div class="ia-alert-card" id="ia-alert" style="display:none;">
+        <h4>⚠️ Ponto de Atenção</h4>
+        <p id="ia-alert-text">–</p>
+      </div>
+      <div class="ia-cta">
+        <button class="btn-primary" onclick="addFromAI()">➕ Adicionar ao Pipeline</button>
+        <button class="btn-secondary" onclick="clearIA()">↩ Analisar outra vaga</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONFIG TAB -->
+<section class="tab-content" id="tab-config">
+  <div class="page-header">
+    <div class="page-header-left">
+      <h2>⚙️ Configurações</h2>
+      <p>Gemini API Key, bookmarklet e importação LinkedIn</p>
+    </div>
+  </div>
+  <div class="scroll-area">
+    <div class="config-grid">
+      <!-- API Key -->
+      <div class="config-section">
+        <h3>🤖 Gemini API Key</h3>
+        <p class="sub">Necessária para análise de vagas com IA. Gratuita em <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--blue);">aistudio.google.com</a></p>
+        <div id="cfg-key-status"></div>
+        <div class="config-field">
+          <label>API Key</label>
+          <input type="password" class="config-input" id="cfg-apikey" placeholder="AIzaSy..." autocomplete="off">
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:16px;">
+          <button class="btn-primary" onclick="saveApiKey()">💾 Salvar</button>
+          <button class="btn-secondary" onclick="testApiKey()">🧪 Testar conexão</button>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.7;border-top:1px solid var(--border);padding-top:14px;">
+          <strong style="color:var(--text-secondary);">Como obter (grátis):</strong><br>
+          1. Acesse <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--blue);">aistudio.google.com/apikey</a><br>
+          2. Faça login com conta Google<br>
+          3. Clique &quot;Create API key&quot; → copie e cole acima
+        </div>
+      </div>
+      <!-- Bookmarklet -->
+      <div class="config-section">
+        <h3>🔖 Bookmarklet — 1 Clique</h3>
+        <p class="sub">Arraste o botão para a barra de favoritos do Chrome. Ao clicar numa vaga, importa automaticamente.</p>
+        <p style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Plataformas: LinkedIn, Gupy, Catho, Indeed, InfoJobs</p>
+        <a class="bm-link" id="cfg-bm-link" href="javascript:void(0)" title="Arraste para a barra de favoritos">🤖 → Playbook JG</a>
+        <p style="font-size:11px;color:var(--text-muted);margin:8px 0 14px;">⚠️ <strong>Não clique</strong> — <strong>arraste</strong> para a barra de favoritos</p>
+        <div class="bm-step"><span class="bm-step-num">1</span> Acesse qualquer vaga no LinkedIn, Gupy etc.</div>
+        <div class="bm-step"><span class="bm-step-num">2</span> Clique no favorito &quot;🤖 → Playbook JG&quot;</div>
+        <div class="bm-step"><span class="bm-step-num">3</span> Playbook abre com a vaga pré-carregada na aba IA</div>
+        <div class="bm-step"><span class="bm-step-num">4</span> Clique &quot;Analisar com IA&quot; para ver score e CV recomendado</div>
+      </div>
+      <!-- LinkedIn Import -->
+      <div class="config-section">
+        <h3>🔗 Importar Skills do LinkedIn</h3>
+        <p class="sub">Baixe seus dados do LinkedIn (Configurações → Privacidade → Obter cópia dos dados) e importe o arquivo Skills.csv</p>
+        <label class="import-zone" onclick="document.getElementById('li-file-input').click()">
+          <div style="font-size:28px;margin-bottom:8px;">📥</div>
+          <p>Clique para selecionar Skills.csv</p>
+          <small>Do export oficial do LinkedIn</small>
+          <input type="file" id="li-file-input" accept=".csv" style="display:none;" onchange="handleLinkedInImport(event)">
+        </label>
+        <div id="li-import-result" style="display:none;">
+          <div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:8px;" id="li-count"></div>
+          <div class="li-skills-wrap" id="li-skills-preview"></div>
+          <button class="btn-danger" style="margin-top:10px;font-size:12px;padding:6px 12px;" onclick="clearLISkills()">🗑️ Remover</button>
+        </div>
+      </div>
+      <!-- Meta -->
+      <div class="config-section">
+        <h3>🎯 Meta Semanal</h3>
+        <p class="sub">Quantas candidaturas por semana? Aparece no Dashboard como ring de progresso.</p>
+        <div class="config-field">
+          <label>Candidaturas por semana</label>
+          <input type="range" min="1" max="20" id="cfg-meta-range" oninput="document.getElementById('cfg-meta-val').textContent=this.value" style="width:100%;margin-bottom:8px;">
+          <div style="font-size:28px;font-weight:800;" id="cfg-meta-val">5</div>
+        </div>
+        <button class="btn-primary" onclick="saveCfgMeta()">💾 Salvar Meta</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONFIRM DIALOG -->
+<div class="confirm-dialog" id="confirm-dialog">
+  <div class="confirm-box">
+    <h4>🗑️ Excluir oportunidade?</h4>
+    <p>Essa ação não pode ser desfeita.</p>
+    <div class="confirm-actions">
+      <button class="btn-secondary" onclick="closeConfirm()">Cancelar</button>
+      <button class="btn-danger" id="confirm-ok-btn">Excluir</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ==========================================
+//  CONSTANTS
+// ==========================================
+const STATUSES = [
+  { key:'identificada', label:'Identificada',  emoji:'🔍', color:'#8896a9' },
+  { key:'aplicada',     label:'Aplicada',       emoji:'📤', color:'#4f8ef7' },
+  { key:'triagem',      label:'Em Triagem',     emoji:'⏳', color:'#f5bb24' },
+  { key:'entrevista',   label:'Entrevista',     emoji:'🎤', color:'#b37af5' },
+  { key:'proposta',     label:'Proposta',       emoji:'🎉', color:'#30d488' },
+  { key:'rejeitada',    label:'Rejeitada',      emoji:'❌', color:'#f56c6c' },
+];
+
+const CVS = [
+  { num:'1', label:'SEO & CRO',      color:'#4f8ef7' },
+  { num:'2', label:'CRM & Retenção', color:'#30d488' },
+  { num:'3', label:'Performance',    color:'#b37af5' },
+];
+
+const CANAIS = ['LinkedIn Easy Apply','LinkedIn — contato direto','Gupy / ATS','Referral / Indicação','Catho','Indeed','Email direto','Headhunter'];
+
+const OTIMIZACOES_PADRAO = [
+  { id:'li-1', cat:'LinkedIn',     emoji:'🔗', texto:'Atualizar headline com palavras-chave de ATS (220 chars)' },
+  { id:'li-2', cat:'LinkedIn',     emoji:'🔗', texto:'Preencher About com texto guarda-chuva otimizado' },
+  { id:'li-3', cat:'LinkedIn',     emoji:'🔗', texto:'Adicionar 50 skills ranqueadas por buscabilidade' },
+  { id:'li-4', cat:'LinkedIn',     emoji:'🔗', texto:'Ativar Open to Work (visível só para recrutadores)' },
+  { id:'li-5', cat:'LinkedIn',     emoji:'🔗', texto:'Solicitar endossos de 3–5 ex-colegas para top skills' },
+  { id:'li-6', cat:'LinkedIn',     emoji:'🔗', texto:'Personalizar URL: linkedin.com/in/joaogobira' },
+  { id:'cv-1', cat:'CVs',          emoji:'📄', texto:'Preencher e-mail de contato nos 3 CVs' },
+  { id:'cv-2', cat:'CVs',          emoji:'📄', texto:'Preencher telefone nos 3 CVs' },
+  { id:'cv-3', cat:'CVs',          emoji:'📄', texto:'Confirmar cargos reais das experiências (ajustar títulos)' },
+  { id:'cv-4', cat:'CVs',          emoji:'📄', texto:'Exportar os 3 CVs como PDF via Chrome (Ctrl+P)' },
+  { id:'cv-5', cat:'CVs',          emoji:'📄', texto:'Adicionar certificações reais com datas' },
+  { id:'es-1', cat:'Estratégia',   emoji:'🎯', texto:'Definir 10 empresas-alvo prioritárias e monitorar vagas' },
+  { id:'es-2', cat:'Estratégia',   emoji:'🎯', texto:'Configurar alertas de vagas no LinkedIn (palavras-chave + filtros)' },
+  { id:'es-3', cat:'Estratégia',   emoji:'🎯', texto:'Identificar recrutadores das empresas-alvo no LinkedIn' },
+  { id:'es-4', cat:'Estratégia',   emoji:'🎯', texto:'Atingir meta de 5 candidaturas/semana por 4 semanas seguidas' },
+  { id:'en-1', cat:'Entrevistas',  emoji:'🎤', texto:'Preparar resposta para "por que Especialista e não Head?"' },
+  { id:'en-2', cat:'Entrevistas',  emoji:'🎤', texto:'Preparar 3 cases com estrutura STAR (Situação, Tarefa, Ação, Resultado)' },
+  { id:'en-3', cat:'Entrevistas',  emoji:'🎤', texto:'Pesquisar produto e concorrentes das 10 empresas-alvo' },
+];
+
+const SK = {
+  vagas: 'jg_vagas_v2',
+  otimizacoes: 'jg_otim_v2',
+  meta: 'jg_meta_v2',
+  filter: 'jg_filter_v2',
+};
+
+// ==========================================
+//  STATE
+// ==========================================
+let state = {
+  vagas: [],
+  otimizacoes: [],
+  meta: 5,
+  filter: 'all',
+  editingId: null,
+  pendingDeleteId: null,
+  apiKey: '',
+  liSkills: [],
+  lastAIResult: null,
+};
+
+// ==========================================
+//  STORAGE
+// ==========================================
+function load() {
+  try {
+    const sv = localStorage.getItem(SK.vagas);
+    state.vagas = sv ? JSON.parse(sv) : [];
+    const so = localStorage.getItem(SK.otimizacoes);
+    if (so) {
+      state.otimizacoes = JSON.parse(so);
+    } else {
+      state.otimizacoes = OTIMIZACOES_PADRAO.map(o => ({ ...o, status:'pendente' }));
+    }
+    state.meta = parseInt(localStorage.getItem(SK.meta) || '5');
+    state.filter = localStorage.getItem(SK.filter) || 'all';
+  } catch(e) {
+    state.vagas = [];
+    state.otimizacoes = OTIMIZACOES_PADRAO.map(o => ({ ...o, status:'pendente' }));
+    state.meta = 5;
+    state.filter = 'all';
+  }
+}
+
+function save() {
+  try {
+    localStorage.setItem(SK.vagas, JSON.stringify(state.vagas));
+    localStorage.setItem(SK.otimizacoes, JSON.stringify(state.otimizacoes));
+    localStorage.setItem(SK.meta, String(state.meta));
+    localStorage.setItem(SK.filter, state.filter);
+  } catch(e) {}
+}
+
+// ==========================================
+//  HELPERS
+// ==========================================
+function uid() {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+}
+
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function formatDate(d) {
+  if (!d) return '';
+  const dt = new Date(d + 'T00:00:00');
+  return dt.toLocaleDateString('pt-BR', { day:'2-digit', month:'short', year:'numeric' });
+}
+
+function getStatusConf(key) {
+  return STATUSES.find(s => s.key === key) || STATUSES[0];
+}
+function getCVConf(num) {
+  return CVS.find(c => c.num === num) || CVS[0];
+}
+
+function getThisWeekVagas() {
+  const now = new Date();
+  const dayOfWeek = now.getDay(); // 0=sun
+  const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+  const monday = new Date(now);
+  monday.setDate(now.getDate() + mondayOffset);
+  monday.setHours(0,0,0,0);
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+  sunday.setHours(23,59,59,999);
+  return state.vagas.filter(v => {
+    if (!v.data) return false;
+    const d = new Date(v.data + 'T00:00:00');
+    return d >= monday && d <= sunday;
+  });
+}
+
+function getStats() {
+  const total = state.vagas.length;
+  const ativas = ['identificada','aplicada','triagem','entrevista','proposta'];
+  const emAndamento = state.vagas.filter(v => ativas.includes(v.status)).length;
+  const entrevistas = state.vagas.filter(v => v.status === 'entrevista' || v.status === 'proposta').length;
+  const candidatadas = state.vagas.filter(v => ['aplicada','triagem','entrevista','proposta','rejeitada'].includes(v.status)).length;
+  const respondidas = state.vagas.filter(v => ['triagem','entrevista','proposta'].includes(v.status)).length;
+  const taxa = candidatadas > 0 ? Math.round((respondidas / candidatadas) * 100) : 0;
+  const weekApplied = getThisWeekVagas().filter(v => v.status !== 'identificada').length;
+  return { total, emAndamento, entrevistas, taxa, weekApplied };
+}
+
+// ==========================================
+//  NAVIGATION
+// ==========================================
+function switchTab(tab) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelector(`.nav-item[data-tab="${tab}"]`).classList.add('active');
+  if (tab === 'dashboard') renderDashboard();
+  if (tab === 'pipeline') renderKanban();
+  if (tab === 'otimizacoes') renderOtimizacoes();
+}
+
+// ==========================================
+//  RENDER DASHBOARD
+// ==========================================
+function renderDashboard() {
+  const stats = getStats();
+
+  // Greeting
+  const hr = new Date().getHours();
+  const greet = hr < 12 ? 'Bom dia' : hr < 18 ? 'Boa tarde' : 'Boa noite';
+  document.getElementById('dash-greeting').textContent = `${greet}, João 👋`;
+  document.getElementById('dash-date').textContent = new Date().toLocaleDateString('pt-BR',{ weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+  // Stats
+  document.getElementById('stat-total').textContent = stats.total;
+  document.getElementById('stat-andamento').textContent = stats.emAndamento;
+  document.getElementById('stat-entrevistas').textContent = stats.entrevistas;
+  document.getElementById('stat-taxa').textContent = stats.taxa + '%';
+
+  // Weekly goal sidebar
+  updateGoalUI(stats.weekApplied);
+
+  // Recent vagas
+  const recentEl = document.getElementById('recent-vagas');
+  const sorted = [...state.vagas].sort((a,b) => (b.createdAt||0) - (a.createdAt||0)).slice(0, 6);
+  if (sorted.length === 0) {
+    recentEl.innerHTML = '<div class="empty-state"><p>Nenhuma vaga registrada ainda.</p><button class="btn-primary" onclick="switchTab(\'pipeline\'); setTimeout(()=>openModal(),100)">+ Adicionar primeira vaga</button></div>';
+  } else {
+    recentEl.innerHTML = sorted.map(v => {
+      const sc = getStatusConf(v.status);
+      return `<div class="recent-vaga-item">
+        <div class="recent-dot" style="background:${sc.color}"></div>
+        <div class="recent-info">
+          <div class="recent-empresa">${escHtml(v.empresa)}</div>
+          <div class="recent-cargo">${escHtml(v.cargo)}</div>
+        </div>
+        <span class="recent-status-badge" style="background:${sc.color}18;color:${sc.color};border:1px solid ${sc.color}30">
+          ${sc.emoji} ${sc.label}
+        </span>
+      </div>`;
+    }).join('');
+  }
+
+  // Quick otimizações
+  const quickEl = document.getElementById('otim-quick-list');
+  const pending = state.otimizacoes.filter(o => o.status !== 'feito').slice(0, 4);
+  if (pending.length === 0) {
+    quickEl.innerHTML = '<p style="font-size:12px;color:var(--green);text-align:center;padding:10px">🎉 Todas otimizações concluídas!</p>';
+  } else {
+    quickEl.innerHTML = pending.map(o => `
+      <div class="otim-quick-item">
+        <div class="otim-dot ${o.status === 'feito' ? 'feito' : o.status === 'progress' ? 'progress' : 'pendente'}"></div>
+        <div class="otim-text">${escHtml(o.texto)}</div>
+      </div>`).join('');
+  }
+
+  // Nav badges
+  updateNavBadges();
+}
+
+function updateGoalUI(weekApplied) {
+  const pct = Math.min(100, Math.round((weekApplied / state.meta) * 100));
+  document.getElementById('goal-fill').style.width = pct + '%';
+  document.getElementById('goal-text').textContent = `${weekApplied} / ${state.meta} essa semana`;
+
+  // Ring
+  const circumference = 2 * Math.PI * 36; // 226.2
+  const offset = circumference - (pct / 100) * circumference;
+  const ring = document.getElementById('ring-fill-el');
+  if (ring) {
+    ring.style.strokeDasharray = circumference;
+    ring.style.strokeDashoffset = offset;
+  }
+  document.getElementById('ring-applied').textContent = weekApplied;
+  document.getElementById('ring-label').textContent = `de ${state.meta} essa semana`;
+}
+
+function updateNavBadges() {
+  const active = state.vagas.filter(v => !['rejeitada'].includes(v.status)).length;
+  const pendingOtim = state.otimizacoes.filter(o => o.status !== 'feito').length;
+
+  const pipBadge = document.getElementById('nav-badge-pipeline');
+  pipBadge.textContent = active;
+  pipBadge.classList.toggle('zero', active === 0);
+
+  const otimBadge = document.getElementById('nav-badge-otim');
+  otimBadge.textContent = pendingOtim;
+  otimBadge.classList.toggle('zero', pendingOtim === 0);
+
+  document.getElementById('otim-progress-label').textContent =
+    `${state.otimizacoes.filter(o=>o.status==='feito').length} / ${state.otimizacoes.length} concluídas`;
+}
+
+// ==========================================
+//  RENDER KANBAN
+// ==========================================
+function renderKanban() {
+  const board = document.getElementById('kanban-board');
+  board.innerHTML = '';
+
+  const filtered = state.filter === 'all'
+    ? state.vagas
+    : state.vagas.filter(v => v.cv === state.filter);
+
+  document.getElementById('pipeline-count').textContent = `${filtered.length} vaga${filtered.length !== 1 ? 's' : ''}`;
+
+  STATUSES.forEach(status => {
+    const cards = filtered.filter(v => v.status === status.key);
+
+    const col = document.createElement('div');
+    col.className = 'kanban-col';
+    col.innerHTML = `
+      <div class="col-header">
+        <div class="col-dot" style="background:${status.color}"></div>
+        <span class="col-name">${status.label}</span>
+        <span class="col-count" style="background:${status.color}18;color:${status.color};border:1px solid ${status.color}30">${cards.length}</span>
+      </div>
+      <div class="col-cards" id="col-${status.key}">
+        ${cards.length === 0 ? '<div class="empty-col">Nenhuma vaga</div>' : ''}
+      </div>`;
+    board.appendChild(col);
+
+    if (cards.length > 0) {
+      const colCards = col.querySelector('.col-cards');
+      cards.forEach(v => colCards.appendChild(buildCard(v)));
+    }
+  });
+
+  updateNavBadges();
+}
+
+function buildCard(v) {
+  const cv = getCVConf(v.cv || '1');
+  const statusIdx = STATUSES.findIndex(s => s.key === v.status);
+  const canBack = statusIdx > 0;
+  const canFwd  = statusIdx < STATUSES.length - 1;
+
+  const scoreColor = !v.score ? '' :
+    v.score >= 7 ? '#30d488' : v.score >= 5 ? '#f5bb24' : '#f56c6c';
+
+  const div = document.createElement('div');
+  div.className = 'kanban-card';
+  div.dataset.id = v.id;
+
+  div.innerHTML = `
+    <div class="card-top">
+      <div class="card-info">
+        <div class="card-empresa">${escHtml(v.empresa)}</div>
+        <div class="card-cargo">${escHtml(v.cargo)}</div>
+      </div>
+      <div class="card-actions">
+        <button class="btn-icon" onclick="openModal('${v.id}')" title="Editar">✎</button>
+        <button class="btn-icon danger" onclick="confirmDelete('${v.id}')" title="Excluir">✕</button>
+      </div>
+    </div>
+    <div class="card-badges">
+      <span class="badge-cv" style="background:${cv.color}18;color:${cv.color};border:1px solid ${cv.color}30">CV ${cv.num} · ${cv.label}</span>
+      <span class="badge-canal">${escHtml(v.canal||'LinkedIn')}</span>
+    </div>
+    ${v.score ? `<div class="card-score">
+      <div class="score-bar"><div class="score-fill" style="width:${v.score*10}%;background:${scoreColor}"></div></div>
+      <span class="score-num">${v.score}/10</span>
+    </div>` : ''}
+    ${v.link ? `<a class="card-link" href="${escHtml(v.link)}" target="_blank">🔗 Ver vaga</a>` : ''}
+    ${v.notas ? `<div class="card-notes">${escHtml(v.notas)}</div>` : ''}
+    <div class="card-footer">
+      <span class="card-date">${formatDate(v.data)}</span>
+      <div class="card-move-btns">
+        ${canBack ? `<button class="btn-move" onclick="moveVaga('${v.id}',-1)">←</button>` : ''}
+        ${canFwd  ? `<button class="btn-move forward" onclick="moveVaga('${v.id}',1)">→</button>` : ''}
+      </div>
+    </div>`;
+
+  return div;
+}
+
+// ==========================================
+//  KANBAN ACTIONS
+// ==========================================
+function moveVaga(id, dir) {
+  const v = state.vagas.find(x => x.id === id);
+  if (!v) return;
+  const idx = STATUSES.findIndex(s => s.key === v.status);
+  const newIdx = idx + dir;
+  if (newIdx < 0 || newIdx >= STATUSES.length) return;
+  const newStatus = STATUSES[newIdx];
+  v.status = newStatus.key;
+  save();
+  renderKanban();
+  renderDashboard();
+  showToast(`${v.empresa} → ${newStatus.emoji} ${newStatus.label}`, 'success');
+}
+
+function confirmDelete(id) {
+  state.pendingDeleteId = id;
+  document.getElementById('confirm-dialog').classList.add('open');
+}
+function closeConfirm() {
+  state.pendingDeleteId = null;
+  document.getElementById('confirm-dialog').classList.remove('open');
+}
+document.getElementById('confirm-ok-btn').addEventListener('click', () => {
+  if (!state.pendingDeleteId) return;
+  state.vagas = state.vagas.filter(v => v.id !== state.pendingDeleteId);
+  save();
+  renderKanban();
+  renderDashboard();
+  closeConfirm();
+  showToast('Oportunidade removida', 'success');
+});
+
+// ==========================================
+//  MODAL — VAGA
+// ==========================================
+function openModal(editId = null) {
+  state.editingId = editId;
+  const overlay = document.getElementById('modal-overlay');
+  const title   = document.getElementById('modal-title');
+
+  if (editId) {
+    const v = state.vagas.find(x => x.id === editId);
+    if (!v) return;
+    title.textContent = 'Editar Oportunidade';
+    document.getElementById('f-empresa').value = v.empresa || '';
+    document.getElementById('f-cargo').value   = v.cargo   || '';
+    document.getElementById('f-cv').value      = v.cv      || '1';
+    document.getElementById('f-canal').value   = v.canal   || 'LinkedIn Easy Apply';
+    document.getElementById('f-data').value    = v.data    || '';
+    document.getElementById('f-score').value   = v.score   || '';
+    document.getElementById('f-link').value    = v.link    || '';
+    document.getElementById('f-notas').value   = v.notas   || '';
+    document.getElementById('f-status').value  = v.status  || 'aplicada';
+  } else {
+    title.textContent = 'Nova Oportunidade';
+    document.getElementById('vaga-form').reset();
+    document.getElementById('f-data').value = new Date().toISOString().split('T')[0];
+    document.getElementById('f-status').value = 'aplicada';
+  }
+
+  overlay.classList.add('open');
+  setTimeout(() => document.getElementById('f-empresa').focus(), 100);
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  state.editingId = null;
+}
+
+function submitVaga(e) {
+  e.preventDefault();
+  const data = {
+    empresa: document.getElementById('f-empresa').value.trim(),
+    cargo:   document.getElementById('f-cargo').value.trim(),
+    cv:      document.getElementById('f-cv').value,
+    canal:   document.getElementById('f-canal').value,
+    data:    document.getElementById('f-data').value,
+    score:   parseInt(document.getElementById('f-score').value) || null,
+    link:    document.getElementById('f-link').value.trim(),
+    notas:   document.getElementById('f-notas').value.trim(),
+    status:  document.getElementById('f-status').value,
+  };
+
+  if (state.editingId) {
+    const v = state.vagas.find(x => x.id === state.editingId);
+    if (v) Object.assign(v, data);
+    showToast('✅ Oportunidade atualizada!', 'success');
+  } else {
+    state.vagas.push({ id: uid(), createdAt: Date.now(), ...data });
+    showToast('✅ Oportunidade adicionada ao pipeline!', 'success');
+  }
+
+  save();
+  closeModal();
+  renderKanban();
+  renderDashboard();
+}
+
+// ==========================================
+//  KANBAN FILTER
+// ==========================================
+function setFilter(f, btn) {
+  state.filter = f;
+  save();
+  document.querySelectorAll('.kanban-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderKanban();
+}
+
+// ==========================================
+//  RENDER OTIMIZAÇÕES
+// ==========================================
+function renderOtimizacoes() {
+  const container = document.getElementById('otim-list');
+  const cats = [...new Set(state.otimizacoes.map(o => o.cat))];
+
+  container.innerHTML = cats.map(cat => {
+    const items = state.otimizacoes.filter(o => o.cat === cat);
+    const done  = items.filter(o => o.status === 'feito').length;
+    const emoji = items[0]?.emoji || '📋';
+
+    return `<div class="otim-category">
+      <div class="otim-category-header">
+        <span class="otim-category-icon">${emoji}</span>
+        <span class="otim-category-name">${cat}</span>
+        <span class="otim-category-count">${done}/${items.length} concluídas</span>
+      </div>
+      ${items.map(o => `
+        <div class="otim-item ${o.status === 'feito' ? 'feito' : ''}" id="otim-${o.id}">
+          <div class="otim-item-text">${escHtml(o.texto)}</div>
+          <select class="status-select" onchange="updateOtimizacao('${o.id}', this.value)"
+            style="color:${o.status==='feito'?'var(--green)':o.status==='progress'?'var(--blue)':'var(--amber)'}">
+            <option value="pendente" ${o.status==='pendente'?'selected':''}>⏳ Pendente</option>
+            <option value="progress" ${o.status==='progress'?'selected':''}>🔄 Em progresso</option>
+            <option value="feito"    ${o.status==='feito'   ?'selected':''}>✅ Feito</option>
+          </select>
+        </div>`).join('')}
+    </div>`;
+  }).join('');
+
+  updateNavBadges();
+}
+
+function updateOtimizacao(id, status) {
+  const o = state.otimizacoes.find(x => x.id === id);
+  if (!o) return;
+  o.status = status;
+  save();
+  renderOtimizacoes();
+  if (status === 'feito') showToast('✅ Otimização concluída!', 'success');
+}
+
+function resetOtimizacoes() {
+  if (!confirm('Resetar status de todas as otimizações para pendente?')) return;
+  state.otimizacoes.forEach(o => o.status = 'pendente');
+  save();
+  renderOtimizacoes();
+}
+
+// ==========================================
+//  META MODAL
+// ==========================================
+function openMetaModal() {
+  document.getElementById('meta-input').value = state.meta;
+  document.getElementById('meta-modal-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('meta-input').focus(), 100);
+}
+function closeMetaModal() {
+  document.getElementById('meta-modal-overlay').classList.remove('open');
+}
+function saveMeta() {
+  const val = parseInt(document.getElementById('meta-input').value);
+  if (val > 0 && val <= 50) {
+    state.meta = val;
+    save();
+    renderDashboard();
+    closeMetaModal();
+    showToast(`🎯 Meta atualizada: ${val} candidaturas/semana`, 'success');
+  }
+}
+
+// ==========================================
+//  EXPORT CSV
+// ==========================================
+function exportCSV() {
+  if (state.vagas.length === 0) { showToast('Nenhuma vaga para exportar', 'error'); return; }
+  const headers = ['Empresa','Cargo','CV','Canal','Data','Score','Status','Link','Notas'];
+  const rows = state.vagas.map(v => [
+    v.empresa, v.cargo, `CV ${v.cv}`, v.canal, v.data, v.score||'', v.status, v.link||'', v.notas||''
+  ].map(x => `"${String(x).replace(/"/g,'""')}"`));
+  const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
+  const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = `vagas-joao-gobira-${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('📥 CSV exportado!', 'success');
+}
+
+// ==========================================
+//  TOAST
+// ==========================================
+let toastTimer = null;
+function showToast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `toast show ${type}`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// ==========================================
+//  KEYBOARD SHORTCUTS
+// ==========================================
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModal();
+    closeMetaModal();
+    closeConfirm();
+  }
+  if ((e.metaKey || e.ctrlKey) && e.key === 'n') {
+    e.preventDefault();
+    openModal();
+  }
+});
+
+// ==========================================
+//  INIT
+// ==========================================
+function init() {
+  load();
+  // Load API key
+  state.apiKey = localStorage.getItem('jg_gemini_key') || 'AIzaSyBnTXZi4nKebnD0PRtECo3sBQpi_FNYRJ8';
+  if (!localStorage.getItem('jg_gemini_key')) {
+    localStorage.setItem('jg_gemini_key', state.apiKey);
+  }
+  state.liSkills = JSON.parse(localStorage.getItem('jg_li_skills') || '[]');
+
+  renderDashboard();
+
+  // Set active filter button from state
+  document.querySelectorAll('.kanban-filter').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === state.filter);
+  });
+
+  // Init bookmarklet
+  initBookmarklet();
+  updateApiStatusDot();
+
+  // Check hash import from bookmarklet
+  checkHashImport();
+}
+
+// ==========================================
+//  AI ANALYSIS (GEMINI)
+// ==========================================
+const JOAO_PROFILE_TEXT = `PERFIL DO CANDIDATO — João Gobira
+Experiência: 15 anos em Growth, SEO, CRM e Performance Digital
+Segmentos: HealthTech (Conexa), E-commerce (ADCOS), EdTech (StartSe, Gestão 4.0)
+
+COMPETÊNCIAS:
+• SEO/CRO: SEO Técnico, Core Web Vitals, Screaming Frog, SEMrush, Google Search Console, Link Building, CRO, A/B Testing, Hotjar, Ahrefs
+• CRM/Retenção: HubSpot, RD Station, ActiveCampaign, Klaviyo, Email Marketing, Marketing Automation, Lifecycle, LTV, Churn, Behavioral Economics
+• Performance/Growth: Meta Ads, Google Ads, Server-side Tracking, Meta CAPI, Growth Marketing, ROAS, CAC, CPL, Lead Generation
+• Analytics: GA4, Looker Studio, Power BI, BigQuery, GTM, Mixpanel, Amplitude, n8n, Salesforce
+
+RESULTADOS: +300K sessões/mês orgânico, +44% tráfego YoY, +53% conversão, CPL R$20→R$7, -21% CAC
+LOCALIZAÇÃO: São José dos Campos - SP | Remoto ou Híbrido
+NÍVEL: Especialista Sênior, Coordenador, Lead ou Head`;
+
+async function runAIAnalysis() {
+  const desc = document.getElementById('ia-desc').value.trim();
+  if (!desc) { showToast('Cole a descrição da vaga primeiro', 'error'); return; }
+  if (!state.apiKey) { showToast('Configure sua Gemini API Key em ⚙️ Configurações', 'error'); switchTab('config'); return; }
+
+  const btn = document.getElementById('btn-analyze');
+  btn.disabled = true;
+  document.getElementById('ia-loading').style.display = 'flex';
+  document.getElementById('ia-results').style.display = 'none';
+
+  try {
+    const result = await callGeminiAPI(desc);
+    state.lastAIResult = result;
+    renderAIResults(result);
+    showToast('✅ Análise concluída!', 'success');
+  } catch(e) {
+    showToast('Erro na análise: ' + e.message, 'error');
+    console.error(e);
+  } finally {
+    btn.disabled = false;
+    document.getElementById('ia-loading').style.display = 'none';
+  }
+}
+
+async function callGeminiAPI(description) {
+  const prompt = `Você é especialista em análise candidato-vaga para o mercado brasileiro.\n\n${JOAO_PROFILE_TEXT}\n\nDESCRIÇÃO DA VAGA:\n${description.substring(0, 6000)}\n\nRetorne APENAS um JSON válido (sem markdown):\n{"empresa":"","cargo":"","score_fit":0,"cv_recomendado":"1","cv_justificativa":"","keywords_match":[],"keywords_gap":[],"nivel":"","modalidade":"","segmento":"","resumo":"","alerta":""}\n\nRegras:\n- score_fit: 0-10 (compatibilidade real)\n- cv_recomendado: "1"=SEO/CRO, "2"=CRM/Retenção, "3"=Performance/Growth\n- keywords_match: máx 8 skills do candidato que a vaga pede\n- keywords_gap: máx 5 skills que a vaga pede e o candidato não tem\n- alerta: vazio se score>=7, senão 1 frase sobre o principal problema`;
+
+  const resp = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${state.apiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.1, maxOutputTokens: 1024 }
+      })
+    }
+  );
+
+  if (!resp.ok) {
+    const err = await resp.json().catch(() => ({}));
+    throw new Error(err.error?.message || `HTTP ${resp.status}`);
+  }
+
+  const data = await resp.json();
+  const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  const cleaned = raw.replace(/```json\s*/g,'').replace(/```\s*/g,'').trim();
+  const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
+  if (!jsonMatch) throw new Error('Resposta inválida da IA');
+  return JSON.parse(jsonMatch[0]);
+}
+
+function renderAIResults(r) {
+  const score = parseFloat(r.score_fit) || 0;
+  const circ = 251.3;
+  const offset = circ - (score / 10) * circ;
+  const color = score >= 7 ? '#30d488' : score >= 5 ? '#f5bb24' : '#f56c6c';
+  const arc = document.getElementById('ia-score-arc');
+  arc.setAttribute('stroke-dasharray', circ);
+  arc.setAttribute('stroke-dashoffset', offset);
+  arc.setAttribute('stroke', color);
+  document.getElementById('ia-score-num').textContent = score;
+  document.getElementById('ia-score-num').style.color = color;
+
+  document.getElementById('ia-r-company').textContent = r.empresa || '–';
+  document.getElementById('ia-r-role').textContent = r.cargo || '–';
+  const tags = [r.nivel, r.modalidade, r.segmento].filter(Boolean);
+  document.getElementById('ia-r-tags').innerHTML = tags.map(t => `<span style="display:inline-block;font-size:10px;font-weight:600;background:var(--bg-card);color:var(--text-muted);border:1px solid var(--border);padding:2px 8px;border-radius:20px;">${escHtml(t)}</span>`).join('');
+
+  const cvColors = {'1':'#4f8ef7','2':'#30d488','3':'#b37af5'};
+  const cvLabels = {'1':'SEO & CRO','2':'CRM & Retenção','3':'Performance & Growth'};
+  const cvColor = cvColors[r.cv_recomendado] || '#4f8ef7';
+  document.getElementById('ia-cv-card').style.background = cvColor + '10';
+  document.getElementById('ia-cv-card').style.borderColor = cvColor + '40';
+  document.getElementById('ia-cv-name').textContent = `CV ${r.cv_recomendado} — ${cvLabels[r.cv_recomendado] || ''}`;
+  document.getElementById('ia-cv-name').style.color = cvColor;
+  document.getElementById('ia-cv-reason').textContent = r.cv_justificativa || '';
+
+  document.getElementById('ia-match-chips').innerHTML = (r.keywords_match || []).map(k =>
+    `<span class="kw-chip match">${escHtml(k)}</span>`).join('') ||
+    '<span style="font-size:12px;color:var(--text-muted)">Nenhum identificado</span>';
+
+  document.getElementById('ia-gap-chips').innerHTML = (r.keywords_gap || []).map(k =>
+    `<span class="kw-chip gap">${escHtml(k)}</span>`).join('') ||
+    '<span style="font-size:12px;color:var(--green)">✅ Sem gaps relevantes!</span>';
+
+  document.getElementById('ia-summary').textContent = r.resumo || '–';
+
+  const alertEl = document.getElementById('ia-alert');
+  if (r.alerta) {
+    document.getElementById('ia-alert-text').textContent = r.alerta;
+    alertEl.style.display = 'block';
+  } else {
+    alertEl.style.display = 'none';
+  }
+
+  document.getElementById('ia-results').style.display = 'flex';
+}
+
+function addFromAI() {
+  if (!state.lastAIResult) return;
+  const r = state.lastAIResult;
+  state.editingId = null;
+  document.getElementById('f-empresa').value = r.empresa || '';
+  document.getElementById('f-cargo').value = r.cargo || '';
+  document.getElementById('f-cv').value = r.cv_recomendado || '3';
+  document.getElementById('f-score').value = r.score_fit || '';
+  document.getElementById('f-data').value = new Date().toISOString().split('T')[0];
+  document.getElementById('f-status').value = 'identificada';
+  document.getElementById('f-notas').value = `[IA] ${r.resumo || ''}\nGaps: ${(r.keywords_gap||[]).join(', ')}${r.alerta ? '\n⚠️ '+r.alerta : ''}`;
+  switchTab('pipeline');
+  setTimeout(() => openModal(), 100);
+}
+
+function clearIA() {
+  document.getElementById('ia-desc').value = '';
+  document.getElementById('ia-results').style.display = 'none';
+  document.getElementById('ia-loading').style.display = 'none';
+  state.lastAIResult = null;
+}
+
+// ==========================================
+//  CONFIG TAB
+// ==========================================
+function updateApiStatusDot() {
+  const hasKey = state.apiKey && state.apiKey.length > 10;
+  const dot = document.getElementById('api-status-dot');
+  if (dot) {
+    dot.style.background = hasKey ? '#30d488' : '#f56c6c';
+    dot.style.boxShadow = `0 0 5px ${hasKey ? '#30d488' : '#f56c6c'}`;
+  }
+  const badge = document.getElementById('cfg-key-status');
+  if (badge) {
+    badge.innerHTML = hasKey
+      ? '<div class="key-status ok">● API Key configurada e ativa</div>'
+      : '<div class="key-status nok">● API Key não configurada</div>';
+  }
+  if (document.getElementById('cfg-apikey')) {
+    document.getElementById('cfg-apikey').value = state.apiKey || '';
+  }
+}
+
+function saveApiKey() {
+  const key = (document.getElementById('cfg-apikey').value || '').trim();
+  if (!key) { showToast('Cole a API Key primeiro', 'error'); return; }
+  state.apiKey = key;
+  localStorage.setItem('jg_gemini_key', key);
+  updateApiStatusDot();
+  showToast('✅ API Key salva! Vá para a aba IA para testar.', 'success');
+}
+
+async function testApiKey() {
+  if (!state.apiKey) { showToast('Configure a API Key primeiro', 'error'); return; }
+  showToast('🧪 Testando conexão...', 'success');
+  try {
+    const resp = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${state.apiKey}`,
+      { method: 'POST', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ contents: [{ parts: [{ text: 'Responda apenas: OK' }] }] }) }
+    );
+    if (resp.ok) showToast('✅ Gemini conectado! IA pronta para uso.', 'success');
+    else { const e = await resp.json(); showToast('❌ ' + (e.error?.message || `HTTP ${resp.status}`), 'error'); }
+  } catch(e) { showToast('❌ Erro de conexão: ' + e.message, 'error'); }
+}
+
+function saveCfgMeta() {
+  const v = parseInt(document.getElementById('cfg-meta-range').value) || 5;
+  state.meta = v;
+  save();
+  showToast('🎯 Meta semanal atualizada!', 'success');
+}
+
+// Sync range on tab open
+const origSwitchTab = switchTab;
+switchTab = function(tab) {
+  origSwitchTab(tab);
+  if (tab === 'config') {
+    updateApiStatusDot();
+    renderLISkills();
+    const r = document.getElementById('cfg-meta-range');
+    if (r) { r.value = state.meta; document.getElementById('cfg-meta-val').textContent = state.meta; }
+  }
+};
+
+// ==========================================
+//  LINKEDIN CSV IMPORT
+// ==========================================
+function handleLinkedInImport(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const lines = e.target.result.split('\n').slice(1);
+    const skills = [];
+    lines.forEach(line => {
+      const s = line.replace(/"/g,'').replace(/,/g,'').trim();
+      if (s && s.length > 1) skills.push(s);
+    });
+    if (skills.length > 0) {
+      state.liSkills = skills;
+      localStorage.setItem('jg_li_skills', JSON.stringify(skills));
+      renderLISkills();
+      showToast(`✅ ${skills.length} skills importadas do LinkedIn!`, 'success');
+    } else {
+      showToast('Selecione o arquivo Skills.csv do export do LinkedIn', 'error');
+    }
+  };
+  reader.readAsText(file, 'UTF-8');
+  event.target.value = '';
+}
+
+function renderLISkills() {
+  const result = document.getElementById('li-import-result');
+  if (!result) return;
+  const skills = state.liSkills || [];
+  if (!skills.length) { result.style.display = 'none'; return; }
+  result.style.display = 'block';
+  document.getElementById('li-count').textContent = `${skills.length} skills importadas do LinkedIn`;
+  document.getElementById('li-skills-preview').innerHTML =
+    skills.slice(0, 25).map(s => `<span class="li-chip">${escHtml(s)}</span>`).join('') +
+    (skills.length > 25 ? `<span class="li-chip">+${skills.length-25}</span>` : '');
+}
+
+function clearLISkills() {
+  state.liSkills = [];
+  localStorage.removeItem('jg_li_skills');
+  renderLISkills();
+  showToast('Dados do LinkedIn removidos', 'success');
+}
+
+// ==========================================
+//  BOOKMARKLET
+// ==========================================
+function buildBookmarklet(playbookUrl) {
+  const pb = playbookUrl.replace(/'/g, "\\'");
+  return `javascript:(function(){var t=document.title,u=window.location.href,e='',c='';if(u.includes('linkedin.com')){var te=document.querySelector('.job-details-jobs-unified-top-card__job-title,.jobs-unified-top-card__job-title,h1.topcard__title');var ce=document.querySelector('.job-details-jobs-unified-top-card__company-name,.jobs-unified-top-card__company-name');var de=document.querySelector('.jobs-description-content__text,#job-details');if(te)t=te.innerText.trim();if(ce)c=ce.innerText.trim();if(de)e=de.innerText.trim().substring(0,5000);else{var m=document.querySelector('main');if(m)e=m.innerText.trim().substring(0,5000);}}else if(u.includes('gupy.io')){var te=document.querySelector('h1,[data-testid="job-title"]');var ce=document.querySelector('[data-testid="company-name"]');var de=document.querySelector('[data-testid="job-description"],main article');if(te)t=te.innerText.trim();if(ce)c=ce.innerText.trim();if(de)e=de.innerText.trim().substring(0,5000);}else{var de=document.querySelector('main,article,[class*="job-description"],[id*="job-description"]');if(de)e=de.innerText.trim().substring(0,5000);var te=document.querySelector('h1');if(te)t=te.innerText.trim();}var d={cargo:t,empresa:c,descricao:e,url:u};var enc=btoa(unescape(encodeURIComponent(JSON.stringify(d))));window.open('${pb}'+'#import='+enc,'_blank');})();`;
+}
+
+function initBookmarklet() {
+  const url = window.location.href.split('#')[0];
+  const bm = buildBookmarklet(url);
+  ['cfg-bm-link'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.href = bm;
+  });
+}
+
+function checkHashImport() {
+  const hash = window.location.hash;
+  if (!hash.startsWith('#import=')) return;
+  try {
+    const encoded = hash.substring(8);
+    const decoded = decodeURIComponent(escape(atob(encoded)));
+    const data = JSON.parse(decoded);
+    let text = '';
+    if (data.cargo) text += data.cargo + '\n';
+    if (data.empresa) text += data.empresa + '\n\n';
+    if (data.descricao) text += data.descricao;
+    if (data.url) text += '\n\nFonte: ' + data.url;
+    if (text.trim()) {
+      document.getElementById('ia-desc').value = text.trim();
+      switchTab('ia');
+      showToast('📥 Vaga importada! Clique em Analisar para continuar.', 'success');
+    }
+    window.history.replaceState(null, '', window.location.pathname);
+  } catch(e) { console.warn('Hash import:', e); }
+}
+
+init();
+</script>
+</body>
+</html>
