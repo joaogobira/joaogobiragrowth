@@ -14,7 +14,7 @@
     background: #f5f5f5;
     color: #1a1a1a;
     font-size: 10.5pt;
-    line-height: 1.5;
+    line-height: 1.45;
   }
 
   .page {
@@ -22,7 +22,7 @@
     min-height: 297mm;
     margin: 0 auto;
     background: #fff;
-    padding: 12mm 14mm 12mm 14mm;
+    padding: 12mm 14mm;
   }
 
   /* HEADER */
@@ -31,8 +31,8 @@
     justify-content: space-between;
     align-items: flex-start;
     border-bottom: 3px solid #7c1fa0;
-    padding-bottom: 10px;
-    margin-bottom: 12px;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
   }
   .header-left h1 {
     font-size: 22pt;
@@ -43,7 +43,7 @@
   }
   .header-left .tagline {
     font-size: 11pt;
-    font-weight: 500;
+    font-weight: 600;
     color: #a040cc;
     margin-top: 3px;
   }
@@ -51,7 +51,7 @@
     text-align: right;
     font-size: 9pt;
     color: #555;
-    line-height: 1.7;
+    line-height: 1.6;
   }
 
   /* BADGES */
@@ -59,7 +59,7 @@
     display: flex;
     gap: 6px;
     flex-wrap: wrap;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
   .badge {
     background: #f5eafa;
@@ -75,12 +75,12 @@
   .summary {
     background: #faf0ff;
     border-left: 4px solid #7c1fa0;
-    padding: 10px 14px;
+    padding: 8px 12px;
     border-radius: 0 6px 6px 0;
-    margin-bottom: 16px;
-    font-size: 10pt;
+    margin-bottom: 14px;
+    font-size: 9.5pt;
     color: #222;
-    line-height: 1.6;
+    line-height: 1.5;
   }
 
   /* MÉTRICAS */
@@ -88,7 +88,7 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 8px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
   .metric-card {
     background: #7c1fa0;
@@ -98,31 +98,60 @@
     text-align: center;
   }
   .metric-card .number {
-    font-size: 14pt;
+    font-size: 13pt;
     font-weight: 700;
     line-height: 1.1;
   }
   .metric-card .label {
     font-size: 7.5pt;
-    opacity: 0.85;
+    opacity: 0.9;
     margin-top: 2px;
   }
 
-  /* SEÇÕES */
-  .section { margin-bottom: 14px; }
-  .section-title {
+  /* DIFERENCIAL BOX */
+  .differencial {
+    background: #faf0ff;
+    border: 1.5px solid #dbb5f0;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 14px;
+  }
+  .differencial h4 {
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: #7c1fa0;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .differencial ul {
+    padding-left: 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .differencial ul li {
     font-size: 9pt;
+    color: #333;
+    line-height: 1.4;
+  }
+  .differencial ul li strong { color: #7c1fa0; }
+
+  /* SEÇÕES */
+  .section { margin-bottom: 12px; }
+  .section-title {
+    font-size: 9.5pt;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     color: #7c1fa0;
     border-bottom: 1.5px solid #7c1fa0;
-    padding-bottom: 3px;
-    margin-bottom: 10px;
+    padding-bottom: 2px;
+    margin-bottom: 8px;
   }
 
   /* EXPERIÊNCIA */
-  .job { margin-bottom: 12px; }
+  .job { margin-bottom: 10px; }
   .job-header {
     display: flex;
     justify-content: space-between;
@@ -130,12 +159,12 @@
     margin-bottom: 2px;
   }
   .job-title {
-    font-size: 10.5pt;
+    font-size: 10pt;
     font-weight: 700;
     color: #7c1fa0;
   }
   .job-company {
-    font-size: 10pt;
+    font-size: 9.5pt;
     font-weight: 500;
     color: #333;
   }
@@ -144,7 +173,6 @@
     color: #777;
     white-space: nowrap;
     margin-left: 10px;
-    padding-top: 2px;
   }
   .job-tag {
     display: inline-block;
@@ -153,50 +181,24 @@
     font-size: 7.5pt;
     padding: 1px 7px;
     border-radius: 12px;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
   }
   .job ul {
     padding-left: 14px;
-    margin-top: 4px;
   }
   .job ul li {
-    margin-bottom: 3px;
-    font-size: 9.5pt;
+    margin-bottom: 2px;
+    font-size: 9pt;
     color: #333;
+    line-height: 1.4;
   }
   .job ul li strong { color: #7c1fa0; }
-
-  /* DIFFERENCIAL BOX */
-  .differencial {
-    background: #faf0ff;
-    border: 1.5px solid #dbb5f0;
-    border-radius: 8px;
-    padding: 10px 14px;
-    margin-bottom: 14px;
-  }
-  .differencial h4 {
-    font-size: 9pt;
-    font-weight: 700;
-    color: #7c1fa0;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .differencial ul {
-    padding-left: 14px;
-  }
-  .differencial ul li {
-    font-size: 9.5pt;
-    color: #333;
-    margin-bottom: 3px;
-  }
-  .differencial ul li strong { color: #7c1fa0; }
 
   /* SKILLS */
   .skills-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
+    gap: 8px;
   }
   .skill-group h4 {
     font-size: 8.5pt;
@@ -216,34 +218,39 @@
     border: 1px solid #dbb5f0;
     color: #333;
     font-size: 8pt;
-    padding: 2px 7px;
+    padding: 2px 6px;
     border-radius: 4px;
   }
 
   /* FORMAÇÃO */
+  .edu-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
   .edu-item {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
   .edu-left .edu-degree {
-    font-size: 9.5pt;
+    font-size: 9pt;
     font-weight: 600;
     color: #1a1a1a;
   }
   .edu-left .edu-school {
-    font-size: 9pt;
+    font-size: 8.5pt;
     color: #555;
   }
   .edu-period {
-    font-size: 8.5pt;
+    font-size: 8pt;
     color: #777;
   }
 
   .footer-note {
-    margin-top: 14px;
+    margin-top: 12px;
     border-top: 1px solid #e0e0e0;
-    padding-top: 8px;
+    padding-top: 6px;
     font-size: 8pt;
     color: #999;
     text-align: center;
@@ -251,7 +258,7 @@
 
   @media print {
     body { background: #fff; }
-    .page { margin: 0; padding: 12mm 14mm; }
+    .page { margin: 0; padding: 10mm 12mm; }
   }
 </style>
 </head>
@@ -262,12 +269,12 @@
   <div class="header">
     <div class="header-left">
       <h1>João Gobira</h1>
-      <div class="tagline">Especialista de Performance & Growth · Mídia Paga & Tracking Avançado</div>
+      <div class="tagline">Especialista de Performance & Growth · Mídia Paga & Atribuição</div>
     </div>
     <div class="header-right">
       📍 São José dos Campos — SP | Remoto / Híbrido<br>
-      ✉️ [SEU EMAIL]<br>
-      📞 [SEU TELEFONE]<br>
+      ✉️ gobira.joao@gmail.com<br>
+      📞 (11) 9 3229-7788<br>
       🔗 linkedin.com/in/joaogobira
     </div>
   </div>
@@ -281,44 +288,44 @@
     <span class="badge">Growth Marketing</span>
     <span class="badge">Funil de Aquisição</span>
     <span class="badge">ROAS / CAC / CPL</span>
-    <span class="badge">GA4</span>
-    <span class="badge">Tag Manager</span>
-    <span class="badge">Looker Studio</span>
+    <span class="badge">GA4 / Looker Studio</span>
+    <span class="badge">SQL Avançado</span>
+    <span class="badge">Tableau</span>
   </div>
 
   <!-- RESUMO -->
   <div class="summary">
-    Especialista em Performance e Growth com 15 anos de experiência em mídia paga, aquisição e tracking avançado para healthtech, e-commerce e edtech. Diferencial técnico: domínio de <strong>server-side tracking e APIs de Conversão</strong> (Meta CAPI + Google Enhanced Conversions), garantindo dados precisos num cenário pós-iOS 14. Histórico de <strong>CPL de R$20 → R$7</strong> e <strong>-21% CAC</strong> via integração de mídia paga com dados de CRM e segmentação inteligente de audiências.
+    Profissional de Growth e Performance com 12 anos de experiência liderando aquisição paga, atribuição técnica e infraestrutura de dados de marketing em empresas de destaque. Especialista em integrar campanhas de mídia paga (orçamentos acima de R$ 500k/mês) a arquiteturas avançadas de tracking (<strong>GTM Server-side e APIs de Conversão</strong>), reduzindo sob-relato de conversões e garantindo 100% de integridade dos dados. Perfil analítico profundo com uso diário de SQL e dashboards para otimização contínua de funil, CPL e CAC.
   </div>
 
   <!-- MÉTRICAS -->
   <div class="metrics-row">
     <div class="metric-card">
-      <div class="number">R$20→R$7</div>
-      <div class="label">CPL reduzido — Gestão 4.0</div>
+      <div class="number">R$20 → R$7</div>
+      <div class="label">CPL reduzido (Gestão 4.0)</div>
     </div>
     <div class="metric-card">
       <div class="number">-21%</div>
-      <div class="label">CAC em aquisição digital — Conexa</div>
+      <div class="label">CAC em Aquisição (Conexa)</div>
     </div>
     <div class="metric-card">
-      <div class="number">SS Track</div>
-      <div class="label">Server-side + CAPI implementado</div>
+      <div class="number">100%</div>
+      <div class="label">Integridade de Dados (TagServer)</div>
     </div>
     <div class="metric-card">
-      <div class="number">15</div>
-      <div class="label">Anos em Growth & Performance</div>
+      <div class="number">R$ 500k+</div>
+      <div class="label">Verba mensal gerida</div>
     </div>
   </div>
 
   <!-- DIFERENCIAL TÉCNICO -->
   <div class="differencial">
-    <h4>🔧 Diferencial Técnico — Tracking Avançado</h4>
+    <h4>🔧 Diferencial Técnico — Tracking & Atribuição</h4>
     <ul>
-      <li><strong>Server-side tracking:</strong> implementação via GTM Server-Side + Stape, eliminando bloqueios de ITP/adblockers e aumentando qualidade de dados em +35%.</li>
-      <li><strong>Meta Conversions API (CAPI):</strong> configuração de eventos server-side para otimizar campanhas mesmo com iOS 14+ — redução de under-reporting de conversões.</li>
-      <li><strong>Google Enhanced Conversions:</strong> envio de dados de conversão hasheados para manter qualidade de sinal no Google Ads.</li>
-      <li><strong>Audiências de CRM:</strong> integração entre HubSpot/RD Station e Meta/Google para Lookalike baseado em LTV real, não só em cliques.</li>
+      <li><strong>Server-side Tracking:</strong> Implementação via GTM Server-Side + Stape, mitigando perda de sinal por ITP e adblockers (+35% qualidade de dados).</li>
+      <li><strong>APIs de Conversão:</strong> Configuração direta com Meta CAPI e Google Enhanced Conversions para resgate do sinal de conversões pós-iOS 14.</li>
+      <li><strong>CRM Integrado a Ads:</strong> Conexão técnica HubSpot/RD Station com redes de anúncio para alimentar algoritmos com LTV e leads de alto valor.</li>
+      <li><strong>SQL & BI Avançados:</strong> Modelagem de dados de funil, cohorts de clientes e cálculo real de CAC e ROAS integrado via bancos de dados.</li>
     </ul>
   </div>
 
@@ -329,65 +336,76 @@
     <div class="job">
       <div class="job-header">
         <div>
-          <div class="job-title">Especialista de Growth & Performance</div>
-          <div class="job-company">Conexa — HealthTech · B2C & B2B</div>
+          <span class="job-title">Consultor de Growth & Atribuição</span> — <span class="job-company">TagServer / CMKT Digital</span>
         </div>
-        <div class="job-period">2022 – 2024</div>
+        <div class="job-period">Set/2025 – Atual</div>
       </div>
-      <span class="job-tag">Meta Ads · Google Ads · Server-side Tracking · CAPI · Growth</span>
+      <span class="job-tag">Server-side Tracking · Meta CAPI · Google Ads · HubSpot CRM · Automações</span>
       <ul>
-        <li>Reduziu <strong>CAC em -21%</strong> via integração de audiências de CRM com Meta Ads (Custom Audiences baseadas em LTV + Lookalike de alto valor).</li>
-        <li>Implementou <strong>server-side tracking com Meta CAPI</strong>, aumentando taxa de correspondência de eventos de 67% para 94%.</li>
-        <li>Estruturou funis de aquisição com testes de criativo por etapa (Awareness / Consideração / Conversão), reduzindo CPM em 28%.</li>
-        <li>Gerenciou campanhas de Google Ads (Search + Performance Max) com otimização por ROAS-alvo, mantendo CPA dentro de meta com escala de budget.</li>
-        <li>Criou dashboards de performance em Looker Studio integrando dados de Meta, Google Ads e GA4 para análise unificada de funil.</li>
+        <li>Liderança da estratégia Go-to-Market (GTM) e crescimento de plataforma de tracking server-side, com foco no funil de vendas B2B.</li>
+        <li>Implementou infraestruturas técnicas de tracking e APIs de conversão, garantindo <strong>100% de integridade de dados</strong> em campanhas de Ads.</li>
+        <li>Gerenciou campanhas de Google Ads e Meta Ads com integrações complexas a fluxos de CRM para automação de qualificação de leads (MQL/SQL).</li>
+        <li>Desenvolveu ferramentas proprietárias de aquisição (Calculadora de ROAS) e conteúdo técnico para atração de leads qualificados.</li>
       </ul>
     </div>
 
     <div class="job">
       <div class="job-header">
         <div>
-          <div class="job-title">Especialista de Performance Digital</div>
-          <div class="job-company">ADCOS — E-commerce Beauty</div>
+          <span class="job-title">Growth Specialist</span> — <span class="job-company">Conexa (HealthTech)</span>
         </div>
-        <div class="job-period">2020 – 2022</div>
+        <div class="job-period">Set/2024 – Ago/2025</div>
       </div>
-      <span class="job-tag">Meta Ads · Google Shopping · ROAS · E-commerce</span>
+      <span class="job-tag">Meta Ads · Google Ads · PLG · Member Get Member · SQL · Analytics</span>
       <ul>
-        <li>Gerenciou campanhas de Google Shopping e Meta Ads para e-commerce de skincare, mantendo <strong>ROAS médio de 4.2x</strong>.</li>
-        <li>Implementou estratégia de campanhas sazonais (Black Friday, Dia das Mães) com segmentação por cohort de compra anterior.</li>
-        <li>Configurou Enhanced E-commerce no GA4 com rastreamento completo de funil de produto: visualização → carrinho → checkout → compra.</li>
+        <li>Gerenciou verba de <strong>R$ 170 mil/mês</strong> em campanhas de Meta Ads e Google Ads, conquistando **redução de 21% no CAC** e escalando em 100% consultas.</li>
+        <li>Operacionalizou testes de usabilidade e Product Led Growth (PLG) para otimização contínua da jornada e atração orgânica via Member Get Member (MGM).</li>
+        <li>Liderou estratégias de SEO com aumento expressivo no tráfego orgânico (de 300 mil para 900 mil sessões mensais).</li>
       </ul>
     </div>
 
     <div class="job">
       <div class="job-header">
         <div>
-          <div class="job-title">Especialista de Growth & Performance</div>
-          <div class="job-company">StartSe — EdTech</div>
+          <span class="job-title">Especialista de SEO e CRO</span> — <span class="job-company">ADCOS Cosmética de Tratamento</span>
         </div>
-        <div class="job-period">2019 – 2020</div>
+        <div class="job-period">Set/2022 – Ago/2024</div>
       </div>
-      <span class="job-tag">Meta Ads · Google Ads · Funil · CPA · Lead Generation</span>
+      <span class="job-tag">A/B Testing · CRO · GA4 · Google Search Console · Otimização de Conversão</span>
       <ul>
-        <li>Estruturou funil de geração de leads para eventos e cursos online, com campanhas de branding → lead → matrícula.</li>
-        <li>Aumentou conversão de landing pages em <strong>+53%</strong> via testes A/B de copy e criativos integrados às campanhas pagas.</li>
+        <li>Implementou rotina de testes A/B com foco em experiência do usuário e CRO nas páginas de categoria e checkout, mitigando taxa de rejeição.</li>
+        <li>Conduziu análises via GA4 e Search Console para extração de insights, acompanhamento de KPIs de conversão e embasamento de dados.</li>
       </ul>
     </div>
 
     <div class="job">
       <div class="job-header">
         <div>
-          <div class="job-title">Especialista de Performance & Growth</div>
-          <div class="job-company">Gestão 4.0 — EdTech</div>
+          <span class="job-title">Coordenador de Growth & Performance</span> — <span class="job-company">Gestão 4.0 (EdTech)</span>
         </div>
-        <div class="job-period">2017 – 2019</div>
+        <div class="job-period">Jun/2020 – Mai/2021</div>
       </div>
-      <span class="job-tag">Meta Ads · Google Ads · CPL · Lead Generation · Automação</span>
+      <span class="job-tag">Meta Ads · Google Ads · Gestão de Budget · SQL · Tableau · HubSpot</span>
       <ul>
-        <li>Reduziu <strong>CPL de R$ 20 → R$ 7</strong> via segmentação comportamental granular e otimização de lances por intenção de compra.</li>
-        <li>Estruturou arquitetura de campanhas escalável: budget compartilhado, adsets por temperatura de público (frio/morno/quente), criativos por etapa.</li>
-        <li>Integrou automação de leads com CRM, criando handoff automático Meta Ads → RD Station → vendas.</li>
+        <li>Reduziu o **CPL de R$ 20 para R$ 7** com gestão direta de investimento de mídia paga superior a <strong>R$ 500 mil/mês</strong>.</li>
+        <li>Configurou dashboards táticos no GA e Looker Studio para monitoramento em tempo real de KPIs de mídia.</li>
+        <li>Lançou produto digital gerando receita de 6 dígitos no primeiro dia, baseado em metodologias ágeis de growth e performance.</li>
+        <li>Utilizou SQL avançado e Tableau para identificar oportunidades de crescimento e estruturar cohorts de clientes.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div>
+          <span class="job-title">Especialista de Growth e CRM</span> — <span class="job-company">StartSe (EdTech)</span>
+        </div>
+        <div class="job-period">Mai/2019 – Jun/2020</div>
+      </div>
+      <span class="job-tag">HubSpot CRM · Leads Acquisition · Testes A/B · Copywriting</span>
+      <ul>
+        <li>Aumentou em 142% a captura de leads orgânicos em 6 meses (de 9 mil para 17 mil leads).</li>
+        <li>Executou testes A/B de CRO que resultaram em **+53% de conversão** em páginas de produtos.</li>
+        <li>Implementou testes de copy para e-mail marketing gerando incremento de 66% na receita do canal.</li>
       </ul>
     </div>
   </div>
@@ -397,76 +415,73 @@
     <div class="section-title">Competências Técnicas</div>
     <div class="skills-grid">
       <div class="skill-group">
-        <h4>Mídia Paga</h4>
+        <h4>Mídia & Aquisição</h4>
         <div class="skill-tags">
           <span class="skill-tag">Meta Ads</span>
-          <span class="skill-tag">Google Ads</span>
-          <span class="skill-tag">Google Shopping</span>
-          <span class="skill-tag">Performance Max</span>
-          <span class="skill-tag">YouTube Ads</span>
+          <span class="skill-tag">Google Ads (Search/PMax)</span>
           <span class="skill-tag">LinkedIn Ads</span>
+          <span class="skill-tag">Google Shopping</span>
+          <span class="skill-tag">YouTube Ads</span>
+          <span class="skill-tag">MGM / PLG</span>
         </div>
       </div>
       <div class="skill-group">
-        <h4>Tracking & Dados</h4>
+        <h4>Tracking & Atribuição</h4>
         <div class="skill-tags">
-          <span class="skill-tag">Server-side GTM</span>
+          <span class="skill-tag">GTM Server-Side</span>
           <span class="skill-tag">Meta CAPI</span>
-          <span class="skill-tag">Enhanced Conv.</span>
-          <span class="skill-tag">GA4</span>
-          <span class="skill-tag">Tag Manager</span>
+          <span class="skill-tag">Enhanced Conversions</span>
           <span class="skill-tag">Stape.io</span>
+          <span class="skill-tag">Pixel Setup</span>
+          <span class="skill-tag">API de Conversão</span>
         </div>
       </div>
       <div class="skill-group">
-        <h4>Analytics & BI</h4>
+        <h4>Dados & Analytics</h4>
         <div class="skill-tags">
+          <span class="skill-tag">SQL (avançado)</span>
           <span class="skill-tag">Looker Studio</span>
-          <span class="skill-tag">Power BI</span>
-          <span class="skill-tag">BigQuery</span>
-          <span class="skill-tag">Mixpanel</span>
-          <span class="skill-tag">Amplitude</span>
-          <span class="skill-tag">n8n</span>
+          <span class="skill-tag">Tableau</span>
+          <span class="skill-tag">GA4</span>
+          <span class="skill-tag">Mixpanel / Amplitude</span>
+          <span class="skill-tag">n8n / Automações</span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- FORMAÇÃO -->
+  <!-- FORMAÇÃO & EDUCAÇÃO -->
   <div class="section">
-    <div class="section-title">Formação & Certificações</div>
-    <div class="edu-item">
-      <div class="edu-left">
-        <div class="edu-degree">[Seu Curso de Graduação]</div>
-        <div class="edu-school">[Instituição]</div>
+    <div class="section-title">Formação Acadêmica & Certificações</div>
+    <div class="edu-row">
+      <div>
+        <div class="edu-item">
+          <div class="edu-left">
+            <div class="edu-degree">Pós-Graduação em Digital Product Management</div>
+            <div class="edu-school">FIAP</div>
+          </div>
+          <div class="edu-period">2025 – 2026 (Em curso)</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-left">
+            <div class="edu-degree">Bacharelado em Publicidade e Propaganda</div>
+            <div class="edu-school">Universidade São Judas Tadeu</div>
+          </div>
+          <div class="edu-period">2012 – 2015</div>
+        </div>
       </div>
-      <div class="edu-period">[Ano]</div>
-    </div>
-    <div class="edu-item">
-      <div class="edu-left">
-        <div class="edu-degree">Meta Blueprint — Media Planning Certification</div>
-        <div class="edu-school">Meta Blueprint</div>
+      <div style="font-size: 8.5pt; line-height: 1.5; color: #333;">
+        <strong>Certificações principais:</strong><br>
+        • Meta Blueprint (Media Planning / Buying)<br>
+        • Google Ads (Search & Performance Max)<br>
+        • Google Analytics 4 (GA4 Certification)<br>
+        • SQL Avançado para Análise de Dados
       </div>
-      <div class="edu-period">Válido</div>
-    </div>
-    <div class="edu-item">
-      <div class="edu-left">
-        <div class="edu-degree">Google Ads — Search & Performance Max</div>
-        <div class="edu-school">Google Skillshop</div>
-      </div>
-      <div class="edu-period">Válido</div>
-    </div>
-    <div class="edu-item">
-      <div class="edu-left">
-        <div class="edu-degree">Google Analytics 4 Certification</div>
-        <div class="edu-school">Google Skillshop</div>
-      </div>
-      <div class="edu-period">Válido</div>
     </div>
   </div>
 
   <div class="footer-note">
-    Este CV foi otimizado para vagas de Performance & Growth · ATS-friendly · Versão 3 de 3
+    Este currículo foi otimizado para vagas de Performance & Growth Técnico · ATS-friendly · Versão 3
   </div>
 
 </div>

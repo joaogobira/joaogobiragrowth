@@ -14,7 +14,7 @@
     background: #f5f5f5;
     color: #1a1a1a;
     font-size: 10.5pt;
-    line-height: 1.5;
+    line-height: 1.45;
   }
 
   .page {
@@ -22,7 +22,7 @@
     min-height: 297mm;
     margin: 0 auto;
     background: #fff;
-    padding: 12mm 14mm 12mm 14mm;
+    padding: 12mm 14mm;
   }
 
   /* HEADER */
@@ -31,8 +31,8 @@
     justify-content: space-between;
     align-items: flex-start;
     border-bottom: 3px solid #0f4c81;
-    padding-bottom: 10px;
-    margin-bottom: 12px;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
   }
   .header-left h1 {
     font-size: 22pt;
@@ -43,7 +43,7 @@
   }
   .header-left .tagline {
     font-size: 11pt;
-    font-weight: 500;
+    font-weight: 600;
     color: #2d6aa0;
     margin-top: 3px;
   }
@@ -51,16 +51,15 @@
     text-align: right;
     font-size: 9pt;
     color: #555;
-    line-height: 1.7;
+    line-height: 1.6;
   }
-  .header-right a { color: #0f4c81; text-decoration: none; }
 
   /* BADGES */
   .badges {
     display: flex;
     gap: 6px;
     flex-wrap: wrap;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
   .badge {
     background: #e8f0fe;
@@ -76,12 +75,12 @@
   .summary {
     background: #f0f6ff;
     border-left: 4px solid #0f4c81;
-    padding: 10px 14px;
+    padding: 8px 12px;
     border-radius: 0 6px 6px 0;
-    margin-bottom: 16px;
-    font-size: 10pt;
+    margin-bottom: 14px;
+    font-size: 9.5pt;
     color: #222;
-    line-height: 1.6;
+    line-height: 1.5;
   }
 
   /* MÉTRICAS */
@@ -89,7 +88,7 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 8px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
   .metric-card {
     background: #0f4c81;
@@ -99,31 +98,31 @@
     text-align: center;
   }
   .metric-card .number {
-    font-size: 14pt;
+    font-size: 13pt;
     font-weight: 700;
     line-height: 1.1;
   }
   .metric-card .label {
     font-size: 7.5pt;
-    opacity: 0.85;
+    opacity: 0.9;
     margin-top: 2px;
   }
 
   /* SEÇÕES */
-  .section { margin-bottom: 14px; }
+  .section { margin-bottom: 12px; }
   .section-title {
-    font-size: 9pt;
+    font-size: 9.5pt;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     color: #0f4c81;
     border-bottom: 1.5px solid #0f4c81;
-    padding-bottom: 3px;
-    margin-bottom: 10px;
+    padding-bottom: 2px;
+    margin-bottom: 8px;
   }
 
   /* EXPERIÊNCIA */
-  .job { margin-bottom: 12px; }
+  .job { margin-bottom: 10px; }
   .job-header {
     display: flex;
     justify-content: space-between;
@@ -131,12 +130,12 @@
     margin-bottom: 2px;
   }
   .job-title {
-    font-size: 10.5pt;
+    font-size: 10pt;
     font-weight: 700;
     color: #0f4c81;
   }
   .job-company {
-    font-size: 10pt;
+    font-size: 9.5pt;
     font-weight: 500;
     color: #333;
   }
@@ -145,7 +144,6 @@
     color: #777;
     white-space: nowrap;
     margin-left: 10px;
-    padding-top: 2px;
   }
   .job-tag {
     display: inline-block;
@@ -154,16 +152,16 @@
     font-size: 7.5pt;
     padding: 1px 7px;
     border-radius: 12px;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
   }
   .job ul {
     padding-left: 14px;
-    margin-top: 4px;
   }
   .job ul li {
-    margin-bottom: 3px;
-    font-size: 9.5pt;
+    margin-bottom: 2px;
+    font-size: 9pt;
     color: #333;
+    line-height: 1.4;
   }
   .job ul li strong { color: #0f4c81; }
 
@@ -171,7 +169,7 @@
   .skills-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
+    gap: 8px;
   }
   .skill-group h4 {
     font-size: 8.5pt;
@@ -191,35 +189,39 @@
     border: 1px solid #d0dff0;
     color: #333;
     font-size: 8pt;
-    padding: 2px 7px;
+    padding: 2px 6px;
     border-radius: 4px;
   }
 
   /* FORMAÇÃO */
+  .edu-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
   .edu-item {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
   .edu-left .edu-degree {
-    font-size: 9.5pt;
+    font-size: 9pt;
     font-weight: 600;
     color: #1a1a1a;
   }
   .edu-left .edu-school {
-    font-size: 9pt;
+    font-size: 8.5pt;
     color: #555;
   }
   .edu-period {
-    font-size: 8.5pt;
+    font-size: 8pt;
     color: #777;
   }
 
-  /* FOOTER */
   .footer-note {
-    margin-top: 14px;
+    margin-top: 12px;
     border-top: 1px solid #e0e0e0;
-    padding-top: 8px;
+    padding-top: 6px;
     font-size: 8pt;
     color: #999;
     text-align: center;
@@ -227,7 +229,7 @@
 
   @media print {
     body { background: #fff; }
-    .page { margin: 0; padding: 12mm 14mm; }
+    .page { margin: 0; padding: 10mm 12mm; }
   }
 </style>
 </head>
@@ -242,8 +244,8 @@
     </div>
     <div class="header-right">
       📍 São José dos Campos — SP | Remoto / Híbrido<br>
-      ✉️ [SEU EMAIL]<br>
-      📞 [SEU TELEFONE]<br>
+      ✉️ gobira.joao@gmail.com<br>
+      📞 (11) 9 3229-7788<br>
       🔗 linkedin.com/in/joaogobira
     </div>
   </div>
@@ -257,33 +259,33 @@
     <span class="badge">Screaming Frog</span>
     <span class="badge">SEMrush</span>
     <span class="badge">Search Console</span>
-    <span class="badge">A/B Testing</span>
-    <span class="badge">Looker Studio</span>
-    <span class="badge">Data-driven</span>
+    <span class="badge">Testes A/B</span>
+    <span class="badge">Link Building</span>
+    <span class="badge">Clusters de Conteúdo</span>
   </div>
 
   <!-- RESUMO -->
   <div class="summary">
-    Especialista com 15 anos de experiência em SEO técnico e otimização de conversão (CRO) para e-commerce, healthtech e edtech. Histórico comprovado de crescimento orgânico sustentável: <strong>+300K sessões/mês na Conexa</strong>, <strong>+44% tráfego YoY na ADCOS</strong> e <strong>+53% conversão em páginas de produto na StartSe</strong>. Atuo na interseção entre dados e experiência do usuário, unindo auditorias técnicas, estratégia de conteúdo e testes de conversão para gerar resultado mensurável em receita.
+    Especialista com 12 anos de experiência liderando SEO técnico, estratégias de conteúdo orgânico e otimização de taxa de conversão (CRO) para e-commerce, edtech e healthtech. Histórico de entregas de alto crescimento orgânico, incluindo expansão de tráfego de <strong>300k para 900k sessões/mês (+200%) na Conexa</strong>, crescimento de <strong>+44% no tráfego orgânico YoY na ADCOS</strong>, e aumento de <strong>+338% nas sessões orgânicas da StartSe</strong>. Domínio técnico na resolução de problemas de indexação, performance de Core Web Vitals e testes A/B integrados ao funil de receita.
   </div>
 
   <!-- MÉTRICAS -->
   <div class="metrics-row">
     <div class="metric-card">
-      <div class="number">+300K</div>
-      <div class="label">Sessões/mês orgânicas — Conexa</div>
+      <div class="number">300k → 900k</div>
+      <div class="label">Sessões orgânicas/mês (Conexa)</div>
     </div>
     <div class="metric-card">
-      <div class="number">+44%</div>
-      <div class="label">Crescimento orgânico YoY — ADCOS</div>
+      <div class="number">+44% YoY</div>
+      <div class="label">Tráfego orgânico (ADCOS)</div>
+    </div>
+    <div class="metric-card">
+      <div class="number">50%+</div>
+      <div class="label">Faturamento LATAM (HostGator)</div>
     </div>
     <div class="metric-card">
       <div class="number">+53%</div>
-      <div class="label">Conversão em páginas — StartSe</div>
-    </div>
-    <div class="metric-card">
-      <div class="number">15</div>
-      <div class="label">Anos de experiência em Growth</div>
+      <div class="label">Conversão em Páginas (StartSe)</div>
     </div>
   </div>
 
@@ -294,66 +296,91 @@
     <div class="job">
       <div class="job-header">
         <div>
-          <div class="job-title">Especialista de SEO & Growth</div>
-          <div class="job-company">Conexa — HealthTech · B2C & B2B</div>
+          <span class="job-title">Consultor de Growth</span> — <span class="job-company">TagServer / CMKT Digital</span>
         </div>
-        <div class="job-period">2022 – 2024</div>
+        <div class="job-period">Set/2025 – Atual</div>
       </div>
-      <span class="job-tag">SEO Técnico · CRO · Analytics · Conteúdo Orgânico</span>
+      <span class="job-tag">Marketing de Conteúdo Técnico · SEO Editorial · Funil de Conversão B2B · Analytics</span>
       <ul>
-        <li>Escalou tráfego orgânico de <strong>~600K para +900K sessões/mês</strong> via auditoria técnica, clusters de conteúdo e correções de Core Web Vitals.</li>
-        <li>Implementou estratégia de <strong>featured snippets e rich results</strong> com schema markup estruturado, aumentando CTR em 18%.</li>
-        <li>Reduziu erros críticos de indexação em 74% com revisões sistemáticas via Screaming Frog + Search Console.</li>
-        <li>Criou dashboards de SEO em GA4 + Looker Studio para monitoramento semanal de posições, CTR e cobertura de índice.</li>
-        <li>Colaborou com dev para otimização de LCP, CLS e FID — passagem de "ruim" para "bom" no PageSpeed em 100% das landing pages principais.</li>
+        <li>Desenvolveu estratégias de conteúdo técnico focado no posicionamento de plataforma de tracking e atração orgânica de leads B2B qualificados.</li>
+        <li>Conduziu auditorias e otimizações de conversão nas landing pages para qualificação inteligente e passagem de leads no funil de vendas.</li>
       </ul>
     </div>
 
     <div class="job">
       <div class="job-header">
         <div>
-          <div class="job-title">Especialista de SEO & E-commerce</div>
-          <div class="job-company">ADCOS — E-commerce Beauty</div>
+          <span class="job-title">Growth Specialist (SEO & Tráfego Orgânico)</span> — <span class="job-company">Conexa (HealthTech)</span>
         </div>
-        <div class="job-period">2020 – 2022</div>
+        <div class="job-period">Set/2024 – Ago/2025</div>
       </div>
-      <span class="job-tag">SEO On-page · Técnico · E-commerce · CRO</span>
+      <span class="job-tag">SEO Estratégico · Clusters de Conteúdo · Migração de Portais · Google Analytics 4</span>
       <ul>
-        <li>Crescimento de <strong>+44% no tráfego orgânico YoY</strong> com estratégia integrada de SEO técnico + conteúdo + linkbuilding.</li>
-        <li>Otimizou arquitetura de categorias e fichas de produto para buscas transacionais, reduzindo canibalização de palavras-chave em 60%.</li>
-        <li>Implementou testes A/B em páginas de categoria com Hotjar + GA4, melhorando taxa de cliques no carrinho em 22%.</li>
-        <li>Criou fluxo de produção de conteúdo SEO-first com briefings baseados em intenção de busca (TOFU/MOFU/BOFU).</li>
+        <li>Liderou a estratégia de SEO e tráfego orgânico que elevou as sessões mensais de <strong>300 mil para 900 mil (+200%)</strong>.</li>
+        <li>Ampliou o volume de keywords posicionadas nas primeiras páginas do Google, passando de **60 mil para 150 mil em 12 meses**.</li>
+        <li>Responsável técnico pela migração estrutural de portais da marca e implementação de clusters de conteúdo multicanais.</li>
+        <li>Executou testes de usabilidade (PLG) e estruturação do canal orgânico Member Get Member (MGM) para otimizar o funil.</li>
       </ul>
     </div>
 
     <div class="job">
       <div class="job-header">
         <div>
-          <div class="job-title">Especialista de Growth & CRO</div>
-          <div class="job-company">StartSe — EdTech</div>
+          <span class="job-title">Especialista em SEO e CRO</span> — <span class="job-company">ADCOS Cosmética de Tratamento</span>
         </div>
-        <div class="job-period">2019 – 2020</div>
+        <div class="job-period">Set/2022 – Ago/2024</div>
       </div>
-      <span class="job-tag">CRO · Landing Pages · Testes A/B · SEO Editorial</span>
+      <span class="job-tag">SEO Técnico · Core Web Vitals · Testes A/B · UX · Google Search Console</span>
       <ul>
-        <li>Aumentou conversão em <strong>+53% nas páginas de produto</strong> via testes de copy, layout e CTAs com Hotjar + GA4.</li>
-        <li>Reestruturou arquitetura de URLs e hierarquia de conteúdo, aumentando pages/session em 35%.</li>
-        <li>Desenvolveu playbook de otimização de landing pages reutilizado por todo o time de Growth.</li>
+        <li>Desenvolveu e executou o planejamento estratégico de SEO, gerando <strong>crescimento de 44% no tráfego orgânico (YoY 2022-2023)</strong>.</li>
+        <li>Dobrou o volume de palavras-chave posicionadas nas primeiras páginas do Google em 12 meses de operação.</li>
+        <li>Conduziu auditorias técnicas completas de SEO (Core Web Vitals, arquitetura, indexação), projetando aumento de receita orgânica > 30%.</li>
+        <li>Implementou rotina de testes A/B com foco em experiência do usuário e CRO nas páginas de categoria, elevando a taxa de conversão geral.</li>
       </ul>
     </div>
 
     <div class="job">
       <div class="job-header">
         <div>
-          <div class="job-title">Especialista de Performance & SEO</div>
-          <div class="job-company">Gestão 4.0 — EdTech</div>
+          <span class="job-title">Especialista de SEO e Growth</span> — <span class="job-company">HostGator América Latina</span>
         </div>
-        <div class="job-period">2017 – 2019</div>
+        <div class="job-period">Abr/2021 – Ago/2022</div>
       </div>
-      <span class="job-tag">SEO · Analytics · Otimização de Funil</span>
+      <span class="job-tag">SEO em Escala · Liderança de Time · Otimização de Funil · Link Building</span>
       <ul>
-        <li>Estruturou a presença orgânica do zero, atingindo primeiras posições em termos-chave de alta competição em 8 meses.</li>
-        <li>Configurou tracking completo com GA4 + Tag Manager para mapeamento do funil de conversão editorial → venda.</li>
+        <li>Responsável por mais de <strong>50% do faturamento da empresa na região LATAM</strong>, coordenando a estratégia orgânica e liderando o time de SEO.</li>
+        <li>Posicionou palavras-chave de altíssima competição no top 3 do Google (ex: "hospedagem", "hospedagem de sites", "registro de domínio").</li>
+        <li>Estruturou estratégias técnicas de CRO no funil de checkout e conduziu cursos corporativos sobre cultura de SEO.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div>
+          <span class="job-title">Especialista de Growth e CRM</span> — <span class="job-company">StartSe (EdTech)</span>
+        </div>
+        <div class="job-period">Mai/2019 – Jun/2020</div>
+      </div>
+      <span class="job-tag">SEO Editorial · CRO · Testes A/B · Captura de Leads Orgânicos</span>
+      <ul>
+        <li>Liderou a estratégia de SEO e conteúdo orgânico, com <strong>crescimento de 338% nas sessões orgânicas</strong> (de 128 mil para +433 mil) em 1 ano.</li>
+        <li>Aumentou em 142% a captura de leads orgânicos em 2019, expandindo de 9 mil para 17 mil leads em 6 meses.</li>
+        <li>Estruturou a área de CRO com testes A/B que geraram **+53% de conversão** em páginas de produtos.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div>
+          <span class="job-title">Especialista de SEO e CRM</span> — <span class="job-company">Quero Educação (Quero Bolsa)</span>
+        </div>
+        <div class="job-period">Fev/2018 – Mai/2019</div>
+      </div>
+      <span class="job-tag">SEO Off-page · Link Building · Autoridade de Domínio · Conteúdo Educacional</span>
+      <ul>
+        <li>Responsável por 35% da receita total da companhia gerada por canais orgânicos, coordenando a estratégia de SEO e conteúdo.</li>
+        <li>Liderou o posicionamento estratégico do termo "teste vocacional" no top 3 do Google e dominou buscas de termos universitários.</li>
+        <li>Implementou workflows eficientes de aquisição de backlinks para fortalecimento de autoridade de domínio.</li>
       </ul>
     </div>
   </div>
@@ -363,71 +390,72 @@
     <div class="section-title">Competências Técnicas</div>
     <div class="skills-grid">
       <div class="skill-group">
-        <h4>SEO Técnico</h4>
+        <h4>SEO Técnico & On-page</h4>
         <div class="skill-tags">
           <span class="skill-tag">Screaming Frog</span>
-          <span class="skill-tag">SEMrush</span>
+          <span class="skill-tag">SEMrush / Ahrefs</span>
           <span class="skill-tag">Search Console</span>
           <span class="skill-tag">Core Web Vitals</span>
           <span class="skill-tag">Schema Markup</span>
           <span class="skill-tag">Link Building</span>
-          <span class="skill-tag">Ahrefs</span>
         </div>
       </div>
       <div class="skill-group">
-        <h4>CRO & Analytics</h4>
+        <h4>CRO & Usabilidade</h4>
         <div class="skill-tags">
+          <span class="skill-tag">Testes A/B</span>
+          <span class="skill-tag">Hotjar / Clarity</span>
+          <span class="skill-tag">Otimização de Checkout</span>
+          <span class="skill-tag">User Experience (UX)</span>
           <span class="skill-tag">GA4</span>
           <span class="skill-tag">Looker Studio</span>
-          <span class="skill-tag">Hotjar</span>
-          <span class="skill-tag">Microsoft Clarity</span>
-          <span class="skill-tag">Mixpanel</span>
-          <span class="skill-tag">A/B Testing</span>
-          <span class="skill-tag">Tag Manager</span>
         </div>
       </div>
       <div class="skill-group">
-        <h4>Dados & Plataformas</h4>
+        <h4>Conteúdo & Dados</h4>
         <div class="skill-tags">
-          <span class="skill-tag">Power BI</span>
-          <span class="skill-tag">BigQuery</span>
-          <span class="skill-tag">Data Studio</span>
-          <span class="skill-tag">n8n</span>
-          <span class="skill-tag">WordPress</span>
-          <span class="skill-tag">Webflow</span>
+          <span class="skill-tag">Clusters de Conteúdo</span>
+          <span class="skill-tag">Migração de Portais</span>
+          <span class="skill-tag">SQL (intermediário)</span>
+          <span class="skill-tag">WordPress / Webflow</span>
+          <span class="skill-tag">n8n / Automações</span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- FORMAÇÃO -->
+  <!-- FORMAÇÃO & EDUCAÇÃO -->
   <div class="section">
-    <div class="section-title">Formação & Certificações</div>
-    <div class="edu-item">
-      <div class="edu-left">
-        <div class="edu-degree">[Seu Curso de Graduação]</div>
-        <div class="edu-school">[Instituição]</div>
+    <div class="section-title">Formação Acadêmica & Certificações</div>
+    <div class="edu-row">
+      <div>
+        <div class="edu-item">
+          <div class="edu-left">
+            <div class="edu-degree">Pós-Graduação em Digital Product Management</div>
+            <div class="edu-school">FIAP</div>
+          </div>
+          <div class="edu-period">2025 – 2026 (Em curso)</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-left">
+            <div class="edu-degree">Bacharelado em Publicidade e Propaganda</div>
+            <div class="edu-school">Universidade São Judas Tadeu</div>
+          </div>
+          <div class="edu-period">2012 – 2015</div>
+        </div>
       </div>
-      <div class="edu-period">[Ano]</div>
-    </div>
-    <div class="edu-item">
-      <div class="edu-left">
-        <div class="edu-degree">Google Analytics 4 Certification</div>
-        <div class="edu-school">Google Skillshop</div>
+      <div style="font-size: 8.5pt; line-height: 1.5; color: #333;">
+        <strong>Certificações principais:</strong><br>
+        • Google Analytics 4 (GA4 Certification)<br>
+        • SEMrush SEO Toolkit & On-Page SEO<br>
+        • Auditoria Técnica Screaming Frog e PageSpeed<br>
+        • Otimização de Conversão (CRO) & Testes A/B
       </div>
-      <div class="edu-period">Válido</div>
-    </div>
-    <div class="edu-item">
-      <div class="edu-left">
-        <div class="edu-degree">SEMrush SEO Toolkit Certification</div>
-        <div class="edu-school">SEMrush Academy</div>
-      </div>
-      <div class="edu-period">Válido</div>
     </div>
   </div>
 
   <div class="footer-note">
-    Este CV foi otimizado para vagas de SEO & CRO Sênior · ATS-friendly · Versão 1 de 3
+    Este currículo foi otimizado para vagas de SEO & CRO Sênior · ATS-friendly · Versão 1
   </div>
 
 </div>
