@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>João Gobira — Especialista de Martech Sênior</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --primary: #111827;       /* Graphite 900 */
+    --accent: #ea580c;        /* Orange 600 */
+    --accent-light: #ffedd5;  /* Orange 100 */
+    --bg-soft: #fff7ed;       /* Orange 50 */
+    --text-dark: #1f2937;     /* Slate 800 */
+    --text-muted: #6b7280;    /* Slate 500 */
+    --border: #e5e7eb;        /* Slate 200 */
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f9fafb;
+    color: var(--text-dark);
+    font-size: 10.5pt;
+    line-height: 1.4;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    background: #fff;
+    padding: 10mm 12mm;
+    position: relative;
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 6px;
+    margin-bottom: 8px;
+  }
+  .header-left h1 {
+    font-size: 22pt;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+  .header-left .tagline {
+    font-size: 11.5pt;
+    font-weight: 600;
+    color: var(--accent);
+    margin-top: 2px;
+  }
+  .header-right {
+    text-align: right;
+    font-size: 8.5pt;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .header-right a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  /* BADGES */
+  .badges {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .badge {
+    background: var(--bg-soft);
+    color: var(--primary);
+    font-size: 7.5pt;
+    font-weight: 600;
+    padding: 2.5px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+
+  /* RESUMO */
+  .summary {
+    background: var(--bg-soft);
+    border-left: 4px solid var(--accent);
+    padding: 6px 10px;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 10px;
+    font-size: 9pt;
+    color: var(--text-dark);
+    line-height: 1.45;
+  }
+
+  /* MÉTRICAS */
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .metric-card {
+    background: var(--primary);
+    color: #fff;
+    border-radius: 6px;
+    padding: 6px 8px;
+    text-align: center;
+  }
+  .metric-card .number {
+    font-size: 12pt;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  .metric-card .label {
+    font-size: 7pt;
+    opacity: 0.85;
+    margin-top: 1px;
+  }
+
+  /* SEÇÕES */
+  .section { margin-bottom: 10px; }
+  .section-title {
+    font-size: 9.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--primary);
+    border-bottom: 1.5px solid var(--primary);
+    padding-bottom: 1px;
+    margin-bottom: 6px;
+  }
+
+  /* EXPERIÊNCIA */
+  .job { margin-bottom: 7px; }
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1px;
+  }
+  .job-title {
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: var(--primary);
+  }
+  .job-company {
+    font-size: 9pt;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .job-period {
+    font-size: 8pt;
+    color: var(--text-muted);
+    white-space: nowrap;
+    margin-left: 8px;
+  }
+  .job-tag {
+    display: inline-block;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 7pt;
+    font-weight: 600;
+    padding: 0.5px 6px;
+    border-radius: 4px;
+    margin-bottom: 3px;
+  }
+  .job ul {
+    padding-left: 12px;
+  }
+  .job ul li {
+    margin-bottom: 1px;
+    font-size: 8.5pt;
+    color: var(--text-dark);
+    line-height: 1.35;
+  }
+  .job ul li strong { color: var(--accent); }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .skill-group h4 {
+    font-size: 8pt;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .skill-tag {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    color: var(--text-dark);
+    font-size: 7.5pt;
+    padding: 1.5px 5px;
+    border-radius: 3px;
+  }
+
+  /* FORMAÇÃO */
+  .edu-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .edu-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3px;
+  }
+  .edu-left .edu-degree {
+    font-size: 8.5pt;
+    font-weight: 600;
+    color: var(--primary);
+  }
+  .edu-left .edu-school {
+    font-size: 8pt;
+    color: var(--text-muted);
+  }
+  .edu-period {
+    font-size: 7.5pt;
+    color: var(--text-muted);
+  }
+
+  .footer-note {
+    margin-top: 8px;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 4px;
+    font-size: 7.5pt;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  @media print {
+    body { background: #fff; }
+    .page { margin: 0; padding: 8mm 10mm; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <h1>João Gobira</h1>
+      <div class="tagline">Especialista de Martech Sênior · Arquitetura de Dados & CRM Omnichannel</div>
+    </div>
+    <div class="header-right">
+      São José dos Campos, SP | Remoto / Híbrido<br>
+      Email: <a href="mailto:gobira.joao@gmail.com">gobira.joao@gmail.com</a><br>
+      Telefone: (11) 9 3229-7788<br>
+      LinkedIn: <a href="https://linkedin.com/in/joaogobira" target="_blank">linkedin.com/in/joaogobira</a>
+    </div>
+  </div>
+
+  <!-- BADGES -->
+  <div class="badges">
+    <span class="badge">Martech Strategy</span>
+    <span class="badge">Salesforce & Adobe Stack</span>
+    <span class="badge">Server-side Tracking</span>
+    <span class="badge">Customer Data Platform (CDP)</span>
+    <span class="badge">CRM Omnichannel</span>
+    <span class="badge">Marketing Automation</span>
+    <span class="badge">SQL Avançado</span>
+    <span class="badge">GA4 & Looker Studio</span>
+    <span class="badge">Integrações de Dados</span>
+  </div>
+
+  <!-- RESUMO -->
+  <div class="summary">
+    <strong>Consultor e Especialista em Martech com 13 anos de experiência</strong> atuando na orquestração de stacks de tecnologia e dados para clientes de alta escala (enterprise). Expertise no mapeamento de maturidade digital, integração de plataformas de CRM omnichannel e arquitetura de dados (<strong>GTM Server-side, APIs de Conversão e CDPs</strong>). Domínio analítico em SQL para segmentação comportamental e estruturação de jornadas de personalização cross-canal sem canibalização.
+  </div>
+
+  <!-- MÉTRICAS -->
+  <div class="metrics-row">
+    <div class="metric-card">
+      <div class="number">100%</div>
+      <div class="label">Integridade de Atribuição (TagServer)</div>
+    </div>
+    <div class="metric-card">
+      <div class="number">-21% CAC</div>
+      <div class="label">Integração CRM + Mídia (Conexa)</div>
+    </div>
+    <div class="metric-card">
+      <div class="number">HubSpot</div>
+      <div class="label">Réguas & Automação Complexas</div>
+    </div>
+    <div class="metric-card">
+      <div class="number">13 anos</div>
+      <div class="label">Experiência em Ecossistemas Martech</div>
+    </div>
+  </div>
+
+  <!-- EXPERIÊNCIA -->
+  <div class="section">
+    <div class="section-title">Experiência Profissional</div>
+
+    <div class="job">
+      <div class="job-header">
+        <div>
+          <span class="job-title">Consultor Martech & Atribuição de Dados</span> — <span class="job-company">TagServer / CMKT Digital</span>
+        </div>
+        <div class="job-period">Set/2025 – Atual</div>
+      </div>
+      <span class="job-tag">Diagnóstico de Maturidade · Server-side Tracking · APIs de Conversão · Integração CRM</span>
+      <ul>
+        <li>Realizou diagnóstico estratégico do stack de marketing de clientes B2B, implementando tracking avançado via GTM Server-Side + Stape para mitigação de perda de sinal de dados.</li>
+        <li>Estruturou a integração técnica das APIs de conversão (Meta e Google) com bases de CRM, garantindo <strong>100% de precisão de atribuição</strong> e conformidade de dados.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div>
+          <span class="job-title">Growth Specialist (Estratégia de CRM & Martech)</span> — <span class="job-company">Conexa (HealthTech)</span>
+        </div>
+        <div class="job-period">Set/2024 – Ago/2025</div>
+      </div>
+      <span class="job-tag">Omnichannel CRM · Member Get Member · SQL Analytics · PLG</span>
+      <ul>
+        <li>Conduziu auditorias de réguas ativas e implementou fluxos de marketing automation integrados a campanhas pagas, gerando <strong>redução de 21% no CAC</strong>.</li>
+        <li>Participou ativamente do roadmap tecnológico e no mapeamento de dados para a migração estrutural de portais da marca.</li>
+        <li>Otimizou a ativação de usuários desenhando a jornada orgânica de indicação via canais digitais integrada ao CRM.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div>
+          <span class="job-title">Especialista de SEO & CRO (Dados e Funil)</span> — <span class="job-company">ADCOS Cosmética de Tratamento</span>
+        </div>
+        <div class="job-period">Set/2022 – Ago/2024</div>
+      </div>
+      <span class="job-tag">Testes A/B · GA4 Analytics · Otimização de Checkout · Usabilidade</span>
+      <ul>
+        <li>Otimizou a jornada e taxas de conversão do funil de e-commerce executando testes A/B nas páginas de checkout.</li>
+        <li>Conduziu análises comportamentais profundas via GA4 com foco no ciclo de vida de recompra e comportamento de usuários.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div>
+          <span class="job-title">Coordenador de Performance & Growth (Martech / Dados)</span> — <span class="job-company">Gestão 4.0 (EdTech)</span>
+        </div>
+        <div class="job-period">Jun/2020 – Mai/2021</div>
+      </div>
+      <span class="job-tag">SQL · Tableau Dashboards · Inbound CRM · Segmentação de Cohort</span>
+      <ul>
+        <li>Configurou dashboards avançados de reporting no Tableau integrados a bancos de dados SQL para análise de cohorts e LTV.</li>
+        <li>Orquestrou o budget de mídia (<strong>R$ 500k/mês</strong>) integrando canais de tráfego a réguas complexas de pós-vendas no HubSpot CRM, reduzindo o CPL em 65%.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div>
+          <span class="job-title">Especialista de CRM e Growth</span> — <span class="job-company">StartSe (EdTech)</span>
+        </div>
+        <div class="job-period">Mai/2019 – Jun/2020</div>
+      </div>
+      <span class="job-tag">HubSpot Automation · Email Marketing · Copywriting · Testes A/B</span>
+      <ul>
+        <li>Estruturou jornadas automatizadas de nutrição no CRM HubSpot, escalando em <strong>142% a captura de leads orgânicos</strong>.</li>
+        <li>Executou testes A/B de canais de email que geraram <strong>incremento de 66% em receita</strong> diretamente atribuída ao CRM.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="section">
+    <div class="section-title">Habilidades e Ecossistema Martech</div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h4>Plataformas & CRM</h4>
+        <div class="skill-tags">
+          <span class="skill-tag">Salesforce Stack (SFMC)</span>
+          <span class="skill-tag">Adobe Experience (AJO/AEP)</span>
+          <span class="skill-tag">HubSpot CRM</span>
+          <span class="skill-tag">Customer Data Cloud (CDP)</span>
+          <span class="skill-tag">ActiveCampaign</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Dados & Atribuição</h4>
+        <div class="skill-tags">
+          <span class="skill-tag">SQL (Avançado)</span>
+          <span class="skill-tag">GTM Server-Side</span>
+          <span class="skill-tag">Meta & Google CAPI</span>
+          <span class="skill-tag">Identity Resolution</span>
+          <span class="skill-tag">Google Analytics 4</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Estratégia & Métricas</h4>
+        <div class="skill-tags">
+          <span class="skill-tag">Roadmap de Plataformas</span>
+          <span class="skill-tag">Orquestração Multi-BU</span>
+          <span class="skill-tag">Testes A/B (CRO)</span>
+          <span class="skill-tag">Métricas de ROI / LTV</span>
+          <span class="skill-tag">Automação (n8n)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMAÇÃO & EDUCAÇÃO -->
+  <div class="section">
+    <div class="section-title">Formação Acadêmica & Certificações</div>
+    <div class="edu-row">
+      <div>
+        <div class="edu-item">
+          <div class="edu-left">
+            <div class="edu-degree">Pós-Graduação em Digital Product Management</div>
+            <div class="edu-school">FIAP</div>
+          </div>
+          <div class="edu-period">2025 – 2026 (Em curso)</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-left">
+            <div class="edu-degree">Bacharelado em Publicidade e Propaganda</div>
+            <div class="edu-school">Universidade São Judas Tadeu</div>
+          </div>
+          <div class="edu-period">2012 – 2015</div>
+        </div>
+      </div>
+      <div style="font-size: 8pt; line-height: 1.4; color: var(--text-dark);">
+        <strong>Certificações e Cursos:</strong> Martech Platform Roadmaps · Salesforce Marketing Cloud Architecture · Google Analytics 4 (GA4) · SQL Avançado para Análise de Dados e Unificação de Perfis · Inbound CRM & HubSpot Automation.
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    Este currículo foi otimizado para vagas de Especialista / Consultor de Martech Sênior · ATS-friendly · Versão 1.1 (2026-06-29)
+  </div>
+
+</div>
+</body>
+</html>
