@@ -189,8 +189,9 @@
 
       chrome.storage.sync.get(['playbookUrl'], (res) => {
         const url = (res.playbookUrl || PLAYBOOK_DEFAULT) + '#import=' + encoded;
-        window.open(url, '_blank');
-        showToast('✅ Vaga enviada para o Playbook!');
+        chrome.runtime.sendMessage({ action: 'openTab', url: url }, (response) => {
+          showToast('✅ Vaga enviada para o Playbook!');
+        });
       });
 
     } catch (e) {
