@@ -35,11 +35,6 @@ app.use(express.static(BASE_DIR, { index: false }));
 app.use('/blog', express.static(path.join(BASE_DIR, 'blog')));
 app.use('/posts', express.static(path.join(BASE_DIR, 'posts')));
 
-// ── Redirecionamentos de Currículos (Local) ──
-app.get('/cv-seo', (req, res) => res.redirect('/Curriculos/cv-seo-cro-senior.html'));
-app.get('/cv-crm', (req, res) => res.redirect('/Curriculos/cv-crm-retencao-ltv.html'));
-app.get('/cv-performance', (req, res) => res.redirect('/Curriculos/cv-performance-growth.html'));
-
 // Suporte a URLs amigáveis sem .html para os currículos
 app.get('/Curriculos/:name', (req, res, next) => {
   const cleanName = req.params.name.replace(/\.html$/, '');

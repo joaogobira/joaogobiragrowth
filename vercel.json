@@ -1,11 +1,6 @@
 {
   "cleanUrls": true,
   "trailingSlash": true,
-  "redirects": [
-    { "source": "/cv-seo", "destination": "/Curriculos/cv-seo-cro-senior/", "statusCode": 307 },
-    { "source": "/cv-crm", "destination": "/Curriculos/cv-crm-retencao-ltv/", "statusCode": 307 },
-    { "source": "/cv-performance", "destination": "/Curriculos/cv-performance-growth/", "statusCode": 307 }
-  ],
   "rewrites": [
     { "source": "/blog/:slug/", "destination": "/blog/post/" }
   ]
