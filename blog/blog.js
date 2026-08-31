@@ -104,6 +104,45 @@ function setupFilters(posts) {
   });
 }
 
+// ── Markdown Parser com Fallback ──
+function renderMarkdownSafe(mdText) {
+  if (typeof marked !== 'undefined' && typeof marked.parse === 'function') {
+    try {
+      return marked.parse(mdText);
+    } catch (e) {
+      console.warn('Erro ao processar com marked, usando fallback:', e);
+    }
+  }
+
+  // Fallback nativo caso a biblioteca externa falhe
+  return mdText
+    .split(/\n\n+/)
+    .map(block => {
+      block = block.trim();
+      if (!block) return '';
+      if (block.startsWith('# ')) return `<h1>${block.substring(2)}</h1>`;
+      if (block.startsWith('## ')) return `<h2>${block.substring(3)}</h2>`;
+      if (block.startsWith('### ')) return `<h3>${block.substring(4)}</h3>`;
+      if (block === '---') return '<hr>';
+      if (block.startsWith('> ')) return `<blockquote>${block.substring(2)}</blockquote>`;
+      if (block.startsWith('![')) {
+        const m = block.match(/!\[(.*?)\]\((.*?)\)/);
+        if (m) return `<p><img alt="${m[1]}" src="${m[2]}" /></p>`;
+      }
+      if (block.startsWith('- ')) {
+        const items = block.split('\n').map(li => `<li>${li.replace(/^-\s*/, '')}</li>`).join('');
+        return `<ul>${items}</ul>`;
+      }
+      let inline = block
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>')
+        .replace(/\n/g, '<br>');
+      return `<p>${inline}</p>`;
+    })
+    .join('\n');
+}
+
 // ══════════════════════════════════════════════════════
 // POST PAGE (blog/post.html)
 // ══════════════════════════════════════════════════════
@@ -119,16 +158,19 @@ async function loadPost() {
   if (slug) {
     loadedFromQuery = true;
   } else {
-    const match = window.location.pathname.match(/\/blog\/([^\/\?]+)/);
-    if (match) slug = match[1];
+    const pathname = window.location.pathname.replace(/\/+$/, '');
+    const segments = pathname.split('/').filter(Boolean);
+    const blogIndex = segments.indexOf('blog');
+    if (blogIndex !== -1 && segments[blogIndex + 1]) {
+      slug = decodeURIComponent(segments[blogIndex + 1]);
+    }
   }
 
-  if (slug === 'post') {
+  if (slug === 'post' || slug === 'index' || slug === 'index.html' || slug === 'post.html') {
     slug = null;
   }
 
   if (!slug) {
-    container.innerHTML = '<p>Post não encontrado.</p>';
     return;
   }
 
@@ -141,16 +183,24 @@ async function loadPost() {
   try {
     // Load post metadata
     const metaRes = await fetch('/posts/posts.json');
+    if (!metaRes.ok) throw new Error('Não foi possível carregar a lista de posts');
     const posts = await metaRes.json();
     const postMeta = posts.find(p => p.slug === slug);
 
     if (!postMeta) {
-      container.innerHTML = '<p>Post não encontrado.</p>';
+      container.innerHTML = `
+        <div style="text-align:center; padding: 40px 0;">
+          <h2>Artigo não encontrado</h2>
+          <p style="color: var(--text-muted, #888); margin: 15px 0;">O artigo "${slug}" não foi localizado.</p>
+          <a href="/blog/" style="color: #C8391A; text-decoration: underline;">← Ver todos os artigos do Blog</a>
+        </div>
+      `;
       return;
     }
 
     // Load markdown
     const mdRes = await fetch(`/posts/${slug}.md`);
+    if (!mdRes.ok) throw new Error(`Arquivo do post ${slug}.md não encontrado (${mdRes.status})`);
     const mdText = await mdRes.text();
 
     // Render header
@@ -171,22 +221,24 @@ async function loadPost() {
       </div>
     `;
 
-    headerEl.innerHTML = breadcrumb + `
-      <a href="/blog/" class="back-link">← Voltar ao Blog</a>
-      <span class="post-tag ${cat.cssClass}">${cat.label}</span>
-      <h1>${postMeta.title}</h1>
-      <div class="post-header-meta">
-        <span class="author">João Gobira</span>
-        <span class="date">${formatDate(postMeta.date)}</span>
-        <span class="date">${estimateReadTime(mdText)}</span>
-      </div>
-    `;
+    if (headerEl) {
+      headerEl.innerHTML = breadcrumb + `
+        <a href="/blog/" class="back-link">← Voltar ao Blog</a>
+        <span class="post-tag ${cat.cssClass}">${cat.label}</span>
+        <h1>${postMeta.title}</h1>
+        <div class="post-header-meta">
+          <span class="author">João Gobira</span>
+          <span class="date">${formatDate(postMeta.date)}</span>
+          <span class="date">${estimateReadTime(mdText)}</span>
+        </div>
+      `;
+    }
 
     // Update page title with SEO-friendly format
     document.title = postMeta.title + ' | ' + cat.label + ' | João Gobira Blog (' + pubYear + ')';
 
-    // Render markdown to HTML using marked.js
-    container.innerHTML = marked.parse(mdText);
+    // Render markdown to HTML (com marked ou fallback nativo)
+    container.innerHTML = renderMarkdownSafe(mdText);
 
     // Inject lead capture form
     injectLeadForm(container);
@@ -210,7 +262,15 @@ async function loadPost() {
     injectMetaDescription(postMeta);
 
   } catch (err) {
-    container.innerHTML = '<p>Erro ao carregar o post.</p>';
+    console.error('Erro ao renderizar o post:', err);
+    container.innerHTML = `
+      <div style="text-align:center; padding: 40px 0;">
+        <h2>Erro ao carregar o artigo</h2>
+        <p style="color: var(--text-muted, #888); margin: 15px 0;">Ocorreu uma instabilidade momentânea ao carregar o conteúdo.</p>
+        <button onclick="location.reload()" style="background:#C8391A; color:#fff; border:none; padding:10px 20px; font-weight:bold; cursor:pointer; margin-bottom:20px;">Tentar novamente</button>
+        <div><a href="/blog/" style="color: #C8391A; text-decoration: underline;">← Voltar para o Blog</a></div>
+      </div>
+    `;
   }
 }
 
